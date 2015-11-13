@@ -8,7 +8,7 @@ export default class Section extends Component {
   }
 
   render() {
-    const {  lists, asideVisibility, onEditList, onRemoveList } = this.props;
+    const {  lists, onEditList, onRemoveList } = this.props;
     return(
       <div className="article">
 
@@ -34,6 +34,5 @@ Section.propTypes = {
 };
 
 Section.defaultProps = {
-  asideVisibility: {},
   lists: []
 };
