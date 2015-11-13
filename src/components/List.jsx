@@ -37,27 +37,30 @@ export default class List extends Component {
 
   render() {
     const { list } = this.props;
-    return(
-      <li className={'list-group-item action-element'} >
-        <div className="row">
-
-          <div className={`input-group ${this.state.isModifyList ? 'hidden' : 'col-md-12'}`}>
-              <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
-                <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
-                <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />
-
-          </div>
-
-          <div className={`input-group ${this.state.isModifyList ? 'col-md-12' : 'hidden'}`}>
-              <input className="form-control" ref="title"/>
-              <span className="input-group-btn">
-                <button className="btn btn-danger" type="button" onClick={e => this.handleCancelClick(e)}><span className="glyphicon glyphicon-remove" /></button>
-                <button className="btn btn-success" type="button" onClick={e => this.handleOkClick(e)}><span className="glyphicon glyphicon-ok" /></button>
-              </span>
-          </div>
-
+    return(    
+    <div>     
+      <div className={`${this.state.isModifyList ? 'hidden' : 'row list listNotCompleted'}`}>
+        <div className="col-xs-1"></div>
+        <div className="col-xs-3">
+          <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
+        </div>
+        <div className="col-xs-6"></div>
+        <div className="col-xs-1">
+          <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
+        </div>
+        <div className="col-xs-1">
+          <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />
+        </div>
       </div>
-    </li>
+
+      <div className={`input-group ${this.state.isModifyList ? 'col-md-12' : 'hidden'}`}>
+        <input className="form-control" ref="title"/>
+        <span className="input-group-btn">
+          <button className="btn btn-danger" type="button" onClick={e => this.handleCancelClick(e)}><span className="glyphicon glyphicon-remove" /></button>
+          <button className="btn btn-success" type="button" onClick={e => this.handleOkClick(e)}><span className="glyphicon glyphicon-ok" /></button>
+        </span>
+      </div>
+    </div>
     );
 
   }

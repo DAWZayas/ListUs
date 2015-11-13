@@ -38,25 +38,23 @@ export default class ItemTaskDetails extends Component {
   render() {
     const { task } = this.props;
     return(
-    <li className={'list-group-item action-element'} >
-      <div className="row">
-
-        <div className={`input-group ${this.state.isModifyTask ? 'hidden' : 'col-md-12'}`}>
+    <li role='presentation'>
+        <a href='#' className={`${this.state.isModifyTask ? 'hidden' : 'col-md-12'}`}>
+          <div>
             <span  style={{color: 'inherit', textDecoration: 'inherit'}}>{ task.title }</span>
-              <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
-              <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />
+            <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
+            <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />
+          </div>
+        </a>
 
+
+        <div className={`${this.state.isModifyTask ? 'row' : 'hidden'}`}>
+          <input className="col-md-10 changeTask" ref="title"/>
+          <span className="col-md-1">
+            <button className="btn btn-danger" type="button" onClick={e => this.handleCancelClick(e)}><span className="glyphicon glyphicon-remove" /></button>
+            <button className="btn btn-success pull-right" type="button" onClick={e => this.handleOkClick(e)}><span className="glyphicon glyphicon-ok" /></button>
+          </span>
         </div>
-
-        <div className={`input-group ${this.state.isModifyTask ? 'col-md-12' : 'hidden'}`}>
-            <input className="form-control" ref="title"/>
-            <span className="input-group-btn">
-              <button className="btn btn-danger" type="button" onClick={e => this.handleCancelClick(e)}><span className="glyphicon glyphicon-remove" /></button>
-              <button className="btn btn-success" type="button" onClick={e => this.handleOkClick(e)}><span className="glyphicon glyphicon-ok" /></button>
-            </span>
-        </div>
-
-     </div>
    </li>
     );
   }
