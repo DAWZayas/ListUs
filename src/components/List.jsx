@@ -37,8 +37,8 @@ export default class List extends Component {
 
   render() {
     const { list } = this.props;
-    return(    
-    <div>     
+    return(
+    <div>
       <div className={`${this.state.isModifyList ? 'hidden' : 'row list listNotCompleted'}`}>
         <div className="col-xs-1"></div>
         <div className="col-xs-3">

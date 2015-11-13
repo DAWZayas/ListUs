@@ -20,7 +20,7 @@ render() {
         </ul>
       </div>
 
-      <div className="article">
+      <div className="article col-md-12">
         <ul className="nav nav-pills nav-stacked navMarginTop">
           {
             tasks.map( (task, index) => <ItemTaskDetails key={index} task={task} onRemoveTask={onRemoveTask} onEditTask={onEditTask} />)

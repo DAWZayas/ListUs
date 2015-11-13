@@ -81,4 +81,4 @@ export const tasks = {
 
 export const calendar = {display: true};
 
-export const initialState =  { lists, tasks, calendar, comments, friends };
+export const initialState =  { lists, tasks, comments, friends };

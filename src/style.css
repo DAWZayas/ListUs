@@ -6,7 +6,7 @@
   font-size: 1.6em;
 }
 
-/* 
+/*
   HEADER
 */
 
@@ -48,14 +48,14 @@
 */
 
 .list {
-    
+
   height: 75px;
   width: 100%;
   display: flex;
   align-items: center;
   position: relative;
 
-  border-bottom: 2px solid #FF330F; 
+  border-bottom: 2px solid #FF330F;
 
   margin-right: 0 !important;
   margin-left: 0 !important;
@@ -95,9 +95,9 @@
   padding: 50px !important;
 }
 
-.changeTask {
+/*.changeTask {
   margin-left: 35px;
-}
+}*/
 
 /*
   ACCOUNT
