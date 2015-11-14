@@ -54,10 +54,10 @@ export default class List extends Component {
       </div>
 
       <div className={`input-group ${this.state.isModifyList ? 'col-md-12' : 'hidden'}`}>
-        <input className="form-control" ref="title"/>
+        <input className="form-control inputText" ref="title"/>
         <span className="input-group-btn">
-          <button className="btn btn-danger" type="button" onClick={e => this.handleCancelClick(e)}><span className="glyphicon glyphicon-remove" /></button>
-          <button className="btn btn-success" type="button" onClick={e => this.handleOkClick(e)}><span className="glyphicon glyphicon-ok" /></button>
+          <button className="btn btn-danger glyphicon glyphicon-remove" type="button" onClick={e => this.handleCancelClick(e)}></button>
+          <button className="btn btn-success glyphicon glyphicon-ok" type="button" onClick={e => this.handleOkClick(e)}></button>
         </span>
       </div>
     </div>
