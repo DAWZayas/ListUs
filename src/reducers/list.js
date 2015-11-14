@@ -11,7 +11,7 @@ function addList( state, title ){
 }
 
 function removeList( state, idList ){
-  return state.filter( task => task.id !== idList );
+  return state.filter( list => list.id !== idList );
 }
 
 function editList(state, idList, title){

@@ -32,6 +32,12 @@
   margin-top: 30px;
 }
 
+.search-div{
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
 /*
   SECTION
 */

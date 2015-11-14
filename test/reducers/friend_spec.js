@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import friendReduce from '../../src/reducers/friend';
-import { addFriend, removeFriend } from '../../src/actions';
+import { addFriend, removeFriend, addFriendGroup } from '../../src/actions';
 import { friends } from '../../src/utils/examples';
 
 describe('FRIEND_TEST', () => {
@@ -10,7 +10,7 @@ describe('FRIEND_TEST', () => {
     const initialState = [];
     const newState = friendReduce(initialState, addFriend('pepe'));
 
-    expect(newState.length).to.eql([{id:1, name:'pepe'}].length);
+    expect(newState.length).to.eql([{id:1, name:'pepe', groups:[]}].length);
   });
 
   it('REMOVE_FRIENDS', () => {
@@ -21,14 +21,39 @@ describe('FRIEND_TEST', () => {
     expect(newState).to.eql(
       [{
         id: 2,
-        nombre: 'Pepa',
-        grupos: ['IES ZAYAS']
+        name: 'Pepa',
+        groups: ['123456']
       },
       {
         id: 3,
-        nombre: 'Juan',
-        grupos: ['Boxeo', 'IES ZAYAS']
+        name: 'Juan',
+        groups: ['654321', '123456']
       }]
     );
+  });
+
+  it('ADD_FRIEND_TO_GROUP', () => {
+
+    const initialState = friends;
+    const newState = friendReduce(initialState, addFriendGroup('012345', 2));
+
+    expect(newState).to.eql( [
+      {
+        id: 1,
+        name: 'Pepe',
+        groups: ['123456']
+      },
+      {
+        id: 2,
+        name: 'Pepa',
+        groups: ['123456', '012345']
+      },
+      {
+        id: 3,
+        name: 'Juan',
+        groups: ['654321', '123456']
+      }
+
+    ]);
   });
 });

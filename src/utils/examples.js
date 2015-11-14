@@ -12,25 +12,25 @@ export const lists = [
 ];
 
 export const comments = {
-  1: [ { idList:lists[0].id, user:'pepe', date:'12/7/2015', msg:'eeeeee'}, { idList:lists[0].id, user:'juan', date:'12/7/2015', msg:'wwww'}],
-  2: [ { idList:lists[1].id, user:'pepe', date:'13/7/2015', msg:'goewjpe'}, { idList:lists[1].id, user:'juan', date:'13/7/2015', msg:'trtrt'}]
+  1: [ { idList:1, user:'pepe', date:'12/7/2015', msg:'eeeeee'}, { idList:1, user:'juan', date:'12/7/2015', msg:'wwww'}],
+  2: [ { idList:2, user:'pepe', date:'13/7/2015', msg:'goewjpe'}, { idList:2, user:'juan', date:'13/7/2015', msg:'trtrt'}]
 };
 
 export const friends = [
   {
     id: 1,
-    nombre: 'Pepe',
-    grupos: ['IES ZAYAS']
+    name: 'Pepe',
+    groups: ['123456']
   },
   {
     id: 2,
-    nombre: 'Pepa',
-    grupos: ['IES ZAYAS']
+    name: 'Pepa',
+    groups: ['123456']
   },
   {
     id: 3,
-    nombre: 'Juan',
-    grupos: ['Boxeo', 'IES ZAYAS']
+    name: 'Juan',
+    groups: ['654321', '123456']
   }
 
 ];

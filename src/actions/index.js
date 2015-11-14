@@ -41,6 +41,7 @@ export const REMOVE_COMMENTS = 'REMOVE_COMMENTS';
 
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const REMOVE_FRIEND = 'REMOVE_FRIEND';
+export const ADD_FRIEND_GROUP = 'ADD_FRIEND_GROUP';
 
 /*
 * task action creator
@@ -113,4 +114,8 @@ export function addFriend(name){
 }
 export function removeFriend(id){
   return { type: REMOVE_FRIEND, id};
+}
+
+export function addFriendGroup(idGroup, idFriend){
+  return { type: ADD_FRIEND_GROUP, idGroup, idFriend };
 }
