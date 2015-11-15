@@ -52,6 +52,14 @@ export const ADD_GROUP = 'ADD_GROUP';
 export const REMOVE_GROUP = 'REMOVE_GROUP';
 export const EDIT_GROUP = 'EDIT_GROUP';
 export const SHOW_GROUP_FRIENDS = 'SHOW_GROUP_FRIENDS';
+export const CHANGE_GROUP_ADMIN = 'CHANGE_GROUP_ADMIN';
+
+
+
+/*
+* USER
+*/
+
 
 /*
 * task action creator
@@ -169,5 +177,10 @@ export function addGroupFriend(idFriend, idGroup){
   return {
     type: ADD_FRIEND_GROUP, idFriend, idGroup
   };
+}
 
+export function changeGroupAdmin(idFriend, idGroup){
+  return {
+    type: CHANGE_GROUP_ADMIN, idFriend, idGroup
+  };
 }

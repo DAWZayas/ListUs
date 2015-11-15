@@ -108,26 +108,34 @@ export const groups = [
     idGroup: '0',
     name: 'ListUs', 
     friends: ['0', '1'],// pick up the friends id.
-    showFriends: false
+    showFriends: false,
+    administrator: '2'
   },
 
   {
     idGroup: '1', 
     name: 'Empresas', 
     friends: [],
-    showFriends: false
+    showFriends: false,
+    administrator: '1'
   },
 
   {
     idGroup: '2', 
     name: 'Servidor', 
     friends: ['2'],
-    showFriends: false
+    showFriends: false,
+    administrator: '5'
   }
 
 ];
 
+export const user = {
+  idUser: '5',
+  name: 'Troya',
+  password: 'troya'
+};
 
 export const calendar = {display: true};
 
-export const initialState =  { lists, tasks, comments, friends, groups };
+export const initialState =  { lists, tasks, comments, friends, groups, user };
