@@ -8,6 +8,22 @@ export const lists = [
   {
     id: getId(),
     title: 'Barsa'
+  },
+  {
+    id: getId(),
+    title: 'Patetic'
+  },
+  {
+    id: getId(),
+    title: 'Valencia'
+  },
+  {
+    id: getId(),
+    title: 'Celta'
+  },
+  {
+    id: getId(),
+    title: 'Betis'
   }
 ];
 

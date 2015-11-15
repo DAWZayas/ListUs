@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Nav from './Nav';
 import { Link } from 'react-router';
 import ItemList from './ItemList';
-import { isEqlTitle } from '../utils';
+
 
 export default class Header extends Component{
 
@@ -14,16 +14,19 @@ export default class Header extends Component{
     };
   }
 
+  handleOnBlur(){
+    this.handleVisibility();
+  }
+
   handleVisibility(){
+    this.refs.inputText.value="";
     this.state.isVisible ? this.setState({ isVisible: false }) : this.setState({ isVisible: true });
+    this.setState({newLists: []});
   }
 
   handleFilterList(event){
- 		 	let updateLists = this.props.lists;
- 		 	updateLists = updateLists.filter(function(list){
- 		 		return list.title.toLowerCase().search(
-       			event.target.value.toLowerCase()) !== -1;
- 		});
+ 		let updateLists = this.props.lists;
+ 		updateLists = updateLists.filter( list=> list.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1);
  		this.setState({newLists: updateLists});
  	}
 
@@ -37,10 +40,10 @@ export default class Header extends Component{
             <div className="input-group-btn">
               <span className="btn biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
             </div>
-            <input ref="inputText" type="text" className={`${this.state.isVisible ? 'form-control' : 'hidden' }`} placeholder="Search for..." onChange={ (event) => this.handleFilterList(event)}/>
+            <input ref="inputText" type="text" className={`${this.state.isVisible ? 'form-control' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
             <ul className={`${this.state.isVisible ? '' : 'hidden' }`}>
               {
-                this.state.newLists.map( (list, index) => <ItemList key={index} list={list} /> )
+                this.state.newLists.map( (list, index) => index<5 ? <ItemList key={index} list={list} /> : null  )
               }
             </ul>
           </div>
