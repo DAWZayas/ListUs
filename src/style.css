@@ -6,6 +6,10 @@
   font-size: 1.6em;
 }
 
+.inputText {
+  text-align: center;
+}
+
 /*
   HEADER
 */
@@ -30,6 +34,19 @@
   border-radius: 50%;
 
   margin-top: 30px;
+
+  transition: all 1s;
+
+}
+
+.image:hover {
+  height: 100px;
+  width: 100px;
+
+  border-radius: 40%;
+
+  margin-top: 20px;
+
 }
 
 .search-div{
@@ -93,6 +110,11 @@
   width: 100%;
 }
 
+.listTitle {
+  font-size: 2em;
+  text-align: center;
+}
+
 /*
   TASKS
 */
@@ -130,5 +152,5 @@
 .btn-round {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 50% !important;
 }

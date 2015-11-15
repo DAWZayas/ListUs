@@ -15,7 +15,7 @@ render() {
       <div className="col-md-1">
       </div>
       <div className="col-md-10">
-        <ul className="list-group">
+        <ul className="list-group listTitle">
           <List list={list} onRemoveList={onRemoveList} onEditList={onEditList}/>
         </ul>
       </div>

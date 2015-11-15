@@ -18,7 +18,7 @@ export default class Section extends Component {
             }
         </div>
         <div className="col-md-12 center">
-          <button className="btn-round btn-danger"> <span className="glyphicon glyphicon-plus" /> </button>
+          <button className="btn btn-round btn-danger"> <span className="glyphicon glyphicon-plus" /> </button>
         </div>
       </div>
     );

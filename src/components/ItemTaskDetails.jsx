@@ -51,8 +51,8 @@ export default class ItemTaskDetails extends Component {
         <div className={`${this.state.isModifyTask ? 'row' : 'hidden'}`}>
           <input className="col-md-10 changeTask" ref="title"/>
           <span className="col-md-2 input-group-btn">
-            <button className="btn btn-danger" type="button" onClick={e => this.handleCancelClick(e)}><span className="glyphicon glyphicon-remove" /></button>
-            <button className="btn btn-success" type="button" onClick={e => this.handleOkClick(e)}><span className="glyphicon glyphicon-ok" /></button>
+            <button className="btn btn-danger glyphicon glyphicon-remove" type="button" onClick={e => this.handleCancelClick(e)}></button>
+            <button className="btn btn-success glyphicon glyphicon-ok" type="button" onClick={e => this.handleOkClick(e)}></button>
           </span>
         </div>
    </li>

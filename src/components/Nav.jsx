@@ -60,7 +60,7 @@ class Nav extends React.Component {
 
 		return (
 			<nav className='leftNav'>
-				<button onClick={this.showNav.bind(this)} className='btn btn-primary btn-flat'><span ref='span' className='biggerGlyphicon glyphicon glyphicon-menu-hamburger'></span></button>
+				<button onClick={this.showNav.bind(this)} className='btn btn-info'><span ref='span' className='biggerGlyphicon glyphicon glyphicon-menu-hamburger'></span></button>
 				<LeftNav ref="leftNav" docked={false} menuItems={menuItems}/>	
 			</nav>
 		);
