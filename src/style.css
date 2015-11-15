@@ -10,6 +10,9 @@
   text-align: center;
 }
 
+ul{
+  list-style: none;
+}
 /*
   HEADER
 */
@@ -20,12 +23,42 @@
   height: 200px;
   text-align: center;
   border-bottom: 1px solid black;
+  display: flex;
+  flex-flow: row, nowrap;
 }
 
 .upper {
   position: relative;
   top: 15px;
 
+}
+
+.deplegable{
+  width: 10%;
+}
+
+.search{
+  width: 30%;
+  display: flex;
+  flex-flow: column;
+}
+
+.search-btn-input{
+    display: flex;
+    flex-flow: row, nowrap;
+    margin-top: 10%;
+}
+
+.search-btn-input > span{
+  margin: 0;
+}
+
+.principal{
+  width: 60%;
+}
+
+.calendar-btn{
+  width: 10%;
 }
 
 .image {
@@ -184,13 +217,6 @@
 
 .deleteEdit{
   width: 50px;
-  display: none;
-  justify-content: space-around;
-}
-.listGroups:hover .deleteEdit{
   display: flex;
-}
-
-.error{
-  color:red;
+  justify-content: space-around;
 }
