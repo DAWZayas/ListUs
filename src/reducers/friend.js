@@ -3,7 +3,11 @@ import {getId} from '../utils';
 
 function addFriend(state, name){
   const id = getId();
+<<<<<<< HEAD
   const newFriend = {id, name, groups:[]};
+=======
+  const newFriend = {id, name, groups: []};
+>>>>>>> Alba2
   return state.concat(newFriend);
 }
 

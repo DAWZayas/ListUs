@@ -34,19 +34,40 @@ export const comments = {
 
 export const friends = [
   {
+    id: 0,
+    name: 'Loli',
+    groups: ['IES ZAYAS'], 
+    img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
+  },
+  {
     id: 1,
     name: 'Pepe',
+<<<<<<< HEAD
     groups: ['123456']
+=======
+    groups: ['IES ZAYAS'],
+    img: 'http://www.planwallpaper.com/static/images/3d-animal-backgrounds-17306-17862-hd-wallpapers_MkXEx9v.jpg'
+>>>>>>> Alba2
   },
   {
     id: 2,
     name: 'Pepa',
+<<<<<<< HEAD
     groups: ['123456']
+=======
+    groups: ['IES ZAYAS'],
+    img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg'
+>>>>>>> Alba2
   },
   {
     id: 3,
     name: 'Juan',
+<<<<<<< HEAD
     groups: ['654321', '123456']
+=======
+    groups: ['Boxeo', 'IES ZAYAS'],
+    img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
+>>>>>>> Alba2
   }
 
 ];
@@ -94,7 +115,31 @@ export const tasks = {
   }
 };
 
+export const groups = [
+  {
+    idGroup: 0,
+    name: 'ListUs', 
+    friends: [0, 1],// pick up the friends id.
+    showFriends: false
+  },
+
+  {
+    idGroup: 1, 
+    name: 'Empresas', 
+    friends: [],
+    showFriends: false
+  },
+
+  {
+    idGroup: 2, 
+    name: 'Servidor', 
+    friends: [2],
+    showFriends: false
+  }
+
+];
+
 
 export const calendar = {display: true};
 
-export const initialState =  { lists, tasks, comments, friends };
+export const initialState =  { lists, tasks, comments, friends, groups };
