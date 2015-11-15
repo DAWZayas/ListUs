@@ -148,3 +148,36 @@
     height: 40px;
     border-radius: 50% !important;
 }
+
+
+/*
+* Avatar image
+*/
+
+.avatar{
+  border-radius: 20px;
+}
+
+/*
+* Groups
+*/
+
+.group-friends{
+  display:flex;
+  flex-flow:row wrap;
+  align-items: center;
+  padding-left: 2%;
+  height: 45px;
+}
+
+.addGroup{
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 1%;
+}
+
+.deleteEdit{
+  width: 50px;
+  display: flex;
+  justify-content: space-around;
+}

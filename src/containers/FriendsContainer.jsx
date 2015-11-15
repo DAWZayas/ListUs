@@ -4,16 +4,17 @@ import { connect } from 'react-redux';
 import Friends from '../components/Friends';
 
 function mapStateToProps(state) {
-  return {
-  };
+  	return {friends: state.friends};
 }
 
 function mapActionsToProps(dispatch) {
   return {
+  	onAddFriend: name => dispatch(addFriend(name)),
+    onRemoveFriend: id => dispatch(removeFriend(id))
   };
 }
 
 export default connect(
-	mapActionsToProps,
-	mapStateToProps
+	mapStateToProps,
+	mapActionsToProps
 )(Friends);

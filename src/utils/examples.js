@@ -18,19 +18,28 @@ export const comments = {
 
 export const friends = [
   {
+    id: 0,
+    name: 'Loli',
+    groups: ['IES ZAYAS'], 
+    img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
+  },
+  {
     id: 1,
-    nombre: 'Pepe',
-    grupos: ['IES ZAYAS']
+    name: 'Pepe',
+    groups: ['IES ZAYAS'],
+    img: 'http://www.planwallpaper.com/static/images/3d-animal-backgrounds-17306-17862-hd-wallpapers_MkXEx9v.jpg'
   },
   {
     id: 2,
-    nombre: 'Pepa',
-    grupos: ['IES ZAYAS']
+    name: 'Pepa',
+    groups: ['IES ZAYAS'],
+    img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg'
   },
   {
     id: 3,
-    nombre: 'Juan',
-    grupos: ['Boxeo', 'IES ZAYAS']
+    name: 'Juan',
+    groups: ['Boxeo', 'IES ZAYAS'],
+    img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
   }
 
 ];
@@ -78,7 +87,31 @@ export const tasks = {
   }
 };
 
+export const groups = [
+  {
+    idGroup: 0,
+    name: 'ListUs', 
+    friends: [0, 1],// pick up the friends id.
+    showFriends: false
+  },
+
+  {
+    idGroup: 1, 
+    name: 'Empresas', 
+    friends: [],
+    showFriends: false
+  },
+
+  {
+    idGroup: 2, 
+    name: 'Servidor', 
+    friends: [2],
+    showFriends: false
+  }
+
+];
+
 
 export const calendar = {display: true};
 
-export const initialState =  { lists, tasks, comments, friends };
+export const initialState =  { lists, tasks, comments, friends, groups };
