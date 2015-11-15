@@ -5,11 +5,13 @@ import tasks from './task';
 import lists from './list';
 import comments from './comment';
 import friends from './friend';
+import groups from './groups';
 
 export default combineReducers({
   lists,
   tasks,
   comments,
   friends,
+  groups,
   router
 });

@@ -44,6 +44,16 @@ export const REMOVE_FRIEND = 'REMOVE_FRIEND';
 export const ADD_FRIEND_GROUP = 'ADD_FRIEND_GROUP';
 
 /*
+* GROUPS
+*/
+
+export const SET_GROUPS = 'SET_GROUPS';
+export const ADD_GROUP = 'ADD_GROUP';
+export const REMOVE_GROUP = 'REMOVE_GROUP';
+export const EDIT_GROUP = 'EDIT_GROUP';
+export const SHOW_GROUP_FRIENDS = 'SHOW_GROUP_FRIENDS';
+
+/*
 * task action creator
 */
 
@@ -118,4 +128,45 @@ export function removeFriend(id){
 
 export function addFriendGroup(idGroup, idFriend){
   return { type: ADD_FRIEND_GROUP, idGroup, idFriend };
+}
+
+/*
+* groups actions creator
+*/
+
+export function setGroups(groups){
+  return {
+    type: SET_GROUPS, groups
+  };
+}
+
+
+export function addGroup(name){
+  return {
+    type: ADD_GROUP, name
+  };
+}
+
+export function removeGroup(idGroup){
+  return {
+    type: REMOVE_GROUP, idGroup
+  };
+}
+
+export function editGroup(idGroup, name){
+  return {
+    type: EDIT_GROUP, idGroup, name
+  };
+}
+
+export function showGroupFriends(idGroup){
+  return {
+    type: SHOW_GROUP_FRIENDS, idGroup
+  };
+}
+
+export function addGroupFriend(idFriend, idGroup){
+  return {
+    type: ADD_FRIEND_GROUP, idFriend, idGroup
+  };
 }
