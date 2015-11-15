@@ -169,4 +169,5 @@ export function addGroupFriend(idFriend, idGroup){
   return {
     type: ADD_FRIEND_GROUP, idFriend, idGroup
   };
+
 }
