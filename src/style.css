@@ -184,6 +184,13 @@
 
 .deleteEdit{
   width: 50px;
-  display: flex;
+  display: none;
   justify-content: space-around;
+}
+.listGroups:hover .deleteEdit{
+  display: flex;
+}
+
+.error{
+  color:red;
 }

@@ -21,3 +21,6 @@ export function lastStringOfUrl(){
 	return url.split('/')[url.split('/').length-1];
 }
 
+export function getIdByOtherKey(key, value, array){
+	return array[arrayPositionByObjectKey(key, value, array)]['id'];
+}

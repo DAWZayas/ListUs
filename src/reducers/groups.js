@@ -39,7 +39,7 @@ function showGroupFriends(state, idGroup){
 function addGroupFriend(state, idFriend, idGroup){
 	var newState = state.slice();
 	var friends = newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['friends'];
-	if(friends.indexOf(idFriend) === -1) friends.concat([idFriends]);
+	if(friends.indexOf(idFriend) === -1) friends.push(idFriend);
 	return newState;
 
 }
