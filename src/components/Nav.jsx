@@ -7,9 +7,9 @@ var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
 
 class Nav extends React.Component {
-	
+
 	constructor(props) {
-    super(props);  
+    super(props);
   }
 
   componentDidMount(){
@@ -21,7 +21,7 @@ class Nav extends React.Component {
   }
 
 	render() {
-		
+
 		const menuItems = [
 			{
 				type: MenuItem.Types.LINK,
@@ -29,31 +29,31 @@ class Nav extends React.Component {
 				text: 'ListUs'
 			},
 
-		  { 
-		  	type: MenuItem.Types.SUBHEADER, 
-		  	text: 'Groups' 
+		  {
+		  	type: MenuItem.Types.SUBHEADER,
+		  	text: 'Groups'
 		  },
 		  {
 		     type: MenuItem.Types.LINK,
-		     payload: './groups',
+		     payload: '/groups',
 		     text: 'Manage groups'
 		  },
-		  { 
-		  	type: MenuItem.Types.SUBHEADER, 
-		  	text: 'Manage friends' 
+		  {
+		  	type: MenuItem.Types.SUBHEADER,
+		  	text: 'Manage friends'
 		  },
 		  {
 		     type: MenuItem.Types.LINK,
-		     payload: './friends',
+		     payload: '/friends',
 		     text: 'Friends'
 		  },
-		  { 
-		  	type: MenuItem.Types.SUBHEADER, 
-		  	text: 'Lists' 
+		  {
+		  	type: MenuItem.Types.SUBHEADER,
+		  	text: 'Lists'
 		  },
 		  {
 		     type: MenuItem.Types.LINK,
-		     payload: './list',
+		     payload: '/list',
 		     text: 'My lists'
 		  },
 		];
@@ -61,7 +61,7 @@ class Nav extends React.Component {
 		return (
 			<nav className='leftNav'>
 				<button onClick={this.showNav.bind(this)} className='btn btn-info'><span ref='span' className='biggerGlyphicon glyphicon glyphicon-menu-hamburger'></span></button>
-				<LeftNav ref="leftNav" docked={false} menuItems={menuItems}/>	
+				<LeftNav ref="leftNav" docked={false} menuItems={menuItems}/>
 			</nav>
 		);
 	}
@@ -81,4 +81,3 @@ export default connect(
 	mapActionsToProps,
 	mapStateToProps
 )(Nav);
-
