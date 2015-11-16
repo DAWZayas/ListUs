@@ -1,14 +1,20 @@
-/*import { expect } from 'chai';
+import { expect } from 'chai';
 import groupsReducer from '../../src/reducers/groups';
 import { addGroup, editGroup, removeGroup, showGroupFriends, addFriendGroup } from '../../src/actions';
-import { groups } from '../../utils/examples';
+import { groups } from '../../src/utils/examples';
 
 describe('GROUP_TEST', () => {
 	it('ADD_GROUP', () => {
 		const initialState = [];
-		const newState = groupsReducer(initialState, addGroup('ListUs'));
+		const newState = groupsReducer(initialState, addGroup('ListUs', '5'));
 
-		expect(newState).to.eql([{id: 0, name: 'ListUs', friends: [], showFriends: false}]);
+		expect(newState.length).to.eql([{
+			    idGroup: '0',
+			    name: 'ListUs', 
+			    friends: ['0', '1'],// pick up the friends id.
+			    showFriends: false,
+			    administrator: '2'
+			  }].length);
 	});
 
-});*/
+});

@@ -10,7 +10,8 @@ export default class Groups extends React.Component {
 		this.state = {
 			refToEdit: '',
 			error: '',
-			idGroup: ''
+			idGroup: '',
+			admin: false
 		};
 	}
 
@@ -37,6 +38,7 @@ export default class Groups extends React.Component {
 
 	handleClickShowDialog(e, ref, idGroup){
 		e.preventDefault();
+		if(arguments[3]) this.setState({admin: true});
 		this.setState({idGroup});
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.show():this.refs.dialogAddFriend.show();
 	}
@@ -60,21 +62,14 @@ export default class Groups extends React.Component {
 	handleClickAdd(e, ref){
 		e.preventDefault();
 		var pos, name;
-		/*const pos = arrayPositionByObjectKey('name', this.refs.groupNameInput.value, this.props.groups);
-		const name = (ref === 'dialogAddGroup')?this.refs.groupNameInput.value
-								  :this.refs.friendNameInput.value;
-		(ref === 'dialogAddGroup')?this.addGroupNonExistent(e, pos, name)
-								  :'';*/
-
 		if(ref === 'dialogAddGroup'){
-			pos = arrayPositionByObjectKey('name', this.refs.groupNameInput.value, this.props.groups);
 			name = this.refs.groupNameInput.value;
+			pos = arrayPositionByObjectKey('name', name, this.props.groups);
 			this.addGroupNonExistent(e, pos, name);
 		}
 		else{
-			pos = arrayPositionByObjectKey('name', this.refs.friendNameInput.value, this.props.friends);
 			name = this.refs.friendNameInput.value;
-			//func = this.props.addGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.idGroup);
+			pos = arrayPositionByObjectKey('name', name, this.props.friends);
 			this.addFriendNonExistent(e, pos, name);
 		}
 	}
@@ -82,30 +77,24 @@ export default class Groups extends React.Component {
 	addGroupNonExistent(e, pos, name){
 		if(pos !== -1) this.setState({error: 'El nombre del grupo ya existe'});
 		else{
-			this.props.onAddGroup(name);
+			this.props.onAddGroup(name, this.props.user.idUser);
 			this.setState({error: ''});
 			this.handleClickDismissDialog(e, 'dialogAddGroup');
 		}
 	}
-
+/*******/
 	addFriendNonExistent(e, pos, name){
 		if(pos === -1) this.setState({error: 'El amigo no existe'});
 		else{
-			this.props.onAddGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.idGroup);
+			const idFriend = this.props.friends[pos]['id'];
+			debugger;
+			if(this.state.admin === false) this.props.onAddGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.idGroup);
+			else this.props.onChangeGroupAdmin(idFriend, this.state.idGroup);
 			this.setState({error: ''});
 			this.handleClickDismissDialog(e, 'dialogAddFriend');
 		}
+		
 	}
-
-
-
-	/******/
-	/*handleClickAddFriend(e, name, ref){
-		e.preventDefault();
-		const { friends } = this.props;
-		const idFriend = friends[arrayPositionByObjectKey('name', name, friends)]['id'];
-		this.props.onAddFriendGroup(idFriend, ref);
-	}*/
 
 	handleClickSetRefToEdit(e, idGroup){
 		e.preventDefault();
@@ -143,11 +132,15 @@ export default class Groups extends React.Component {
 		this.setState({refToEdit: ''});
 	}
 
+	handleChangeGroupAdmin(e, idGroup){
+		e.preventDefault();
+		this.onChangeGroupAdmin(this.refs.changeAdmin.value, idGroup);
+	}
+
 	render(){
 		var injectTapEventPlugin = require("react-tap-event-plugin");
 		injectTapEventPlugin();
 		const AppBar = require('material-ui/lib/app-bar');
-
 		return (
 			<div>
 				
@@ -158,7 +151,8 @@ export default class Groups extends React.Component {
 								<AppBar title={group['name']} className="listGroups" 
 									iconElementRight={<div className="deleteEdit">
 											<a className="glyphicon glyphicon-remove-circle" onClick={e => this.handleClickRemoveGroup(e, group['idGroup'])} />
-											<a className="glyphicon glyphicon-edit" onClick={e => this.handleClickSetRefToEdit(e, group['idGroup'])}/>
+											<a className="glyphicon glyphicon-edit" onClick={e => this.handleClickSetRefToEdit(e, group['idGroup'])}/><br/>
+											<a className="glyphicon glyphicon-transfer" onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', group['idGroup'], true)}/>
 										</div>
 										}
 									onLeftIconButtonTouchTap={e => this.handleClickShowGroupFriends(e, group['idGroup'])}
@@ -172,7 +166,7 @@ export default class Groups extends React.Component {
 
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
 				<br/>
-				<div className="addGroup"><FlatButton label="Añadir Grupo" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddGroup')}/></div>
+				<div className="addGroup"><FlatButton label="Crear Grupo" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddGroup')}/></div>
 
 				<Dialog ref="dialogAddFriend" title="Añadir amigos al grupo" actions={this.applyParamsToArray('dialogAddFriend')}>
 					<p>Nombre del amigo: <input ref="friendNameInput" /></p>
