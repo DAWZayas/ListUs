@@ -33,12 +33,19 @@ ul{
 
 }
 
-.desplegable{
-  width: 10%;
+.navegador{
+  display: flex;
+  flex-flow: row, nowrap;
+  height: 30%;
+  width: 60%
+}
+
+.calendario{
+  height: 36px;
 }
 
 .search{
-  width: 30%;
+  width: 65%;
   display: flex;
   flex-flow: column;
 }
@@ -46,7 +53,7 @@ ul{
 .search-btn-input{
     display: flex;
     flex-flow: row, nowrap;
-    margin-top: 10%;
+    margin-top: 10px;
 }
 
 .search-btn-input > span{
@@ -54,7 +61,7 @@ ul{
 }
 
 .principal{
-  width: 60%;
+  width: 30%;
 }
 
 .calendar-btn{

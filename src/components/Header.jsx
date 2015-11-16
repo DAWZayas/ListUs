@@ -34,30 +34,29 @@ export default class Header extends Component{
     return(
 
       <div className="header">
-          
-          <div className="desplegable"><Nav /></div>
 
-          <div className="search">
-            <div className="search-btn-input">
-              <span className="btn biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
-              <input ref="inputText" type="text" className={`${this.state.isVisible ? 'form-control' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
-            </div>
-            <div className="search-ul">
-              <ul className={`${this.state.isVisible ? '' : 'hidden' }`}>
-                {
-                  this.state.newLists.map( (list, index) => index<5 ? <ItemList key={index} list={list} /> : null  )
-                }
-              </ul>
+          <div className="navegador">
+            <Nav />
+            <span className=" btn btn-info  biggerGlyphicon  glyphicon  glyphicon-calendar calendario" aria-hidden="true"></span>
+            <div className="search">
+              <div className="search-btn-input">
+                <span className="btn btn-info biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
+                <input ref="inputText" type="text" className={`${this.state.isVisible ? 'form-control' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
+              </div>
+              <div className="search-ul">
+                <ul className={`${this.state.isVisible ? '' : 'hidden' }`}>
+                  {
+                    this.state.newLists.map( (list, index) => index<5 ? <ItemList key={index} list={list} /> : null  )
+                  }
+                </ul>
+              </div>
             </div>
           </div>
+
 
           <div className="principal">
             <Link to="/list"><img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/></Link>
             <h4>ListUs</h4>
-          </div>
-
-          <div className="calendar-btn">
-            <span className="biggerGlyphicon glyphicon glyphicon-calendar" aria-hidden="true"></span>
           </div>
 
       </div>
