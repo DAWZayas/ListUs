@@ -25,7 +25,7 @@ class Nav extends React.Component {
 		const menuItems = [
 			{
 				type: MenuItem.Types.LINK,
-				payload: './account',
+				payload: '/account',
 				text: 'ListUs'
 			},
 

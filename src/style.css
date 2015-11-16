@@ -198,6 +198,50 @@ ul{
 }
 
 /*
+  FRIENDS
+*/
+
+.avatarFriend {
+  height: 80px !important;
+  width: 80px !important;
+
+  line-height: 70px !important;
+
+}
+
+.avatarLetter {
+  font-size: 30px !important;
+
+}
+
+.inputFindFriends {
+  width: 50% !important;
+  border-radius: 20% !important;
+
+}
+
+.friendPhotoContainer {
+  text-align: center;
+}
+
+.photoContainer {
+  display: inline;
+}
+
+.friendRow {
+  margin-top: 20px;
+}
+
+.friendName {
+  position: relative;
+  top: 10px;
+}
+
+.centered {
+  text-align: center;
+}
+
+/*
 * Groups
 */
 
