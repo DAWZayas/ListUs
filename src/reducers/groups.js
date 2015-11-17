@@ -22,9 +22,8 @@ function addGroup(state, name, idUser){
 }
 
 function editGroup(state, idGroup, name){
-	var newState = state.slice();
-	newState[arrayPositionByObjectKey('idGroup', idGroup, state)]['name'] = name;
-	return newState;
+	//espachurra
+	return state.map( group => group.idGroup===idGroup ? Object.assign( {}, group, {name}) : group );
 }
 
 const removeGroup = (state, idGroup) => state.slice().filter(group => group['idGroup'] !== idGroup);
@@ -40,7 +39,7 @@ function showGroupFriends(state, idGroup){
 function addGroupFriend(state, idFriend, idGroup){
 	var newState = state.slice();
 	var friends = newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['friends'];
-	if(friends.indexOf(idFriend) === -1) friends.push(idFriend);
+	if(friends.indexOf(idFriend) === -1) newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['friends'].push(idFriend);
 	return newState;
 }
 

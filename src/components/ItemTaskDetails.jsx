@@ -48,9 +48,9 @@ export default class ItemTaskDetails extends Component {
         </a>
 
 
-        <div className={`${this.state.isModifyTask ? 'row' : 'hidden'}`}>
-          <input className="col-md-10 changeTask" ref="title"/>
-          <span className="col-md-2 input-group-btn">
+        <div className={`input-group ${this.state.isModifyTask ? 'col-md-12' : 'hidden'}`}>
+          <input className="form-control inputText" ref="title"/>
+          <span className="input-group-btn">
             <button className="btn btn-danger glyphicon glyphicon-remove" type="button" onClick={e => this.handleCancelClick(e)}></button>
             <button className="btn btn-success glyphicon glyphicon-ok" type="button" onClick={e => this.handleOkClick(e)}></button>
           </span>

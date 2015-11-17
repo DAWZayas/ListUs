@@ -15,7 +15,7 @@ export default class Header extends Component{
   }
 
   handleOnBlur(){
-    this.handleVisibility();
+    setTimeout(() => this.handleVisibility(), 300);
   }
 
   handleVisibility(){
@@ -34,28 +34,33 @@ export default class Header extends Component{
     return(
 
       <div className="header">
-        <div className="row upper">
-          <div className="col-xs-1"><Nav /></div>
-          <div className="input-group col-xs-2">
-            <div className="input-group-btn">
-              <span className="btn biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
-            </div>
-            <input ref="inputText" type="text" className={`${this.state.isVisible ? 'form-control' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
-            <ul className={`${this.state.isVisible ? '' : 'hidden' }`}>
-              {
-                this.state.newLists.map( (list, index) => index<5 ? <ItemList key={index} list={list} /> : null  )
-              }
-            </ul>
-          </div>
-          <div className="col-xs-6"></div>
-          <div className="col-xs-2">
-            <span className="biggerGlyphicon glyphicon glyphicon-calendar" aria-hidden="true"></span>
-          </div>
-          <div className="col-xs-1"></div>
-        </div>
 
-        <Link to="/list"><img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/></Link>
-        <h4>ListUs</h4>
+          <div className="navegador">
+            <Nav />
+            <button className="btn btn-info calendario">
+            <span className=" biggerGlyphicon  glyphicon  glyphicon-calendar" aria-hidden="true"></span></button>
+            <div className="search">
+              <div className="search-btn-input">
+                <button className="btn btn-info">
+                <span className="biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
+                </button>
+                <input ref="inputText" type="text" className={`${this.state.isVisible ? 'form-control input-search' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
+              </div>
+              <div className="search-ul">
+                <ul className={`${this.state.isVisible ? '' : 'hidden' }`}>
+                  {
+                    this.state.newLists.map( (list, index) => index<5 ? <ItemList key={index} list={list} /> : null  )
+                  }
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
+          <div className="principal">
+            <Link to="/list"><img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/></Link>
+            <h4>ListUs</h4>
+          </div>
 
       </div>
     );
