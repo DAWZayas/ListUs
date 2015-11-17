@@ -239,6 +239,7 @@ ul{
 
 .centered {
   text-align: center;
+  margin-top: 30px;
 }
 
 /*
@@ -263,4 +264,17 @@ ul{
   width: 50px;
   display: flex;
   justify-content: space-around;
+}
+
+@media (max-width: 600px) {
+  .avatarFriend {
+    height: 30px !important;
+    width: 30px !important;
+
+    line-height: 25px !important;
+  }
+
+  .avatarLetter {
+    font-size: 15px !important;
+  }
 }

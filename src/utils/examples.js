@@ -62,6 +62,18 @@ export const friends = [
     name: 'Raúl',
     groups: [],
     img: ''
+  },
+  {
+    id: '5',
+    name: 'Adrián',
+    groups: [],
+    img: ''
+  },
+  {
+    id: '6',
+    name: 'Alba',
+    groups: [],
+    img: ''
   }
 ];
 
