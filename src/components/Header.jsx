@@ -37,11 +37,14 @@ export default class Header extends Component{
 
           <div className="navegador">
             <Nav />
-            <span className=" btn btn-info  biggerGlyphicon  glyphicon  glyphicon-calendar calendario" aria-hidden="true"></span>
+            <button className="btn btn-info calendario">
+            <span className=" biggerGlyphicon  glyphicon  glyphicon-calendar" aria-hidden="true"></span></button>
             <div className="search">
               <div className="search-btn-input">
-                <span className="btn btn-info biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
-                <input ref="inputText" type="text" className={`${this.state.isVisible ? 'form-control' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
+                <button className="btn btn-info">
+                <span className="biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
+                </button>
+                <input ref="inputText" type="text" className={`${this.state.isVisible ? 'form-control input-search' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
               </div>
               <div className="search-ul">
                 <ul className={`${this.state.isVisible ? '' : 'hidden' }`}>

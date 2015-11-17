@@ -41,11 +41,11 @@ ul{
 }
 
 .calendario{
-  height: 36px;
+  height: 36px !important;
 }
 
 .search{
-  width: 65%;
+  width: 30%;
   display: flex;
   flex-flow: column;
 }
@@ -53,11 +53,14 @@ ul{
 .search-btn-input{
     display: flex;
     flex-flow: row, nowrap;
-    margin-top: 10px;
 }
 
-.search-btn-input > span{
-  margin: 0;
+.input-search{
+  margin-top: 10px;
+}
+
+.search-ul{
+
 }
 
 .principal{
