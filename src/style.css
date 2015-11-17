@@ -286,6 +286,7 @@ ul{
 
 .deleteEdit{
   width: 50px;
+<<<<<<< HEAD
   display: flex;
   justify-content: space-around;
 }
@@ -362,6 +363,23 @@ ul{
 }
 
 .inputDiv div{
+=======
+  display: flex;
+  justify-content: space-around;
+}
+
+@media (max-width: 600px) {
+  .avatarFriend {
+    height: 30px !important;
+    width: 30px !important;
+
+    line-height: 25px !important;
+  }
+
+  .avatarLetter {
+    font-size: 15px !important;
+  }
+>>>>>>> b04006782596b263eda7ce443d342ae88b1acf87
 }
 
 
