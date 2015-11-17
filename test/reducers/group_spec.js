@@ -18,6 +18,7 @@ describe('GROUP_TEST', () => {
 			  }].length);
 	});
 
+
 	it('REMOVE_GROUP', () => {
 		const initialState = groups;
 		const newState = groupsReducer(initialState, removeGroup('0'));
