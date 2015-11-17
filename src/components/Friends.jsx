@@ -78,25 +78,27 @@ export default class Friends extends React.Component {
 
       <article className="article">
 
-        <Dialog ref='addFriendDialog' title='Add friend' actions={addFriend} >
-   				<TextField ref='addFriendInput' floatingLabelText="New friend" /> 
-				</Dialog>
-           
-       	<h3>Friends management</h3>
+        <div className='centerFriends'>
+          <Dialog ref='addFriendDialog' title='Add friend' actions={addFriend} >
+     				<TextField ref='addFriendInput' floatingLabelText="New friend" /> 
+  				</Dialog>
+          
+          <div className="friendsHeader">
+         	  <h3>Your friends</h3>
+         	  <input type="text" onChange={this.findFriend.bind(this)} className="inputFindFriends form-control friendFinder" ref="findFriendInput" placeholder="Find friends" />
+      		</div>
 
-       	<input type="text" onChange={this.findFriend.bind(this)} className="inputFindFriends form-control floating-label" ref="findFriendInput" placeholder="Find friends" />
-    		
-        <div>
-          {
-            friendsGeneral
-          }
+          <div>
+            {
+              friendsGeneral
+            }
+          </div>
+         	<div className='row centered'>
+  	       	<FloatingActionButton onClick={this.showDialog.bind(this)}>
+  	            <span className='glyphicon glyphicon-plus'></span>
+  	        </FloatingActionButton>
+  	      </div>
         </div>
-       	<div className='row centered'>
-	       	<FloatingActionButton onClick={this.showDialog.bind(this)}>
-	            <span className='glyphicon glyphicon-plus'></span>
-	        </FloatingActionButton>
-	      </div>
-
 			</article>
     );
   }
