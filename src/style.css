@@ -194,3 +194,26 @@
 .error{
   color:red;
 }
+
+.subMenuCont{
+  padding-left: 5%;
+
+}
+
+.subMenuCont input{
+  max-width: 200px;
+  border: solid 1px lightblue;
+  
+}
+
+.inputDiv div{
+}
+
+
+.inputDiv{
+  display: flex;
+  flex-flow:column nowrap;
+  max-width:200px;
+  border:;
+}
+
