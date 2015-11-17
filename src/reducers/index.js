@@ -1,10 +1,10 @@
 
 import { combineReducers } from 'redux';
 import { routerStateReducer as router } from 'redux-router';
-import tasks from './task';
-import lists from './list';
-import comments from './comment';
-import friends from './friend';
+import tasks from './tasks';
+import lists from './lists';
+import comments from './comments';
+import friends from './friends';
 import groups from './groups';
 import user from './user';
 

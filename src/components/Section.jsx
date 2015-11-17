@@ -9,11 +9,7 @@ export default class Section extends Component {
 
   validationTitle(title){
     const { lists } = this.props;
-    const number = lists.filter( list => list.title===title);
     return title!=='' && lists.filter( list => list.title===title).length===0;
-
-
-
   }
 
   openDialog(){
