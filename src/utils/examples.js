@@ -56,8 +56,25 @@ export const friends = [
     name: 'Juan',
     groups: [],
     img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
+  },
+  {
+    id: '4',
+    name: 'Raúl',
+    groups: [],
+    img: ''
+  },
+  {
+    id: '5',
+    name: 'Adrián',
+    groups: [],
+    img: ''
+  },
+  {
+    id: '6',
+    name: 'Alba',
+    groups: [],
+    img: ''
   }
-
 ];
 
 export const tasks = {
