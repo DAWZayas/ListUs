@@ -347,6 +347,14 @@ ul{
 
 }
 
+<<<<<<< HEAD
+=======
+.subMenuCont{
+  padding-left: 5%;
+
+}
+
+>>>>>>> Alba2
 .subMenuCont input{
   max-width: 200px;
   border: solid 1px lightblue;
@@ -364,4 +372,7 @@ ul{
   border:;
 }
 
+<<<<<<< HEAD
+>>>>>>> Alba2
+=======
 >>>>>>> Alba2

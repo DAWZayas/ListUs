@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import groupsReducer from '../../src/reducers/groups';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { addGroup, editGroup, removeGroup, showGroupFriends, addGroupFriend,  changeGroupAdmin } from '../../src/actions';
 =======
 import { addGroup, editGroup, removeGroup, showGroupFriends, addFriendGroup } from '../../src/actions';
@@ -9,6 +10,9 @@ import { addGroup, editGroup, removeGroup, showGroupFriends, addFriendGroup } fr
 >>>>>>> b04006782596b263eda7ce443d342ae88b1acf87
 =======
 >>>>>>> b04006782596b263eda7ce443d342ae88b1acf87
+=======
+import { addGroup, editGroup, removeGroup, showGroupFriends, addGroupFriend,  changeGroupAdmin } from '../../src/actions';
+>>>>>>> Alba2
 =======
 import { addGroup, editGroup, removeGroup, showGroupFriends, addGroupFriend,  changeGroupAdmin } from '../../src/actions';
 >>>>>>> Alba2
@@ -31,6 +35,9 @@ describe('GROUP_TEST', () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Alba2
 =======
 >>>>>>> Alba2
 	it('REMOVE_GROUP', () => {
@@ -157,10 +164,13 @@ describe('GROUP_TEST', () => {
 	});
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> b04006782596b263eda7ce443d342ae88b1acf87
 =======
 >>>>>>> b04006782596b263eda7ce443d342ae88b1acf87
+=======
+>>>>>>> Alba2
 =======
 >>>>>>> Alba2
 });
