@@ -52,6 +52,25 @@ export default class Friends extends React.Component {
  		  { text: 'Submit', onClick: this.addFriend.bind(this), ref: 'submit' }
 		];
 
+    let friendsGeneral = [];
+
+    for(let j = 0; j < this.state.newList.length; j = j+6){
+      let rowFriends = [];
+      let i = j;
+      let top = i+6;
+      while(i < top){
+        if(i < this.state.newList.length){
+          rowFriends = rowFriends.concat(<div className='col-xs-2 friendPhotoContainer'>
+            <span>{this.setImg(this.state.newList[i])}</span><br/>
+            <span className='friendName'>{this.state.newList[i].name}</span>
+          </div>);
+        }
+        i++;
+      }
+      friendsGeneral = friendsGeneral.concat(<div className='row friendRow'> {rowFriends}
+      </div>);
+    }
+
 
     return (
 
@@ -67,12 +86,11 @@ export default class Friends extends React.Component {
 
        	<input type="text" onChange={this.findFriend.bind(this)} className="inputFindFriends form-control floating-label" ref="findFriendInput" placeholder="Find friends" />
     		
-        <div className='row friendRow'>
+        <div>
           {
-            this.state.newList.map((friend, index) => <div className='col-xs-1 friendPhotoContainer'><span>{this.setImg(friend)}</span><br/><span className='friendName'>{friend.name}</span></div>)
+            friendsGeneral
           }
-       	</div>
-
+        </div>
        	<div className='row centered'>
 	       	<FloatingActionButton onClick={this.showDialog.bind(this)}>
 	            <span className='glyphicon glyphicon-plus'></span>
