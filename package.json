@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node_modules/.bin/webpack-dev-server",
+    "start": "node_modules/.bin/webpack-dev-server --host 0.0.0.0",
     "test": "npm run lint ; node_modules/.bin/mocha --compilers js:babel-core/register --require test/test_helper.js './test/testSeq.js'",
     "test:watch": "npm run test -- --watch",
     "lint": "./node_modules/.bin/eslint --ext=jsx --ext=js src/ test/",
