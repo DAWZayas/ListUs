@@ -1,4 +1,5 @@
-
+import { Avatar } from 'material-ui';
+import React from 'react';
 
 export function arrayPositionByObjectKey(key, value, array){
 	for(let i=0; i<array.length ; i++){
@@ -23,4 +24,8 @@ export function lastStringOfUrl(){
 
 export function getIdByOtherKey(key, value, array){
 	return array[arrayPositionByObjectKey(key, value, array)]['id'];
+}
+
+export function avatarLetter(name){
+	return <Avatar className="avatarLetter">{name.slice(0,1)}</Avatar>;
 }
