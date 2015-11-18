@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import mui from 'material-ui';
-import { AppBar, IconButton, FlatButton, Dialog, TextField } from 'material-ui';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+import { AppBar, IconButton, FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
 import { arrayPositionByObjectKey, getIdByOtherKey } from '../utils/functions';
 
 
@@ -11,10 +12,29 @@ export default class Groups extends React.Component {
 			refToEdit: '',
 			error: '',
 			idGroup: '',
-			admin: false
+			admin: false,
+			search: []
 		};
 	}
 
+	/* Dialog functions */
+
+	handleClickDismissDialog(e, ref){
+		e.preventDefault();
+		this.setState({idGroup: '', search: []});
+		//this.refs.friendNameInput.value = '';
+		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.dismiss():this.refs.dialogAddFriend.dismiss();
+	}
+
+	handleClickShowDialog(e, ref, idGroup){
+		e.preventDefault();
+		if(arguments[3]) this.setState({admin: true});
+		this.setState({idGroup});
+		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.show():this.refs.dialogAddFriend.show();
+
+	}
+
+	/* Group friends */
 	groupFriends(friends, idGroup){
 		const refer =  'fr'+idGroup;
 		return (
@@ -22,10 +42,10 @@ export default class Groups extends React.Component {
 				<img src={'https://upload.wikimedia.org/wikipedia/commons/3/38/UtR_arrow.svg'} width='30' />
 				{friends.map(function(friend){
 					return (
-					<img 
-						className="avatar" 
-						key={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['id']} 
-						src={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['img']} 
+					<img
+						className="avatar"
+						key={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['id']}
+						src={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['img']}
 						alt={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name']}
 						width='50'/>
 				)}.bind(this))}
@@ -34,29 +54,17 @@ export default class Groups extends React.Component {
 		);
 	}
 
-	/**/
-
-	handleClickShowDialog(e, ref, idGroup){
-		e.preventDefault();
-		if(arguments[3]) this.setState({admin: true});
-		this.setState({idGroup});
-		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.show():this.refs.dialogAddFriend.show();
-	}
-
-	handleClickDismissDialog(e, ref){
-		e.preventDefault();
-		this.setState({idGroup: ''});
-		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.dismiss():this.refs.dialogAddFriend.dismiss();
-	}
-
 	handleClickShowGroupFriends(e, idGroup){
 		e.preventDefault();
 		this.props.onshowGroupFriends(idGroup);
 	}
 
-	handleClickRemoveGroup(e, idGroup){
-		e.preventDefault();
-		this.props.onRemoveGroup(idGroup);
+	/* Add group or friend*/
+	applyParamsToArray(ref){
+		return [
+			<FlatButton label="Cancel" secondary onClick={e=>this.handleClickDismissDialog(e, ref)} />,
+			<FlatButton label="Submit" primary onClick={e=>this.handleClickAdd(e, ref)} />
+		];
 	}
 
 	handleClickAdd(e, ref){
@@ -78,7 +86,7 @@ export default class Groups extends React.Component {
 		if(pos !== -1) this.setState({error: 'El nombre del grupo ya existe'});
 		else{
 			this.props.onAddGroup(name, this.props.user.idUser);
-			this.setState({error: ''});
+			this.setState({error: '', search: []});
 			this.handleClickDismissDialog(e, 'dialogAddGroup');
 		}
 	}
@@ -87,15 +95,20 @@ export default class Groups extends React.Component {
 		if(pos === -1) this.setState({error: 'El amigo no existe'});
 		else{
 			const idFriend = this.props.friends[pos]['id'];
-			debugger;
 			if(this.state.admin === false) this.props.onAddGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.idGroup);
 			else this.props.onChangeGroupAdmin(idFriend, this.state.idGroup);
 			this.setState({error: ''});
 			this.handleClickDismissDialog(e, 'dialogAddFriend');
 		}
-		
 	}
 
+	/* Remove group */
+	handleClickRemoveGroup(e, idGroup){
+		e.preventDefault();
+		this.props.onRemoveGroup(idGroup);
+	}
+
+	/* Editting groups*/
 	handleClickSetRefToEdit(e, idGroup){
 		e.preventDefault();
 		this.setState({refToEdit: idGroup});
@@ -105,13 +118,6 @@ export default class Groups extends React.Component {
 		e.preventDefault();
 		this.props.onEditGroup(ref, value);
 		this.handleHideEdit(e);
-	}
-
-	applyParamsToArray(ref){
-		return [
-			<FlatButton label="Cancel" secondary onClick={e=>this.handleClickDismissDialog(e, ref)} />,
-			<FlatButton label="Submit" primary onClick={e=>this.handleClickAdd(e, ref)} />
-		];
 	}
 
 	editGroup(ref){
@@ -132,9 +138,33 @@ export default class Groups extends React.Component {
 		this.setState({refToEdit: ''});
 	}
 
+	/* Admin tranfer */
 	handleChangeGroupAdmin(e, idGroup){
 		e.preventDefault();
 		this.onChangeGroupAdmin(this.refs.changeAdmin.value, idGroup);
+	}
+
+
+	/* Dialog matches*/
+	searchingMatch(e, ref){
+		e.preventDefault();
+		const words = (this.refs.groupNameInput)?this.refs.groupNameInput.value:this.refs.friendNameInput.value;
+		const array = (this.refs.groupNameInput)?this.props.groups :this.props.friends;
+		const search = array.filter(function(object){
+			return object.name.toLowerCase().search(words.toLowerCase()) !== -1;
+			}.bind(this));
+
+		this.setState({search});
+	}
+
+	handleChangeInputValue(e, ref, value){
+		e.preventDefault();
+		(ref === 'friendNameInput')?this.refs.friendNameInput.value=value :this.refs.changeAdmin.value=value;
+	}
+
+	clearSearchState(e){
+		e.preventDefault();
+		this.setState({search : []});
 	}
 
 	render(){
@@ -143,12 +173,11 @@ export default class Groups extends React.Component {
 		const AppBar = require('material-ui/lib/app-bar');
 		return (
 			<div>
-				
  				<h3>GRUPOS</h3>
-				{(this.props.groups)?this.props.groups.map(function(group){ 
+				{(this.props.groups)?this.props.groups.map(function(group){
 						return (
 							<div>
-								<AppBar title={group['name']} className="listGroups" 
+								<AppBar title={group['name']} className="listGroups"
 									iconElementRight={<div className="deleteEdit">
 											<a className="glyphicon glyphicon-remove-circle" onClick={e => this.handleClickRemoveGroup(e, group['idGroup'])} />
 											<a className="glyphicon glyphicon-edit" onClick={e => this.handleClickSetRefToEdit(e, group['idGroup'])}/><br/>
@@ -156,8 +185,8 @@ export default class Groups extends React.Component {
 										</div>
 										}
 									onLeftIconButtonTouchTap={e => this.handleClickShowGroupFriends(e, group['idGroup'])}
-									
-								/> 
+
+								/>
 		 						{(group['showFriends']===true)?this.groupFriends(group['friends'], group['idGroup']):''}
 	 						</div>
 	 					);
@@ -168,18 +197,42 @@ export default class Groups extends React.Component {
 				<br/>
 				<div className="addGroup"><FlatButton label="Crear Grupo" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddGroup')}/></div>
 
-				<Dialog ref="dialogAddFriend" title="Añadir amigos al grupo" actions={this.applyParamsToArray('dialogAddFriend')}>
-					<p>Nombre del amigo: <input ref="friendNameInput" /></p>
-					<p className="error">{this.state.error}</p>
-					
+				<Dialog  className="addFriends" ref="dialogAddFriend" title="Añadir amigos al grupo" actions={this.applyParamsToArray('dialogAddFriend')}
+					>
+
+					<div ref="subMenuCont" className="subMenuCont" >
+						<p>Nombre del amigo: </p>
+						<div className="inputDiv">
+							<input ref="friendNameInput"
+									autoFocus
+									onKeyUp={e => this.searchingMatch(e, 'friendNameInput')}
+									/>
+							<div ref="subMenuRef">
+							{(this.state.search.length === 0)?''
+										:<List  style={{maxHeight: '100px', overflow: 'auto', paddingTop: '0', border: 'solid 1px lightblue',borderTop: 'hidden'}}>
+											{this.state.search.map(function(friend){
+												return (
+													<ListItem
+														leftAvatar={<Avatar src={friend.img} />}
+														primaryText={friend.name}
+														style={{height: '49px', borderTop: 'solid 1px lightblue'}}
+														onBlur={e=>this.clearSearchState(e)}
+														onTouchTap={e => this.handleChangeInputValue(e, 'friendNameInput', friend.name)} />
+												);
+											}.bind(this))}
+										</List>}
+
+							</div>
+						</div>
+						<p className="error">{this.state.error}</p>
+					</div>
 				</Dialog>
 
 				<Dialog ref="dialogAddGroup" title="Añadir grupo" actions={this.applyParamsToArray('dialogAddGroup')}>
-					<p>Nombre del grupo: <input ref="groupNameInput" /></p>
+					<p>Nombre del grupo: <input ref="groupNameInput" autoFocus /></p>
 					<p className="error">{this.state.error}</p>
 				</Dialog>
 
-				
 			</div>
 		);
 	}
@@ -191,21 +244,3 @@ Groups.propTypes= {
 	groups: PropTypes.array,
 	friends: PropTypes.array
 };
-
-				/**/
-
-
-		/*<p className="" onClick={e => this.handleClickRemoveGroup(e, group['idGroup'])}>X</p>*/
-
-
-	/*
-	render() {
-		debugger;
-		return (
-			<article className='article'>
- 				<h3>Groups management</h3>
- 				<p>{(this.props.groups)?this.props.groups[0]['name']:'no hay grupos'}</p>
-      </article>
-		);
-	}
-}*/

@@ -44,7 +44,7 @@ export default class Header extends Component{
                 <button className="btn btn-info">
                 <span className="biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
                 </button>
-                <input ref="inputText" type="text" className={`${this.state.isVisible ? 'form-control input-search' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
+                <input ref="inputText" type="text" autoFocus className={`${this.state.isVisible ? 'form-control input-search' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
               </div>
               <div className="search-ul">
                 <ul className={`${this.state.isVisible ? '' : 'hidden' }`}>

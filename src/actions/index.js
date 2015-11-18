@@ -57,12 +57,14 @@ export const CHANGE_GROUP_ADMIN = 'CHANGE_GROUP_ADMIN';
 
 
 /*
-* USER
+* USER ACOUNT
 */
+
+export const CHANGE_USER_PHOTO = 'CHANGE_USER_PHOTO';
 
 
 /*
-* task action creator
+* task action creator ***************************************************************
 */
 
 export function setTask(task){
@@ -182,5 +184,15 @@ export function addGroupFriend(idFriend, idGroup){
 export function changeGroupAdmin(idFriend, idGroup){
   return {
     type: CHANGE_GROUP_ADMIN, idFriend, idGroup
+  };
+}
+
+/*
+* User actions creator
+*/
+
+export function changeUserPhoto(url){
+  return {
+    type: CHANGE_USER_PHOTO, url
   };
 }

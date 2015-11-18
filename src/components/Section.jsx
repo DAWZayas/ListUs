@@ -9,11 +9,7 @@ export default class Section extends Component {
 
   validationTitle(title){
     const { lists } = this.props;
-    const number = lists.filter( list => list.title===title);
     return title!=='' && lists.filter( list => list.title===title).length===0;
-
-
-
   }
 
   openDialog(){
@@ -46,7 +42,7 @@ export default class Section extends Component {
     return(
       <div className="article">
         <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
-          <TextField ref="titleDialog" hintText="Title List" />
+          <TextField ref="titleDialog" hintText="Title List" autoFocus/>
         </Dialog>
         <div className="lists">
             {
