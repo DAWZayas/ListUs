@@ -9,16 +9,40 @@ export default class Friends extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			constList: this.props.friends,
-			newList: this.props.friends
-		};
+      constList: this.props.friends,
+      newList: this.props.friends,
+      //shouldUpdate: true
+    };
 	}
+
+  /*componentDidUpdate(){
+    this.setState({
+      constList: this.props.friends,
+      newList: this.props.friends,
+      shouldUpdate: !this.state.shouldUpdate
+    });
+  }
+
+  shouldComponentUpdate(){
+    debugger;
+    return this.state.shouldUpdate;
+  }*/
+
+  componentWillReceiveProps(){
+    this.setState({
+      constList: this.props.friends,
+      newList: this.props.friends,
+    });
+  }
 
   setImg(friend){
     return friend.img !== '' ? <Avatar className="avatarFriend" src={friend.img}/> : <Avatar className='avatarFriend avatarLetter'>{friend.name.substring(0,1).toUpperCase()}</Avatar>;
   }
 
   addFriend(){
+    this.setState({
+      shouldUpdate: false
+    });
     const nodeInput = this.refs.addFriendInput;
     const { onAddFriend } = this.props;
     onAddFriend(nodeInput.getValue());
