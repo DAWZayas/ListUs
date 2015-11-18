@@ -22,7 +22,7 @@ export default class Groups extends React.Component {
 	handleClickDismissDialog(e, ref){
 		e.preventDefault();
 		this.setState({idGroup: '', search: []});
-		this.refs.friendNameInput.value = '';
+		//this.refs.friendNameInput.value = '';
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.dismiss():this.refs.dialogAddFriend.dismiss();
 	}
 
