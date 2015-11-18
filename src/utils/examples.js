@@ -43,7 +43,7 @@ export const friends = [
     id: '0',
     name: 'Loli',
     groups: ['0', '1'],
-    img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
+    img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg',
     visibility: false
   },
   {
