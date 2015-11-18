@@ -37,8 +37,8 @@ export default class ItemTaskDetails extends Component {
   render() {
     const { task } = this.props;
     return(
-    <li role='presentation'>
-        <a href='#' className={`${this.state.isModifyTask ? 'hidden' : 'col-md-12'}`}>
+    <li  className="">
+        <a href='#' className={`${this.state.isModifyTask ? 'hidden' : 'col-md-12 '}`}>
           <div>
             <span  style={{color: 'inherit', textDecoration: 'inherit'}}>{ task.title }</span>
             <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />

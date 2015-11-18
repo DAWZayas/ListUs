@@ -11,7 +11,7 @@ describe('GROUP_TEST', () => {
 
 		expect(newState.length).to.eql([{
 			    idGroup: '0',
-			    name: 'ListUs', 
+			    name: 'ListUs',
 			    friends: ['0', '1'],// pick up the friends id.
 			    showFriends: false,
 			    administrator: '2'
@@ -24,16 +24,16 @@ describe('GROUP_TEST', () => {
 		const newState = groupsReducer(initialState, removeGroup('0'));
 		expect(newState).to.eql([
 			{
-			    idGroup: '1', 
-			    name: 'Empresas', 
+			    idGroup: '1',
+			    name: 'Empresas',
 			    friends: [],
 			    showFriends: false,
 			    administrator: '1'
 			  },
 
 			  {
-			    idGroup: '2', 
-			    name: 'Servidor', 
+			    idGroup: '2',
+			    name: 'Servidor',
 			    friends: ['2'],
 			    showFriends: false,
 			    administrator: '5'
@@ -47,23 +47,23 @@ describe('GROUP_TEST', () => {
 		expect(newState).to.eql([
 			  {
 			    idGroup: '0',
-			    name: 'ListUs', 
+			    name: 'ListUs',
 			    friends: ['0', '1'],// pick up the friends id.
 			    showFriends: false,
 			    administrator: '2'
 			  },
 
 			  {
-			    idGroup: '1', 
-			    name: 'Empresas2', 
+			    idGroup: '1',
+			    name: 'Empresas2',
 			    friends: [],
 			    showFriends: false,
 			    administrator: '1'
 			  },
 
 			  {
-			    idGroup: '2', 
-			    name: 'Servidor', 
+			    idGroup: '2',
+			    name: 'Servidor',
 			    friends: ['2'],
 			    showFriends: false,
 			    administrator: '5'
@@ -75,16 +75,16 @@ describe('GROUP_TEST', () => {
 
 	it('SHOW_GROUP_FRIENDS', () => {
 		const initialState = [{
-		    idGroup: '2', 
-		    name: 'Servidor', 
+		    idGroup: '2',
+		    name: 'Servidor',
 		    friends: ['2'],
 		    showFriends: false,
 		    administrator: '5'
 		  }];
 		const newState = groupsReducer(initialState, showGroupFriends('2'));
 		expect(newState).to.eql([{
-		    idGroup: '2', 
-		    name: 'Servidor', 
+		    idGroup: '2',
+		    name: 'Servidor',
 		    friends: ['2'],
 		    showFriends: true,
 		    administrator: '5'
@@ -99,43 +99,43 @@ describe('GROUP_TEST', () => {
 		expect(newStates).to.eql([
 		  {
 		    idGroup: '0',
-		    name: 'ListUs', 
+		    name: 'ListUs',
 		    friends: ['0', '1'],// pick up the friends id.
 		    showFriends: false,
 		    administrator: '2'
 		  },
 
 		  {
-		    idGroup: '1', 
-		    name: 'Empresas', 
+		    idGroup: '1',
+		    name: 'Empresas',
 		    friends: ['3'],
 		    showFriends: false,
 		    administrator: '1'
 		  },
 
 		  {
-		    idGroup: '2', 
-		    name: 'Servidor', 
+		    idGroup: '2',
+		    name: 'Servidor',
 		    friends: ['2'],
 		    showFriends: false,
 		    administrator: '5'
 		  }
 
-		])
+		]);
 	});
 
 	it('CHANGE_GROUP_ADMIN', () => {
 		const initialState = [{
-		    idGroup: '2', 
-		    name: 'Servidor', 
+		    idGroup: '2',
+		    name: 'Servidor',
 		    friends: ['2'],
 		    showFriends: false,
 		    administrator: '5'
 		  }];
 		const newState = groupsReducer(initialState, changeGroupAdmin('1', '2'));
 		expect(newState).to.eql([{
-		    idGroup: '2', 
-		    name: 'Servidor', 
+		    idGroup: '2',
+		    name: 'Servidor',
 		    friends: ['2'],
 		    showFriends: false,
 		    administrator: '1'
