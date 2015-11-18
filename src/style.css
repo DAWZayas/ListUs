@@ -349,6 +349,10 @@ ul{
   padding-right: 1%;
 }
 
+.addGroup + div{
+
+}
+
 .deleteEdit{
   width: 50px;
   display: flex;
@@ -373,6 +377,7 @@ ul{
   border:;
 }
 
+
 @media (max-width: 600px) {
   .avatarFriend {
     height: 30px !important;
@@ -384,4 +389,11 @@ ul{
   .avatarLetter {
     font-size: 15px !important;
   }
+
+}
+
+.tools{
+  
+  color:black;
+  font-family:Helvetica;
 }

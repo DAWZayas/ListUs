@@ -44,43 +44,44 @@ export const friends = [
     name: 'Loli',
     groups: ['0', '1'],
     img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
+    visibility: false
   },
   {
     id: '1',
     name: 'Pepe',
     groups: ['0'],
-    img: 'http://www.planwallpaper.com/static/images/3d-animal-backgrounds-17306-17862-hd-wallpapers_MkXEx9v.jpg'
+    img: 'http://www.planwallpaper.com/static/images/3d-animal-backgrounds-17306-17862-hd-wallpapers_MkXEx9v.jpg',
+    visibility: false
   },
   {
     id: '2',
     name: 'Pepa',
     groups: ['0', '1'],
-    img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg'
+    img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg',
+    visibility: false
   },
   {
     id: '3',
     name: 'Juan',
     groups: [],
-    img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
+    img: 'http://pngimg.com/upload/motorcycle_PNG5346.png',
+    visibility: false
   },
   {
     id: '4',
     name: 'Raúl',
     groups: [],
-    img: ''
+    img: '',
+    visibility: false
   },
   {
     id: '5',
     name: 'Adrián',
     groups: [],
-    img: ''
+    img: '',
+    visibility: false
   },
-  {
-    id: '6',
-    name: 'Alba',
-    groups: [],
-    img: ''
-  }
+
 ];
 
 export const tasks = {
@@ -165,7 +166,8 @@ export const user = {
   idUser: '5',
   name: 'Troya',
   password: 'troya',
-  img: 'http://www.planwallpaper.com/static/images/Conflict-HD-Wallpaper_Sf0xtpv.jpg'
+  img: 'http://www.planwallpaper.com/static/images/Conflict-HD-Wallpaper_Sf0xtpv.jpg',
+  visibility: true
 };
 
 export const calendar = {display: true};
