@@ -56,6 +56,15 @@ class Nav extends React.Component {
 		     payload: '/list',
 		     text: 'My lists'
 		  },
+		  {
+		  	type: MenuItem.Types.SUBHEADER,
+		  	text: 'Calendars'
+		  },
+		  {
+		     type: MenuItem.Types.LINK,
+		     payload: '/calendar',
+		     text: 'My calendar'
+		  }
 		];
 
 		return (
