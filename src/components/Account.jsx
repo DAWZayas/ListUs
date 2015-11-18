@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-
 import { Dialog, TextField, FloatingActionButton, DatePicker, DatePickerDialog } from 'material-ui';
 
 
-class Account extends React.Component {
+export default class Account extends React.Component {
 
   showDialogChangeName(){
     const nodeDialog = this.refs.changeName;
@@ -27,6 +25,23 @@ class Account extends React.Component {
     nodeDialog.dismiss();
   }
 
+  showDialogChangePhoto(){
+    const nodeDialog = this.refs.changePhoto;
+    nodeDialog.show();
+  }
+
+  hideDialogChangePhoto(){
+    const nodeDialog = this.refs.changePhoto;
+    nodeDialog.dismiss();
+  }
+
+  handleChangeUserPhoto(url){
+    debugger;
+    this.props.onChangeUserPhoto(this.refs.newUrl.getValue());
+    this.hideDialogChangePhoto();
+
+  }
+
 	render() {
 
     let changeNameActions = [
@@ -39,10 +54,29 @@ class Account extends React.Component {
       { text: 'Submit', onClick: this.hideDialogChangePassword.bind(this), ref: 'submit' }
     ];
 
+    let changePhotoActions = [
+      { text: 'Cancel', onClick: this.hideDialogChangePhoto.bind(this) },
+      { text: 'Submit', onClick: this.handleChangeUserPhoto.bind(this), ref: 'submit' }
+    ];
 		return (
 			<article className='article account'>
      		
-        <Dialog ref='changeName' title='Change Name' actions={changeNameActions} >
+       
+
+        <div className="acountImg">
+         <div className="photo">
+            <img src={this.props.user.img} width="80" height="80" style={{borderRadius: '50px'}} />
+            <div></div>
+            <div><a href='#' onClick={this.showDialogChangePhoto.bind(this)}><img width="18" src={'http://vignette3.wikia.nocookie.net/java/images/0/0e/Camera_icon.gif/revision/latest?cb=20090227194712' } /></a></div>
+          </div>
+          <span style={{fontFamily: 'verdana', fontWeight: 'bold', fontSize: '20'}}>{this.props.user.name}</span>
+        </div><br/>
+      	<ul className="nav nav-pills nav-stacked">
+          <li role="presentation"><a onClick={this.showDialogChangeName.bind(this)} href='#'><span className='glyphicon marginGlyph glyphicon-user'></span>Change Name</a></li>
+          <li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href='#'><span className='glyphicon marginGlyph glyphicon-lock'></span>Change password</a></li>
+        </ul>
+
+         <Dialog ref='changeName' title='Change Name' actions={changeNameActions} >
             <TextField ref='newName' floatingLabelText="New name" /> 
         </Dialog>
 
@@ -54,28 +88,11 @@ class Account extends React.Component {
 
         </Dialog>
 
-        <h3>Account management</h3>
-      	<ul className="nav nav-pills nav-stacked">
-          <li role="presentation"><a href='#'><span className='glyphicon marginGlyph glyphicon-camera'></span>Photo</a></li>
-          <li role="presentation"><a onClick={this.showDialogChangeName.bind(this)} href='#'><span className='glyphicon marginGlyph glyphicon-user'></span>Change Name</a></li>
-          <li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href='#'><span className='glyphicon marginGlyph glyphicon-lock'></span>Change password</a></li>
-        </ul>
+        <Dialog ref='changePhoto' title='Change Photo' actions={changePhotoActions} >
+            <TextField ref='newUrl' floatingLabelText="New photo" /> 
+        </Dialog>
       </article>
 		);
 	}
 }
 
-function mapStateToProps(state) {
-  return {
-  };
-}
-
-function mapActionsToProps(dispatch) {
-  return {
-  };
-}
-
-export default connect(
-	mapActionsToProps,
-	mapStateToProps
-)(Account);

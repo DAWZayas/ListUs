@@ -22,7 +22,7 @@ export default class Groups extends React.Component {
 	handleClickDismissDialog(e, ref){
 		e.preventDefault();
 		this.setState({idGroup: '', search: []});
-		this.refs.friendNameInput.value = '';
+		//this.refs.friendNameInput.value = '';
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.dismiss():this.refs.dialogAddFriend.dismiss();
 	}
 
@@ -217,7 +217,7 @@ export default class Groups extends React.Component {
 														primaryText={friend.name}
 														style={{height: '49px', borderTop: 'solid 1px lightblue'}}
 														onBlur={e=>this.clearSearchState(e)}
-														onTouchTap={e => this.handleChangeInputValue(e, 'friendNameInput', friend.name).bind(this)} />
+														onTouchTap={e => this.handleChangeInputValue(e, 'friendNameInput', friend.name)} />
 												);
 											}.bind(this))}
 										</List>}

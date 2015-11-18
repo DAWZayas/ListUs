@@ -150,7 +150,8 @@ export const groups = [
 export const user = {
   idUser: '5',
   name: 'Troya',
-  password: 'troya'
+  password: 'troya',
+  img: 'http://www.planwallpaper.com/static/images/Conflict-HD-Wallpaper_Sf0xtpv.jpg'
 };
 
 export const calendar = {display: true};
