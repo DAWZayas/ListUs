@@ -31,7 +31,7 @@ export default class Groups extends React.Component {
 		if(arguments[3]) this.setState({admin: true});
 		this.setState({idGroup});
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.show():this.refs.dialogAddFriend.show();
-		
+
 	}
 
 	/* Group friends */
@@ -42,10 +42,10 @@ export default class Groups extends React.Component {
 				<img src={'https://upload.wikimedia.org/wikipedia/commons/3/38/UtR_arrow.svg'} width='30' />
 				{friends.map(function(friend){
 					return (
-					<img 
-						className="avatar" 
-						key={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['id']} 
-						src={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['img']} 
+					<img
+						className="avatar"
+						key={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['id']}
+						src={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['img']}
 						alt={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name']}
 						width='50'/>
 				)}.bind(this))}
@@ -144,7 +144,7 @@ export default class Groups extends React.Component {
 		this.onChangeGroupAdmin(this.refs.changeAdmin.value, idGroup);
 	}
 
-	
+
 	/* Dialog matches*/
 	searchingMatch(e, ref){
 		e.preventDefault();
@@ -153,7 +153,7 @@ export default class Groups extends React.Component {
 		const search = array.filter(function(object){
 			return object.name.toLowerCase().search(words.toLowerCase()) !== -1;
 			}.bind(this));
-		
+
 		this.setState({search});
 	}
 
@@ -174,10 +174,10 @@ export default class Groups extends React.Component {
 		return (
 			<div>
  				<h3>GRUPOS</h3>
-				{(this.props.groups)?this.props.groups.map(function(group){ 
+				{(this.props.groups)?this.props.groups.map(function(group){
 						return (
 							<div>
-								<AppBar title={group['name']} className="listGroups" 
+								<AppBar title={group['name']} className="listGroups"
 									iconElementRight={<div className="deleteEdit">
 											<a className="glyphicon glyphicon-remove-circle" onClick={e => this.handleClickRemoveGroup(e, group['idGroup'])} />
 											<a className="glyphicon glyphicon-edit" onClick={e => this.handleClickSetRefToEdit(e, group['idGroup'])}/><br/>
@@ -185,8 +185,8 @@ export default class Groups extends React.Component {
 										</div>
 										}
 									onLeftIconButtonTouchTap={e => this.handleClickShowGroupFriends(e, group['idGroup'])}
-									
-								/> 
+
+								/>
 		 						{(group['showFriends']===true)?this.groupFriends(group['friends'], group['idGroup']):''}
 	 						</div>
 	 					);
@@ -199,12 +199,12 @@ export default class Groups extends React.Component {
 
 				<Dialog  className="addFriends" ref="dialogAddFriend" title="Añadir amigos al grupo" actions={this.applyParamsToArray('dialogAddFriend')}
 					>
-					
+
 					<div ref="subMenuCont" className="subMenuCont" >
 						<p>Nombre del amigo: </p>
 						<div className="inputDiv">
-							<input ref="friendNameInput" 
-									autoFocus 
+							<input ref="friendNameInput"
+									autoFocus
 									onKeyUp={e => this.searchingMatch(e, 'friendNameInput')}
 									/>
 							<div ref="subMenuRef">
@@ -212,16 +212,16 @@ export default class Groups extends React.Component {
 										:<List  style={{maxHeight: '100px', overflow: 'auto', paddingTop: '0', border: 'solid 1px lightblue',borderTop: 'hidden'}}>
 											{this.state.search.map(function(friend){
 												return (
-													<ListItem 
+													<ListItem
 														leftAvatar={<Avatar src={friend.img} />}
 														primaryText={friend.name}
 														style={{height: '49px', borderTop: 'solid 1px lightblue'}}
 														onBlur={e=>this.clearSearchState(e)}
-														onTouchTap={e => this.handleChangeInputValue(e, 'friendNameInput', friend.name).bind(this)} />
+														onTouchTap={e => this.handleChangeInputValue(e, 'friendNameInput', friend.name)} />
 												);
 											}.bind(this))}
 										</List>}
-								
+
 							</div>
 						</div>
 						<p className="error">{this.state.error}</p>
@@ -232,7 +232,7 @@ export default class Groups extends React.Component {
 					<p>Nombre del grupo: <input ref="groupNameInput" autoFocus /></p>
 					<p className="error">{this.state.error}</p>
 				</Dialog>
-	
+
 			</div>
 		);
 	}
@@ -244,4 +244,3 @@ Groups.propTypes= {
 	groups: PropTypes.array,
 	friends: PropTypes.array
 };
-

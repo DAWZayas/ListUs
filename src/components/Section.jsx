@@ -42,7 +42,7 @@ export default class Section extends Component {
     return(
       <div className="article">
         <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
-          <TextField ref="titleDialog" hintText="Title List" />
+          <TextField ref="titleDialog" hintText="Title List" autoFocus/>
         </Dialog>
         <div className="lists">
             {
