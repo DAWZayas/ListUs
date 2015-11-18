@@ -61,6 +61,9 @@ export const CHANGE_GROUP_ADMIN = 'CHANGE_GROUP_ADMIN';
 */
 
 export const CHANGE_USER_PHOTO = 'CHANGE_USER_PHOTO';
+export const CHANGE_USER_NAME = 'CHANGE_USER_NAME';
+export const CHANGE_USER_PASSWORD = 'CHANGE_USER_PASSWORD';
+export const CHANGE_USER_VISIBILITY = 'CHANGE_USER_VISIBILITY';
 
 
 /*
@@ -194,5 +197,23 @@ export function changeGroupAdmin(idFriend, idGroup){
 export function changeUserPhoto(url){
   return {
     type: CHANGE_USER_PHOTO, url
+  };
+}
+
+export function changeUserName(name){
+  return {
+    type: CHANGE_USER_NAME, name
+  };
+}
+
+export function changeUserPassword(password){
+  return {
+    type: CHANGE_USER_PASSWORD, password
+  };
+}
+
+export function changeUserVisibility(visibility){
+  return {
+    type: CHANGE_USER_VISIBILITY, visibility
   };
 }
