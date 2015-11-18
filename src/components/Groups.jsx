@@ -13,7 +13,8 @@ export default class Groups extends Component {
 			error: '',
 			idGroup: '',
 			admin: false,
-			search: []
+			search: [],
+			listToShow: 0
 		};
 	}
 
@@ -172,7 +173,7 @@ export default class Groups extends Component {
 	render(){
 		const AppBar = require('material-ui/lib/app-bar');
 		return (
-			<div>
+			<section>
  				<h3>GROUPS YOU BELONG</h3>
 				{(this.props.groups)?this.props.groups.map(function(group){
 						return (
@@ -198,6 +199,15 @@ export default class Groups extends Component {
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
 				<br/>
 				<div className="addGroup"><FlatButton label="Create Group" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddGroup')}/></div>
+
+				{(this.state.listToShow !== 0)
+					 ?<div className="col-md-12 center">
+			          <a onClick={() => this.openDialog()} style={{cursor: 'pointer'}} >
+			            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width='30' height='30'/>
+			          </a>
+			        </div>
+			        : ''
+		    	}
 
 				<Dialog className="addFriends" 
 						ref="dialogAddFriend"
@@ -252,7 +262,9 @@ export default class Groups extends Component {
 					<p className="error">{this.state.error}</p>
 				</Dialog>
 
-			</div>
+
+
+			</section>
 		);
 	}
 }

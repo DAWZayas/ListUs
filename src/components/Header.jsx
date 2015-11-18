@@ -33,7 +33,7 @@ export default class Header extends Component{
   render() {
     return(
 
-      <div className="header">
+      <header className="header">
 
           <div className="navegador">
             <Nav />
@@ -58,11 +58,13 @@ export default class Header extends Component{
 
 
           <div className="principal">
-            <Link to="/list"><img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/></Link>
-            <h4>ListUs</h4>
+            <div>
+              <Link to="/list"><img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/></Link>
+              <h4>ListUs</h4>
+            </div>
           </div>
 
-      </div>
+      </header>
     );
   }
 
