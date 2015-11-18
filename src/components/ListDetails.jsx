@@ -36,11 +36,11 @@ render() {
   let customActions = [
     <FlatButton
       label="Cancel"
-      secondary={true}
+      secondary
       onClick={() => this.onClickClose()} />,
     <FlatButton
       label="Add"
-      primary={true}
+      primary
       onClick={() => this.onClickAdd()} />
   ];
   const { list, onRemoveList, onEditList, tasks, onRemoveTask, onEditTask } = this.props;
@@ -54,12 +54,11 @@ render() {
       </div>
       <div className="col-md-10">
         <ul className="list-group listTitle">
-          <List list={list} onRemoveList={onRemoveList} onEditList={onEditList}/>
+          <List list={list} onRemoveList={onRemoveList} onEditList={onEditList} />
         </ul>
       </div>
-      { console.log(tasks.map(task => task.title))}
       <div className="article col-md-12">
-        <ul className="nav nav-pills nav-stacked navMarginTop">
+        <ul className="nav nav-pills nav-stacked navMarginTop list-group">
           {
             tasks.map( (task, index) => index<6 ? <ItemTaskDetails key={index} task={task} onRemoveTask={onRemoveTask} onEditTask={onEditTask} /> : null)
           }
@@ -78,10 +77,14 @@ render() {
 
 ListDetails.propTypes = {
   list: PropTypes.object.isRequired,
-  tasks: PropTypes.array,
+  tasks: PropTypes.array.isRequired,
+  friends: PropTypes.array.isRequired,
+  groups: PropTypes.array.isRequired,
   onAddTask: PropTypes.func.isRequired,
   onRemoveTask: PropTypes.func.isRequired,
   onEditTask: PropTypes.func.isRequired,
   onRemoveList: PropTypes.func.isRequired,
-  onEditList: PropTypes.func.isRequired
+  onEditList: PropTypes.func.isRequired,
+  onAddFriendGroupToTask: PropTypes.func.isRequired,
+  onAddFriendGroupToList: PropTypes.func.isRequired
 };

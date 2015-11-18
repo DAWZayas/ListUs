@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import friendReduce from '../../src/reducers/friend';
+import friendReduce from '../../src/reducers/friends';
 import { addFriend, removeFriend, addFriendGroup } from '../../src/actions';
 import { friends } from '../../src/utils/examples';
 
@@ -10,7 +10,7 @@ describe('FRIEND_TEST', () => {
     const initialState = [];
     const newState = friendReduce(initialState, addFriend('pepe'));
 
-    expect(newState.length).to.eql([{id:'1', name:'pepe', groups:[]}].length);
+    expect(newState.length).to.eql([{id:'1', name:'pepe', groups:[], img:''}].length);
   });
 
   it('REMOVE_FRIENDS', () => {
@@ -20,24 +20,43 @@ describe('FRIEND_TEST', () => {
 
     expect(newState).to.eql(
       [
-      {
-        id: '0',
-        name: 'Loli',
-        groups: ['0', '1'], 
-        img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
-      },
-      {
-        id: '2',
-        name: 'Pepa',
-        groups: ['0', '1'],
-        img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg'
-      },
-      {
-        id: '3',
-        name: 'Juan',
-        groups: [],
-        img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
-      }]
+        {
+          id: '0',
+          name: 'Loli',
+          groups: ['0', '1'],
+          img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
+        },
+        {
+          id: '2',
+          name: 'Pepa',
+          groups: ['0', '1'],
+          img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg'
+        },
+        {
+          id: '3',
+          name: 'Juan',
+          groups: [],
+          img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
+        },
+        {
+          id: '4',
+          name: 'Raúl',
+          groups: [],
+          img: ''
+        },
+        {
+          id: '5',
+          name: 'Adrián',
+          groups: [],
+          img: ''
+        },
+        {
+          id: '6',
+          name: 'Alba',
+          groups: [],
+          img: ''
+        }
+      ]
     );
   });
 
@@ -50,7 +69,7 @@ describe('FRIEND_TEST', () => {
       {
         id: '0',
         name: 'Loli',
-        groups: ['0', '1'], 
+        groups: ['0', '1'],
         img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
       },
       {
@@ -70,8 +89,25 @@ describe('FRIEND_TEST', () => {
         name: 'Juan',
         groups: [],
         img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
+      },
+      {
+        id: '4',
+        name: 'Raúl',
+        groups: [],
+        img: ''
+      },
+      {
+        id: '5',
+        name: 'Adrián',
+        groups: [],
+        img: ''
+      },
+      {
+        id: '6',
+        name: 'Alba',
+        groups: [],
+        img: ''
       }
-
     ]);
   });
 });

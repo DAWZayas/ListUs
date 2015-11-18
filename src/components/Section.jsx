@@ -31,11 +31,11 @@ export default class Section extends Component {
     let customActions = [
       <FlatButton
         label="Cancel"
-        secondary={true}
+        secondary
         onClick={() => this.onClickClose()} />,
       <FlatButton
         label="Add"
-        primary={true}
+        primary
         onClick={() => this.onClickAdd()} />
     ];
     const {  lists, onEditList, onRemoveList } = this.props;

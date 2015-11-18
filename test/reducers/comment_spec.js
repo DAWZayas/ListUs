@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import commentReduce from '../../src/reducers/comment';
+import commentReduce from '../../src/reducers/comments';
 import {addComment, removeComments } from '../../src/actions';
 import { comments } from '../../src/utils/examples';
 

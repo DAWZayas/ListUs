@@ -3,27 +3,33 @@ import { getId } from './index';
 export const lists = [
   {
     id: getId(),
-    title: 'Real Madrid'
+    title: 'Real Madrid',
+    participants: []//id group or id friend
   },
   {
     id: getId(),
-    title: 'Barsa'
+    title: 'Barsa',
+    participants: []
   },
   {
     id: getId(),
-    title: 'Patetic'
+    title: 'Patetic',
+    participants: []
   },
   {
     id: getId(),
-    title: 'Valencia'
+    title: 'Valencia',
+    participants: []
   },
   {
     id: getId(),
-    title: 'Celta'
+    title: 'Celta',
+    participants: []
   },
   {
     id: getId(),
-    title: 'Betis'
+    title: 'Betis',
+    participants: []
   }
 ];
 
@@ -36,7 +42,7 @@ export const friends = [
   {
     id: '0',
     name: 'Loli',
-    groups: ['0', '1'], 
+    groups: ['0', '1'],
     img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
   },
   {
@@ -81,65 +87,73 @@ export const tasks = {
 	0: {
     id: '0',
 		idList: lists[1].id,
-		title: 'Messi'
+		title: 'Messi',
+    participants: []
 	},
   1: {
     id: '1',
-    idlists: lists[1].id,
-    title: 'Neymar'
+    idLists: lists[1].id,
+    title: 'Neymar',
+    participants: []
   },
   2: {
     id: '2',
     idList: lists[1].id,
-    title: 'Iniesta'
+    title: 'Iniesta',
+    participants: []
   },
   3: {
     id: '3',
     idList: lists[1].id,
-    title: 'Suarez'
+    title: 'Suarez',
+    participants: []
   },
   7: {
     id: '7',
     idList: lists[0].id,
-    title: 'James'
+    title: 'James',
+    participants: []
   },
   8: {
     id: '8',
     idList: lists[0].id,
-    title: 'Benzema'
+    title: 'Benzema',
+    participants: []
   },
   9: {
     id: '9',
     idList: lists[0].id,
-    title: 'Cristiano'
+    title: 'Cristiano',
+    participants: []
   },
   10: {
     id: '10',
     idList: lists[0].id,
-    title: 'Modric'
+    title: 'Modric',
+    participants: []
   }
 };
 
 export const groups = [
   {
     idGroup: '0',
-    name: 'ListUs', 
+    name: 'ListUs',
     friends: ['0', '1'],// pick up the friends id.
     showFriends: false,
     administrator: '2'
   },
 
   {
-    idGroup: '1', 
-    name: 'Empresas', 
+    idGroup: '1',
+    name: 'Empresas',
     friends: [],
     showFriends: false,
     administrator: '1'
   },
 
   {
-    idGroup: '2', 
-    name: 'Servidor', 
+    idGroup: '2',
+    name: 'Servidor',
     friends: ['2'],
     showFriends: false,
     administrator: '5'

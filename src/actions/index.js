@@ -6,6 +6,7 @@ export const ADD_TASK = 'ADD_TASK';
 export const SET_TASK = 'SET_TASK';
 export const REMOVE_TASK = 'REMOVE_TASK';
 export const EDIT_TASK = 'EDIT_TASK';
+export const ADD_FRIEND_OR_GROUP_TO_TASK = 'ADD_FRIEND_OR_GROUP_TO_TASK';
 
 /*
 * LIST
@@ -15,6 +16,7 @@ export const SET_LIST = 'SET_LIST';
 export const ADD_LIST = 'ADD_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const EDIT_LIST = 'EDIT_LIST';
+export const ADD_FRIEND_OR_GROUP_TO_LIST = 'ADD_FRIEND_OR_GROUP_TO_LIST';
 
 /*
 * DISPLAY ASIDE
@@ -79,7 +81,9 @@ export function removeTask(idTask){
 export function editTask( idTask, title ){
   return { type: EDIT_TASK, idTask, title };
 }
-
+export function addFriendGroupToTask(idTask, id){
+  return { type: ADD_FRIEND_OR_GROUP_TO_TASK, idTask, id};
+}
 /*
 * list action creator
 */
@@ -96,7 +100,9 @@ export function removeList(idList){
 export function editList( idList, title ){
   return { type: EDIT_LIST, idList, title };
 }
-
+export function addFriendGroupToList(idList, id){
+  return { type: ADD_FRIEND_OR_GROUP_TO_LIST, idList, id};
+}
 /*
 * visibility aside action creator
 */

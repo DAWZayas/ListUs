@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-
-import taskReducer from '../../src/reducers/task.js';
-import { addTask, removeTask, editTask } from '../../src/actions';
+import { tasks } from '../../src/utils/examples';
+import taskReducer from '../../src/reducers/tasks.js';
+import { addTask, removeTask, editTask, addFriendGroupToTask } from '../../src/actions';
 import { getId } from '../../src/utils';
 
 describe('reducer', () => {
@@ -70,6 +70,37 @@ describe('reducer', () => {
         });
     });
 
+    it('ADD_FRIEND_OR_GROUP_TO_TASK', () => {
 
+      const initialState = {
+        0: {
+        id: '0',
+        idList: 2,
+        title: 'Messi',
+        participants: []
+      },
+      1: {
+        id: '1',
+        idList: 2,
+        title: 'Neymar',
+        participants: []
+      }};
+      const nextState = taskReducer( initialState, addFriendGroupToTask('1', '5'));
+
+      expect(nextState).to.eql({
+      	0: {
+          id: '0',
+      		idList: 2,
+      		title: 'Messi',
+          participants: []
+      	},
+        1: {
+          id: '1',
+          idList: 2,
+          title: 'Neymar',
+          participants: ['5']
+        }
+      });
+    });
 
 });
