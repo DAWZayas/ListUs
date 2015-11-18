@@ -1,6 +1,4 @@
-import React from 'react';
 import { connect } from 'react-redux';
-
 import Friends from '../components/Friends';
 import { addFriend, removeFriend } from '../actions';
 

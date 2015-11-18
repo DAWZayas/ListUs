@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 
-
 export default class ItemTaskDetails extends Component {
 
   constructor(props){

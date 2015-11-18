@@ -19,7 +19,7 @@ export default class Header extends Component{
   }
 
   handleVisibility(){
-    this.refs.inputText.value="";
+    this.refs.inputText.value='';
     this.state.isVisible ? this.setState({ isVisible: false }) : this.setState({ isVisible: true });
     this.setState({newLists: []});
   }

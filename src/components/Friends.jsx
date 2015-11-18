@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-
 import { addFriend, removeFriend } from '../actions';
-
 import { Avatar, FloatingActionButton, Dialog, TextField } from 'material-ui';
 
-export default class Friends extends React.Component {
+
+export default class Friends extends Component {
 
 	constructor(props){
 		super(props);
@@ -36,7 +35,7 @@ export default class Friends extends React.Component {
   }
 
   setImg(friend){
-    return friend.img !== '' ? <Avatar className="avatarFriend" src={friend.img}/> : <Avatar className='avatarFriend avatarLetter'>{friend.name.substring(0,1).toUpperCase()}</Avatar>;
+    return friend.img !== '' ? <Avatar className="avatarFriend" src={friend.img}/> : <Avatar className="avatarFriend avatarLetter">{friend.name.substring(0, 1).toUpperCase()}</Avatar>;
   }
 
   addFriend(){
@@ -84,27 +83,24 @@ export default class Friends extends React.Component {
       let top = i+6;
       while(i < top){
         if(i < this.state.newList.length){
-          rowFriends = rowFriends.concat(<div className='col-xs-2 friendPhotoContainer'>
+          rowFriends = rowFriends.concat(<div className="col-xs-2 friendPhotoContainer">
             <span>{this.setImg(this.state.newList[i])}</span><br/>
-            <span className='friendName'>{this.state.newList[i].name}</span>
+            <span className="friendName">{this.state.newList[i].name}</span>
           </div>);
         }
         i++;
       }
-      friendsGeneral = friendsGeneral.concat(<div className='row friendRow'> {rowFriends}
+      friendsGeneral = friendsGeneral.concat(<div className="row friendRow"> {rowFriends}
       </div>);
     }
 
 
     return (
-
-
-
       <article className="article">
 
-        <div className='centerFriends'>
-          <Dialog ref='addFriendDialog' title='Add friend' actions={addFriend} >
-     				<TextField ref='addFriendInput' floatingLabelText="New friend" /> 
+        <div className="centerFriends">
+          <Dialog ref="addFriendDialog" title="Add friend" actions={addFriend} >
+     				<TextField ref="addFriendInput" floatingLabelText="New friend" /> 
   				</Dialog>
           
           <div className="friendsHeader">
@@ -117,9 +113,9 @@ export default class Friends extends React.Component {
               friendsGeneral
             }
           </div>
-         	<div className='row centered'>
+         	<div className="row centered">
   	       	<FloatingActionButton onClick={this.showDialog.bind(this)}>
-  	            <span className='glyphicon glyphicon-plus'></span>
+  	            <span className="glyphicon glyphicon-plus"></span>
   	        </FloatingActionButton>
   	      </div>
         </div>

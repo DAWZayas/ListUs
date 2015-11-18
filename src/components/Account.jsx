@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dialog, TextField, FloatingActionButton, DatePicker, DatePickerDialog, Toggle } from 'material-ui';
+import { Dialog, TextField, Toggle } from 'material-ui';
 
 
 export default class Account extends React.Component {

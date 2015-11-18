@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-import { AppBar, IconButton, FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
+import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
 import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter } from '../utils/functions';
 
 
-export default class Groups extends React.Component {
+export default class Groups extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -47,7 +47,8 @@ export default class Groups extends React.Component {
 							src={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['img']}
 							alt={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name']}
 							width='50'/>
-						:avatarLetter(this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name']);
+						:avatarLetter(this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name'], 
+							this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['id']);
 					}.bind(this))}
 				<FlatButton label=" +Friend" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', idGroup)}/>
 			</div>
@@ -146,7 +147,8 @@ export default class Groups extends React.Component {
 
 
 	/* Dialog matches*/
-	searchingMatch(e, ref){
+	/*****/
+	searchingMatch(e){//param ref deleted
 		e.preventDefault();
 		const words = (this.refs.groupNameInput)?this.refs.groupNameInput.getValue():this.refs.friendNameInput.getValue();
 		const array = (this.refs.groupNameInput)?this.props.groups :this.props.friends;
@@ -168,16 +170,15 @@ export default class Groups extends React.Component {
 	}
 
 	render(){
-		var injectTapEventPlugin = require("react-tap-event-plugin");
-		injectTapEventPlugin();
 		const AppBar = require('material-ui/lib/app-bar');
 		return (
 			<div>
  				<h3>GROUPS YOU BELONG</h3>
 				{(this.props.groups)?this.props.groups.map(function(group){
 						return (
-							<div>
-								<AppBar title={group['name']} 
+							<div key={group['idGroup']}>
+								<AppBar 
+										title={group['name']} 
 										className="listGroups"
 										iconElementRight={<div className="deleteEdit">
 											<a className="glyphicon glyphicon-remove-circle" onClick={e => this.handleClickRemoveGroup(e, group['idGroup'])} />
@@ -200,7 +201,7 @@ export default class Groups extends React.Component {
 
 				<Dialog className="addFriends" 
 						ref="dialogAddFriend"
-						title={(!this.state.admin)?"Add group friend":"Administration Transfering"} 
+						title={(!this.state.admin)?'Add group friend':'Administration Transfering'} 
 						actions={this.applyParamsToArray('dialogAddFriend')}
 					>
 
@@ -225,6 +226,7 @@ export default class Groups extends React.Component {
 											{this.state.search.map(function(friend){
 												return (
 													<ListItem
+														key={friend.id}
 														leftAvatar={(friend.img !== '')?<Avatar src={friend.img}/>: avatarLetter(friend.name)}
 														primaryText={friend.name}
 														style={{height: '49px', borderTop: 'solid 1px lightblue'}}
