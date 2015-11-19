@@ -62,6 +62,7 @@ export const CHANGE_GROUP_ADMIN = 'CHANGE_GROUP_ADMIN';
 * USER ACOUNT
 */
 
+export const SWITCH_USER = 'SWITCH_USER';
 export const CHANGE_USER_PHOTO = 'CHANGE_USER_PHOTO';
 export const CHANGE_USER_NAME = 'CHANGE_USER_NAME';
 export const CHANGE_USER_PASSWORD = 'CHANGE_USER_PASSWORD';
@@ -199,6 +200,12 @@ export function changeGroupAdmin(idFriend, idGroup){
 /*
 * User actions creator
 */
+
+export function switchUser(user){
+  return {
+    type: SWITCH_USER, user
+  };
+}
 
 export function changeUserPhoto(url){
   return {

@@ -1,4 +1,5 @@
 import { getId } from './index';
+import { serverUsers } from './serverUsers';
 
 export const lists = [
   {
@@ -43,43 +44,37 @@ export const friends = [
     id: '0',
     name: 'Loli',
     groups: ['0', '1'],
-    img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg',
-    visibility: false
+    img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
   },
   {
     id: '1',
     name: 'Pepe',
     groups: ['0'],
-    img: 'http://www.planwallpaper.com/static/images/3d-animal-backgrounds-17306-17862-hd-wallpapers_MkXEx9v.jpg',
-    visibility: false
+    img: 'http://www.planwallpaper.com/static/images/3d-animal-backgrounds-17306-17862-hd-wallpapers_MkXEx9v.jpg'
   },
   {
     id: '2',
     name: 'Pepa',
     groups: ['0', '1'],
-    img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg',
-    visibility: false
+    img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg'
   },
   {
     id: '3',
     name: 'Juan',
     groups: [],
-    img: 'http://pngimg.com/upload/motorcycle_PNG5346.png',
-    visibility: false
+    img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
   },
   {
     id: '4',
     name: 'Raúl',
     groups: [],
-    img: '',
-    visibility: false
+    img: ''
   },
   {
     id: '5',
     name: 'Adrián',
     groups: [],
-    img: '',
-    visibility: false
+    img: ''
   },
 
 ];
@@ -162,14 +157,28 @@ export const groups = [
 
 ];
 
-export const user = {
-  idUser: '5',
+/*export const user = {
+  idUser: '10',
   name: 'Troya',
   password: 'troya',
   img: 'http://www.planwallpaper.com/static/images/Conflict-HD-Wallpaper_Sf0xtpv.jpg',
   visibility: true
+};*/
+
+export const user = {
+  idUser: '',
+  name: '',
+  password: '',
+  img: '',
+  friends: [],
+  groups: [],
+  visibility: false
 };
+
+export const allUsers = serverUsers;
 
 export const calendar = {display: true};
 
-export const initialState =  { lists, tasks, comments, friends, groups, user };
+export const initialState = { allUsers, user };
+
+//export const initialState =  { lists, tasks, comments, friends, groups, user, allUsers };

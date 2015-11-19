@@ -118,7 +118,7 @@ export default class Friends extends Component {
   	            <span className="glyphicon glyphicon-plus"></span>
   	        </FloatingActionButton>*/}
            <a onClick={this.showDialog.bind(this)} style={{cursor: 'pointer'}} >
-            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width='30' height='30'/>
+            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width="30" height="30"/>
            </a>
 
   	      </div>
