@@ -1,5 +1,9 @@
-import { ADD_FRIEND, REMOVE_FRIEND, ADD_FRIEND_GROUP } from '../actions';
+import { SET_FRIENDS, ADD_FRIEND, REMOVE_FRIEND, ADD_FRIEND_GROUP } from '../actions';
 import {getId} from '../utils';
+
+function setFriends(state, friends){
+  return friends.slice();
+}
 
 function addFriend(state, name){
   const id = getId();
@@ -18,6 +22,8 @@ function addFriendGroup(state, idGroup, idFriend){
 
 export default function friendReduce(state = [], action){
   switch (action.type) {
+    case SET_FRIENDS:
+      return setFriends(state, action.friends);
     case ADD_FRIEND:
       return addFriend(state, action.name);
     case REMOVE_FRIEND:

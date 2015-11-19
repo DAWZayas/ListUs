@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { switchUser } from '../actions';
+import { switchUser, setFriends, setGroups } from '../actions';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import { TextField, RaisedButton } from 'material-ui';
 import Logo from '../components/Logo';
-import { arrayPositionByObjectKey } from '../utils/functions';
+import { arrayPositionByObjectKey, getFriends, getGroups } from '../utils/functions';
 
 
 export default class Enter extends Component {
@@ -18,10 +18,13 @@ export default class Enter extends Component {
   }
 
   handleClickLogIn(){
-    const pos = arrayPositionByObjectKey('name', this.refs.userLogIn.getValue(), this.props.allUsers);
+    const { dataBase } = this.props;
+    const pos = arrayPositionByObjectKey('name', this.refs.userLogIn.getValue(), dataBase.serverUsers);
     if( pos !== -1 ){
-      if(this.props.allUsers[pos].password === this.refs.passwordLogIn.getValue()){
-        this.props.onSwitchUser(this.props.allUsers[pos]);
+      if(dataBase.serverUsers[pos].password === this.refs.passwordLogIn.getValue()){
+        this.props.onSwitchUser(dataBase.serverUsers[pos]);
+        this.props.onSetFriends(getFriends(dataBase.serverUsers[pos].friends, dataBase.serverUsers));
+        this.props.onSetGroups(getGroups(dataBase.serverUsers[pos].groups, dataBase.serverGroups));
       }
       else this.setState({error: 'User or password incorrect'});
     }
@@ -30,21 +33,28 @@ export default class Enter extends Component {
   render() {
     return (
     	<div className="enter">
-    		<div className="enterHeader" width="100%" height="60" style={{}}></div>
-    		<Logo />
-    		<div className="login">
-	    		<TextField 
-	    			ref = "userLogIn"
-					hintText="User"
-					underlineStyle={{borderColor:'blue'}}/>
-				<TextField 
-	    			ref = "passwordLogIn"
-					hintText="Password"
-					underlineStyle={{borderColor:'blue'}}/>
-				<RaisedButton label="LOG IN" secondary  onTouchTap={()=>this.handleClickLogIn()}/>
-			</div><br/>
-			<div><a style={{cursor: 'pointer'}}>Register</a></div>
-
+        <div className="enterPrincipal">
+      		<div className="enterHeader"></div>
+          <br/>
+      		<Logo />
+      		<div className="login">
+  	    		<TextField 
+  	    			ref = "userLogIn"
+    					hintText="User"
+    					underlineStyle={{borderColor:'blue',  width: '236'}}
+              style={{backgroundColor: 'lightgrey', marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}
+              />
+    				<TextField 
+    	    		ref = "passwordLogIn"
+    					hintText="Password"
+    					underlineStyle={{borderColor:'blue', width: '236'}}
+              type="password"
+              style={{backgroundColor: 'lightblue', marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}/>
+    				<RaisedButton label="LOG IN" secondary  onTouchTap={()=>this.handleClickLogIn()} style={{}}/>
+    			</div><br/>
+    			<div><a style={{cursor: 'pointer'}}>Register</a></div>
+        </div>
+        <div className="enterHeader enterFooter" height="80px"></div>
     	</div>
     );
   }
@@ -58,14 +68,15 @@ Enter.propTypes = {
 
 function mapStateToProps(state) {
   return {
-     allUsers: state.allUsers
+     dataBase: state.dataBase
   };
 }
 
 function mapActionsToProps(dispatch) {
   return {
-    onSwitchUser: user => dispatch(switchUser(user))
-     
+    onSwitchUser: user => dispatch(switchUser(user)),
+    onSetFriends: friends => dispatch(setFriends(friends)),
+    onSetGroups: groups => dispatch(setGroups(groups)),
   };
 }
 

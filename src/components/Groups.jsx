@@ -174,7 +174,7 @@ export default class Groups extends Component {
 		const AppBar = require('material-ui/lib/app-bar');
 		return (
 			<section>
- 				<h3>GROUPS YOU BELONG</h3>
+ 				<h3>GROUPS</h3>
 				{(this.props.groups)?this.props.groups.map(function(group){
 						return (
 							<div key={group['idGroup']}>
@@ -247,7 +247,7 @@ export default class Groups extends Component {
 
 							</div>
 						</div>
-						<p className="error">{this.state.error}</p>
+						<p className="error" style={{color: 'red'}}>{this.state.error}</p>
 					</div>
 				</Dialog>
 
@@ -259,7 +259,7 @@ export default class Groups extends Component {
 						underlineStyle={{borderColor:'blue'}}
 						autoFocus
 						/>
-					<p className="error">{this.state.error}</p>
+					<p className="error" style={{color: 'red'}}>{this.state.error}</p>
 				</Dialog>
 
 

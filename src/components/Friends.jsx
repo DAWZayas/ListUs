@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { addFriend, removeFriend } from '../actions';
-import { Avatar, FloatingActionButton, Dialog, TextField } from 'material-ui';
+import { Avatar, Dialog, TextField } from 'material-ui';
 
 
 export default class Friends extends Component {
@@ -69,7 +69,6 @@ export default class Friends extends Component {
   }
 
   render() {
-
     const addFriend = [
   		{ text: 'Cancel', onClick: this.hideDialog.bind(this) },
  		  { text: 'Submit', onClick: this.addFriend.bind(this), ref: 'submit' }

@@ -41,6 +41,7 @@ export const REMOVE_COMMENTS = 'REMOVE_COMMENTS';
 * FRIENDS
 */
 
+export const SET_FRIENDS = 'SET_FRIENDS';
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const REMOVE_FRIEND = 'REMOVE_FRIEND';
 export const ADD_FRIEND_GROUP = 'ADD_FRIEND_GROUP';
@@ -138,6 +139,12 @@ export function removeComments(idList){
 /*
 * friends actions creator
 */
+
+export function setFriends(friends){
+  return {
+    type: SET_FRIENDS, friends
+  };
+}
 
 export function addFriend(name){
   return { type: ADD_FRIEND, name};

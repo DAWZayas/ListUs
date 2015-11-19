@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import HeaderContainer from './HeaderContainer';
 import Enter from '../components/Enter';
 import { switchUser } from '../actions';
+import { objIsEmpty } from '../utils/functions';
 
 
 export default class App extends Component {
@@ -12,7 +13,7 @@ export default class App extends Component {
   }
 
   render() {
-    return (this.props.user.idUser !== '')
+    return (!objIsEmpty(this.props.user))
       ?(
         <div>
           <div className="row">

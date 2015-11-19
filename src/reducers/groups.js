@@ -5,7 +5,6 @@ import { getId } from '../utils';
 
 function setGroups(state, groups){
 	return groups.slice();
-	
 }
 
 function addGroup(state, name, idUser){
@@ -30,10 +29,6 @@ const removeGroup = (state, idGroup) => state.slice().filter(group => group['idG
 
 
 function showGroupFriends(state, idGroup){
-	/*var newState = state.slice();
-	var showFriends = newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['showFriends'];
-	newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['showFriends'] = (showFriends === true)?false :true;
-	return newState;*/
 	return state.map(group => (group.idGroup === idGroup) 
 				?(group.showFriends)
 					? Object.assign({}, group, {'showFriends': false})
@@ -50,8 +45,6 @@ function addGroupFriend(state, idFriend, idGroup){
 }
 
 function changeGroupAdmin(state, idFriend, idGroup){
-	/*var newState = state.slice();
-	newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['administrator'] = idFriend;*/
 	return state.map( group => (group.idGroup === idGroup)? Object.assign({}, group, {'administrator': idFriend}): Object.assign({}, group));
 }
 
