@@ -2,13 +2,54 @@ import React from 'react';
 import { LeftNav, MenuItem, Paper, Dialog, TextField } from 'material-ui';
 
 import { connect } from 'react-redux';
+import { RouteHandler } from 'react-router';
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
 
-class Nav extends React.Component {
+const menuItems = [
+			{
+				route: '/account',
+				text: 'ListUs'
+			},
 
-	constructor(props) {
+		  {
+		  	type: MenuItem.Types.SUBHEADER,
+		  	text: 'Groups'
+		  },
+		  {
+		     route: '/groups',
+		     text: 'Manage groups'
+		  },
+		  {
+		  	type: MenuItem.Types.SUBHEADER,
+		  	text: 'Manage friends'
+		  },
+		  {
+		     route: '/friends',
+		     text: 'Friends'
+		  },
+		  {
+		  	type: MenuItem.Types.SUBHEADER,
+		  	text: 'Lists'
+		  },
+		  {
+		     route: '/list',
+		     text: 'My lists'
+		  },
+		  {
+		  	type: MenuItem.Types.SUBHEADER,
+		  	text: 'Calendars'
+		  },
+		  {
+		     route: '/calendar',
+		     text: 'My calendar'
+		  }
+		];
+
+export default class Nav extends React.Component {
+
+	constructor(props, context) {
     super(props);
   }
 
@@ -20,73 +61,33 @@ class Nav extends React.Component {
   	this.refs.leftNav.toggle();
   }
 
+  _onLeftNavChange(e, key, payload) {
+    // Do DOM Diff refresh
+    let path = payload.route;
+    this.context.history.pushState(null, path);
+  }
+
 	render() {
 
-		const menuItems = [
-			{
-				type: MenuItem.Types.LINK,
-				payload: '/account',
-				text: 'ListUs'
-			},
-
-		  {
-		  	type: MenuItem.Types.SUBHEADER,
-		  	text: 'Groups'
-		  },
-		  {
-		     type: MenuItem.Types.LINK,
-		     payload: '/groups',
-		     text: 'Manage groups'
-		  },
-		  {
-		  	type: MenuItem.Types.SUBHEADER,
-		  	text: 'Manage friends'
-		  },
-		  {
-		     type: MenuItem.Types.LINK,
-		     payload: '/friends',
-		     text: 'Friends'
-		  },
-		  {
-		  	type: MenuItem.Types.SUBHEADER,
-		  	text: 'Lists'
-		  },
-		  {
-		     type: MenuItem.Types.LINK,
-		     payload: '/list',
-		     text: 'My lists'
-		  },
-		  {
-		  	type: MenuItem.Types.SUBHEADER,
-		  	text: 'Calendars'
-		  },
-		  {
-		     type: MenuItem.Types.LINK,
-		     payload: '/calendar',
-		     text: 'My calendar'
-		  }
-		];
-
 		return (
-			<nav className='leftNav'>
-				<button onClick={this.showNav.bind(this)} className='btn btn-info'><span ref='span' className='biggerGlyphicon glyphicon glyphicon-menu-hamburger'></span></button>
-				<LeftNav ref="leftNav" docked={false} menuItems={menuItems}/>
-			</nav>
+			<div>
+				<nav className='leftNav'>
+					<button onClick={this.showNav.bind(this)} className='btn btn-info'><span ref='span' className='biggerGlyphicon glyphicon glyphicon-menu-hamburger'></span></button>
+					<LeftNav 
+					ref="leftNav" 
+					docked={false} 
+					menuItems={menuItems}
+	        onChange={this._onLeftNavChange.bind(this)} />
+				</nav>
+
+				
+			
+			</div>
 		);
 	}
 }
 
-function mapStateToProps(state) {
-  return {
-  };
-}
-
-function mapActionsToProps(dispatch) {
-  return {
-  };
-}
-
-export default connect(
-	mapActionsToProps,
-	mapStateToProps
-)(Nav);
+Nav.contextTypes = {
+  location: React.PropTypes.object.isRequired,
+  history: React.PropTypes.object
+};
