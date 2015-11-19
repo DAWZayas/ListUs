@@ -199,8 +199,12 @@ ul{
 .navMarginTop {
   padding: 50px !important;
 }
-
-
+.vertical-align{
+  vertical-align: 'middle';
+}
+.li-a{
+  height: 4em;
+}
 /*.changeTask {
   margin-left: 35px;
 }*/
@@ -404,7 +408,7 @@ ul{
 }
 
 .tools{
-  
+
   color:black;
   font-family:Helvetica;
 }

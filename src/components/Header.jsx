@@ -49,7 +49,7 @@ export default class Header extends Component{
               <div className="search-ul">
                 <ul className={`${this.state.isVisible ? '' : 'hidden' }`}>
                   {
-                    this.state.newLists.map( (list, index) => index<5 ? <ItemList key={index} list={list} /> : null  )
+                    this.state.newLists.map( (list, index) => index<4 ? <ItemList key={index} list={list} /> : null  )
                   }
                 </ul>
               </div>
