@@ -41,6 +41,7 @@ export const REMOVE_COMMENTS = 'REMOVE_COMMENTS';
 * FRIENDS
 */
 
+export const SET_FRIENDS = 'SET_FRIENDS';
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const REMOVE_FRIEND = 'REMOVE_FRIEND';
 export const ADD_FRIEND_GROUP = 'ADD_FRIEND_GROUP';
@@ -62,6 +63,7 @@ export const CHANGE_GROUP_ADMIN = 'CHANGE_GROUP_ADMIN';
 * USER ACOUNT
 */
 
+export const SWITCH_USER = 'SWITCH_USER';
 export const CHANGE_USER_PHOTO = 'CHANGE_USER_PHOTO';
 export const CHANGE_USER_NAME = 'CHANGE_USER_NAME';
 export const CHANGE_USER_PASSWORD = 'CHANGE_USER_PASSWORD';
@@ -138,6 +140,12 @@ export function removeComments(idList){
 * friends actions creator
 */
 
+export function setFriends(friends){
+  return {
+    type: SET_FRIENDS, friends
+  };
+}
+
 export function addFriend(name){
   return { type: ADD_FRIEND, name};
 }
@@ -199,6 +207,12 @@ export function changeGroupAdmin(idFriend, idGroup){
 /*
 * User actions creator
 */
+
+export function switchUser(user){
+  return {
+    type: SWITCH_USER, user
+  };
+}
 
 export function changeUserPhoto(url){
   return {

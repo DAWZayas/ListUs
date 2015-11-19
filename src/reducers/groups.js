@@ -29,12 +29,17 @@ function editGroup(state, id, name){
 const removeGroup = (state, id) => state.slice().filter(group => group['id'] !== id);
 
 
-function showGroupFriends(state, id){
-	/*var newState = state.slice();
+
+/*function showGroupFriends(state, id){
+	var newState = state.slice();
 	var showFriends = newState[arrayPositionByObjectKey('id', id, newState)]['showFriends'];
 	newState[arrayPositionByObjectKey('id', id, newState)]['showFriends'] = (showFriends === true)?false :true;
-	return newState;*/
-	return state.map(group => (group.id === id)
+	return newState;
+	return state.map(group => (group.id === id)*/
+
+function showGroupFriends(state, idGroup){
+	return state.map(group => (group.id === idGroup)
+
 				?(group.showFriends)
 					? Object.assign({}, group, {'showFriends': false})
 					: Object.assign({}, group, {'showFriends': true})
@@ -50,9 +55,11 @@ function addGroupFriend(state, idFriend, id){
 }
 
 function changeGroupAdmin(state, idFriend, idGroup){
+
 	/*var newState = state.slice();
 	newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['administrator'] = idFriend;*/
 	return state.map( group => (group.id === idGroup)? Object.assign({}, group, {'administrator': idFriend}): Object.assign({}, group));
+
 }
 
 export default function groupsReducer(state = [], action){

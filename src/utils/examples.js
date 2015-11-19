@@ -1,4 +1,6 @@
 import { getId } from './index';
+import { serverUsers, serverGroups, serverLists, serverTasks, serverComments } from './dataBase';
+
 
 export const lists = [
   {
@@ -157,13 +159,36 @@ export const groups = [
 ];
 
 export const user = {
-  idUser: '5',
+  idUser: '10',
   name: 'Troya',
   password: 'troya',
   img: 'http://www.planwallpaper.com/static/images/Conflict-HD-Wallpaper_Sf0xtpv.jpg',
   visibility: true
 };
 
+//export const user = {};
+
 export const calendar = {display: true};
+
+/*
+export const lists = [];
+export const comments = {};
+export const tasks = {};
+export const friends = [];
+export const groups = [];
+export const user = {};
+
+export const dataBase = {
+  serverUsers: serverUsers,
+  serverGroups: serverGroups,
+  serverLists: serverLists,
+  serverTasks: serverTasks,
+  serverComments: serverComments
+
+};
+
+
+
+//export const initialState = { lists, tasks, comments, friends, groups, user, dataBase };*/
 
 export const initialState =  { lists, tasks, comments, friends, groups, user };

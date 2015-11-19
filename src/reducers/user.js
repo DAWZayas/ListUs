@@ -1,4 +1,8 @@
-import { CHANGE_USER_PHOTO, CHANGE_USER_NAME, CHANGE_USER_PASSWORD, CHANGE_USER_VISIBILITY } from '../actions';
+import { SWITCH_USER, CHANGE_USER_PHOTO, CHANGE_USER_NAME, CHANGE_USER_PASSWORD, CHANGE_USER_VISIBILITY } from '../actions';
+
+function switchUser(state, user){
+	return Object.assign({}, user);
+}
 
 function changeUserPhoto(state, url){
 	return Object.assign({}, state, {'img': url});
@@ -19,6 +23,8 @@ function changeUserVisibility(state, visibility){
 
 export default function userReducer(state = {}, action){
 	switch(action.type){
+		case SWITCH_USER:
+			return switchUser(state, action.user);
 		case CHANGE_USER_PHOTO:
 			return changeUserPhoto(state, action.url);
 		case CHANGE_USER_NAME:
