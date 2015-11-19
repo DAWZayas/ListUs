@@ -16,46 +16,41 @@ describe('FRIEND_TEST', () => {
   it('REMOVE_FRIENDS', () => {
 
     const initialState = friends;
-    const newState = friendReduce(initialState, removeFriend('1'));
+    const newState = friendReduce(initialState, removeFriend('11'));
 
     expect(newState).to.eql(
       [
         {
-          id: '0',
+          id: '00',
           name: 'Loli',
           groups: ['0', '1'],
           img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
         },
         {
-          id: '2',
+          id: '22',
           name: 'Pepa',
           groups: ['0', '1'],
           img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg'
         },
         {
-          id: '3',
+          id: '33',
           name: 'Juan',
           groups: [],
           img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
         },
         {
-          id: '4',
+          id: '44',
           name: 'Raúl',
           groups: [],
           img: ''
         },
         {
-          id: '5',
+          id: '55',
           name: 'Adrián',
           groups: [],
           img: ''
         },
-        {
-          id: '6',
-          name: 'Alba',
-          groups: [],
-          img: ''
-        }
+
       ]
     );
   });
@@ -63,51 +58,46 @@ describe('FRIEND_TEST', () => {
   it('ADD_FRIEND_TO_GROUP', () => {
 
     const initialState = friends;
-    const newState = friendReduce(initialState, addFriendGroup('2', '2'));
+    const newState = friendReduce(initialState, addFriendGroup('2', '22'));
 
     expect(newState).to.eql( [
       {
-        id: '0',
+        id: '00',
         name: 'Loli',
         groups: ['0', '1'],
         img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg'
       },
       {
-        id: '1',
+        id: '11',
         name: 'Pepe',
         groups: ['0'],
         img: 'http://www.planwallpaper.com/static/images/3d-animal-backgrounds-17306-17862-hd-wallpapers_MkXEx9v.jpg'
       },
       {
-        id: '2',
+        id: '22',
         name: 'Pepa',
         groups: ['0', '1', '2'],
         img: 'http://www.planwallpaper.com/static/images/3d-games-wallpapers-3d-picture-3d-wallpaper_oWEbyQ7.jpg'
       },
       {
-        id: '3',
+        id: '33',
         name: 'Juan',
         groups: [],
         img: 'http://pngimg.com/upload/motorcycle_PNG5346.png'
       },
       {
-        id: '4',
+        id: '44',
         name: 'Raúl',
         groups: [],
         img: ''
       },
       {
-        id: '5',
+        id: '55',
         name: 'Adrián',
         groups: [],
         img: ''
       },
-      {
-        id: '6',
-        name: 'Alba',
-        groups: [],
-        img: ''
-      }
+
     ]);
   });
 });

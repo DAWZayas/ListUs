@@ -191,6 +191,13 @@ ul{
   font-size: 2em;
   text-align: center;
 }
+/*
+*  TASKTITLE
+*/
+
+.togglePopover{
+  width: 100px;
+}
 
 /*
   TASKS

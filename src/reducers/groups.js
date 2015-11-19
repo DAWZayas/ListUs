@@ -5,15 +5,15 @@ import { getId } from '../utils';
 
 function setGroups(state, groups){
 	return groups.slice();
-	
+
 }
 
 function addGroup(state, name, idUser){
 	var newState = state.slice();
 	return newState.concat(
 		{
-			idGroup: getId(),
-			name, 
+			id: getId(),
+			name,
    			friends: [],
    			showFriends: false,
    			administrator: idUser
@@ -21,20 +21,20 @@ function addGroup(state, name, idUser){
 	);
 }
 
-function editGroup(state, idGroup, name){
+function editGroup(state, id, name){
 	//espachurra
-	return state.map( group => group.idGroup===idGroup ? Object.assign( {}, group, {name}) : group );
+	return state.map( group => group.id===id ? Object.assign( {}, group, {name}) : group );
 }
 
-const removeGroup = (state, idGroup) => state.slice().filter(group => group['idGroup'] !== idGroup);
+const removeGroup = (state, id) => state.slice().filter(group => group['id'] !== id);
 
 
-function showGroupFriends(state, idGroup){
+function showGroupFriends(state, id){
 	/*var newState = state.slice();
-	var showFriends = newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['showFriends'];
-	newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['showFriends'] = (showFriends === true)?false :true;
+	var showFriends = newState[arrayPositionByObjectKey('id', id, newState)]['showFriends'];
+	newState[arrayPositionByObjectKey('id', id, newState)]['showFriends'] = (showFriends === true)?false :true;
 	return newState;*/
-	return state.map(group => (group.idGroup === idGroup) 
+	return state.map(group => (group.id === id)
 				?(group.showFriends)
 					? Object.assign({}, group, {'showFriends': false})
 					: Object.assign({}, group, {'showFriends': true})
@@ -42,17 +42,17 @@ function showGroupFriends(state, idGroup){
 	);
 }
 
-function addGroupFriend(state, idFriend, idGroup){
+function addGroupFriend(state, idFriend, id){
 	var newState = state.slice();
-	var friends = newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['friends'];
-	if(friends.indexOf(idFriend) === -1) newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['friends'].push(idFriend);
+	var friends = newState[arrayPositionByObjectKey('id', id, newState)]['friends'];
+	if(friends.indexOf(idFriend) === -1) newState[arrayPositionByObjectKey('id', id, newState)]['friends'].push(idFriend);
 	return newState;
 }
 
 function changeGroupAdmin(state, idFriend, idGroup){
 	/*var newState = state.slice();
 	newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['administrator'] = idFriend;*/
-	return state.map( group => (group.idGroup === idGroup)? Object.assign({}, group, {'administrator': idFriend}): Object.assign({}, group));
+	return state.map( group => (group.id === idGroup)? Object.assign({}, group, {'administrator': idFriend}): Object.assign({}, group));
 }
 
 export default function groupsReducer(state = [], action){
