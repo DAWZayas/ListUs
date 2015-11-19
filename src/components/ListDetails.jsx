@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ItemTaskDetails from './ItemTaskDetails';
-import List from './List';
+import TaskTitle from './TaskTitle';
 import { Dialog, TextField, FlatButton } from 'material-ui';
 
 export default class ListDetails extends Component {
@@ -43,7 +43,7 @@ render() {
       primary
       onClick={() => this.onClickAdd()} />
   ];
-  const { list, onRemoveList, onEditList, tasks, onRemoveTask, onEditTask } = this.props;
+  const { list, onRemoveList, onEditList, tasks, onRemoveTask, onEditTask, friends, groups, onAddFriendGroupToList } = this.props;
 
   return(
     <div className="row section">
@@ -54,7 +54,7 @@ render() {
       </div>
       <div className="col-md-10">
         <ul className="list-group listTitle">
-          <List list={list} onRemoveList={onRemoveList} onEditList={onEditList} />
+          <TaskTitle list={list} onRemoveList={onRemoveList} onEditList={onEditList} friends={friends} groups={groups} onAddFriendGroupToList={onAddFriendGroupToList} />
         </ul>
       </div>
       <div className="article col-md-12">
