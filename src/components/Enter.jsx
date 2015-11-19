@@ -18,7 +18,7 @@ export default class Enter extends Component {
   }
 
   handleClickLogIn(){
-    const { dataBase } = this.props;
+    /*const { dataBase } = this.props;
     const pos = arrayPositionByObjectKey('name', this.refs.userLogIn.getValue(), dataBase.serverUsers);
     if( pos !== -1 ){
       if(dataBase.serverUsers[pos].password === this.refs.passwordLogIn.getValue()){
@@ -27,7 +27,7 @@ export default class Enter extends Component {
         this.props.onSetGroups(getGroups(dataBase.serverUsers[pos].groups, dataBase.serverGroups));
       }
       else this.setState({error: 'User or password incorrect'});
-    }
+    }*/
   }
 
   render() {
