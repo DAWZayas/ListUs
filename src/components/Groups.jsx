@@ -11,7 +11,7 @@ export default class Groups extends Component {
 		this.state = {
 			refToEdit: '',
 			error: '',
-			idGroup: '',
+			id: '',
 			admin: false,
 			search: [],
 			listToShow: 0
@@ -22,22 +22,22 @@ export default class Groups extends Component {
 
 	handleClickDismissDialog(e, ref){
 		e.preventDefault();
-		this.setState({idGroup: '', search: []});
+		this.setState({id: '', search: []});
 		//this.refs.friendNameInput.value = '';
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.dismiss():this.refs.dialogAddFriend.dismiss();
 	}
 
-	handleClickShowDialog(e, ref, idGroup){
+	handleClickShowDialog(e, ref, id){
 		e.preventDefault();
 		if(arguments[3]) this.setState({admin: true});
-		this.setState({idGroup, search: []});
+		this.setState({id, search: []});
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.show():this.refs.dialogAddFriend.show();
 
 	}
 
 	/* Group friends */
-	groupFriends(friends, idGroup){
-		const refer =  'fr'+idGroup;
+	groupFriends(friends, id){
+		const refer =  'fr'+id;
 		return (
 			<div ref={refer} className="group-friends" >
 				<img src={'https://upload.wikimedia.org/wikipedia/commons/3/38/UtR_arrow.svg'} width='30' />
@@ -48,17 +48,17 @@ export default class Groups extends Component {
 							src={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['img']}
 							alt={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name']}
 							width='50'/>
-						:avatarLetter(this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name'], 
+						:avatarLetter(this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name'],
 							this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['id']);
 					}.bind(this))}
-				<FlatButton label=" +Friend" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', idGroup)}/>
+				<FlatButton label=" +Friend" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', id)}/>
 			</div>
 		);
 	}
 
-	handleClickShowGroupFriends(e, idGroup){
+	handleClickShowGroupFriends(e, id){
 		e.preventDefault();
-		this.props.onshowGroupFriends(idGroup);
+		this.props.onshowGroupFriends(id);
 	}
 
 	/* Add group or friend*/
@@ -97,23 +97,23 @@ export default class Groups extends Component {
 		if(pos === -1) this.setState({error: 'None of your friends matches whith that name'});
 		else{
 			const idFriend = this.props.friends[pos]['id'];
-			if(this.state.admin === false) this.props.onAddGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.idGroup);
-			else this.props.onChangeGroupAdmin(idFriend, this.state.idGroup);
+			if(this.state.admin === false) this.props.onAddGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.id);
+			else this.props.onChangeGroupAdmin(idFriend, this.state.id);
 			this.setState({error: ''});
 			this.handleClickDismissDialog(e, 'dialogAddFriend');
 		}
 	}
 
 	/* Remove group */
-	handleClickRemoveGroup(e, idGroup){
+	handleClickRemoveGroup(e, id){
 		e.preventDefault();
-		this.props.onRemoveGroup(idGroup);
+		this.props.onRemoveGroup(id);
 	}
 
 	/* Editting groups*/
-	handleClickSetRefToEdit(e, idGroup){
+	handleClickSetRefToEdit(e, id){
 		e.preventDefault();
-		this.setState({refToEdit: idGroup});
+		this.setState({refToEdit: id});
 	}
 
 	handleClickEditGroup(e, ref, value){
@@ -123,7 +123,7 @@ export default class Groups extends Component {
 	}
 
 	editGroup(ref){
-		const pos = arrayPositionByObjectKey('idGroup', ref, this.props.groups);
+		const pos = arrayPositionByObjectKey('id', ref, this.props.groups);
 		return (<div>
 					<TextField
 						ref = "groupEdit"
@@ -141,9 +141,9 @@ export default class Groups extends Component {
 	}
 
 	/* Admin tranfer */
-	handleChangeGroupAdmin(e, idGroup){
+	handleChangeGroupAdmin(e, id){
 		e.preventDefault();
-		this.onChangeGroupAdmin(this.refs.changeAdmin.value, idGroup);
+		this.onChangeGroupAdmin(this.refs.changeAdmin.value, id);
 	}
 
 
@@ -177,20 +177,20 @@ export default class Groups extends Component {
  				<h3>GROUPS</h3>
 				{(this.props.groups)?this.props.groups.map(function(group){
 						return (
-							<div key={group['idGroup']}>
-								<AppBar 
-										title={group['name']} 
+							<div key={group['id']}>
+								<AppBar
+										title={group['name']}
 										className="listGroups"
 										iconElementRight={<div className="deleteEdit">
-											<a className="glyphicon glyphicon-remove-circle" onClick={e => this.handleClickRemoveGroup(e, group['idGroup'])} />
-											<a className="glyphicon glyphicon-edit" onClick={e => this.handleClickSetRefToEdit(e, group['idGroup'])}/><br/>
-											<a className="glyphicon glyphicon-transfer" onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', group['idGroup'], true)}/>
+											<a className="glyphicon glyphicon-remove-circle" onClick={e => this.handleClickRemoveGroup(e, group['id'])} />
+											<a className="glyphicon glyphicon-edit" onClick={e => this.handleClickSetRefToEdit(e, group['id'])}/><br/>
+											<a className="glyphicon glyphicon-transfer" onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', group['id'], true)}/>
 										</div>
 										}
-										onLeftIconButtonTouchTap={e => this.handleClickShowGroupFriends(e, group['idGroup'])}
+										onLeftIconButtonTouchTap={e => this.handleClickShowGroupFriends(e, group['id'])}
 
 								/>
-		 						{(group['showFriends']===true)?this.groupFriends(group['friends'], group['idGroup']):''}
+		 						{(group['showFriends']===true)?this.groupFriends(group['friends'], group['id']):''}
 	 						</div>
 	 					);
 					}.bind(this)
@@ -209,9 +209,9 @@ export default class Groups extends Component {
 			        : ''
 		    	}
 
-				<Dialog className="addFriends" 
+				<Dialog className="addFriends"
 						ref="dialogAddFriend"
-						title={(!this.state.admin)?'Add group friend':'Administration Transfering'} 
+						title={(!this.state.admin)?'Add group friend':'Administration Transfering'}
 						actions={this.applyParamsToArray('dialogAddFriend')}
 					>
 

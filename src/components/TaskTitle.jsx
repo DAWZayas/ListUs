@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 //import ItemList from './ItemList';
 import { Link } from 'react-router';
-import { Popover, TextField } from 'material-ui';
+import { Popover, TextField, Toggle } from 'material-ui';
 
 export default class TaskTitle extends Component {
 
@@ -10,9 +10,11 @@ export default class TaskTitle extends Component {
     this.state = {
       isModifyList: false,
       activePopover: '',
-      anchorEl: '',
+      anchorEl: {},
       targetOrigin: {'horizontal':'left', 'vertical':'center'},
-      anchorOrigin: {'horizontal':'left', 'vertical':'bottom'}
+      anchorOrigin: {'horizontal':'right', 'vertical':'center'},
+      ListOfFriendsAndGroups: [],
+      newParticipant: {}
     };
   }
 
@@ -40,19 +42,73 @@ export default class TaskTitle extends Component {
     onRemoveList(list.id);
   }
 
-  handleOnClickAddParticipants(e){
-    e.stopPropagation();
+  isInTheArray(idParticipants, list){
 
+    const leng = list.participants.filter(participant => participant.id!==idParticipants).length;
+    return list.participants.length!==leng;
+  }
+
+
+  handleOnChangeTextField(e){
+
+    const { list, friends, groups } = this.props;
+    const textToSearch = this.refs.textField.getValue().toLowerCase();
+    if(textToSearch!==''){
+      const friendToggle = this.refs.friend;
+      const groupToggle = this.refs.group;
+      const arrayFriends = friends.filter( friend => !this.isInTheArray(friend.id, list ) );
+      const arrayGroups = groups.filter( group => !this.isInTheArray(group.id, list ) );
+      let newListOfFriendsAndGroups = [];
+      newListOfFriendsAndGroups = friendToggle.isToggled() ? newListOfFriendsAndGroups.concat(arrayFriends) : newListOfFriendsAndGroups;
+      newListOfFriendsAndGroups = groupToggle.isToggled() ? newListOfFriendsAndGroups.concat(arrayGroups) : newListOfFriendsAndGroups;
+      newListOfFriendsAndGroups = newListOfFriendsAndGroups.length!==0 ? newListOfFriendsAndGroups.filter( item=> item.name.toLowerCase().search(textToSearch) !== -1) : [];
+      this.setState({
+        ListOfFriendsAndGroups: newListOfFriendsAndGroups
+      });
+    }else{
+      this.setState({
+        ListOfFriendsAndGroups: []
+      });
+    }
+  }
+
+  handleOnClickListParticipant(e, participant){
+    e.stopPropagation();
+    const participantName = participant.name;
+    this.refs.textField.setValue(participantName);
+    this.setState({
+      newParticipant: participant
+    });
+  }
+
+
+  handleOnClickAddFriendGroupToList(e){
+    e.stopPropagation();
+    const { list, onAddFriendGroupToList } = this.props;
+    Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? null : onAddFriendGroupToList(list.id, this.state.newParticipant) ;
+    this.setState({
+      newParticipant: {},
+      ListOfFriendsAndGroups: []
+    });
+    this.refs.textField.setValue('');
+    this.closePopover();
   }
 
   show(key, e) {
-  e.stopPropagation();
+    e.stopPropagation();
+    this.setState({
+      activePopover:key,
+      anchorEl:e.currentTarget,
+    });
+  }
 
-  this.setState({
-    activePopover:key,
-    anchorEl:e.currentTarget,
-  });
-}
+  closePopover() {
+    this.setState({
+      activePopover:'none',
+      newParticipant: {},
+      ListOfFriendsAndGroups: []
+    });
+  }
 
   render() {
     const { list } = this.props;
@@ -61,10 +117,36 @@ export default class TaskTitle extends Component {
       <Popover open={this.state.activePopover==='pop'}
         anchorEl={this.state.anchorEl}
         targetOrigin={this.state.targetOrigin}
-        anchorOrigin={this.state.anchorOrigin}>
+        anchorOrigin={this.state.anchorOrigin}
+        onRequestClose={() => this.closePopover()}>
         <div style={{padding: '20px'}}>
           <h4>Add Participants</h4>
-          <TextField />
+
+          <Toggle
+            style={{width:100}}
+            name="Friends"
+            value="Friends"
+            label="Friends"
+            ref="friend"
+            onToggle={(e) => this.handleOnChangeTextField()}
+            defaultToggled />
+
+          <Toggle
+            style={{width:100}}
+            name="Groups"
+            value="Groups"
+            label="Groups"
+            ref="group"
+            onToggle={(e) => this.handleOnChangeTextField()}
+            defaultToggled />
+            <TextField ref="textField" hintText="Title List" onChange={ e => this.handleOnChangeTextField(e)}  />
+              <ul>
+            {
+
+              this.state.ListOfFriendsAndGroups.map( (item, index) => index<=5 && item.length!==0 ? <li key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}>{item.name}</li> : null)
+            }
+            </ul>
+            <button onClick={ e => this.handleOnClickAddFriendGroupToList(e)}> Add </button>
         </div>
       </Popover>
       <div className={`${this.state.isModifyList ? 'hidden' : 'row list listNotCompleted'}`}>
@@ -77,7 +159,7 @@ export default class TaskTitle extends Component {
 
           <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
           <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />
-          <span className="btn btn-default pull-right" ref="buttonPopover" onClick={this.show.bind(this, 'pop')}>Add Participants</span>
+          <span className="btn btn-default glyphicon glyphicon-sunglasses pull-right" ref="buttonPopover" onClick={this.show.bind(this, 'pop')}></span>
 
         </div>
 
