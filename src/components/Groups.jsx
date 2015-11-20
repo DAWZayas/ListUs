@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
-import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter } from '../utils/functions';
+import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, groupFriends } from '../utils/functions';
 
 
 export default class Groups extends Component {
@@ -35,26 +35,6 @@ export default class Groups extends Component {
 
 	}
 
-	/* Group friends */
-	groupFriends(friends, id){
-		const refer =  'fr'+id;
-		return (
-			<div ref={refer} className="group-friends" >
-				<img src={'https://upload.wikimedia.org/wikipedia/commons/3/38/UtR_arrow.svg'} width='30' />
-				{friends.map(function(friend){
-					return (this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['img'] !== '')?<img
-							className="avatar"
-							key={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['id']}
-							src={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['img']}
-							alt={this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name']}
-							width='50'/>
-						:avatarLetter(this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['name'],
-							this.props.friends[arrayPositionByObjectKey('id', friend, this.props.friends)]['id']);
-					}.bind(this))}
-				<FlatButton label=" +Friend" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', id)}/>
-			</div>
-		);
-	}
 
 	handleClickShowGroupFriends(e, id){
 		e.preventDefault();
@@ -190,7 +170,11 @@ export default class Groups extends Component {
 										onLeftIconButtonTouchTap={e => this.handleClickShowGroupFriends(e, group['id'])}
 
 								/>
-		 						{(group['showFriends']===true)?this.groupFriends(group['friends'], group['id']):''}
+		 						{(group['showFriends']===true)?<div>
+		 															{groupFriends(group['friends'], group['id'], this.props.friends, this.props.user.id)}
+		 															<FlatButton label=" +Friend" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', group['id'])}/>
+		 														</div>
+		 													  :''}
 	 						</div>
 	 					);
 					}.bind(this)
@@ -261,9 +245,6 @@ export default class Groups extends Component {
 						/>
 					<p className="error" style={{color: 'red'}}>{this.state.error}</p>
 				</Dialog>
-
-
-
 			</section>
 		);
 	}

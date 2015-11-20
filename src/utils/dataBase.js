@@ -58,7 +58,7 @@ export const serverUsers = [
   },
   {
   	id: '10',
- 	name: 'Troya',
+  	name: 'Troya',
   	password: 'troya',
   	friends: ['0', '1', '2', '3', '5'],
   	groups: ['0', '1', '2'],

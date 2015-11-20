@@ -39,6 +39,31 @@ export function objIsEmpty(obj){
 	return true;
 }
 
+
+/*********************** GROUP FUNCTIONS *************************************/
+
+export function groupFriends(idFriends, idGroup, friends, idUser){
+		const refer =  'fr'+idGroup;
+		const idFriendsPure = idFriends.filter(idFriend => idFriend !== idUser);
+		return (
+			<div ref={refer} className="group-friends" >
+				<img src={'https://upload.wikimedia.org/wikipedia/commons/3/38/UtR_arrow.svg'} width='30' />
+				{idFriendsPure.map(function(idFriend){
+					const pos = arrayPositionByObjectKey('id', idFriend, friends);
+					const friend = (pos !== -1)?friends[pos] :{};
+					return (friend['img'] !== '')
+						?<img
+							className="avatar"
+							key={friend['id']}
+							src={friend['img']}
+							alt={friend['name']}
+							width='50'/>
+						:avatarLetter(friend['name'], friend['id']);
+					}.bind(this))}
+			</div>
+		);
+	}
+
 /************************* GET USER INFO ***************************************/
 
 export function getFriends(idFriends, serverUsers){
@@ -50,7 +75,7 @@ export function getFriends(idFriends, serverUsers){
 						{
 							id: serverUsers[pos].id,
 							name: serverUsers[pos].name,
-							friends: (serverUsers[pos].visibility)?serverUsers[pos].friends:[],
+							friends: (serverUsers[pos].visibility === true)?serverUsers[pos].friends:[],
 							groups: (serverUsers[pos].visibility)?serverUsers[pos].groups:[],
 							img: serverUsers[pos].img
 						}
