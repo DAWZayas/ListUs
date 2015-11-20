@@ -11,28 +11,6 @@ export default class Calendar extends Component {
     super(props);
     this.state = {
       selectedDay: null,
-      birthdays: {
-        2015: {
-          "Noviembre": {
-            3: [{ name: 'Pepe', age: 35 }, {name: 'Juan', age: 29 }],
-            8: [{ name: 'Elena', age: 21 }],
-            9: [{ name: 'Irene', age: 43 }],
-            12: [{ name: 'Pepa', age: 78 }, {name: 'Alba', age: 18 }],
-            18: [{ name: 'Claudia', age: 54 }],
-            22: [{ name: 'Maria', age: 9 }],
-            26: [{ name: 'Marta', age: 46 }]
-          },
-          "Diciembre": {
-            2: [{name: "Oscar", age: 20}]
-          }
-        },
-        2016: {
-          "Enero": {
-            1: [{name: "Junaito", age:99}]
-          }
-        }
-
-      },
       months: ['Enero', 'Febrero', 'Marzo', 
       'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 
       'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
@@ -40,29 +18,41 @@ export default class Calendar extends Component {
     };
   }
 
-  handleDayClick(e, day, modifiers) {
+  getCalendar(day){
     
-    const numberDay = day.getDate().toString();
+    const calendar = this.props.calendar;
+
     let month = this.state.months[day.getMonth()];
     let year = (1900 + day.getYear()).toString();
     
-    let birthdays = {};
+    let dates = {};
     
-    for (let key in this.state.birthdays) {
+    for (let key in calendar) {
       if (year === key){
-        for (let key2 in this.state.birthdays[key]){
+        for (let key2 in calendar[key]){
           if (key2 === month) {
-            birthdays = this.state.birthdays[key][key2];
+            dates = calendar[key][key2];
           }
         }
       }
     }
+
+    return dates;
+
+  }
+
+  handleDayClick(e, day, modifiers) {
+
     
+    const numberDay = day.getDate().toString();
+    
+    const dates = this.getCalendar(day);
+
     let tasks = '';
 
-    for (let key in birthdays) {
+    for (let key in dates) {
       if (numberDay === key) {
-        tasks += birthdays[key].map( (task, index) =>  'Es el cumpleaños de ' + 
+        tasks += dates[key].map( (task, index) =>  'Es el cumpleaños de ' + 
           task.name + ' y cumple ' + task.age + ' años.');
       }
     }
@@ -85,29 +75,15 @@ export default class Calendar extends Component {
 
   renderDay(day){
 
-    let month = this.state.months[day.getMonth()];
-    let birthdays = {};
-    let year = (1900 + day.getYear()).toString();
-
-    for (let key in this.state.birthdays) {
-      if (year === key){
-
-        for (let key2 in this.state.birthdays[key]){
-          if (key2 === month) {
-
-            birthdays = this.state.birthdays[key][key2];
-          }
-        }
-      }
-    }
+    const dates = this.getCalendar(day);
 
     const date = day.getDate();
     return (
       <div>
         <span>{ date }</span>
         <div className="Birthdays-List">
-          { birthdays[date] &&
-            birthdays[date].map((birthday, i) =>
+          { dates[date] &&
+            dates[date].map((birthday, i) =>
               <div key={i}>
                 🎁 { birthday.name } ({ birthday.age})
               </div>

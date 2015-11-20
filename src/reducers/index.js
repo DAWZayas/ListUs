@@ -7,6 +7,7 @@ import comments from './comments';
 import friends from './friends';
 import groups from './groups';
 import user from './user';
+import calendar from './calendar';
 
 export default combineReducers({
   lists,
@@ -15,5 +16,6 @@ export default combineReducers({
   friends,
   groups,
   user,
+  calendar,
   router
 });

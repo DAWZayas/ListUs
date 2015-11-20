@@ -67,6 +67,11 @@ export const CHANGE_USER_NAME = 'CHANGE_USER_NAME';
 export const CHANGE_USER_PASSWORD = 'CHANGE_USER_PASSWORD';
 export const CHANGE_USER_VISIBILITY = 'CHANGE_USER_VISIBILITY';
 
+/*
+  CALENDAR
+*/
+
+export const ADD_DATE = 'ADD_DATE';
 
 /*
 * task action creator ***************************************************************
@@ -221,5 +226,15 @@ export function changeUserPassword(password){
 export function changeUserVisibility(visibility){
   return {
     type: CHANGE_USER_VISIBILITY, visibility
+  };
+}
+
+/*
+  CALENDAR
+*/
+
+export function addDate(){
+  return {
+    type: ADD_DATE
   };
 }

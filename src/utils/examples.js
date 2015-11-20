@@ -170,6 +170,26 @@ export const user = {
   visibility: true
 };
 
-export const calendar = {display: true};
+export const calendar = {
+  2015: {
+    "Noviembre": {
+      3: [{ name: 'Pepe', age: 35 }, {name: 'Juan', age: 29 }],
+      8: [{ name: 'Elena', age: 21 }],
+      9: [{ name: 'Irene', age: 43 }],
+      12: [{ name: 'Pepa', age: 78 }, {name: 'Alba', age: 18 }],
+      18: [{ name: 'Claudia', age: 54 }],
+      22: [{ name: 'Maria', age: 9 }],
+      26: [{ name: 'Marta', age: 46 }]
+    },
+    "Diciembre": {
+      2: [{name: "Oscar", age: 20}]
+    }
+  },
+  2016: {
+    "Enero": {
+      1: [{name: "Junaito", age:99}]
+    }
+  }
+};
 
-export const initialState =  { lists, tasks, comments, friends, groups, user };
+export const initialState =  { lists, tasks, comments, friends, groups, user, calendar };
