@@ -159,7 +159,7 @@ export const serverTasks = {
 
 export const serverGroups = [
   {
-    idGroup: '0',
+    id: '0',
     name: 'ListUs',
     friends: ['0', '1', '2', '10'],// pick up the friends id.
     showFriends: false,
@@ -167,7 +167,7 @@ export const serverGroups = [
   },
 
   {
-    idGroup: '1',
+    id: '1',
     name: 'Empresas',
     friends: ['0', '2', '10'],
     showFriends: false,
@@ -175,7 +175,7 @@ export const serverGroups = [
   },
 
   {
-    idGroup: '2',
+    id: '2',
     name: 'Servidor',
     friends: ['5', '10'],
     showFriends: false,

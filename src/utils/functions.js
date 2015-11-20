@@ -89,7 +89,7 @@ export function getFriends(idFriends, serverUsers){
 export function getGroups(idGroups, serverGroups){
 	let groups = [];
 	idGroups.map(function(idGroup){
-			const pos = arrayPositionByObjectKey('idGroup', idGroup, serverGroups);
+			const pos = arrayPositionByObjectKey('id', idGroup, serverGroups);
 			if(pos !== -1) groups.push(serverGroups[pos]);					
 		}.bind(this)
 	);
