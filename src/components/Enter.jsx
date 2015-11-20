@@ -19,15 +19,6 @@ export default class Enter extends Component {
   }
 
   handleClickLogIn(){
-    /*const { dataBase } = this.props;
-    const pos = arrayPositionByObjectKey('name', this.refs.userLogIn.getValue(), dataBase.serverUsers);
-    if( pos !== -1 ){
-      if(dataBase.serverUsers[pos].password === this.refs.passwordLogIn.getValue()){
-        this.props.onSwitchUser(dataBase.serverUsers[pos]);
-        this.props.onSetFriends(getFriends(dataBase.serverUsers[pos].friends, dataBase.serverUsers));
-        this.props.onSetGroups(getGroups(dataBase.serverUsers[pos].groups, dataBase.serverGroups));*/
-
-
       const pos = arrayPositionByObjectKey('name', this.refs.userLogIn.getValue(), serverUsers);
       if( pos !== -1 ){
         if(serverUsers[pos].password === this.refs.passwordLogIn.getValue()){

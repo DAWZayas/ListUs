@@ -79,7 +79,7 @@ export default class Account extends React.Component {
     }
     else {
       this.props.onChangeUserVisibility(!togg);
-      togg.setToggled(!togg);
+      this.refs.visibility.setToggled(!togg);
     }
   }
 
