@@ -1,7 +1,7 @@
 import { getId } from './index';
 import { serverUsers, serverGroups, serverLists, serverTasks, serverComments } from './dataBase';
 
-
+/*
 export const lists = [
   {
     id: getId(),
@@ -166,11 +166,13 @@ export const user = {
   visibility: true
 };
 
-//export const user = {};
+export const initialState =  { lists, tasks, comments, friends, groups, user };
+
+*/
 
 export const calendar = {display: true};
 
-/*
+
 export const lists = [];
 export const comments = {};
 export const tasks = {};
@@ -179,16 +181,14 @@ export const groups = [];
 export const user = {};
 
 export const dataBase = {
-  serverUsers: serverUsers,
-  serverGroups: serverGroups,
-  serverLists: serverLists,
-  serverTasks: serverTasks,
-  serverComments: serverComments
-
+  serverUsers,
+  serverGroups,
+  serverLists,
+  serverTasks,
+  serverComments
 };
 
 
 
-//export const initialState = { lists, tasks, comments, friends, groups, user, dataBase };*/
+export const initialState = { lists, tasks, comments, friends, groups, user, dataBase };
 
-export const initialState =  { lists, tasks, comments, friends, groups, user };

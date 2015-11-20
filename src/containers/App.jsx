@@ -41,7 +41,6 @@ function mapStateToProps(state) {
 
 function mapActionsToProps(dispatch) {
   return {
-    //onSwitchUser: user => dispatch(switchUser(user))
      
   };
 }

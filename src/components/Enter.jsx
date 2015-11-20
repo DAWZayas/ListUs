@@ -6,6 +6,7 @@ injectTapEventPlugin();
 import { TextField, RaisedButton } from 'material-ui';
 import Logo from '../components/Logo';
 import { arrayPositionByObjectKey, getFriends, getGroups } from '../utils/functions';
+import { serverUsers, serverGroups } from '../utils/dataBase';
 
 
 export default class Enter extends Component {
@@ -24,10 +25,18 @@ export default class Enter extends Component {
       if(dataBase.serverUsers[pos].password === this.refs.passwordLogIn.getValue()){
         this.props.onSwitchUser(dataBase.serverUsers[pos]);
         this.props.onSetFriends(getFriends(dataBase.serverUsers[pos].friends, dataBase.serverUsers));
-        this.props.onSetGroups(getGroups(dataBase.serverUsers[pos].groups, dataBase.serverGroups));
+        this.props.onSetGroups(getGroups(dataBase.serverUsers[pos].groups, dataBase.serverGroups));*/
+
+
+      const pos = arrayPositionByObjectKey('name', this.refs.userLogIn.getValue(), serverUsers);
+      if( pos !== -1 ){
+        if(serverUsers[pos].password === this.refs.passwordLogIn.getValue()){
+          this.props.onSwitchUser(serverUsers[pos]);
+          this.props.onSetFriends(getFriends(serverUsers[pos].friends, serverUsers));
+          this.props.onSetGroups(getGroups(serverUsers[pos].groups, serverGroups));
       }
       else this.setState({error: 'User or password incorrect'});
-    }*/
+    }
   }
 
   render() {
@@ -68,7 +77,7 @@ Enter.propTypes = {
 
 function mapStateToProps(state) {
   return {
-     dataBase: state.dataBase
+     //dataBase: state.dataBase
   };
 }
 
