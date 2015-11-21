@@ -31,6 +31,7 @@ onClickClose(){
   this.refs.dialog.dismiss();
 }
 
+
 render() {
 
   let customActions = [
@@ -44,8 +45,8 @@ render() {
       onClick={() => this.onClickAdd()} />
   ];
   const { list, onRemoveList, onEditList, tasks, onRemoveTask, onEditTask, friends, groups, onAddFriendGroupToList } = this.props;
-
   return(
+
     <div className="row section">
       <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
         <TextField ref="titleDialog" hintText="Title List" />

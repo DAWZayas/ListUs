@@ -3,25 +3,25 @@ import { getId } from './index';
 
 export const serverUsers = [
   {
-    id: '0',
+    id: '00',
     name: 'Loli',
     password: '1',
-    friends: ['1', '10'],
+    friends: ['11', '10'],
     groups: ['0', '1'],
     img: 'http://www.planwallpaper.com/static/images/3d_Creative_guitar_desktop_wallpaper_TUZQIme.jpg',
     visibility: false
   },
   {
-    id: '1',
+    id: '11',
     name: 'Pepe',
     password: '1',
-    friends: ['0', '10', '1'],
+    friends: ['00', '10', '55'],
     groups: ['0'],
     img: 'http://www.planwallpaper.com/static/images/3d-animal-backgrounds-17306-17862-hd-wallpapers_MkXEx9v.jpg',
     visibility: false
   },
   {
-    id: '2',
+    id: '22',
     name: 'Pepa',
     password: '1',
     friends: ['10'],
@@ -30,7 +30,7 @@ export const serverUsers = [
     visibility: false
   },
   {
-    id: '3',
+    id: '33',
     name: 'Juan',
     password: '1',
     friends: ['10'],
@@ -39,19 +39,19 @@ export const serverUsers = [
     visibility: false
   },
   {
-    id: '4',
+    id: '44',
     name: 'Raúl',
     password: 'a',
-    friends: ['5'],
+    friends: ['55'],
     groups: [],
     img: '',
     visibility: false
   },
   {
-    id: '5',
+    id: '55',
     name: 'Adrián',
     password: '1',
-    friends: ['10', '4', '1'],
+    friends: ['10', '44', '11'],
     groups: ['2'],
     img: '',
     visibility: false
@@ -60,7 +60,7 @@ export const serverUsers = [
   	id: '10',
   	name: 'Troya',
   	password: 'troya',
-  	friends: ['0', '1', '2', '3', '5'],
+  	friends: ['00', '11', '22', '33', '55'],
   	groups: ['0', '1', '2'],
   	img: 'http://www.planwallpaper.com/static/images/Conflict-HD-Wallpaper_Sf0xtpv.jpg',
   	visibility: true
@@ -69,34 +69,34 @@ export const serverUsers = [
 
 export const serverLists = [
   {
-    id: getId(),
+    id: 'aa',
     title: 'Real Madrid',
     participants: []//id group or id friend
   },
   {
-    id: getId(),
+    id: 'bb',
     title: 'Barsa',
     participants: []
   },
   {
-    id: getId(),
+    id: 'cc',
     title: 'Patetic',
-    participants: []
+    participants: ['10']
   },
   {
-    id: getId(),
+    id: 'dd',
     title: 'Valencia',
     participants: []
   },
   {
-    id: getId(),
+    id: 'ee',
     title: 'Celta',
-    participants: []
+    participants: ['10']
   },
   {
-    id: getId(),
+    id: 'ff',
     title: 'Betis',
-    participants: []
+    participants: ['10']
   }
 ];
 
@@ -109,49 +109,49 @@ export const serverComments = {
 export const serverTasks = {
 	0: {
     id: '0',
-		idList: serverLists[1].id,
-		title: 'Messi',
-    participants: []
+		idList: 'cc',
+		title: 'Gabi',
+    participants: ['10']
 	},
   1: {
     id: '1',
-    idLists: serverLists[1].id,
-    title: 'Neymar',
-    participants: []
+    idList: 'cc',
+    title: 'Koke',
+    participants: ['10']
   },
   2: {
     id: '2',
-    idList: serverLists[1].id,
+    idList: 'bb',
     title: 'Iniesta',
     participants: []
   },
   3: {
     id: '3',
-    idList: serverLists[1].id,
+    idList: 'bb',
     title: 'Suarez',
     participants: []
   },
   7: {
     id: '7',
-    idList: serverLists[0].id,
+    idList: 'aa',
     title: 'James',
     participants: []
   },
   8: {
     id: '8',
-    idList: serverLists[0].id,
+    idList: 'aa',
     title: 'Benzema',
     participants: []
   },
   9: {
     id: '9',
-    idList: serverLists[0].id,
+    idList: 'aa',
     title: 'Cristiano',
     participants: []
   },
   10: {
     id: '10',
-    idList: serverLists[0].id,
+    idList: 'aa',
     title: 'Modric',
     participants: []
   }
@@ -161,7 +161,7 @@ export const serverGroups = [
   {
     id: '0',
     name: 'ListUs',
-    friends: ['0', '1', '2', '10'],// pick up the friends id.
+    friends: ['00', '11', '22', '10'],// pick up the friends id.
     showFriends: false,
     administrator: '2'
   },
@@ -169,7 +169,7 @@ export const serverGroups = [
   {
     id: '1',
     name: 'Empresas',
-    friends: ['0', '2', '10'],
+    friends: ['00', '22', '10'],
     showFriends: false,
     administrator: '1'
   },
@@ -177,7 +177,7 @@ export const serverGroups = [
   {
     id: '2',
     name: 'Servidor',
-    friends: ['5', '10'],
+    friends: ['55', '10'],
     showFriends: false,
     administrator: '5'
   }

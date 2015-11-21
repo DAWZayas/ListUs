@@ -1,10 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import List from '../components/List';
+import SectionHeader from './SectionHeader';
 import { Dialog, TextField, FlatButton } from 'material-ui';
+import { menuItems, sortArray } from '../utils/functions';
+
+
 export default class Section extends Component {
 
   constructor(props){
     super(props);
+    this.state = {
+      sorted: 'Sort By'
+    };
   }
 
   validationTitle(title){
@@ -27,6 +34,11 @@ export default class Section extends Component {
     this.refs.dialog.dismiss();
   }
 
+  handleSorted(e, selectedIndex, menuItem){
+    e.preventDefault();
+    this.setState({sorted: menuItem.text});
+  }
+
   render() {
     let customActions = [
       <FlatButton
@@ -39,14 +51,21 @@ export default class Section extends Component {
         onClick={() => this.onClickAdd()} />
     ];
     const {  lists, onEditList, onRemoveList } = this.props;
+    const { sorted } = this.state;
+    const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
+    const listsEnd = (sorted === 'Sort By')
+        ?lists 
+        :sortArray(lists, key, sorted.split(' ')[1]);
     return(
       <article className="article">
         <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
           <TextField ref="titleDialog" hintText="Title List" autoFocus/>
         </Dialog>
+
+        <SectionHeader title="LISTS" menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
         <div className="lists">
             {
-              lists.map( (list, index) => <List list={list} key={index} onRemoveList={onRemoveList} onEditList={onEditList}/> )
+              listsEnd.map( (list, index) => <List list={list} key={index} onRemoveList={onRemoveList} onEditList={onEditList}/> )
             }
         </div>
         <br/>

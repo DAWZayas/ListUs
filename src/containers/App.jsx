@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import HeaderContainer from './HeaderContainer';
 import Enter from '../components/Enter';
-import { switchUser } from '../actions';
 import { objIsEmpty } from '../utils/functions';
 
 

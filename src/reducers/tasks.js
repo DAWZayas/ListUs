@@ -1,5 +1,10 @@
-import {  ADD_TASK, REMOVE_TASK, EDIT_TASK, ADD_FRIEND_OR_GROUP_TO_TASK } from '../actions';
+import {  SET_TASK, ADD_TASK, REMOVE_TASK, EDIT_TASK, ADD_FRIEND_OR_GROUP_TO_TASK } from '../actions';
 import { getId } from '../utils';
+
+function setTask(state, task){
+    return Object.assign({}, task);
+}
+
 
 function addTask(state, idList, title){
   const id = getId();
@@ -37,6 +42,8 @@ function addFriendGroupToTask(state, idTask, id){
 
 export default function taskReducer( state = {}, action){
   switch (action.type) {
+    case SET_TASK:
+      return setTask(state, action.task);
     case ADD_TASK:
       return addTask(state, action.idList, action.title);
     case REMOVE_TASK:

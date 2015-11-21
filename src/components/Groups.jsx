@@ -1,14 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
-import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, groupFriends } from '../utils/functions';
+import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar, DropDownMenu } from 'material-ui';
+import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, groupFriends, sortArray, menuItems } from '../utils/functions';
+import SectionHeader from './SectionHeader';
 
 
 export default class Groups extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
+			sorted: 'Sort By',
 			refToEdit: '',
 			error: '',
 			id: '',
@@ -23,7 +25,6 @@ export default class Groups extends Component {
 	handleClickDismissDialog(e, ref){
 		e.preventDefault();
 		this.setState({id: '', search: []});
-		//this.refs.friendNameInput.value = '';
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.dismiss():this.refs.dialogAddFriend.dismiss();
 	}
 
@@ -150,12 +151,22 @@ export default class Groups extends Component {
 		this.setState({search : []});
 	}
 
+	handleSorted(e, selectedIndex, menuItem){
+		e.preventDefault();
+		this.setState({sorted: menuItem.text});
+	}
+
 	render(){
-		const AppBar = require('material-ui/lib/app-bar');
+		const { sorted } = this.state;
+		const key = (sorted.split(' ')[0] === 'Name')?'name':'date';
+		const groups = (sorted === 'Sort By')
+				?this.props.groups 
+				:sortArray(this.props.groups, key, sorted.split(' ')[1]);
+		
 		return (
 			<section>
- 				<h3>GROUPS</h3>
-				{(this.props.groups)?this.props.groups.map(function(group){
+       			<SectionHeader title="GROUPS" menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
+				{(groups)?groups.map(function(group){
 						return (
 							<div key={group['id']}>
 								<AppBar
@@ -177,8 +188,8 @@ export default class Groups extends Component {
 		 													  :''}
 	 						</div>
 	 					);
-					}.bind(this)
-				): <p>No groups created.</p>}
+					}.bind(this))
+					: <p>No groups created.</p>}
 
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
 				<br/>
@@ -202,10 +213,6 @@ export default class Groups extends Component {
 					<div ref="subMenuCont" className="subMenuCont" >
 						<p>Friend's name: </p>
 						<div className="inputDiv">
-							{/*<input ref="friendNameInput"
-									autoFocus
-									onKeyUp={e => this.searchingMatch(e, 'friendNameInput')}
-									/>*/}
 							<TextField
 								ref = "friendNameInput"
 								hintText="Friend name"

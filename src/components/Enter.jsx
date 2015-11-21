@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { switchUser, setFriends, setGroups } from '../actions';
+import { switchUser, setFriends, setGroups, setList, setTask } from '../actions';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import { TextField, RaisedButton } from 'material-ui';
 import Logo from '../components/Logo';
-import { arrayPositionByObjectKey, getFriends, getGroups } from '../utils/functions';
-import { serverUsers, serverGroups } from '../utils/dataBase';
+import { arrayPositionByObjectKey, getFriends, getGroups, getLists, getTasks } from '../utils/functions';
+import { serverUsers, serverGroups, serverLists, serverTasks } from '../utils/dataBase';
 
 
 export default class Enter extends Component {
@@ -18,13 +18,18 @@ export default class Enter extends Component {
     };
   }
 
+
+/************/
   handleClickLogIn(){
       const pos = arrayPositionByObjectKey('name', this.refs.userLogIn.getValue(), serverUsers);
       if( pos !== -1 ){
         if(serverUsers[pos].password === this.refs.passwordLogIn.getValue()){
           this.props.onSwitchUser(serverUsers[pos]);
-          this.props.onSetFriends(getFriends(serverUsers[pos].friends, serverUsers));
-          this.props.onSetGroups(getGroups(serverUsers[pos].groups, serverGroups));
+          this.props.onSetFriends(getFriends(serverUsers[pos].friends));
+          this.props.onSetGroups(getGroups(serverUsers[pos].groups));
+          const userLists = getLists(this.refs.userLogIn.getValue());
+          this.props.onSetLists(userLists);
+          this.props.onSetTasks(getTasks(userLists));
       }
       else this.setState({error: 'User or password incorrect'});
     }
@@ -77,6 +82,8 @@ function mapActionsToProps(dispatch) {
     onSwitchUser: user => dispatch(switchUser(user)),
     onSetFriends: friends => dispatch(setFriends(friends)),
     onSetGroups: groups => dispatch(setGroups(groups)),
+    onSetLists: lists => dispatch(setList(lists)),
+    onSetTasks: tasks => dispatch(setTask(tasks))
   };
 }
 
