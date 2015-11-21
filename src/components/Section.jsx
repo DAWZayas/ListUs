@@ -1,10 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import List from '../components/List';
-import { Dialog, TextField, FlatButton } from 'material-ui';
+import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
+
+import DatePicker from 'react-datepicker';
+let moment = require('moment');
+
+require('react-datepicker/dist/react-datepicker.css');
+
 export default class Section extends Component {
 
   constructor(props){
     super(props);
+    
+    this.state = {
+      startDate: moment()
+    };
+  }
+
+  handleChange(date) {
+    this.setState({
+      startDate: date
+    });
   }
 
   validationTitle(title){
@@ -27,6 +43,11 @@ export default class Section extends Component {
     this.refs.dialog.dismiss();
   }
 
+  changeImportance(){
+    const value = this.refs.slider.getValue();
+    this.refs.importance.setValue(Math.ceil(value/0.2));
+  }
+
   render() {
     let customActions = [
       <FlatButton
@@ -39,11 +60,18 @@ export default class Section extends Component {
         onClick={() => this.onClickAdd()} />
     ];
     const {  lists, onEditList, onRemoveList } = this.props;
+    
+    
     return(
       <article className="article">
         <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
-          <TextField ref="titleDialog" hintText="Title List" autoFocus/>
+          <TextField ref="titleDialog" hintText="Title List" autoFocus />
+          <DatePicker dateFormat="DD/MM/YYYY" selected={this.state.startDate} onChange={this.handleChange}/>
+          <br/><h5 style={{width:"100px"}}>Importance</h5>
+          <Slider style={{width: "200px"}}ref="slider" max={0.8} step={0.20} onChange={this.changeImportance.bind(this)} />
+          <TextField disabled style={{top: "-30px", width:"100px"}} ref='importance' defaultValue="0"/>
         </Dialog>
+
         <div className="lists">
             {
               lists.map( (list, index) => <List list={list} key={index} onRemoveList={onRemoveList} onEditList={onEditList}/> )

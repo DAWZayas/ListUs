@@ -57,9 +57,6 @@ export default class Calendar extends Component {
       }
     }
 
-    
-
-
     if (tasks === '') {
       tasks += 'Nada planeado para este día.';
     };
