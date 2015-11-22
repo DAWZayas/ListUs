@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { LeftNav, MenuItem, Paper, Dialog, TextField } from 'material-ui';
+import { LeftNav, MenuItem } from 'material-ui';
 
-import { connect } from 'react-redux';
-import { RouteHandler } from 'react-router';
 
-var injectTapEventPlugin = require("react-tap-event-plugin");
+var injectTapEventPlugin = require('react-tap-event-plugin');
 injectTapEventPlugin();
 
 const menuItems = [
@@ -51,7 +49,7 @@ const menuItems = [
 
 export default class Nav extends React.Component {
 
-	constructor(props, context) {
+	constructor(props) {
     super(props);
   }
 
@@ -74,8 +72,8 @@ export default class Nav extends React.Component {
 		return (
 
 			<div>
-				<nav className='leftNav'>
-					<button onClick={this.showNav.bind(this)} className='btn btn-info'><span ref='span' className='biggerGlyphicon glyphicon glyphicon-menu-hamburger'></span></button>
+				<nav className="leftNav">
+					<button onClick={this.showNav.bind(this)} className="btn btn-info"><span ref="span" className="biggerGlyphicon glyphicon glyphicon-menu-hamburger"></span></button>
 					<LeftNav 
 					ref="leftNav" 
 					docked={false} 

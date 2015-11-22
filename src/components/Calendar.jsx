@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import DayPicker from 'react-day-picker';
 import { localeUtils } from 'react-day-picker/moment';
 import '../calendarStyle.css';
@@ -13,7 +13,7 @@ export default class Calendar extends Component {
       selectedDay: null,
       birthdays: {
         2015: {
-          "Noviembre": {
+          'Noviembre': {
             3: [{ name: 'Pepe', age: 35 }, {name: 'Juan', age: 29 }],
             8: [{ name: 'Elena', age: 21 }],
             9: [{ name: 'Irene', age: 43 }],
@@ -22,13 +22,13 @@ export default class Calendar extends Component {
             22: [{ name: 'Maria', age: 9 }],
             26: [{ name: 'Marta', age: 46 }]
           },
-          "Diciembre": {
-            2: [{name: "Oscar", age: 20}]
+          'Diciembre': {
+            2: [{name: 'Oscar', age: 20}]
           }
         },
         2016: {
-          "Enero": {
-            1: [{name: "Junaito", age:99}]
+          'Enero': {
+            1: [{name: 'Junaito', age:99}]
           }
         }
 
@@ -40,7 +40,7 @@ export default class Calendar extends Component {
     };
   }
 
-  handleDayClick(e, day, modifiers) {
+  handleDayClick(e, day) {
     
     const numberDay = day.getDate().toString();
     let month = this.state.months[day.getMonth()];
@@ -62,7 +62,7 @@ export default class Calendar extends Component {
 
     for (let key in birthdays) {
       if (numberDay === key) {
-        tasks += birthdays[key].map( (task, index) =>  'Es el cumpleaños de ' + 
+        tasks += birthdays[key].map( (task) =>  'Es el cumpleaños de ' + 
           task.name + ' y cumple ' + task.age + ' años.');
       }
     }
@@ -124,7 +124,7 @@ export default class Calendar extends Component {
         
     return(
       <div className="article">
-        <DayPicker className="Birthdays" canChangeMonth={ true } renderDay={ this.renderDay.bind(this) } localeUtils={ localeUtils } locale="es" onDayClick={ this.handleDayClick.bind(this) }/>
+        <DayPicker className="Birthdays" canChangeMonth={ true } renderDay={ this.renderDay.bind(this) } localeUtils={localeUtils} locale="es" onDayClick={ this.handleDayClick.bind(this) }/>
         <div>
           Selected: { this.state.selectedDay ? this.state.selectedDay.toLocaleDateString() : 'Select'}
           <br/><br/>
@@ -137,6 +137,3 @@ export default class Calendar extends Component {
 
 }
 
-
-Calendar.propTypes = {
-};

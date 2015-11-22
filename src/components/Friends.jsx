@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { addFriend, removeFriend } from '../actions';
+import { addFriend } from '../actions';
 import { Avatar, Dialog, TextField } from 'material-ui';
 
 

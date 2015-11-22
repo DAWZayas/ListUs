@@ -10,9 +10,9 @@ export default class Root extends Component {
         <Provider store={store}>
           <div>
             <ReduxRouter />
-        {/*<DevTools />*/}
-        </div>
-      </Provider>
+            <DevTools />
+          </div>
+        </Provider>
     );
   }
 }

@@ -1,6 +1,3 @@
-import { getId } from './index';
-
-
 export const serverUsers = [
   {
     id: '00',

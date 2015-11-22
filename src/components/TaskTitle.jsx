@@ -50,7 +50,7 @@ export default class TaskTitle extends Component {
 
 
   handleOnChangeTextField(e){
-
+    e.stopPropagation();
     const { list, friends, groups } = this.props;
     const textToSearch = this.refs.textField.getValue().toLowerCase();
     if(textToSearch!==''){
@@ -128,7 +128,7 @@ export default class TaskTitle extends Component {
             value="Friends"
             label="Friends"
             ref="friend"
-            onToggle={(e) => this.handleOnChangeTextField()}
+            onToggle={(e) => this.handleOnChangeTextField(e)}
             defaultToggled />
 
           <Toggle
@@ -137,7 +137,7 @@ export default class TaskTitle extends Component {
             value="Groups"
             label="Groups"
             ref="group"
-            onToggle={(e) => this.handleOnChangeTextField()}
+            onToggle={(e) => this.handleOnChangeTextField(e)}
             defaultToggled />
             <TextField ref="textField" hintText="Title List" onChange={ e => this.handleOnChangeTextField(e)}  />
               <ul>

@@ -111,8 +111,8 @@ export default class Account extends React.Component {
           <span style={{fontFamily: 'verdana', fontWeight: 'bold', fontSize: '20'}}>{this.props.user.name}</span>
         </div><br/>
       	<ul className="tools nav nav-pills nav-stacked ">
-          <li role="presentation"><a onClick={this.showDialogChangeName.bind(this)} href='#'><span className='glyphicon marginGlyph glyphicon-user'></span>Change Name</a></li>
-          <li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href='#'><span className='glyphicon marginGlyph glyphicon-lock'></span>Change password</a></li>
+          <li role="presentation"><a onClick={this.showDialogChangeName.bind(this)} href="#"><span className='glyphicon marginGlyph glyphicon-user'></span>Change Name</a></li>
+          <li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href="#"><span className='glyphicon marginGlyph glyphicon-lock'></span>Change password</a></li>
           <li role="presentation" style={{display: 'flex', justifyContent: 'center'}}>
             <a style={{width: '190px', textAlign: 'justify'}}>
               <Toggle
@@ -138,8 +138,8 @@ export default class Account extends React.Component {
             <p className="error" style={{color: 'red'}}>{this.state.error}</p>
         </Dialog>
 
-        <Dialog ref='changePhoto' title='Change Photo' actions={changePhotoActions} >
-            <TextField ref='newUrl' floatingLabelText="New photo" /> 
+        <Dialog ref="changePhoto" title='Change Photo' actions={changePhotoActions} >
+            <TextField ref="newUrl" floatingLabelText="New photo" /> 
         </Dialog>
 
       </article>
