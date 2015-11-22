@@ -124,7 +124,7 @@ export default class Calendar extends Component {
         
     return(
       <div className="article">
-        <DayPicker className="Birthdays" canChangeMonth={ true } renderDay={ this.renderDay.bind(this) } localeUtils={localeUtils} locale="es" onDayClick={ this.handleDayClick.bind(this) }/>
+        <DayPicker className="Birthdays" canChangeMonth renderDay={ this.renderDay.bind(this) } localeUtils={localeUtils} locale="es" onDayClick={ this.handleDayClick.bind(this) }/>
         <div>
           Selected: { this.state.selectedDay ? this.state.selectedDay.toLocaleDateString() : 'Select'}
           <br/><br/>

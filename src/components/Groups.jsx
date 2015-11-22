@@ -260,6 +260,7 @@ export default class Groups extends Component {
 
 
 Groups.propTypes= {
+	user: PropTypes.object,
 	groups: PropTypes.array,
 	friends: PropTypes.array,
 	onChangeGroupAdmin: PropTypes.func,

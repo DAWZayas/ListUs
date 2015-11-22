@@ -4,11 +4,13 @@ import Calendar from '../components/Calendar';
 
 function mapStateToProps(state) {
   return {
+  	state
   };
 }
 
 function mapActionsToProps(dispatch) {
   return {
+  	dispatch
   };
 }
 

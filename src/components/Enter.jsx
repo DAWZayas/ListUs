@@ -67,12 +67,18 @@ export default class Enter extends Component {
 
 Enter.propTypes = {
   // Injected by React RouterConfirmDialog
-  children: PropTypes.node
+  children: PropTypes.node,
+  onSetFriends: PropTypes.func,
+  onSetTasks: PropTypes.func,
+  onSetLists: PropTypes.func,
+  onSetGroups: PropTypes.func,
+  onSwitchUser: PropTypes.func
 };
 
 
 function mapStateToProps(state) {
   return {
+    state
     //dataBase: state.dataBase
   };
 }

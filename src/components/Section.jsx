@@ -72,7 +72,7 @@ export default class Section extends Component {
         <div className="col-md-12 center">
           {/*<button className="btn btn-round btn-danger" onClick={() => this.openDialog()} > <span className="glyphicon glyphicon-plus" /> </button>*/}
           <a onClick={() => this.openDialog()} style={{cursor: 'pointer'}} >
-            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width='30' height='30'/>
+            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width="30" height="30"/>
           </a>
         </div>
       </article>

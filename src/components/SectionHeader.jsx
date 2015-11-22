@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { DropDownMenu } from 'material-ui';
 
 
@@ -19,5 +19,11 @@ export default class SectionHeader extends Component{
 		);
 	}
 }
+
+SectionHeader.propTypes = {
+	func: PropTypes.func,
+	menuItems: PropTypes.array,
+	title: PropTypes.string
+};
 
 //(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)
