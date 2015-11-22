@@ -135,7 +135,7 @@ export const groups = [
   {
     id: '0',
     name: 'ListUs',
-    friends: ['00', '11'],// pick up the friends id.
+    friends: ['00', '11'], // pick up the friends id.
     showFriends: false,
     administrator: '2'
   },

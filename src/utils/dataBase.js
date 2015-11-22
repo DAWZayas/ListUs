@@ -158,7 +158,7 @@ export const serverGroups = [
   {
     id: '0',
     name: 'ListUs',
-    friends: ['00', '11', '22', '10'],// pick up the friends id.
+    friends: ['00', '11', '22', '10'], // pick up the friends id.
     showFriends: false,
     administrator: '2'
   },
@@ -180,5 +180,3 @@ export const serverGroups = [
   }
 
 ];
-
-
