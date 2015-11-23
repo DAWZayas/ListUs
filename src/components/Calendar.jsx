@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import DayPicker from 'react-day-picker';
 import { localeUtils } from 'react-day-picker/moment';
 import '../calendarStyle.css';
@@ -41,9 +41,8 @@ export default class Calendar extends Component {
 
   }
 
-  handleDayClick(e, day, modifiers) {
+  handleDayClick(e, day) {
 
-    
     const numberDay = day.getDate().toString();
     
     const dates = this.getCalendar(day);
@@ -52,9 +51,8 @@ export default class Calendar extends Component {
 
     for (let key in dates) {
       if (numberDay === key) {
-        tasks += dates[key].map( (task, index) =>  'Tienes que hacer la tarea ' + 
+        tasks += dates[key].map( (task) =>  'Tienes que hacer la tarea ' + 
           task.title + ' con una importancia de: ' + task.importance);
-
       }
     }
 
@@ -83,7 +81,7 @@ export default class Calendar extends Component {
           { dates[date] &&
             dates[date].map((list, i) =>
               <div key={i}>
-                🎁 { list.title } ({ list.importance})
+                🎁 { list.title } ({ list.importance })
               </div>
             )
           }
@@ -108,6 +106,9 @@ export default class Calendar extends Component {
     );
   }
 
-
 }
+
+Calendar.propTypes = {
+  calendar: PropTypes.object
+};
 

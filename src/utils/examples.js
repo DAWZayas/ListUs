@@ -1,5 +1,5 @@
 import { getId } from './index';
-import { serverUsers, serverGroups, serverLists, serverTasks, serverComments } from './dataBase';
+//import { serverUsers, serverGroups, serverLists, serverTasks, serverComments } from './dataBase';
 
 
 export const lists = [
@@ -7,42 +7,42 @@ export const lists = [
     id: getId(),
     title: 'Real Madrid',
     participants: [],//id group or id friend
-    date: "3/11/2015",
+    date: '3/11/2015',
     importance: 3
   },
   {
     id: getId(),
     title: 'Barsa',
     participants: [],
-    date: "3/11/2015",
+    date: '3/11/2015',
     importance: 1
   },
   {
     id: getId(),
     title: 'Patetic',
     participants: [],
-    date: "8/1/2016",
+    date: '8/1/2016',
     importance: 2
   },
   {
     id: getId(),
     title: 'Valencia',
     participants: [],
-    date: "16/11/2015",
+    date: '16/11/2015',
     importance: 0
   },
   {
     id: getId(),
     title: 'Celta',
     participants: [],
-    date: "26/11/2015",
+    date: '26/11/2015',
     importance: 0
   },
   {
     id: getId(),
     title: 'Betis',
     participants: [],
-    date: "2/12/2015",
+    date: '2/12/2015',
     importance: 2
   }
 ];
@@ -207,18 +207,18 @@ export const dataBase = {
 
 export const calendar = {
   2015: {
-    "Noviembre": {
+    'Noviembre': {
       3: [{ title: 'Real Madrid', importance: 3 }, 
           {title: 'Barsa', importance: 1 }],
       16: [{ title: 'Valencia', importance: 1 }],
       26: [{ title: 'Celta', importance: 0 }]
     },
-    "Diciembre": {
-      2: [{title: "Betis", importance: 2}]
+    'Diciembre': {
+      2: [{title: 'Betis', importance: 2}]
     }
   },
   2016: {
-    "Enero": {
+    'Enero': {
       8: [{ title: 'Patetic', importance: 2 }]
     }
   }

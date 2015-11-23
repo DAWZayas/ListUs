@@ -84,10 +84,16 @@ export default class Section extends Component {
       <article className="article">
         <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
           <TextField ref="titleDialog" hintText="Title List" autoFocus />
-          <DatePicker dateFormat="DD/MM/YYYY" selected={this.state.startDate} onChange={this.handleChange}/>
-          <br/><h5 style={{width:"100px"}}>Importance</h5>
-          <Slider style={{width: "200px"}} ref="slider" max={0.8} step={0.20} onChange={this.changeImportance.bind(this)} />
-          <TextField disabled style={{top: "-30px", width:"100px"}} ref='importance' defaultValue="0"/>
+          <DatePicker 
+            dateFormat="DD/MM/YYYY" 
+            selected={this.state.startDate} 
+            onChange={this.handleChange}
+            popoverAttachment="bottom center"
+            popoverTargetAttachment="top center"
+            popoverTargetOffset="0px 0px" />
+          <br/><h5 style={{width:'100px'}}>Importance</h5>
+          <Slider style={{width: '200px'}} ref="slider" max={0.8} step={0.20} onChange={this.changeImportance.bind(this)} />
+          <TextField disabled style={{top: '-30px', width:'100px'}} ref="importance" defaultValue="0"/>
         </Dialog>
 
         <SectionHeader title="LISTS" menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>

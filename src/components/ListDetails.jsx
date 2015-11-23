@@ -58,6 +58,7 @@ numberOfPages(){
 }
 
 onClickNext(e){
+  e.preventDefault();
   if(this.numberOfPages()!==this.state.page){
     const newPage = this.state.page+1;
     this.calculateArrayPagination(newPage);

@@ -1,8 +1,8 @@
 import { ADD_LIST, REMOVE_LIST } from '../actions';
 
-const months = [ "", "Enero", "Febrero",
-"Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto",
-"Septiembre", "Octubre", "Noviembre", "Diciembre" ];
+const months = [ '', 'Enero', 'Febrero',
+'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
+'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ];
 
 
 function returnActualDates(objectToIterate, dateToCheck){
@@ -28,22 +28,22 @@ function returnActualDates(objectToIterate, dateToCheck){
 
 function addDate(state, title, date, importance){
   
-  const day = date.split("/")[0];
-  const month = date.split("/")[1];
+  const day = date.split('/')[0];
+  const month = date.split('/')[1];
   const monthName = months[month];
-	const year = date.split("/")[2];
+	const year = date.split('/')[2];
 
   const taskObject = {
     title,
     importance 
-  }
+  };
 
 	/* Get year */
 	let actualYear = returnActualDates(state, year);
 
 	/* Get month */
 
-	let actualMonth = returnActualDates(actualYear, month);
+	let actualMonth = returnActualDates(actualYear, monthName);
 
 	/* Get day */
 
@@ -61,10 +61,10 @@ function addDate(state, title, date, importance){
 
 
 function removeDate(state, title, date) {
-  const day = date.split("/")[0];
-  const month = date.split("/")[1];
+  const day = date.split('/')[0];
+  const month = date.split('/')[1];
   const monthName = months[month];
-  const year = date.split("/")[2];
+  const year = date.split('/')[2];
 
   const objectToDelete = state[year][monthName];
 

@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { addDate } from '../actions';
 
 import Calendar from '../components/Calendar';
 
