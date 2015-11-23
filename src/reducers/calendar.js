@@ -1,4 +1,9 @@
-import { ADD_DATE } from '../actions';
+import { ADD_LIST, REMOVE_LIST } from '../actions';
+
+const months = [ "", "Enero", "Febrero",
+"Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto",
+"Septiembre", "Octubre", "Noviembre", "Diciembre" ];
+
 
 function returnActualDates(objectToIterate, dateToCheck){
   
@@ -20,10 +25,20 @@ function returnActualDates(objectToIterate, dateToCheck){
   
 }
 
-function addDate(state){
-  
-	/* Get year */
 
+function addDate(state, title, date, importance){
+  
+  const day = date.split("/")[0];
+  const month = date.split("/")[1];
+  const monthName = months[month];
+	const year = date.split("/")[2];
+
+  const taskObject = {
+    title,
+    importance 
+  }
+
+	/* Get year */
 	let actualYear = returnActualDates(state, year);
 
 	/* Get month */
@@ -34,21 +49,44 @@ function addDate(state){
 
 	let actualDay = returnActualDates(actualMonth, day);
 
-	if(Object.keys(actualDay).length === 0){
+	
+  if(Object.keys(actualDay).length === 0){
 	  actualMonth[day] = [taskObject];
 	}else{
-	  console.log(actualDay);
 	  actualDay[actualDay.length] = taskObject;
 	}
-
 
   return state;
 }
 
+
+function removeDate(state, title, date) {
+  const day = date.split("/")[0];
+  const month = date.split("/")[1];
+  const monthName = months[month];
+  const year = date.split("/")[2];
+
+  const objectToDelete = state[year][monthName];
+
+  let newState = state;
+
+  if(objectToDelete[day].length > 1){
+    newState[year][monthName][day] = newState[year][monthName][day].filter ( (list) => list.title !== title);
+  }else{
+    delete newState[year][monthName][day];
+  }
+
+  return newState;
+}
+
+
+
 export default function reducerCalendar( state = {}, action ){
   switch (action.type) {
-    case ADD_DATE:
-      return addDate(state);
+    case ADD_LIST:
+      return addDate(state, action.title, action.date, action.importance);
+    case REMOVE_LIST:
+      return removeDate(state, action.title, action.date);
     default:
       return state;
   }

@@ -69,6 +69,11 @@ export const CHANGE_USER_NAME = 'CHANGE_USER_NAME';
 export const CHANGE_USER_PASSWORD = 'CHANGE_USER_PASSWORD';
 export const CHANGE_USER_VISIBILITY = 'CHANGE_USER_VISIBILITY';
 
+/*
+  CALENDAR
+*/
+
+export const ADD_DATE = 'ADD_DATE';
 
 /*
 * task action creator ***************************************************************
@@ -96,11 +101,11 @@ export function addFriendGroupToTask(idTask, id){
 export function setList(list){
   return { type: SET_LIST, list};
 }
-export function addList(title){
-  return { type: ADD_LIST, title };
+export function addList(title, date, importance){
+  return { type: ADD_LIST, title, date, importance };
 }
-export function removeList(idList){
-  return { type: REMOVE_LIST, idList };
+export function removeList(idList, title, date){
+  return { type: REMOVE_LIST, idList, title, date };
 }
 export function editList( idList, title ){
   return { type: EDIT_LIST, idList, title };
@@ -235,5 +240,15 @@ export function changeUserPassword(password){
 export function changeUserVisibility(visibility){
   return {
     type: CHANGE_USER_VISIBILITY, visibility
+  };
+}
+
+/*
+  CALENDAR
+*/
+
+export function addDate(){
+  return {
+    type: ADD_DATE
   };
 }

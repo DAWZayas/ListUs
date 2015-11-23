@@ -12,7 +12,6 @@ const menuItems = [
 				route: '/account',
 				text: 'ListUs'
 			},
-
 		  {
 		  	type: MenuItem.Types.SUBHEADER,
 		  	text: 'Groups'

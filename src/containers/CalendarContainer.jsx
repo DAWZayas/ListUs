@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
+import { addDate } from '../actions';
 
 import Calendar from '../components/Calendar';
 
 function mapStateToProps(state) {
   return {
-  	state
+  	calendar: state.calendar
   };
 }
 
@@ -15,6 +16,6 @@ function mapActionsToProps(dispatch) {
 }
 
 export default connect(
-	mapActionsToProps,
-	mapStateToProps
+	mapStateToProps,
+	mapActionsToProps
 )(Calendar);

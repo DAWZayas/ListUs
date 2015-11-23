@@ -32,7 +32,7 @@ export default class List extends Component {
   handleOnClickRemove(e){
     e.stopPropagation();
     const { list, onRemoveList } = this.props;
-    onRemoveList(list.id);
+    onRemoveList(list.id, list.title, list.date);
   }
 
   render() {

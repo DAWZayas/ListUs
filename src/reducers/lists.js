@@ -5,12 +5,18 @@ function setList(state, list) {
   return list.slice();
 }
 
-function addList( state, title ){
+function addList( state, title, date, importance ){
   const id = getId();
-  return state.concat({ id, 'title': title, participants: [] });
+  return state.concat({ 
+    id, 
+    'title': title, 
+    participants: [], 
+    'date': date, 
+    'importance': importance 
+  });
 }
 
-function removeList( state, idList ){
+function removeList( state, idList, title ){
   return state.filter( list => list.id !== idList );
 }
 
@@ -28,9 +34,9 @@ export default function listReducer( state = [], action){
     case SET_LIST:
   		return setList(state, action.list);
     case ADD_LIST:
-      return addList(state, action.title);
+      return addList(state, action.title, action.date, action.importance);
     case REMOVE_LIST:
-      return removeList(state, action.idList);
+      return removeList(state, action.idList, action.title);
     case EDIT_LIST:
       return editList(state, action.idList, action.title);
     case ADD_FRIEND_OR_GROUP_TO_LIST:

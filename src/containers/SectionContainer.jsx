@@ -11,9 +11,9 @@ function mapStateToProps(state){
 
 function mapActionsToProps(dispatch){
 	return {
-		onAddList: title => dispatch(addList(title)),
-    	onRemoveList: id => dispatch(removeList(id)),
-    	onEditList: (id, title) => dispatch(editList(id, title))
+		onAddList: (title, date, importance) => dispatch(addList(title, date, importance)),
+    onRemoveList: (id, title, date) => dispatch(removeList(id, title, date)),
+    onEditList: (id, title) => dispatch(editList(id, title))
 	};
 }
 
