@@ -10,7 +10,9 @@ constructor(props){
   this.state = {
     page: 1,
     lastTask: 6,
-    initTask: 0
+    initTask: 0,
+    initNumPage: 1,
+    lastNumPage: 3
   };
 }
 
@@ -31,6 +33,7 @@ onClickAdd(){
   this.validationTitle(title) ? onAddTask(idList, title) : this.refs.dialog.dismiss();
   this.refs.dialog.dismiss();
   this.render();
+  this.calculateArrayPagination(this.state.page);
 }
 
 onClickClose(){
@@ -39,13 +42,13 @@ onClickClose(){
 
 onClickPagination(e){
   let numPage = parseInt(e.target.text);
-  this.setState({ page: numPage, lastTask: numPage*6, initTask: numPage*6-6});
+  this.calculateArrayPagination(numPage);
 }
 
 onClickPrevious(){
   if(1!==this.state.page){
     const newPage = this.state.page-1;
-    this.setState({ page: newPage, lastTask: newPage*6, initTask: newPage*6-6});
+    this.calculateArrayPagination(newPage);
   }
 }
 
@@ -54,11 +57,18 @@ numberOfPages(){
   return Math.ceil(Object.values(tasks).length/6);
 }
 
-onClickNext(){
+onClickNext(e){
   if(this.numberOfPages()!==this.state.page){
     const newPage = this.state.page+1;
-    this.setState({ page: newPage, lastTask: newPage*6, initTask: newPage*6-6});
+    this.calculateArrayPagination(newPage);
   }
+}
+
+calculateArrayPagination(newPage){
+  const { lastNumPage, initNumPage } = this.state;
+  const newLastNumPage = newPage+2<=this.numberOfPages() ? newPage+2 : newPage+1<=this.numberOfPages() ? newPage+1 : lastNumPage;
+  const newInitNumPage = newPage-2>0 ? newPage-2 : newPage-1>0 ? newPage-1 : initNumPage;
+  this.setState({ page: newPage, lastTask: newPage*6, initTask: newPage*6-6, lastNumPage: newLastNumPage, initNumPage: newInitNumPage});
 }
 
 render() {
@@ -98,22 +108,22 @@ render() {
         <button className="btn btn-round btn-danger" onClick={() => this.openDialog()} > <span className="glyphicon glyphicon-plus" /> </button>
       </div>
       <div className="col-md-12 center pagination-tasks">
-  <ul className="pagination">
-    <li>
-      <a href="#" aria-label="Previous" onClick={(e) => this.onClickPrevious(e)}>
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    {
-      Array(this.numberOfPages()).fill('').map( (a, index) => <li key={index}><a href="#" onClick={(e) => this.onClickPagination(e)}>{index+1}</a></li>)
-    }
-      <li>
-      <a href="#" aria-label="Next" onClick={() => this.onClickNext()}>
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</div>
+        <ul className="pagination">
+          <li>
+            <a href="#" className="btn-default" aria-label="Previous" onClick={(e) => this.onClickPrevious(e)}>
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {
+            Array(this.numberOfPages()).fill('').map( (a, index) => index+1>=this.state.initNumPage && index+1<=this.state.lastNumPage ? <li key={index} ><a className={ `${index+1!==this.state.page ? ' btn-default' : ' btn-info'}`} href="#" onClick={(e) => this.onClickPagination(e)}>{index+1}</a></li> : '' )
+          }
+            <li>
+            <a href="#" className="btn-default" aria-label="Next" onClick={(e) => this.onClickNext(e)}>
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

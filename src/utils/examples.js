@@ -1,5 +1,5 @@
 import { getId } from './index';
-//import { serverUsers, serverGroups, serverLists, serverTasks, serverComments } from './dataBase';
+import { serverUsers, serverGroups, serverLists, serverTasks, serverComments } from './dataBase';
 
 
 export const lists = [
@@ -11,7 +11,7 @@ export const lists = [
   {
     id: getId(),
     title: 'Barsa',
-    participants: []
+    participants: [{}]
   },
   {
     id: getId(),
@@ -135,7 +135,7 @@ export const groups = [
   {
     id: '0',
     name: 'ListUs',
-    friends: ['00', '11'], // pick up the friends id.
+    friends: ['00', '11'],// pick up the friends id.
     showFriends: false,
     administrator: '2'
   },
@@ -166,9 +166,7 @@ export const user = {
   visibility: true
 };
 
-export const initialState =  { lists, tasks, comments, friends, groups, user };
-
-
+//export const user = {};
 
 export const calendar = {display: true};
 
@@ -181,15 +179,16 @@ export const groups = [];
 export const user = {};
 
 export const dataBase = {
-  serverUsers,
-  serverGroups,
-  serverLists,
-  serverTasks,
-  serverComments
+  serverUsers: serverUsers,
+  serverGroups: serverGroups,
+  serverLists: serverLists,
+  serverTasks: serverTasks,
+  serverComments: serverComments
+
 };
 
 
 
-export const initialState = { lists, tasks, comments, friends, groups, user, dataBase };
+//export const initialState = { lists, tasks, comments, friends, groups, user, dataBase };*/
 
-*/
+export const initialState =  { lists, tasks, comments, friends, groups, user };
