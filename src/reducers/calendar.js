@@ -1,4 +1,8 @@
-import { ADD_DATE } from '../actions';
+import { ADD_LIST } from '../actions';
+
+const months = [ "", "Enero", "Febrero",
+"Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto",
+"Septiembre", "Octubre", "Noviembre", "Diciembre" ];
 
 function returnActualDates(objectToIterate, dateToCheck){
   
@@ -20,20 +24,29 @@ function returnActualDates(objectToIterate, dateToCheck){
   
 }
 
-function addDate(state){
+function addDate(state, title, date, importance){
   
-	/* Get year */
+  const day = date.split("/")[0];
+  const month = date.split("/")[1];
+  const monthName = months[month];
+	const year = date.split("/")[2];
 
+  const taskObject = {
+    title,
+    importance 
+  }
+
+	/* Get year */
 	let actualYear = returnActualDates(state, year);
 
 	/* Get month */
 
-	let actualMonth = returnActualDates(actualYear, month);
+	let actualMonth = returnActualDates(actualYear, monthName);
 
 	/* Get day */
 
 	let actualDay = returnActualDates(actualMonth, day);
-
+  debugger;
 	if(Object.keys(actualDay).length === 0){
 	  actualMonth[day] = [taskObject];
 	}else{
@@ -41,14 +54,16 @@ function addDate(state){
 	  actualDay[actualDay.length] = taskObject;
 	}
 
+  debugger;
+
 
   return state;
 }
 
 export default function reducerCalendar( state = {}, action ){
   switch (action.type) {
-    case ADD_DATE:
-      return addDate(state);
+    case ADD_LIST:
+      return addDate(state, action.title, action.date, action.importance);
     default:
       return state;
   }

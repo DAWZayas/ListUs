@@ -35,7 +35,9 @@ export default class Section extends Component {
   onClickAdd(){
     const { onAddList } = this.props;
     const title = this.refs.titleDialog.getValue();
-    this.validationTitle(title) ? onAddList(title) : this.refs.dialog.dismiss();
+    const date = this.state.startDate.format('L');
+    const importance = Math.ceil(this.refs.slider.getValue()/0.2);
+    this.validationTitle(title) ? onAddList(title, date, importance) : this.refs.dialog.dismiss();
     this.refs.dialog.dismiss();
   }
 
@@ -68,7 +70,7 @@ export default class Section extends Component {
           <TextField ref="titleDialog" hintText="Title List" autoFocus />
           <DatePicker dateFormat="DD/MM/YYYY" selected={this.state.startDate} onChange={this.handleChange}/>
           <br/><h5 style={{width:"100px"}}>Importance</h5>
-          <Slider style={{width: "200px"}}ref="slider" max={0.8} step={0.20} onChange={this.changeImportance.bind(this)} />
+          <Slider style={{width: "200px"}} ref="slider" max={0.8} step={0.20} onChange={this.changeImportance.bind(this)} />
           <TextField disabled style={{top: "-30px", width:"100px"}} ref='importance' defaultValue="0"/>
         </Dialog>
 
