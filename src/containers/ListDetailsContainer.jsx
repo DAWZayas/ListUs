@@ -17,7 +17,7 @@ function mapActionsToProps(dispatch){
     onRemoveTask: id => dispatch(removeTask(id)),
     onEditTask: (id, title) => dispatch(editTask(id, title)),
     onAddFriendGroupToTask: (idTask, idParticipant) => dispatch(addFriendGroupToTask(idTask, idParticipant)),
-    onRemoveList: id => dispatch(removeList(id)),
+    onRemoveList: (id, title, date) => dispatch(removeList(id, title, date)),
     onEditList: (id, title) => dispatch(editList(id, title)),
     onAddComment: (idList, user, date, msg) => dispatch(addComment(idList, user, date, msg)),
     onRemoveComments: idList => dispatch(removeComments(idList)),

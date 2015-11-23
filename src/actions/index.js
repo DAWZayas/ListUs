@@ -102,8 +102,8 @@ export function setList(list){
 export function addList(title, date, importance){
   return { type: ADD_LIST, title, date, importance };
 }
-export function removeList(idList){
-  return { type: REMOVE_LIST, idList };
+export function removeList(idList, title, date){
+  return { type: REMOVE_LIST, idList, title, date };
 }
 export function editList( idList, title ){
   return { type: EDIT_LIST, idList, title };

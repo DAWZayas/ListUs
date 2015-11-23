@@ -12,7 +12,7 @@ function mapStateToProps(state){
 function mapActionsToProps(dispatch){
 	return {
 		onAddList: (title, date, importance) => dispatch(addList(title, date, importance)),
-    onRemoveList: id => dispatch(removeList(id)),
+    onRemoveList: (id, title, date) => dispatch(removeList(id, title, date)),
     onEditList: (id, title) => dispatch(editList(id, title))
 	};
 }

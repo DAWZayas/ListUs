@@ -1,4 +1,4 @@
-import { ADD_LIST } from '../actions';
+import { ADD_LIST, REMOVE_LIST } from '../actions';
 
 const months = [ "", "Enero", "Febrero",
 "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto",
@@ -46,24 +46,44 @@ function addDate(state, title, date, importance){
 	/* Get day */
 
 	let actualDay = returnActualDates(actualMonth, day);
-  debugger;
-	if(Object.keys(actualDay).length === 0){
+	
+  if(Object.keys(actualDay).length === 0){
 	  actualMonth[day] = [taskObject];
 	}else{
 	  console.log(actualDay);
 	  actualDay[actualDay.length] = taskObject;
 	}
 
-  debugger;
-
-
   return state;
 }
+
+function removeDate(state, title, date) {
+  const day = date.split("/")[0];
+  const month = date.split("/")[1];
+  const monthName = months[month];
+  const year = date.split("/")[2];
+
+  const objectToDelete = state[year][monthName];
+
+  let newState = state;
+
+  if(objectToDelete[day].length > 1){
+    newState[year][monthName][day] = newState[year][monthName][day].filter ( (list) => list.title !== title);
+  }else{
+    delete newState[year][monthName][day];
+  }
+
+  return newState;
+}
+
+
 
 export default function reducerCalendar( state = {}, action ){
   switch (action.type) {
     case ADD_LIST:
       return addDate(state, action.title, action.date, action.importance);
+    case REMOVE_LIST:
+      return removeDate(state, action.title, action.date);
     default:
       return state;
   }

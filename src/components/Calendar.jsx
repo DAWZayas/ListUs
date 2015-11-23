@@ -52,8 +52,9 @@ export default class Calendar extends Component {
 
     for (let key in dates) {
       if (numberDay === key) {
-        tasks += dates[key].map( (task, index) =>  'Es el cumpleaños de ' + 
-          task.name + ' y cumple ' + task.age + ' años.');
+        debugger;
+        tasks += dates[key].map( (task, index) =>  'Tienes que hacer la tarea ' + 
+          task.title + ' con una importancia de: ' + task.importance);
       }
     }
 
@@ -80,9 +81,9 @@ export default class Calendar extends Component {
         <span>{ date }</span>
         <div className="Birthdays-List">
           { dates[date] &&
-            dates[date].map((birthday, i) =>
+            dates[date].map((list, i) =>
               <div key={i}>
-                🎁 { birthday.name } ({ birthday.age})
+                🎁 { list.title } ({ list.importance})
               </div>
             )
           }

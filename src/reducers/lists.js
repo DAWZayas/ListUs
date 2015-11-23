@@ -16,7 +16,7 @@ function addList( state, title, date, importance ){
   });
 }
 
-function removeList( state, idList ){
+function removeList( state, idList, title ){
   return state.filter( list => list.id !== idList );
 }
 
@@ -36,7 +36,7 @@ export default function listReducer( state = [], action){
     case ADD_LIST:
       return addList(state, action.title, action.date, action.importance);
     case REMOVE_LIST:
-      return removeList(state, action.idList);
+      return removeList(state, action.idList, action.title);
     case EDIT_LIST:
       return editList(state, action.idList, action.title);
     case ADD_FRIEND_OR_GROUP_TO_LIST:
