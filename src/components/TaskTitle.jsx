@@ -143,7 +143,7 @@ export default class TaskTitle extends Component {
               <ul>
             {
 
-              this.state.ListOfFriendsAndGroups.map( (item, index) => index<=5 && item.length!==0 ? <li key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}>{item.name}</li> : null)
+              this.state.ListOfFriendsAndGroups.map( (item, index) => index<=5 && item.length!==0 ? <li style={{cursor: 'pointer'}} key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}>{item.name}</li> : null)
             }
             </ul>
             <button onClick={ e => this.handleOnClickAddFriendGroupToList(e)}> Add </button>

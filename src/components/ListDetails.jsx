@@ -8,11 +8,7 @@ export default class ListDetails extends Component {
 constructor(props){
   super(props);
   this.state = {
-    page: 1,
-    lastTask: 6,
-    initTask: 0,
-    initNumPage: 1,
-    lastNumPage: 3
+    page: 1
   };
 }
 
@@ -32,8 +28,6 @@ onClickAdd(){
   const idList = list.id;
   this.validationTitle(title) ? onAddTask(idList, title) : this.refs.dialog.dismiss();
   this.refs.dialog.dismiss();
-  this.render();
-  this.calculateArrayPagination(this.state.page);
 }
 
 onClickClose(){
@@ -41,14 +35,13 @@ onClickClose(){
 }
 
 onClickPagination(e){
-  let numPage = parseInt(e.target.text);
-  this.calculateArrayPagination(numPage);
+  let newPage = parseInt(e.target.text);
+  this.setState({page: newPage});
 }
 
 onClickPrevious(){
   if(1!==this.state.page){
-    const newPage = this.state.page-1;
-    this.calculateArrayPagination(newPage);
+    this.setState({page: this.state.page-1});
   }
 }
 
@@ -60,19 +53,19 @@ numberOfPages(){
 onClickNext(e){
   e.preventDefault();
   if(this.numberOfPages()!==this.state.page){
-    const newPage = this.state.page+1;
-    this.calculateArrayPagination(newPage);
+    this.setState({page: this.state.page+1});
   }
 }
 
-calculateArrayPagination(newPage){
-  const { lastNumPage, initNumPage } = this.state;
-  const newLastNumPage = newPage+2<=this.numberOfPages() ? newPage+2 : newPage+1<=this.numberOfPages() ? newPage+1 : lastNumPage;
-  const newInitNumPage = newPage-2>0 ? newPage-2 : newPage-1>0 ? newPage-1 : initNumPage;
-  this.setState({ page: newPage, lastTask: newPage*6, initTask: newPage*6-6, lastNumPage: newLastNumPage, initNumPage: newInitNumPage});
-}
+
 
 render() {
+
+  const numberOfPages = this.numberOfPages();
+  const lastNumPage = this.state.page+2<=numberOfPages ? this.state.page+2 : this.state.page+1<=numberOfPages ? this.state.page+1 : this.state.page;
+  const initNumPage = this.state.page-2>0 ? this.state.page-2 : this.state.page-1>0 ? this.state.page-1 : this.state.page;
+  const initTask = this.state.page*6-6;
+  const lastTask = this.state.page*6;
 
   let customActions = [
     <FlatButton
@@ -85,11 +78,12 @@ render() {
       onClick={() => this.onClickAdd()} />
   ];
   const { list, onRemoveList, onEditList, tasks, onRemoveTask, onEditTask, friends, groups, onAddFriendGroupToList } = this.props;
+
   return(
 
     <div className="row section">
       <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
-        <TextField ref="titleDialog" hintText="Title List" />
+        <TextField ref="titleDialog" hintText="Title List" autoFocus />
       </Dialog>
       <div className="col-md-1">
       </div>
@@ -101,7 +95,7 @@ render() {
       <div className="article col-md-12">
         <ul className="nav nav-pills nav-stacked navMarginTop list-group">
           {
-            Object.values(tasks).map( (task, index) => index>=this.state.initTask && index<this.state.lastTask ? <ItemTaskDetails key={index} task={task} onRemoveTask={onRemoveTask} onEditTask={onEditTask} /> : null)
+            Object.values(tasks).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails key={index} task={task} onRemoveTask={onRemoveTask} onEditTask={onEditTask} /> : null)
           }
         </ul>
       </div>
@@ -116,7 +110,7 @@ render() {
             </a>
           </li>
           {
-            Array(this.numberOfPages()).fill('').map( (a, index) => index+1>=this.state.initNumPage && index+1<=this.state.lastNumPage ? <li key={index} ><a className={ `${index+1!==this.state.page ? ' btn-default' : ' btn-info'}`} href="#" onClick={(e) => this.onClickPagination(e)}>{index+1}</a></li> : '' )
+            Array(numberOfPages).fill('').map( (a, index) => index+1>=initNumPage && index+1<=lastNumPage ? <li key={index} ><a className={ `${index+1!==this.state.page ? ' btn-default' : ' btn-info'}`} href="#" onClick={(e) => this.onClickPagination(e)}>{index+1}</a></li> : '' )
           }
             <li>
             <a href="#" className="btn-default" aria-label="Next" onClick={(e) => this.onClickNext(e)}>
