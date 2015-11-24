@@ -101,8 +101,8 @@ export function addFriendGroupToTask(idTask, id){
 export function setList(list){
   return { type: SET_LIST, list};
 }
-export function addList(title, date, importance){
-  return { type: ADD_LIST, title, date, importance };
+export function addList(title, date, importance, id){
+  return { type: ADD_LIST, title, date, importance, id };
 }
 export function removeList(idList, title, date){
   return { type: REMOVE_LIST, idList, title, date };
