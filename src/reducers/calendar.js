@@ -26,7 +26,7 @@ function returnActualDates(objectToIterate, dateToCheck){
 }
 
 
-function addDate(state, title, date, importance){
+function addDate(state, title, date, importance, id){
   
   const day = date.split('/')[0];
   const month = date.split('/')[1];
@@ -35,7 +35,8 @@ function addDate(state, title, date, importance){
 
   const taskObject = {
     title,
-    importance 
+    importance,
+    id
   };
 
 	/* Get year */
@@ -84,7 +85,7 @@ function removeDate(state, title, date) {
 export default function reducerCalendar( state = {}, action ){
   switch (action.type) {
     case ADD_LIST:
-      return addDate(state, action.title, action.date, action.importance);
+      return addDate(state, action.title, action.date, action.importance, action.id);
     case REMOVE_LIST:
       return removeDate(state, action.title, action.date);
     default:

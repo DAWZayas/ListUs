@@ -3,6 +3,7 @@ import List from '../components/List';
 
 import SectionHeader from './SectionHeader';
 import { menuItems, sortArray } from '../utils/functions';
+import { getId } from '../utils';
 
 
 import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
@@ -40,10 +41,11 @@ export default class Section extends Component {
 
   onClickAdd(){
     const { onAddList } = this.props;
+    const id = getId();
     const title = this.refs.titleDialog.getValue();
     const date = this.state.startDate.format('L');
     const importance = Math.ceil(this.refs.slider.getValue()/0.2);
-    this.validationTitle(title) ? onAddList(title, date, importance) : this.refs.dialog.dismiss();
+    this.validationTitle(title) ? onAddList(title, date, importance, id) : this.refs.dialog.dismiss();
     this.refs.dialog.dismiss();
   }
 

@@ -6,7 +6,7 @@ export const lists = [
   {
     id: getId(),
     title: 'Real Madrid',
-    participants: [],//id group or id friend
+    participants: [], //id group or id friend
     date: '3/11/2015',
     importance: 3
   },
@@ -147,7 +147,7 @@ export const groups = [
   {
     id: '0',
     name: 'ListUs',
-    friends: ['00', '11'],// pick up the friends id.
+    friends: ['00', '11'], // pick up the friends id.
     showFriends: false,
     administrator: '2'
   },
@@ -208,21 +208,20 @@ export const dataBase = {
 export const calendar = {
   2015: {
     'Noviembre': {
-      3: [{ title: 'Real Madrid', importance: 3 }, 
-          {title: 'Barsa', importance: 1 }],
-      16: [{ title: 'Valencia', importance: 1 }],
-      26: [{ title: 'Celta', importance: 0 }]
+      3: [{ title: 'Real Madrid', importance: 3, id: lists[0].id }, 
+          { title: 'Barsa', importance: 1, id: lists[1].id }],
+      16: [{ title: 'Valencia', importance: 1, id: lists[3].id }],
+      26: [{ title: 'Celta', importance: 0, id: lists[4].id }]
     },
     'Diciembre': {
-      2: [{title: 'Betis', importance: 2}]
+      2: [{ title: 'Betis', importance: 2, id: lists[5].id }]
     }
   },
   2016: {
     'Enero': {
-      8: [{ title: 'Patetic', importance: 2 }]
+      8: [{ title: 'Patetic', importance: 2, id: lists[2].id }]
     }
   }
 };
 
 export const initialState =  { lists, tasks, comments, friends, groups, user, calendar };
-

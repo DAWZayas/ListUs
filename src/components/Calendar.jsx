@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import DayPicker from 'react-day-picker';
+
+import { Link } from 'react-router';
+
 import { localeUtils } from 'react-day-picker/moment';
 import '../calendarStyle.css';
 import 'moment/locale/es';
@@ -47,22 +50,27 @@ export default class Calendar extends Component {
     
     const dates = this.getCalendar(day);
 
-    let tasks = '';
+    let tasks = true;
+    let pendingTasks;
 
     for (let key in dates) {
       if (numberDay === key) {
-        tasks += dates[key].map( (task) =>  'Tienes que hacer la tarea ' + 
-          task.title + ' con una importancia de: ' + task.importance);
+        pendingTasks = (<ul>
+          {
+            dates[key].map( (task, index) =>  <li key={index}><span>Tienes que hacer la tarea</span> <Link to={`/list/${task.id}`}>{task.title}</Link> <span> con una importancia de: </span></li>)
+          }
+        </ul>);
+        tasks = false;
       }
     }
 
-    if (tasks === '') {
-      tasks += 'Nada planeado para este día.';
+    if (tasks) {
+      pendingTasks = 'Nada planeado para este día.';
     };
 
     this.setState({
       selectedDay: day,
-      pendingTasks: tasks
+      pendingTasks
     });
         
   }
