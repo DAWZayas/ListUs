@@ -13,8 +13,10 @@ export default class TaskTitle extends Component {
       anchorEl: {},
       targetOrigin: {'horizontal':'left', 'vertical':'center'},
       anchorOrigin: {'horizontal':'right', 'vertical':'center'},
-      ListOfFriendsAndGroups: [],
-      newParticipant: {}
+      newParticipant: {},
+      toggleFriend: true,
+      toggleGroup: true,
+      textToSearch: ''
     };
   }
 
@@ -43,54 +45,29 @@ export default class TaskTitle extends Component {
   }
 
   isInTheArray(idParticipants, list){
-
     const leng = list.participants.filter(participant => participant.id!==idParticipants).length;
     return list.participants.length!==leng;
   }
 
-
-  handleOnChangeTextField(e){
-    e.stopPropagation();
-    const { list, friends, groups } = this.props;
+  handleOnChangeTextField(){
     const textToSearch = this.refs.textField.getValue().toLowerCase();
-    if(textToSearch!==''){
-      const friendToggle = this.refs.friend;
-      const groupToggle = this.refs.group;
-      const arrayFriends = friends.filter( friend => !this.isInTheArray(friend.id, list ) );
-      const arrayGroups = groups.filter( group => !this.isInTheArray(group.id, list ) );
-      let newListOfFriendsAndGroups = [];
-      newListOfFriendsAndGroups = friendToggle.isToggled() ? newListOfFriendsAndGroups.concat(arrayFriends) : newListOfFriendsAndGroups;
-      newListOfFriendsAndGroups = groupToggle.isToggled() ? newListOfFriendsAndGroups.concat(arrayGroups) : newListOfFriendsAndGroups;
-      newListOfFriendsAndGroups = newListOfFriendsAndGroups.length!==0 ? newListOfFriendsAndGroups.filter( item=> item.name.toLowerCase().search(textToSearch) !== -1) : [];
-      this.setState({
-        ListOfFriendsAndGroups: newListOfFriendsAndGroups
-      });
-    }else{
-      this.setState({
-        ListOfFriendsAndGroups: []
-      });
-    }
+    this.setState({textToSearch: textToSearch});
   }
+
 
   handleOnClickListParticipant(e, participant){
     e.stopPropagation();
-    const participantName = participant.name;
-    this.refs.textField.setValue(participantName);
+    this.refs.textField.setValue(participant.name);
     this.setState({
-      newParticipant: participant
+      newParticipant: participant,
+      textToSearch: participant.name
     });
   }
-
 
   handleOnClickAddFriendGroupToList(e){
     e.stopPropagation();
     const { list, onAddFriendGroupToList } = this.props;
-    Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? null : onAddFriendGroupToList(list.id, this.state.newParticipant) ;
-    this.setState({
-      newParticipant: {},
-      ListOfFriendsAndGroups: []
-    });
-    this.refs.textField.setValue('');
+    Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list.id, this.state.newParticipant) ;
     this.closePopover();
   }
 
@@ -98,20 +75,40 @@ export default class TaskTitle extends Component {
     e.stopPropagation();
     this.setState({
       activePopover:key,
-      anchorEl:e.currentTarget,
+      anchorEl:e.currentTarget
     });
   }
 
   closePopover() {
+    this.clearTextField();
     this.setState({
       activePopover:'none',
       newParticipant: {},
-      ListOfFriendsAndGroups: []
+      textToSearch: ''
     });
   }
 
+  clearTextField(){
+    this.refs.textField.setValue('');
+  }
+
+  handleOnToggleFriend(){
+    this.setState({ toggleFriend: !this.state.toggleFriend});
+  }
+
+  handleOnToggleGroup(){
+    this.setState({toggleGroup: !this.state.toggleGroup});
+  }
+
   render() {
-    const { list } = this.props;
+
+    const { list, friends, groups } = this.props;
+    let listOfFriendsAndGroups = [];
+    if(this.state.textToSearch!==''){
+      const listFriends = this.state.toggleFriend ? [].concat(friends.filter( friend => !this.isInTheArray(friend.id, list ))) : [];
+      const listGroups = this.state.toggleGroup ? [].concat(groups.filter( group => !this.isInTheArray(group.id, list ))) : [];
+      listOfFriendsAndGroups = listFriends.concat(listGroups).filter( item=> item.name.toLowerCase().search(this.state.textToSearch) !== -1);
+    }
     return(
     <div>
       <Popover open={this.state.activePopover==='pop'}
@@ -128,7 +125,7 @@ export default class TaskTitle extends Component {
             value="Friends"
             label="Friends"
             ref="friend"
-            onToggle={(e) => this.handleOnChangeTextField(e)}
+            onToggle={() => this.handleOnToggleFriend()}
             defaultToggled />
 
           <Toggle
@@ -137,13 +134,12 @@ export default class TaskTitle extends Component {
             value="Groups"
             label="Groups"
             ref="group"
-            onToggle={(e) => this.handleOnChangeTextField(e)}
+            onToggle={() => this.handleOnToggleGroup()}
             defaultToggled />
-            <TextField ref="textField" hintText="Title List" onChange={ e => this.handleOnChangeTextField(e)}  />
+          <TextField ref="textField" hintText="Title List" onChange={ () => this.handleOnChangeTextField()}  />
               <ul>
             {
-
-              this.state.ListOfFriendsAndGroups.map( (item, index) => index<=5 && item.length!==0 ? <li style={{cursor: 'pointer'}} key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}>{item.name}</li> : null)
+              listOfFriendsAndGroups.map( (item, index) => index<=5 && item.length!==0 ? <li style={{cursor: 'pointer'}} key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}>{item.name}</li> : null)
             }
             </ul>
             <button onClick={ e => this.handleOnClickAddFriendGroupToList(e)}> Add </button>
