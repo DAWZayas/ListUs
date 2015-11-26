@@ -44,8 +44,12 @@ export default class List extends Component {
         <div className="col-xs-3">
           <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
         </div>
-        <div className="col-xs-4"></div>
-        <div className="col-xs-4" >
+        <div className="col-xs-8">
+        </div>
+        <div className="col-xs-1">
+          <span className="dateBtn pull-right btn btn-default">{list.date}</span>
+        </div>
+        <div className="col-xs-3" >
           <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
           <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />
         </div>

@@ -191,6 +191,10 @@ ul{
   font-size: 2em;
   text-align: center;
 }
+
+.dateBtn {
+  width: 100px;
+}
 /*
 *  TASKTITLE
 */

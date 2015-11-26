@@ -37,8 +37,13 @@ export default class Header extends Component{
 
           <div className="navegador">
             <Nav />
-            <button className="btn btn-info calendario">
-            <span className=" biggerGlyphicon  glyphicon  glyphicon-calendar" aria-hidden="true"></span></button>
+            
+            <Link to="/calendar">
+              <button className="btn btn-info calendario">
+                <span className=" biggerGlyphicon  glyphicon  glyphicon-calendar" aria-hidden="true"></span>
+              </button>
+            </Link>
+
             <div className="search">
               <div className="search-btn-input">
                 <button className="btn btn-info">
