@@ -61,7 +61,7 @@ onClickNext(e){
 
 render() {
 
-  const numberOfPages = this.numberOfPages();
+  const numberOfPages = this.numberOfPages()===0 ? 1 : this.numberOfPages();
   const lastNumPage = this.state.page+2<=numberOfPages ? this.state.page+2 : this.state.page+1<=numberOfPages ? this.state.page+1 : this.state.page;
   const initNumPage = this.state.page-2>0 ? this.state.page-2 : this.state.page-1>0 ? this.state.page-1 : this.state.page;
   const initTask = this.state.page*6-6;
