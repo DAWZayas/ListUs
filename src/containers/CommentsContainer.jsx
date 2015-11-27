@@ -4,11 +4,12 @@ import { addComment, removeComments } from '../actions';
 
 
 function mapStateToProps(state){
+
   const idList = state.router.params.idList;
   const comments = state.comments[idList];
   return {
-    comments: state.comments,
-    friends: state.friedns
+    idList: idList,
+    comments: comments
   };
 }
 
@@ -16,7 +17,7 @@ function mapStateToProps(state){
 
 function mapActionsToProps(dispatch){
   return{
-    onAddComment: (idList, user, date, msg) => dispatch(addComment(idList, user, date, msg)),
+    onAddComment: (idList, user, date, hour, msg) => dispatch(addComment(idList, user, date, hour, msg)),
     onRemoveComments: idList => dispatch(removeComments(idList))
   };
 }

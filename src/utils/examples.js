@@ -48,8 +48,8 @@ export const lists = [
 ];
 
 export const comments = {
-  1: [ {  user:'pepe', date:'12/7/2015', msg:'eeeeee'}, { user:'juan', date:'12/7/2015', msg:'wwww'}],
-  2: [ {  user:'pepe', date:'13/7/2015', msg:'goewjpe'}, { user:'juan', date:'13/7/2015', msg:'trtrt'}]
+  [lists[0].id]: [ {  user:'pepe', date:'12/7/2015', hour:'11:22', msg:'eeeeee'}, { user:'juan', date:'12/7/2015', hour:'11:22', msg:'wwww'}],
+  [lists[1].id]: [ {  user:'pepe', date:'13/7/2015', hour:'11:22', msg:'goewjpe'}, { user:'juan', date:'13/7/2015', hour:'11:22', msg:'trtrt'}]
 };
 
 export const friends = [

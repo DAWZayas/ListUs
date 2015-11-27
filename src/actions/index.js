@@ -134,8 +134,8 @@ export function displayCalendar(display){
 * comment action creator
 */
 
-export function addComment(idList, user, date, msg){
-  return { type: ADD_COMMENT, idList, user, date, msg};
+export function addComment(idList, user, date, hour, msg){
+  return { type: ADD_COMMENT, idList, user, date, hour, msg};
 }
 export function removeComments(idList){
   return { type: REMOVE_COMMENTS, idList};
