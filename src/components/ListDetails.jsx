@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import ItemTaskDetails from './ItemTaskDetails';
 import TaskTitle from './TaskTitle';
 import { Dialog, TextField, FlatButton } from 'material-ui';
+import CommentsContainer from '../containers/CommentsContainer';
+import CommentsChat from '../components/CommentsChat';
 
 export default class ListDetails extends Component {
 
@@ -119,6 +121,7 @@ render() {
           </li>
         </ul>
       </div>
+      <CommentsContainer />
     </div>
   );
 }

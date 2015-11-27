@@ -3,7 +3,7 @@ import {ADD_COMMENT, REMOVE_COMMENTS } from '../actions';
 
 function addComment(state, idList, user, date, msg){
   const arrayComents = state[idList] === undefined ? [] : state[idList];
-  const newArray = arrayComents.concat({ idList, user, date, msg});
+  const newArray = arrayComents.concat({ user, date, msg});
   return Object.assign( {}, state, {[idList]:newArray});
 }
 

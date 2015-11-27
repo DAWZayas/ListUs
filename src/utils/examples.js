@@ -48,8 +48,8 @@ export const lists = [
 ];
 
 export const comments = {
-  1: [ { idList:1, user:'pepe', date:'12/7/2015', msg:'eeeeee'}, { idList:1, user:'juan', date:'12/7/2015', msg:'wwww'}],
-  2: [ { idList:2, user:'pepe', date:'13/7/2015', msg:'goewjpe'}, { idList:2, user:'juan', date:'13/7/2015', msg:'trtrt'}]
+  1: [ {  user:'pepe', date:'12/7/2015', msg:'eeeeee'}, { user:'juan', date:'12/7/2015', msg:'wwww'}],
+  2: [ {  user:'pepe', date:'13/7/2015', msg:'goewjpe'}, { user:'juan', date:'13/7/2015', msg:'trtrt'}]
 };
 
 export const friends = [
@@ -208,7 +208,7 @@ export const dataBase = {
 export const calendar = {
   2015: {
     'Noviembre': {
-      3: [{ title: 'Real Madrid', importance: 3, id: lists[0].id }, 
+      3: [{ title: 'Real Madrid', importance: 3, id: lists[0].id },
           { title: 'Barsa', importance: 1, id: lists[1].id }],
       16: [{ title: 'Valencia', importance: 1, id: lists[3].id }],
       26: [{ title: 'Celta', importance: 0, id: lists[4].id }]

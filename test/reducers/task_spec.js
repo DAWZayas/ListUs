@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 
-import { tasks } from '../../src/utils/examples';
 import taskReducer from '../../src/reducers/tasks.js';
 import { addTask, removeTask, editTask, addFriendGroupToTask } from '../../src/actions';
 import { getId } from '../../src/utils';
