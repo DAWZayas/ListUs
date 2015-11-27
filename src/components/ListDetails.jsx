@@ -89,7 +89,7 @@ render() {
       </Dialog>
       <div className="col-md-1">
       </div>
-      <div className="col-md-10">
+      <div className="col-md-10 heigthTitle">
         <ul className="list-group listTitle">
           <TaskTitle list={list} onRemoveList={onRemoveList} onEditList={onEditList} friends={friends} groups={groups} onAddFriendGroupToList={onAddFriendGroupToList} />
         </ul>
