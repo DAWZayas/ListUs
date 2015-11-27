@@ -132,6 +132,13 @@ ul{
   flex-direction: row;
   flex-wrap: nowrap;
 }
+
+/*.calendarHeader {
+  position: relative;
+  top: 10px;
+}*/
+
+
 /*
   SECTION
 */
@@ -193,7 +200,7 @@ ul{
 }
 
 .dateBtn {
-  width: 100px;
+  width: 93px;
 }
 /*
 *  TASKTITLE
@@ -410,19 +417,7 @@ ul{
 }
 
 
-@media (max-width: 600px) {
-  .avatarFriend {
-    height: 30px !important;
-    width: 30px !important;
 
-    line-height: 25px !important;
-  }
-
-  .avatarLetter {
-    font-size: 15px !important;
-  }
-
-}
 
 .tools{
 
@@ -482,5 +477,20 @@ ul{
   flex-flow:column wrap;
   align-items:center;
   padding-top: 50px;
+
+}
+
+
+@media (max-width: 600px) {
+  .avatarFriend {
+    height: 30px !important;
+    width: 30px !important;
+
+    line-height: 25px !important;
+  }
+
+  .avatarLetter {
+    font-size: 15px !important;
+  }
 
 }
