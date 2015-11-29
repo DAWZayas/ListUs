@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import { Dialog, TextField, Toggle } from 'material-ui';
 
@@ -101,18 +101,18 @@ export default class Account extends React.Component {
     ];
 
 		return (
-			<article className='article account'>
+			<article className="article account">
         <div className="acountImg">
          <div className="photo">
             <img src={this.props.user.img} width="80" height="80" style={{borderRadius: '50px'}} />
             <div></div>
-            <div><a href='#' onClick={this.showDialogChangePhoto.bind(this)}><img width="18" src={'http://vignette3.wikia.nocookie.net/java/images/0/0e/Camera_icon.gif/revision/latest?cb=20090227194712' } /></a></div>
+            <div><a href="#" onClick={this.showDialogChangePhoto.bind(this)}><img width="18" src={"http://vignette3.wikia.nocookie.net/java/images/0/0e/Camera_icon.gif/revision/latest?cb=20090227194712" } /></a></div>
           </div>
           <span style={{fontFamily: 'verdana', fontWeight: 'bold', fontSize: '20'}}>{this.props.user.name}</span>
         </div><br/>
       	<ul className="tools nav nav-pills nav-stacked ">
-          <li role="presentation"><a onClick={this.showDialogChangeName.bind(this)} href='#'><span className='glyphicon marginGlyph glyphicon-user'></span>Change Name</a></li>
-          <li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href='#'><span className='glyphicon marginGlyph glyphicon-lock'></span>Change password</a></li>
+          <li role="presentation"><a onClick={this.showDialogChangeName.bind(this)} href="#"><span className="glyphicon marginGlyph glyphicon-user"></span>Change Name</a></li>
+          <li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href="#"><span className="glyphicon marginGlyph glyphicon-lock"></span>Change password</a></li>
           <li role="presentation" style={{display: 'flex', justifyContent: 'center'}}>
             <a style={{width: '190px', textAlign: 'justify'}}>
               <Toggle
@@ -126,24 +126,32 @@ export default class Account extends React.Component {
             </li>
         </ul>
 
-         <Dialog ref='changeName' title='Change Name' actions={changeNameActions} >
-            <TextField ref='newName' floatingLabelText="New name" /> 
+         <Dialog ref="changeName" title="Change Name" actions={changeNameActions} >
+            <TextField ref="newName" floatingLabelText="New name" /> 
         </Dialog>
 
-        <Dialog ref='changePassword' title='Change Password' actions={changePasswordActions} >
-            <TextField type='password' ref='oldPassword' floatingLabelText="Old password" /> 
+        <Dialog ref="changePassword" title="Change Password" actions={changePasswordActions} >
+            <TextField type="password" ref="oldPassword" floatingLabelText="Old password" /> 
             <br/><br/>
-            <TextField type='password' ref='newPassword' floatingLabelText="New password" /> 
-            <TextField type='password' ref='newPassword2' floatingLabelText="Repeat new password" /> 
+            <TextField type="password" ref="newPassword" floatingLabelText="New password" /> 
+            <TextField type="password" ref="newPassword2" floatingLabelText="Repeat new password" /> 
             <p className="error" style={{color: 'red'}}>{this.state.error}</p>
         </Dialog>
 
-        <Dialog ref='changePhoto' title='Change Photo' actions={changePhotoActions} >
-            <TextField ref='newUrl' floatingLabelText="New photo" /> 
+        <Dialog ref="changePhoto" title="Change Photo" actions={changePhotoActions} >
+            <TextField ref="newUrl" floatingLabelText="New photo" /> 
         </Dialog>
 
       </article>
 		);
 	}
 }
+
+Account.propTypes = {
+  onChangeUserName: PropTypes.func,
+  onChangeUserVisibility: PropTypes.func,
+  onChangeUserPassword: PropTypes.func,
+  onChangeUserPhoto: PropTypes.func,
+  user: PropTypes.object
+};
 

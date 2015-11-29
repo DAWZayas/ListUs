@@ -12,10 +12,10 @@ export default (
   <Route path="/" component={App}>
     <Route path="list" component={SectionContainer} />
     <Route path="list/:idList" component={ListDetailsContainer} />
-    <Route path='account' component={AccountContainer} />
-    <Route path='groups' component={GroupsContainer} />
-    <Route path='friends' component={FriendsContainer} />
-    <Route path='calendar' component={CalendarContainer} />
+    <Route path="account" component={AccountContainer} />
+    <Route path="groups" component={GroupsContainer} />
+    <Route path="friends" component={FriendsContainer} />
+    <Route path="calendar" component={CalendarContainer} />
 
     <IndexRoute component={SectionContainer} />
   </Route>

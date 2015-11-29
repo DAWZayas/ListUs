@@ -6,7 +6,7 @@ injectTapEventPlugin();
 import { TextField, RaisedButton } from 'material-ui';
 import Logo from '../components/Logo';
 import { arrayPositionByObjectKey, getFriends, getGroups, getLists, getTasks } from '../utils/functions';
-import { serverUsers, serverGroups, serverLists, serverTasks } from '../utils/dataBase';
+import { serverUsers } from '../utils/dataBase';
 
 
 export default class Enter extends Component {
@@ -67,13 +67,19 @@ export default class Enter extends Component {
 
 Enter.propTypes = {
   // Injected by React RouterConfirmDialog
-  children: PropTypes.node
+  children: PropTypes.node,
+  onSetFriends: PropTypes.func,
+  onSetTasks: PropTypes.func,
+  onSetLists: PropTypes.func,
+  onSetGroups: PropTypes.func,
+  onSwitchUser: PropTypes.func
 };
 
 
 function mapStateToProps(state) {
   return {
-     //dataBase: state.dataBase
+    state
+    //dataBase: state.dataBase
   };
 }
 

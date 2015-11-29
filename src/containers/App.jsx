@@ -30,7 +30,8 @@ export default class App extends Component {
 
 App.propTypes = {
   // Injected by React RouterConfirmDialog
-  children: PropTypes.node
+  children: PropTypes.node,
+  user: PropTypes.object
 };
 
 function mapStateToProps(state) {
@@ -41,7 +42,7 @@ function mapStateToProps(state) {
 
 function mapActionsToProps(dispatch) {
   return {
-
+    //dispatch
   };
     
 }

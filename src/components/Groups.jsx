@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar, DropDownMenu } from 'material-ui';
+import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
 import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, groupFriends, sortArray, menuItems } from '../utils/functions';
 import SectionHeader from './SectionHeader';
 
@@ -198,7 +198,7 @@ export default class Groups extends Component {
 				{(this.state.listToShow !== 0)
 					 ?<div className="col-md-12 center">
 			          <a onClick={() => this.openDialog()} style={{cursor: 'pointer'}} >
-			            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width='30' height='30'/>
+			            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width="30" height="30"/>
 			          </a>
 			        </div>
 			        : ''
@@ -260,6 +260,13 @@ export default class Groups extends Component {
 
 
 Groups.propTypes= {
+	user: PropTypes.object,
 	groups: PropTypes.array,
-	friends: PropTypes.array
+	friends: PropTypes.array,
+	onChangeGroupAdmin: PropTypes.func,
+	onshowGroupFriends: PropTypes.func,
+	onRemoveGroup: PropTypes.func,
+	onEditGroup: PropTypes.func,
+	onAddGroup: PropTypes.func,
+	onAddGroupFriend: PropTypes.func
 };

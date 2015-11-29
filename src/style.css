@@ -132,6 +132,13 @@ ul{
   flex-direction: row;
   flex-wrap: nowrap;
 }
+
+/*.calendarHeader {
+  position: relative;
+  top: 10px;
+}*/
+
+
 /*
   SECTION
 */
@@ -139,7 +146,7 @@ ul{
 .article {
   background-color: lightblue;
   width: 100%;
-  height: 300px;
+  height: 400px;
   float: left;
 }
 
@@ -191,6 +198,10 @@ ul{
   font-size: 2em;
   text-align: center;
 }
+
+.dateBtn {
+  width: 93px;
+}
 /*
 *  TASKTITLE
 */
@@ -215,6 +226,12 @@ ul{
 /*.changeTask {
   margin-left: 35px;
 }*/
+
+.pagination-tasks{
+
+}
+
+
 
 /*
   ACCOUNT
@@ -400,19 +417,7 @@ ul{
 }
 
 
-@media (max-width: 600px) {
-  .avatarFriend {
-    height: 30px !important;
-    width: 30px !important;
 
-    line-height: 25px !important;
-  }
-
-  .avatarLetter {
-    font-size: 15px !important;
-  }
-
-}
 
 .tools{
 
@@ -476,3 +481,16 @@ ul{
 }
 
 
+@media (max-width: 600px) {
+  .avatarFriend {
+    height: 30px !important;
+    width: 30px !important;
+
+    line-height: 25px !important;
+  }
+
+  .avatarLetter {
+    font-size: 15px !important;
+  }
+
+}

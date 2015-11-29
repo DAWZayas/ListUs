@@ -1,6 +1,6 @@
 import { Avatar } from 'material-ui';
 import React from 'react';
-import { serverUsers, serverGroups, serverFriends, serverLists, serverTasks } from './dataBase';
+import { serverUsers, serverGroups, serverLists, serverTasks } from './dataBase';
 
 export function arrayPositionByObjectKey(key, value, array){
 	for(let i=0; i<array.length ; i++){
@@ -46,6 +46,7 @@ export function avatarLetter(name, id){
 
 export function objIsEmpty(obj){
 	for(let key in obj){
+		obj[key];
 		return false;
 	}
 	return true;

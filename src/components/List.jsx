@@ -32,7 +32,7 @@ export default class List extends Component {
   handleOnClickRemove(e){
     e.stopPropagation();
     const { list, onRemoveList } = this.props;
-    onRemoveList(list.id);
+    onRemoveList(list.id, list.title, list.date);
   }
 
   render() {
@@ -44,10 +44,11 @@ export default class List extends Component {
         <div className="col-xs-3">
           <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
         </div>
-        <div className="col-xs-4"></div>
-        <div className="col-xs-4" >
+        <div className="col-xs-8" >
           <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
           <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />
+          <span className="dateBtn pull-right btn btn-default">{list.date}</span>
+          
         </div>
 
       </div>

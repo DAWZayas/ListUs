@@ -1,43 +1,55 @@
 import { getId } from './index';
-import { serverUsers, serverGroups, serverLists, serverTasks, serverComments } from './dataBase';
+//import { serverUsers, serverGroups, serverLists, serverTasks, serverComments } from './dataBase';
 
 
 export const lists = [
   {
     id: getId(),
     title: 'Real Madrid',
-    participants: []//id group or id friend
+    participants: [], //id group or id friend
+    date: '3/11/2015',
+    importance: 3
   },
   {
     id: getId(),
     title: 'Barsa',
-    participants: []
+    participants: [],
+    date: '3/11/2015',
+    importance: 1
   },
   {
     id: getId(),
     title: 'Patetic',
-    participants: []
+    participants: [],
+    date: '8/1/2016',
+    importance: 2
   },
   {
     id: getId(),
     title: 'Valencia',
-    participants: []
+    participants: [],
+    date: '16/11/2015',
+    importance: 0
   },
   {
     id: getId(),
     title: 'Celta',
-    participants: []
+    participants: [],
+    date: '26/11/2015',
+    importance: 0
   },
   {
     id: getId(),
     title: 'Betis',
-    participants: []
+    participants: [],
+    date: '2/12/2015',
+    importance: 2
   }
 ];
 
 export const comments = {
-  1: [ { idList:1, user:'pepe', date:'12/7/2015', msg:'eeeeee'}, { idList:1, user:'juan', date:'12/7/2015', msg:'wwww'}],
-  2: [ { idList:2, user:'pepe', date:'13/7/2015', msg:'goewjpe'}, { idList:2, user:'juan', date:'13/7/2015', msg:'trtrt'}]
+  [lists[0].id]: [ {  user:'pepe', date:'12/7/2015', hour:'11:22', msg:'eeeeee'}, { user:'juan', date:'12/7/2015', hour:'11:22', msg:'wwww'}],
+  [lists[1].id]: [ {  user:'pepe', date:'13/7/2015', hour:'11:22', msg:'goewjpe'}, { user:'juan', date:'13/7/2015', hour:'11:22', msg:'trtrt'}]
 };
 
 export const friends = [
@@ -135,7 +147,7 @@ export const groups = [
   {
     id: '0',
     name: 'ListUs',
-    friends: ['00', '11'],// pick up the friends id.
+    friends: ['00', '11'], // pick up the friends id.
     showFriends: false,
     administrator: '2'
   },
@@ -166,11 +178,10 @@ export const user = {
   visibility: true
 };
 
-export const initialState =  { lists, tasks, comments, friends, groups, user };
+
+//export const user = {};
 
 
-
-export const calendar = {display: true};
 
 /*
 export const lists = [];
@@ -181,15 +192,36 @@ export const groups = [];
 export const user = {};
 
 export const dataBase = {
-  serverUsers,
-  serverGroups,
-  serverLists,
-  serverTasks,
-  serverComments
+  serverUsers: serverUsers,
+  serverGroups: serverGroups,
+  serverLists: serverLists,
+  serverTasks: serverTasks,
+  serverComments: serverComments
+
 };
 
 
 
-export const initialState = { lists, tasks, comments, friends, groups, user, dataBase };
+//export const initialState = { lists, tasks, comments, friends, groups, user, dataBase };*/
 
-*/
+
+export const calendar = {
+  2015: {
+    'Noviembre': {
+      3: [{ title: 'Real Madrid', importance: 3, id: lists[0].id },
+          { title: 'Barsa', importance: 1, id: lists[1].id }],
+      16: [{ title: 'Valencia', importance: 1, id: lists[3].id }],
+      26: [{ title: 'Celta', importance: 0, id: lists[4].id }]
+    },
+    'Diciembre': {
+      2: [{ title: 'Betis', importance: 2, id: lists[5].id }]
+    }
+  },
+  2016: {
+    'Enero': {
+      8: [{ title: 'Patetic', importance: 2, id: lists[2].id }]
+    }
+  }
+};
+
+export const initialState =  { lists, tasks, comments, friends, groups, user, calendar };

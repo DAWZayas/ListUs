@@ -1,9 +1,9 @@
 import {ADD_COMMENT, REMOVE_COMMENTS } from '../actions';
 
 
-function addComment(state, idList, user, date, msg){
+function addComment(state, idList, user, date, hour, msg){
   const arrayComents = state[idList] === undefined ? [] : state[idList];
-  const newArray = arrayComents.concat({ idList, user, date, msg});
+  const newArray = arrayComents.concat({ user, date, hour, msg});
   return Object.assign( {}, state, {[idList]:newArray});
 }
 
@@ -18,7 +18,7 @@ export default function reduceComment( state={}, action ){
 
   switch (action.type) {
     case ADD_COMMENT:
-      return addComment(state, action.idList, action.user, action.date, action.msg);
+      return addComment(state, action.idList, action.user, action.date, action.hour, action.msg);
     case REMOVE_COMMENTS:
       return removeComments(state, action.idList);
     default:

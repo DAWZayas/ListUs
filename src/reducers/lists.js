@@ -1,13 +1,18 @@
 import { SET_LIST, ADD_LIST, REMOVE_LIST, EDIT_LIST, ADD_FRIEND_OR_GROUP_TO_LIST } from '../actions';
-import { getId } from '../utils';
+
 
 function setList(state, list) {
   return list.slice();
 }
 
-function addList( state, title ){
-  const id = getId();
-  return state.concat({ id, 'title': title, participants: [] });
+function addList( state, title, date, importance, id ){
+  return state.concat({ 
+    id, 
+    'title': title, 
+    participants: [], 
+    'date': date, 
+    'importance': importance 
+  });
 }
 
 function removeList( state, idList ){
@@ -28,7 +33,7 @@ export default function listReducer( state = [], action){
     case SET_LIST:
   		return setList(state, action.list);
     case ADD_LIST:
-      return addList(state, action.title);
+      return addList(state, action.title, action.date, action.importance, action.id);
     case REMOVE_LIST:
       return removeList(state, action.idList);
     case EDIT_LIST:
