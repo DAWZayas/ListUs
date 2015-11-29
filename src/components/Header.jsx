@@ -3,6 +3,8 @@ import Nav from './Nav';
 import { Link } from 'react-router';
 import ItemList from './ItemList';
 
+import { clearUser } from '../utils/functions';
+
 
 export default class Header extends Component{
 
@@ -29,6 +31,15 @@ export default class Header extends Component{
  		updateLists = updateLists.filter( list=> list.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1);
  		this.setState({newLists: updateLists});
  	}
+
+  handleClearUser(e){
+    e.preventDefault();
+    const { onSetUser, onSetLists, onSetTasks, onSetGroups } = this.props;
+    onSetUser({});
+    onSetLists([]);
+    onSetTasks({});
+    onSetGroups([]);
+  }
 
   render() {
     return(
@@ -62,6 +73,13 @@ export default class Header extends Component{
               <Link to="/list"><img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/></Link>
               <h4>ListUs</h4>
             </div>
+            <a style={{cursor: 'pointer'}} onClick={e=>this.handleClearUser(e)}>
+              <img
+                width="30" 
+                src={'https://cdn2.iconfinder.com/data/icons/perfect-pixel-game-ui-set/256/quit_exit-512.png'} 
+                alt="Exit">
+              </img>
+            </a>
           </div>
 
       </header>

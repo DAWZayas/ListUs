@@ -20,4 +20,3 @@ export default class SectionHeader extends Component{
 	}
 }
 
-//(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)

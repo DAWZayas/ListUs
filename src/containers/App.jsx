@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import HeaderContainer from './HeaderContainer';
 import Enter from '../components/Enter';
+
 import { objIsEmpty } from '../utils/functions';
 
 
@@ -40,8 +41,9 @@ function mapStateToProps(state) {
 
 function mapActionsToProps(dispatch) {
   return {
-     
+
   };
+    
 }
 
 export default connect(

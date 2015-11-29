@@ -163,3 +163,14 @@ export const menuItems = [
 		   { payload: '1', text: 'Name Ascendant' },
 		   { payload: '2', text: 'Name Descendant' }	   
 		];
+
+
+/****************** *************************/
+export function clearUser(){
+	const { onSetUser, onSetLists, onSetTasks, onSetGroups } = this.props;
+	onSetUser({});
+	onSetLists([]);
+	onSetTasks({});
+	onSetGroups([]);
+	
+}
