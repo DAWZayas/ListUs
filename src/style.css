@@ -231,6 +231,14 @@ ul{
 
 }
 
+.tableApparence {
+  margin: 0 auto;
+
+  border: 1px solid hotpink;
+
+  text-align: center;
+}
+
 
 
 /*
