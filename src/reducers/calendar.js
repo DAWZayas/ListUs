@@ -70,7 +70,10 @@ function addDate(state, title, date, importance, id){
 
 
 function removeDate(state, title, date) {
-  const day = date.split('/')[0];
+  let day = date.split('/')[0];
+  if(day[0] === '0'){
+    day = day[1];
+  }
   const month = date.split('/')[1];
   const monthName = months[month];
   const year = date.split('/')[2];
