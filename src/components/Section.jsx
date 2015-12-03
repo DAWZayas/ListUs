@@ -44,7 +44,7 @@ export default class Section extends Component {
     const { onAddList } = this.props;
     const id = getId();
     const title = this.refs.titleDialog.getValue();
-    const date = this.state.startDate.format('L');
+    const date = this.state.startDate.format('DD/MM/YYYY');
     const importance = Math.ceil(this.refs.slider.getValue()/0.2);
     this.validationTitle(title) ? onAddList(title, date, importance, id) : this.refs.dialog.dismiss();
     this.refs.dialog.dismiss();
@@ -94,7 +94,7 @@ export default class Section extends Component {
           <DatePicker
             dateFormat="DD/MM/YYYY"
             selected={this.state.startDate}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             popoverAttachment="bottom center"
             popoverTargetAttachment="top center"
             popoverTargetOffset="0px 0px" />
