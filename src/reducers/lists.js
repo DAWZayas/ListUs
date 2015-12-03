@@ -11,7 +11,7 @@ function addList( state, title, date, importance, id ){
     'title': title, 
     participants: [], 
     'date': date, 
-    'importance': importance 
+    'importance': importance
   });
 }
 

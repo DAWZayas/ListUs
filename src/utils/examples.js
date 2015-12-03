@@ -49,7 +49,11 @@ export const lists = [
 
 export const comments = {
   [lists[0].id]: [ {  user:'pepe', date:'12/7/2015', hour:'11:22', msg:'eeeeee'}, { user:'juan', date:'12/7/2015', hour:'11:22', msg:'wwww'}],
-  [lists[1].id]: [ {  user:'pepe', date:'13/7/2015', hour:'11:22', msg:'goewjpe'}, { user:'juan', date:'13/7/2015', hour:'11:22', msg:'trtrt'}]
+  [lists[1].id]: [ {  user:'pepe', date:'13/7/2015', hour:'11:22', msg:'goewjpe'}, { user:'juan', date:'13/7/2015', hour:'11:22', msg:'trtrt'}],
+  [lists[2].id]: [ ],
+  [lists[3].id]: [ ],
+  [lists[4].id]: [ ],
+  [lists[5].id]: [ ]
 };
 
 export const friends = [
