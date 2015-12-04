@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import ReactList from 'react-list';
+
 let moment = require('moment');
 
 export default class CommentsChat extends Component {
@@ -10,15 +10,7 @@ export default class CommentsChat extends Component {
     };
   }
 
-  renderItem(index, key) {
-    const { comments } = this.props;
-    return (<div className="row tableApparence" key={key}>
-        <div className="col-xs-3">{comments[index].msg}</div>
-        <div className="col-xs-3">{comments[index].date}</div>
-        <div className="col-xs-3">{comments[index].hour}</div>
-        <div className="col-xs-3">{comments[index].user}</div>
-      </div>);
-  }
+
 /*
 
   CAMBIAR EL USER 'PEPE' DE ONCLICKADDCOMMENT()
@@ -29,19 +21,45 @@ export default class CommentsChat extends Component {
   onClickAddComment(){
     const { onAddComment, idList } = this.props;
     const textComment = this.refs.textArea.value;
-    const minut = moment().minutes()<10 ? '0'+ moment().minutes() : moment().minutes();
-    const time = moment().hours() + ':' + minut;
-    onAddComment(idList, 'pepe', moment().format('L'), time, textComment);
-    this.refs.textArea.value = '';
+    if(textComment!==''){
+      const minut = moment().minutes()<10 ? '0'+ moment().minutes() : moment().minutes();
+      const time = moment().hours() + ':' + minut;
+      onAddComment(idList, 'pepe', moment().format('L'), time, textComment);
+      this.refs.textArea.value = '';
+    }
+  }
+
+  changeDay(index){
+    const {comments} = this.props;
+    if(index===0){
+      return <div className="commentDate"><span>{comments[index].date===this.state.startDate ? this.state.startDate : comments[index].date}</span></div>;
+    }
+    if(comments[index].date!==comments[index-1].date){
+      return <div className="commentDate">{comments[index].date===this.state.startDate ? 'HOY' : comments[index].date}</div>;
+    }
+    return '';
   }
 
   render(){
-    const { comments } = this.props;
+    const {comments} = this.props;
+
     return(
-      <div  style={{border:'1px solid black', 'width': '100%', 'overflow': 'auto'}}>
-        
-        <textarea ref="textArea" cols="20" rows="3"></textarea>
-        <button className="btn btn-success" onClick={ () => this.onClickAddComment()}>Comment</button>
+      <div  className="chat">
+        <div>
+          <ul className="listComments">
+            {
+              this.props.comments.map( (comment, index) =>
+                  <div className=""key={index}>
+                  {this.changeDay(index)}
+                  <li className="itemComment"><div className="commentMsg ">{comment.msg}</div><div className="commentInfo "><div className="commentHour">{comment.hour}</div><div className="commentUser">{comment.user}</div></div></li>
+                  </div>)
+            }
+          </ul>
+        </div>
+        <div className="messageAndButtonSend">
+          <input className="form-control" ref="textArea" />
+          <button className="btn btn-success glyphicon glyphicon-send buttonSendMessage" onClick={ () => this.onClickAddComment()}></button>
+        </div>
     </div>
     );
   }

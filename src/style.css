@@ -502,3 +502,67 @@ ul{
   }
 
 }
+
+
+/*
+*   COMMENTS
+*/
+
+.chat{
+    background-image: url('../img/symphony.png');
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 90%;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+.listComments{
+    overflow: auto;
+    height: 400px;
+}
+
+.commentDate{
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  background: lightblue;
+  width: 80px;
+  height: 20px;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.itemComment{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: row;
+  background: white;
+  margin-right: 50px;
+  justify-content: space-between;
+  height: auto;
+}
+
+.commentInfo{
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+
+}
+
+.messageAndButtonSend{
+    display: flex;
+    flex-flow: row nowrap;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.buttonSendMessage{
+  margin-top: 0 !important;
+}
