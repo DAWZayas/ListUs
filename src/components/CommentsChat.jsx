@@ -21,7 +21,7 @@ export default class CommentsChat extends Component {
   }
 /*
 
-  CAMBIAR EL USER 'PEPE' DE ONCLICKADDCOMMENT() 
+  CAMBIAR EL USER 'PEPE' DE ONCLICKADDCOMMENT()
 
 
 */
@@ -38,20 +38,8 @@ export default class CommentsChat extends Component {
   render(){
     const { comments } = this.props;
     return(
-      <div  style={{border:'1px solid black', 'width': '100%'}}>
-        <div style={{'fontSize': '1.5em'}} className="tableApparence row">
-          <div className="tableApparence col-xs-3">Mensaje</div>
-          <div className="tableApparence col-xs-3">Fecha</div>
-          <div className="tableApparence col-xs-3">Hora</div>
-          <div className="tableApparence col-xs-3">Usuario</div>
-        </div>
-        <div style={{maxHeight: '400', height: '100', width: '100%'}}>
-          <ReactList
-            itemRenderer={this.renderItem.bind(this)}
-            length={comments.length}
-            type="uniform"
-          />
-        </div>
+      <div  style={{border:'1px solid black', 'width': '100%', 'overflow': 'auto'}}>
+        
         <textarea ref="textArea" cols="20" rows="3"></textarea>
         <button className="btn btn-success" onClick={ () => this.onClickAddComment()}>Comment</button>
     </div>

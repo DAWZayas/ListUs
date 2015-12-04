@@ -21,7 +21,8 @@ export default class Section extends Component {
     this.state = {
       sorted: 'Sort By',
       startDate: moment(),
-      numberOfList: 5
+      numberOfList: 5,
+      dialogState: false
     };
   }
 
@@ -37,7 +38,9 @@ export default class Section extends Component {
   }
 
   openDialog(){
-    this.refs.dialog.show();
+    this.setState({
+      dialogState: true
+    });
   }
 
   onClickAdd(){
@@ -47,11 +50,15 @@ export default class Section extends Component {
     const date = this.state.startDate.format('DD/MM/YYYY');
     const importance = Math.ceil(this.refs.slider.getValue()/0.2);
     this.validationTitle(title) ? onAddList(title, date, importance, id) : this.refs.dialog.dismiss();
-    this.refs.dialog.dismiss();
+    this.setState({
+      dialogState: false
+    });
   }
 
   onClickClose(){
-    this.refs.dialog.dismiss();
+    this.setState({
+      dialogState: false
+    });
   }
 
 
@@ -89,7 +96,7 @@ export default class Section extends Component {
     const listsEnd = (sorted === 'Sort By') ? lists : sortArray(lists, key, sorted.split(' ')[1]);
     return(
       <article className="article">
-        <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
+        <Dialog title="Dialog With Standard Actions" open={this.state.dialogState} actions={customActions} ref="dialog">
           <TextField ref="titleDialog" hintText="Title List" autoFocus />
           <DatePicker
             dateFormat="DD/MM/YYYY"
