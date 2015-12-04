@@ -27,4 +27,3 @@ SectionHeader.propTypes = {
 	onAddList: PropTypes.func
 };
 
-//(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)
