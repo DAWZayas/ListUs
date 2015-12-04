@@ -40,14 +40,14 @@ function mapStateToProps(state) {
   };
 }
 
-function mapActionsToProps(dispatch) {
+/*function mapActionsToProps(dispatch) {
   return {
     //dispatch
   };
     
-}
+}*/
 
 export default connect(
   mapStateToProps,
-  mapActionsToProps
+ // mapActionsToProps
 )(App);

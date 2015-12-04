@@ -96,7 +96,11 @@ export default class Header extends Component{
 }
 
 Header.propTypes = {
-  lists: PropTypes.array.isRequired
+  lists: PropTypes.array.isRequired,
+  onSetUser: PropTypes.func,
+  onSetLists: PropTypes.func,
+  onSetTasks: PropTypes.func,
+  onSetGroups: PropTypes.func
 };
 
 Header.defaultProps = {
