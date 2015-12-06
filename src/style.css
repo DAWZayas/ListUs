@@ -227,9 +227,10 @@ ul{
   margin-left: 35px;
 }*/
 
-.pagination-tasks{
-
+.taskDone {
+  background-color: #A6A0A0 !important;
 }
+
 
 .tableApparence {
   margin: 0 auto;
@@ -238,6 +239,17 @@ ul{
 
   text-align: center;
 }
+
+.marginBottomInput {
+  margin-bottom: 20px;
+} 
+
+.alignContent {
+  position: relative !important;
+  top: 11px !important;
+}
+
+
 
 
 

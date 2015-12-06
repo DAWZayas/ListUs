@@ -41,7 +41,6 @@ export default class CommentsChat extends Component {
   }
 
   haveBlankSpace(msg){
-    debugger;
     for(let i = 0; msg.length>i; i++){
       if(msg[i]===' '){
         return true;

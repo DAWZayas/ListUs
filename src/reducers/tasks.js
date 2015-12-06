@@ -13,7 +13,8 @@ function addTask(state, idList, title){
       id,
       idList,
       title,
-      participants: []
+      participants: [],
+      done: false
     }
   };
   return Object.assign({}, state, task);
