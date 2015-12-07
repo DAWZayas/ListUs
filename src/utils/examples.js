@@ -101,49 +101,57 @@ export const tasks = {
     id: '0',
 		idList: lists[1].id,
 		title: 'Messi',
-    participants: []
+    participants: [],
+    done: false
 	},
   1: {
     id: '1',
     idLists: lists[1].id,
     title: 'Neymar',
-    participants: []
+    participants: [],
+    done: false
   },
   2: {
     id: '2',
     idList: lists[1].id,
     title: 'Iniesta',
-    participants: []
+    participants: [],
+    done: false
   },
   3: {
     id: '3',
     idList: lists[1].id,
     title: 'Suarez',
-    participants: []
+    participants: [],
+    done: false
   },
   7: {
     id: '7',
     idList: lists[0].id,
     title: 'James',
-    participants: []
+    participants: [],
+    done: false
   },
   8: {
     id: '8',
     idList: lists[0].id,
     title: 'Benzema',
-    participants: []
+    participants: [],
+    done: false
   },
   9: {
     id: '9',
     idList: lists[0].id,
     title: 'Cristiano',
-    participants: []
+    participants: [],
+    done: false
   },
   10: {
     id: '10',
     idList: lists[0].id,
     title: 'Modric',
-    participants: []
+    participants: [],
+    done: false
   }
 };
 

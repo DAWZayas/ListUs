@@ -227,9 +227,10 @@ ul{
   margin-left: 35px;
 }*/
 
-.pagination-tasks{
-
+.taskDone {
+  background-color: #A6A0A0 !important;
 }
+
 
 .tableApparence {
   margin: 0 auto;
@@ -238,6 +239,17 @@ ul{
 
   text-align: center;
 }
+
+.marginBottomInput {
+  margin-bottom: 20px;
+} 
+
+.alignContent {
+  position: relative !important;
+  top: 11px !important;
+}
+
+
 
 
 
@@ -501,4 +513,74 @@ ul{
     font-size: 15px !important;
   }
 
+}
+
+
+/*
+*   COMMENTS
+*/
+
+.chat{
+    background-image: url('../img/symphony.png');
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 90%;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+.listComments{
+    overflow: auto;
+    height: 400px;
+}
+
+.commentDate{
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  background: lightblue;
+  width: 80px;
+  height: 20px;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.itemComment{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: row;
+  background: white;
+  margin-right: 50px;
+  justify-content: space-between;
+  height: auto;
+  overflow: hidden;
+}
+
+.commentInfo{
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+
+}
+
+.messageAndButtonSend{
+    display: flex;
+    flex-flow: row nowrap;
+    margin-left: 40px;
+    margin-right: 60px;
+    height: 40px !important;
+}
+
+.buttonSendMessage{
+  margin-top: 0 !important;
+}
+
+.inputSendMsg{
+  overflow: hidden;
 }
