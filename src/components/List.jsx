@@ -36,7 +36,9 @@ export default class List extends Component {
   }
 
   render() {
-    const { list } = this.props;
+
+    const { list, tasks } = this.props;
+debugger;
     return(
     <div>
       <div className={`${this.state.isModifyList ? 'hidden' : 'row list listNotCompleted'}`}>
@@ -45,10 +47,11 @@ export default class List extends Component {
           <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
         </div>
         <div className="col-xs-8" >
+          <span className="badge">{tasks.filter(task => task.done===false).length}/{tasks.length}</span>
           <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
           <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />
           <span className="dateBtn pull-right btn btn-default">{list.date}</span>
-          
+
         </div>
 
       </div>
@@ -70,6 +73,7 @@ export default class List extends Component {
 
 List.propTypes = {
   list: PropTypes.object,
+  tasks: PropTypes.array,
   onRemoveList: PropTypes.func.isRequired,
   onEditList: PropTypes.func.isRequired
 };
