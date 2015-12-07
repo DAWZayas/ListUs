@@ -40,29 +40,44 @@ export default class CommentsChat extends Component {
     return '';
   }
 
-  haveBlankSpace(msg){
-    debugger;
-    for(let i = 0; msg.length>i; i++){
-      if(msg[i]===' '){
-        return true;
-      }
-    }
-    return false;
+
+  searchIndexOfFirstBlankSpace(string, index){
+    return index>=string.length || string[index+1]===' ' ? index : this.searchIndexOfFirstBlankSpace(string, index+1);
   }
 
-  formatMsg(msg){
+  msgFormat(msg){
+    let firstBlank = 0;
+    let secondBlank = 0;
     let formatMsg = '';
-    if(this.haveBlankSpace(msg)){
-      formatMsg = msg;
-    }else{
-      for(let i = 0; msg.length>i; i++){
-        if(i%135===0){
-          formatMsg = formatMsg +'\n';
-        }
-        formatMsg = formatMsg + msg[i];
-      }
+    while (secondBlank<msg.length) {
+      secondBlank = this.searchIndexOfFirstBlankSpace(msg, firstBlank);
+      let newWord = this.isValidWord(firstBlank, secondBlank) ? msg.slice(firstBlank, secondBlank) : this.wordFormat(msg.slice(firstBlank, secondBlank));
+      formatMsg = formatMsg + ' ' + newWord;
+      firstBlank = secondBlank+2;
     }
     return formatMsg;
+  }
+
+  isValidWord(firstBlank, secondBlank){
+    return secondBlank-firstBlank<30;
+  }
+
+  wordFormat(msg){
+    let formatWord = '';
+    for(let i = 0; msg.length>i; i++){
+      if(i%30===0){
+        formatWord = formatWord +'\n';
+      }
+      formatWord = formatWord + msg[i];
+    }
+    return formatWord;
+  }
+
+  handleOnKeyDown(event){
+    const ENTER_KEY = 13;
+    if (event.keyCode === ENTER_KEY) {
+      this.onClickAddComment();
+    }
   }
 
   render(){
@@ -76,13 +91,13 @@ export default class CommentsChat extends Component {
               comments.map( (comment, index) =>
                   <div className=""key={index}>
                   {this.changeDay(index)}
-                  <li className="itemComment"><div className="commentInfo "><div className="commentUser">{comment.user}</div><div className="commentMsg ">{this.formatMsg(comment.msg)}</div></div><div className="commentHour">{comment.hour}</div></li>
+                  <li className="itemComment"><div className="commentInfo "><div className="commentUser">{comment.user}</div><div className="commentMsg ">{this.msgFormat(comment.msg)}</div></div><div className="commentHour">{comment.hour}</div></li>
                   </div>)
             }
           </ul>
         </div>
         <div className="messageAndButtonSend">
-          <textarea className="form-control inputSendMsg" ref="textArea" max-height="140"></textarea>
+          <textarea className="form-control inputSendMsg" ref="textArea" max-height="140" onKeyDown={e => this.handleOnKeyDown(e)}></textarea>
           <button className="btn btn-success glyphicon glyphicon-send buttonSendMessage" onClick={ () => this.onClickAddComment()}></button>
         </div>
     </div>
