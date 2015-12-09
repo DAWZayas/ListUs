@@ -38,7 +38,6 @@ export default class List extends Component {
   render() {
 
     const { list, tasks } = this.props;
-debugger;
     return(
     <div>
       <div className={`${this.state.isModifyList ? 'hidden' : 'row list listNotCompleted'}`}>

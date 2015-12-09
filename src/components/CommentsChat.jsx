@@ -25,9 +25,10 @@ export default class CommentsChat extends Component {
       const minut = moment().minutes()<10 ? '0'+ moment().minutes() : moment().minutes();
       const time = moment().hours() + ':' + minut;
       onAddComment(idList, 'pepe', moment().format('L'), time, textComment);
-      this.refs.textArea.value = '';
+      setTimeout(() => {this.refs.textArea.value = ''}, 0);
     }
   }
+
 
   changeDay(index){
     const {comments} = this.props;
@@ -80,18 +81,26 @@ export default class CommentsChat extends Component {
     }
   }
 
+  componentDidUpdate(){
+    this.refs.final.scrollIntoView(true);
+  }
+
+
+
   render(){
     const {comments} = this.props;
-
     return(
-      <div  className="chat">
+      <div ref="chat" className="chat">
         <div>
           <ul className="listComments">
             {
               comments.map( (comment, index) =>
                   <div className=""key={index}>
                   {this.changeDay(index)}
-                  <li className="itemComment"><div className="commentInfo "><div className="commentUser">{comment.user}</div><div className="commentMsg ">{this.msgFormat(comment.msg)}</div></div><div className="commentHour">{comment.hour}</div></li>
+                  {index===this.props.comments.length-1 ?
+                  <li ref="final" className="itemComment"><div className="commentInfo "><div className="commentUser">{comment.user}</div><div className="commentMsg ">{this.msgFormat(comment.msg)}</div></div><div className="commentHour">{comment.hour}</div></li>
+                  :
+                  <li className="itemComment"><div className="commentInfo "><div className="commentUser">{comment.user}</div><div className="commentMsg ">{this.msgFormat(comment.msg)}</div></div><div className="commentHour">{comment.hour}</div></li>}
                   </div>)
             }
           </ul>

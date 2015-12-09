@@ -6,7 +6,7 @@ import { menuItems, sortArray } from '../utils/functions';
 import { getId } from '../utils';
 
 
-import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
+import { Dialog, TextField, FlatButton, Slider, DropDownMenu } from 'material-ui';
 
 import DatePicker from 'react-datepicker';
 let moment = require('moment');
@@ -110,9 +110,16 @@ export default class Section extends Component {
           <TextField disabled style={{top: '-30px', width:'100px'}} ref="importance" defaultValue="0"/>
         </Dialog>
 
-        <SectionHeader title="LISTS" menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)} onAddList={onAddList}/>
-        <div style={{display: 'flex', justifyContent: 'flex-end', paddingRight: '10'}}><button style={{backgroundColor: 'white'}} className="btn btn-default" onClick={() => this.openDialog()}>ADD LIST</button></div>
-        <div className="lists">
+        {/*<div style={{display: 'flex', justifyContent: 'space-between'}}>
+  				<h3 style={{marginLeft: '10'}}>LISTS</h3>
+          <div style={{display: 'flex', justifyContent: 'flex-end', paddingRight: '10'}}><button style={{backgroundColor: 'white', height: '35px'}} className="btn btn-default" onClick={() => this.openDialog()}>ADD LIST</button></div>
+  				<DropDownMenu menuItems={menuItems}
+  					style={{width: '175'}}
+  					onChange={(e, selectedIndex, menuItem)=>sortArray(e, selectedIndex, menuItem)}/>
+  			</div>*/}
+        <SectionHeader title="LISTS" menuItems={menuItems} openDialog={this.openDialog.bind(this)}func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
+
+      <div className="lists">
             {
               listsEnd.map( (list, index) => index<this.state.numberOfList ? <List list={list} tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)} key={index} onRemoveList={onRemoveList} onEditList={onEditList}/> : '' )
             }
