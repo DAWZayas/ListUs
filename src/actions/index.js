@@ -1,3 +1,7 @@
+
+import { pushState } from 'redux-router';
+import sequencer from './sequencer';
+
 /*
 * TASK
 */
@@ -116,6 +120,12 @@ export function editList( idList, title ){
 }
 export function addFriendGroupToList(idList, id){
   return { type: ADD_FRIEND_OR_GROUP_TO_LIST, idList, id};
+}
+export function removeListAndNavigate(idList, title, date) {
+  return dispatch => sequencer([
+      () => dispatch(removeList(idList, title, date)),
+      () => dispatch(pushState(null, '/'))
+    ]);
 }
 /*
 * visibility aside action creator

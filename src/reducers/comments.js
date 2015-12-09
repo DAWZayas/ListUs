@@ -1,5 +1,5 @@
 import {ADD_COMMENT, REMOVE_COMMENTS, ADD_LIST } from '../actions';
-import { ROUTER_DID_CHANGE } from 'redux-router/lib/constants';
+//import { ROUTER_DID_CHANGE } from 'redux-router/lib/constants';
 
 function addComment(state, idList, user, date, hour, msg){
   const arrayComents = state[idList] === undefined ? [] : state[idList];

@@ -59,7 +59,12 @@ onClickNext(e){
   }
 }
 
-
+handleOnKeyDown(event){
+  const ENTER_KEY = 13;
+  if (event.keyCode === ENTER_KEY) {
+    this.onClickAdd();
+  }
+}
 
 render() {
 
@@ -85,7 +90,7 @@ render() {
 
     <div className="row section">
       <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
-        <TextField ref="titleDialog" hintText="Title List" autoFocus />
+        <TextField ref="titleDialog" hintText="Title List" autoFocus onKeyDown={e => this.handleOnKeyDown(e)} />
       </Dialog>
       <div className="col-md-1">
       </div>

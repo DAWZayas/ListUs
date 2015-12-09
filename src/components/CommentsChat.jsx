@@ -25,7 +25,7 @@ export default class CommentsChat extends Component {
       const minut = moment().minutes()<10 ? '0'+ moment().minutes() : moment().minutes();
       const time = moment().hours() + ':' + minut;
       onAddComment(idList, 'pepe', moment().format('L'), time, textComment);
-      setTimeout(() => {this.refs.textArea.value = ''}, 0);
+      setTimeout(() => this.refs.textArea.value = '', 0);
     }
   }
 
@@ -84,7 +84,6 @@ export default class CommentsChat extends Component {
   componentDidUpdate(){
     this.refs.final.scrollIntoView(true);
   }
-
 
 
   render(){

@@ -6,36 +6,36 @@ const months = [ '', 'Enero', 'Febrero',
 
 
 function returnActualDates(objectToIterate, dateToCheck){
-  
+
   let actualDate = {};
-  
+
   for (var key in objectToIterate){
     if(key === dateToCheck){
       actualDate = objectToIterate[key];
     }
   }
-  
+
   if(Object.keys(actualDate).length === 0){
     actualDate = objectToIterate;
     actualDate[dateToCheck] = {};
     actualDate = actualDate[dateToCheck];
   }
-  
+
   return actualDate;
-  
+
 }
 
 
 function addDate(state, title, date, importance, id){
-  
+
   console.log(date);
 
   let day = date.split('/')[0];
-  
+
   if(day[0] === '0'){
     day = day[1];
   }
-  
+
 
   const month = date.split('/')[1];
   const monthName = months[month];
@@ -58,7 +58,7 @@ function addDate(state, title, date, importance, id){
 
 	let actualDay = returnActualDates(actualMonth, day);
 
-	
+
   if(Object.keys(actualDay).length === 0){
 	  actualMonth[day] = [taskObject];
 	}else{

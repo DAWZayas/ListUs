@@ -6,7 +6,7 @@ import { menuItems, sortArray } from '../utils/functions';
 import { getId } from '../utils';
 
 
-import { Dialog, TextField, FlatButton, Slider, DropDownMenu } from 'material-ui';
+import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
 
 import DatePicker from 'react-datepicker';
 let moment = require('moment');
@@ -89,7 +89,7 @@ export default class Section extends Component {
         primary
         onClick={() => this.onClickAdd()} />
     ];
-    const {  lists, onEditList, onRemoveList, onAddList, tasks } = this.props;
+    const {  lists, onEditList, onRemoveList } = this.props;
 
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';

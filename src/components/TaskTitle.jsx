@@ -41,7 +41,7 @@ export default class TaskTitle extends Component {
   handleOnClickRemove(e){
     e.stopPropagation();
     const { list, onRemoveList } = this.props;
-    onRemoveList(list.id);
+    onRemoveList(list.id, list.title, list.date);
   }
 
   isInTheArray(idParticipants, list){

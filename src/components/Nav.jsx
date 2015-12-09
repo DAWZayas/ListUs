@@ -70,19 +70,18 @@ export default class Nav extends React.Component {
 
 		return (
 
-			<div>
+
 				<nav className="leftNav">
-					<button onClick={this.showNav.bind(this)} className="btn btn-info"><span ref="span" className="biggerGlyphicon glyphicon glyphicon-menu-hamburger"></span></button>
-					<LeftNav 
-					ref="leftNav" 
-					docked={false} 
+					<button className="btn btn-default" onClick={this.showNav.bind(this)}>
+						<span ref="span" className="biggerGlyphicon glyphicon glyphicon-menu-hamburger"></span>
+					</button>
+					<LeftNav
+					ref="leftNav"
+					docked={false}
 					menuItems={menuItems}
 	        onChange={this._onLeftNavChange.bind(this)} />
 				</nav>
 
-				
-			
-			</div>
 
 		);
 	}
@@ -93,4 +92,3 @@ Nav.contextTypes = {
   location: React.PropTypes.object.isRequired,
   history: React.PropTypes.object
 };
-
