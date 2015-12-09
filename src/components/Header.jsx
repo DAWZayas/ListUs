@@ -41,52 +41,57 @@ export default class Header extends Component{
     onSetGroups([]);
   }
 
+  
+
   render() {
     return(
 
       <header className="header">
 
-          <div className="navegador">
-            <Nav />
-            
-            <div className="calendarHeader">
-            <Link to="/calendar">
-              <button className="btn btn-info calendario">
-                <span className=" biggerGlyphicon  glyphicon  glyphicon-calendar" aria-hidden="true"></span>
-              </button>
-            </Link>
+          <div className="principal">
+            <div style={{display: 'flex'}}>
+              <Nav />
+
+              <Link to="/calendar">
+                <button className="btn btn-info" style={{marginTop: 0}}>
+                  <span className=" biggerGlyphicon  glyphicon  glyphicon-calendar" aria-hidden="true"></span>
+                </button>
+              </Link>
             </div>
+
+            <div >
+              <Link style={{display: 'flex'}} to="/list">
+                <img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/>
+                <h4 style={{color: 'white'}}>ListUs</h4>
+              </Link>
+            </div>
+
+            <button className="btn btn-info"  onClick={e=>this.handleClearUser(e)}>
+              <span ref="span" className="biggerGlyphicon glyphicon glyphicon-off"></span>
+            </button>
+          </div>
+
+          <div className="navegador">
 
             <div className="search">
               <div className="search-btn-input">
                 <button className="btn btn-info">
-                <span className="biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
+                  <span className="biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
                 </button>
-                <input ref="inputText" type="text" autoFocus className={`${this.state.isVisible ? 'form-control input-search' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
+                <div >
+                  <input ref="inputText" type="text"  className={`${this.state.isVisible ? 'form-control input-search' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
+                  <div >
+                    <ul className={`${this.state.isVisible ? 'search-ul' : 'hidden' }`}>
+                      {
+                        this.state.newLists.map( (list, index) => index<4 ? <ItemList key={index} list={list} /> : null  )
+                      }
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div className="search-ul">
-                <ul className={`${this.state.isVisible ? '' : 'hidden' }`}>
-                  {
-                    this.state.newLists.map( (list, index) => index<4 ? <ItemList key={index} list={list} /> : null  )
-                  }
-                </ul>
-              </div>
+              
             </div>
-          </div>
 
-
-          <div className="principal">
-            <div>
-              <Link to="/list"><img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/></Link>
-              <h4>ListUs</h4>
-            </div>
-            <a style={{cursor: 'pointer'}} onClick={e=>this.handleClearUser(e)}>
-              <img
-                width="30" 
-                src={'https://cdn2.iconfinder.com/data/icons/perfect-pixel-game-ui-set/256/quit_exit-512.png'} 
-                alt="Exit">
-              </img>
-            </a>
           </div>
 
       </header>

@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
-import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, groupFriends, sortArray, menuItems } from '../utils/functions';
+import { FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
+import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, sortArray, menuItems } from '../utils/functions';
 import SectionHeader from './SectionHeader';
 import GroupEditList from './GroupEditList';
 import GroupsList from './GroupsList';
@@ -181,9 +181,9 @@ export default class Groups extends Component {
 	render(){
 		const { sorted, groupId, openEdit } = this.state;
 		const key = (sorted.split(' ')[0] === 'Name')?'name':'date';
-		const groups = (sorted === 'Sort By')
+		/*const groups = (sorted === 'Sort By')
 				?this.props.groups 
-				:sortArray(this.props.groups, key, sorted.split(' ')[1]);
+				:sortArray(this.props.groups, key, sorted.split(' ')[1]);*/
 		return (
 			<section>
        			<SectionHeader title="GROUPS" menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>

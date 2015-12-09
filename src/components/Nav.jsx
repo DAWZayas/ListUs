@@ -70,7 +70,7 @@ export default class Nav extends React.Component {
 
 		return (
 
-			<div>
+			<div style={{zIndex: 10}}>
 				<nav className="leftNav">
 					<button onClick={this.showNav.bind(this)} className="btn btn-info"><span ref="span" className="biggerGlyphicon glyphicon glyphicon-menu-hamburger"></span></button>
 					<LeftNav 

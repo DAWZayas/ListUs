@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AppBar, FlatButton } from 'material-ui';
-import { groupFriends } from '../utils/functions'
+import { groupFriends } from '../utils/functions';
 
 export default class GroupsList extends Component{
 	constructor(props){
@@ -9,7 +9,7 @@ export default class GroupsList extends Component{
 
 	render(){
 		const { groups, friends, user, that } = this.props;
-		return (<div>
+		return (<div style={{zIndex: 0}}>
 			{(groups.length !== 0)?groups.map(function(group){
 						return (
 							<div key={group['id']}>
