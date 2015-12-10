@@ -9,7 +9,7 @@ export default class GroupsList extends Component{
 
 	render(){
 		const { groups, friends, user, that } = this.props;
-		return (<div style={{zIndex: 0}}>
+		return (<div>
 			{(groups.length !== 0)?groups.map(function(group){
 						return (
 							<div key={group['id']}>
@@ -17,17 +17,22 @@ export default class GroupsList extends Component{
 										title={group['name']}
 										className="listGroups"
 										iconElementRight={<div className="deleteEdit">
-											<button type="button" className="btn btn-default" onClick={e=>that.handleShowEdit(e, group['id'])}> <span className="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+											<button type="button" className="btn btn-default" onClick={() =>that.handleShowEdit(group['id'])} style={{height: '35px'}}> 
+												<span className="glyphicon glyphicon-edit" aria-hidden="true"></span>
+											</button>
 										</div>
 										}
 										onLeftIconButtonTouchTap={e => that.handleClickShowGroupFriends(e, group['id'])}
+										style={{backgroundColor: '#AAADBD'}}
 
 								/>
 		 						{(group['showFriends']===true)?<div>
-		 															{groupFriends(group['friends'], group['id'], friends, user.id)}
-		 															<FlatButton label=" +Friend" primary onClick={() => that.handleClickShowDialog('dialogAddFriend', group['id'])}/>
-		 														</div>
-		 													  :''}
+												{groupFriends(group['friends'], group['id'], friends, user.id)}
+												<div style={{display: 'flex', justifyContent: 'flex-end'}}>
+													<FlatButton label=" +Friend" primary onClick={() => that.handleClickShowDialog('dialogAddFriend', group['id'])}/>
+												</div>
+											</div>
+										  :''}
 	 						</div>
 	 					);
 					}.bind(that))

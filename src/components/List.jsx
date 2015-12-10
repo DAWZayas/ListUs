@@ -1,21 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 //import ItemList from './ItemList';
+import { Dialog, ListItem } from 'material-ui';
+import { List as Listt } from 'material-ui';
 import { Link } from 'react-router';
-import ListsEdit from './ListsEdit';
 
 export default class List extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      isModifyList: false,
-      openEdit: false
+      isModifyList: false
     };
   }
 
   handleOnClickEdit(e){
     e.stopPropagation();
-    this.setState({openEdit: false});
+    this.refs.dialogEdit.dismiss();
     this.setState({ isModifyList: true});
   }
 
@@ -34,14 +34,14 @@ export default class List extends Component {
 
   handleOnClickRemove(e){
     e.stopPropagation();
-    this.setState({openEdit: false});
+    this.refs.dialogEdit.dismiss();
     const { list, onRemoveList } = this.props;
     onRemoveList(list.id, list.title, list.date);
   }
 
   handleShowEdit(e, listId){
     e.preventDefault();
-    this.setState({listId, openEdit: true});
+    this.refs.dialogEdit.show();
   }
 
   render() {
@@ -56,9 +56,7 @@ export default class List extends Component {
         </div>
         <div className="col-xs-8" >
           <span className="badge">{tasks.filter(task => task.done===false).length}/{tasks.length}</span>
-          {/*<span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
-          <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />*/}
-          <button type="button" className="btn btn-default pull-right" onClick={e=>this.handleShowEdit(e, list.id)}> <span className="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+          <button type="button" className="btn btn-default pull-right" onClick={e=>this.handleShowEdit(e, list.id)} style={{height: '34.2px'}}> <span className="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
           <span className="dateBtn pull-right btn btn-default">{list.date}</span>
 
         </div>
@@ -73,10 +71,13 @@ export default class List extends Component {
         </span>
       </div>
 
-      {(!this.state.openEdit)?'' :<ListsEdit
-             editName={(e) => this.handleOnClickEdit(e)}
-             removeList={(e) => this.handleOnClickRemove(e)}
-             open={this.state.openEdit} />}
+      <Dialog ref="dialogEdit" title="Edit Options" >
+        <Listt>
+          <ListItem primaryText="Edit Name" onClick={(e) => this.handleOnClickEdit(e)} />
+          <ListItem primaryText="Remove List" onClick={(e) => this.handleOnClickRemove(e)} />
+        </Listt>
+      </Dialog>
+
     </div>
     );
 
