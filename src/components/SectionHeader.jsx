@@ -13,7 +13,7 @@ export default class SectionHeader extends Component{
 		return (
 			<div style={{display: 'flex', justifyContent: 'space-between'}}>
 				<h3 style={{marginLeft: '10'}}>{this.props.title}</h3>
-				<div><button className="btn btn-default" onClick={() => this.props.openDialog()}>ADD</button>
+				<div><button className="btn btn-default positionButton" onClick={() => this.props.openDialog()}>ADD</button>
 				<DropDownMenu menuItems={this.props.menuItems}
 					style={{width: '175'}}
 					onChange={this.props.func}/>
