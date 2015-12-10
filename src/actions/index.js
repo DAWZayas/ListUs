@@ -115,8 +115,8 @@ export function addList(title, date, importance, id){
 export function removeList(idList, title, date){
   return { type: REMOVE_LIST, idList, title, date };
 }
-export function editList( idList, title ){
-  return { type: EDIT_LIST, idList, title };
+export function editList( idList, title, date, importance ){
+  return { type: EDIT_LIST, idList, title, date, importance };
 }
 export function addFriendGroupToList(idList, id){
   return { type: ADD_FRIEND_OR_GROUP_TO_LIST, idList, id};

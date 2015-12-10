@@ -6,11 +6,11 @@ function setList(state, list) {
 }
 
 function addList( state, title, date, importance, id ){
-  return state.concat({ 
-    id, 
-    'title': title, 
-    participants: [], 
-    'date': date, 
+  return state.concat({
+    id,
+    'title': title,
+    participants: [],
+    'date': date,
     'importance': importance
   });
 }
@@ -19,8 +19,8 @@ function removeList( state, idList ){
   return state.filter( list => list.id !== idList );
 }
 
-function editList(state, idList, title){
-  return state.map( list => list.id === idList ? Object.assign( {}, list, {'title': title }) : list );
+function editList(state, idList, title, date, importance){
+  return state.map( list => list.id === idList ? Object.assign( {}, list, {'title': title, date, importance }) : list );
 }
 
 function addFriendGroupToList(state, idList, id){

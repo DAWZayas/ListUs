@@ -100,6 +100,12 @@ export default class TaskTitle extends Component {
     this.setState({toggleGroup: !this.state.toggleGroup});
   }
 
+  componentWillUnmount(){
+    debugger;
+    this.refs.popover.open =false;
+
+  }
+
   render() {
 
     const { list, friends, groups } = this.props;
@@ -115,6 +121,7 @@ export default class TaskTitle extends Component {
         anchorEl={this.state.anchorEl}
         targetOrigin={this.state.targetOrigin}
         anchorOrigin={this.state.anchorOrigin}
+        ref="popover"
         onRequestClose={() => this.closePopover()}>
         <div style={{padding: '20px'}}>
           <h4>Add Participants</h4>
@@ -146,8 +153,8 @@ export default class TaskTitle extends Component {
         </div>
       </Popover>
       <div className={`${this.state.isModifyList ? 'hidden' : 'row list listNotCompleted'}`}>
-        <div className="col-xs-1"></div>
-        <div className="col-xs-3">
+
+        <div className="col-xs-4">
           <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
         </div>
         <div className="col-xs-8" >

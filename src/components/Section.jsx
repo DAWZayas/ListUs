@@ -126,9 +126,8 @@ export default class Section extends Component {
         </div>
         <br/>
         <div className="col-md-12 center">
-          <a onClick={() => this.pagination()} style={{cursor: 'pointer'}} >
-            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width="30" height="30"/>
-          </a>
+          <button onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></button>
+
         </div>
       </article>
     );

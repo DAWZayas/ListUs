@@ -1,4 +1,4 @@
-import { ADD_LIST, REMOVE_LIST } from '../actions';
+import { ADD_LIST, REMOVE_LIST, EDIT_LIST } from '../actions';
 
 const months = [ '', 'Enero', 'Febrero',
 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
@@ -91,7 +91,10 @@ function removeDate(state, title, date) {
   return newState;
 }
 
-
+function editList(state, idList, title, date, importance){
+  removeDate(state, title, date);
+  addDate(state, title, date, importance, idList);
+}
 
 export default function reducerCalendar( state = {}, action ){
   switch (action.type) {
@@ -99,6 +102,8 @@ export default function reducerCalendar( state = {}, action ){
       return addDate(state, action.title, action.date, action.importance, action.id);
     case REMOVE_LIST:
       return removeDate(state, action.title, action.date);
+    case EDIT_LIST:
+      return editList(state, action.idList, action.title, action.date, action.importance);
     default:
       return state;
   }
