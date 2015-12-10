@@ -36,6 +36,8 @@ export default class Header extends Component{
     onSetGroups([]);
   }
 
+  
+
   render() {
 
     const newLists = this.state.word!=='' ?

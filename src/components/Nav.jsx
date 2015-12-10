@@ -70,7 +70,6 @@ export default class Nav extends React.Component {
 
 		return (
 
-
 				<nav className="leftNav">
 					<button className="btn btn-default" onClick={this.showNav.bind(this)}>
 						<span ref="span" className="biggerGlyphicon glyphicon glyphicon-menu-hamburger"></span>
