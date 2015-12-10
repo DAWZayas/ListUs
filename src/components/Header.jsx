@@ -25,7 +25,7 @@ export default class Header extends Component{
     this.state.isVisible ? this.setState({ isVisible: false, word: '' }) : this.setState({ isVisible: true, word: '' });
   }
 
-  handleChangeInput(){
+  handleChangeInput(np){
  		this.setState({word: this.refs.inputText.value, isVisible: true});
  	}
 
@@ -46,26 +46,20 @@ export default class Header extends Component{
 
     return(
       <header className="header">
-        <Link className="navbar-brand" to="/list">
-                <img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/>
-              </Link>
+
       <div className="navegador">
         <Nav />
 
         <div className="calendarHeader">
-        <Link to="/calendar">
-          <button className="btn btn-default calendario">
-            <span className=" biggerGlyphicon  glyphicon  glyphicon-calendar" aria-hidden="true"></span>
-          </button>
-        </Link>
+          <Link className="navbar-brand" to="/list">
+              <img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/>
+          </Link>
         </div>
 
         <div className="search">
           <div className="search-btn-input">
-            <button className="btn btn-default" onClick={ () => this.handleVisibility()}>
-            <span className="biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true"  />
-            </button>
-            <input ref="inputText" type="text" autoFocus className={`${this.state.isVisible ? 'My-control input-search' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleChangeInput(event)} onBlur={ () => this.handleOnBlur()}/>
+
+            <input ref="inputText" type="text" autoFocus className={`${this.state.isVisible ? 'My-control input-search' : 'My-control input-search' }`} placeholder="Search your list..." onChange={ (event) => this.handleChangeInput(event)} onBlur={ () => this.handleOnBlur()}/>
           </div>
           <div className=" list-group search-ul">
 
