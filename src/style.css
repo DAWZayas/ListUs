@@ -651,3 +651,26 @@ border-radius: 10px;
 .inputSendMsg{
   overflow: hidden;
 }
+
+/* DIALOG */
+
+.dialogFriendAndGroup{
+  font-size: 14px;
+}
+
+.dialogFriendAndGroupManage{
+  font-size: 17px;
+}
+
+.avatarFriendAndGroups{
+  height: 30px !important;
+  width: 30px !important;
+
+  line-height: 20px !important;
+
+}
+
+.deleteButtonFriendGroup{
+  color: #D9534F;
+  margin-right: 5px;
+}

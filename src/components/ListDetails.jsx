@@ -16,26 +16,7 @@ constructor(props){
 }
 
 
-validationTitle(title){
-  const { tasks } = this.props;
-  return title!=='' && Object.values(tasks).filter( list => list.title===title).length===0;
-}
 
-openDialog(){
-  this.refs.dialog.show();
-}
-
-onClickAdd(){
-  const { onAddTask, list } = this.props;
-  const title = this.refs.titleDialog.getValue();
-  const idList = list.id;
-  this.validationTitle(title) ? onAddTask(idList, title) : this.refs.dialog.dismiss();
-  this.refs.dialog.dismiss();
-}
-
-onClickClose(){
-  this.refs.dialog.dismiss();
-}
 
 onClickPagination(e){
   let newPage = parseInt(e.target.text);
@@ -140,9 +121,7 @@ render() {
           <h3>No tasks to show</h3>
         </div>
       </div>
-      <div className="col-md-12 center">
-        <button className="btn btn-round btn-danger" onClick={() => this.openDialog()} > <span className="glyphicon glyphicon-plus" /> </button>
-      </div>
+      
       <div className="col-md-12 center pagination-tasks">
         <ul className="pagination">
           <li>

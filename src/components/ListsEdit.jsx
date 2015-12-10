@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Dialog, List, ListItem, TextField, Toggle, FlatButton, Slider } from 'material-ui';
+import { Dialog, Avatar, List, ListItem, TextField, Toggle, FlatButton, Slider } from 'material-ui';
 import DatePicker from 'react-datepicker';
 let moment = require('moment');
 require('react-datepicker/dist/react-datepicker.css');
@@ -124,6 +124,11 @@ export default class ListsEdit extends Component{
     Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list.id, this.state.newParticipant) ;
 		this._handleCloseDialog();
 	}
+
+	setImg(participant){
+    return participant.img !== '' ? <Avatar className="avatarFriendAndGroups" src={participant.img}/> : <Avatar className="avatarFriendAndGroups ">{participant.name.substring(0, 1).toUpperCase()}</Avatar>;
+  }
+
 /* REMOVE LIST */
 	onClickRemove(){
 		const { list, onRemoveList} = this.props;
@@ -228,8 +233,8 @@ export default class ListsEdit extends Component{
 
 	      <Dialog title="Add Friends and Groups to your list" open={this.state.showDialogAddFriendsAndGroups} actions={customActionsAddFriendsAndGroups} ref="dialogAddFriendsAndGroups" onRequestClose={this._handleCloseDialog}>
 
-	        <div style={{padding: '20px'}}>
-							<h4>Add Participants</h4>
+	        <div className="dialogFriendAndGroup" style={{padding: '20px'}}>
+
 	          <Toggle
 	            style={{width:100}}
 	            name="Friends"
@@ -247,20 +252,21 @@ export default class ListsEdit extends Component{
 	            ref="group"
 	            onToggle={() => this.handleOnToggleGroup()}
 	            defaultToggled />
-	          <TextField ref="textField" hintText="Title List" onChange={ () => this.handleOnChangeTextField()}  />
-	              <ul>
-	            {
-	              listOfFriendsAndGroups.map( (item, index) => index<=8 && item.length!==0 ? <li style={{cursor: 'pointer'}} key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}>{item.name}</li> : null)
-	            }
-	            </ul>
+						<ul>
+							{
+							listOfFriendsAndGroups.map( (item, index) => index<=8 && item.length!==0 ? <li style={{cursor: 'pointer'}} key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}><span>{this.setImg(item)}</span>{item.name}</li> : null)
+							}
+						</ul>
+						<TextField ref="textField" hintText="Participant" onChange={ () => this.handleOnChangeTextField()}  />
+
 	        </div>
 				</Dialog>
-				<Dialog title="manage list" open={this.state.showDialogAddFriendsAndGroupsList} actions={customActionsManage} ref="dialogManage" onRequestClose={this._handleCloseDialog}>
-					<div>
-						<h4>Friends and Groups manage {list.title}</h4>
+				<Dialog title="" open={this.state.showDialogAddFriendsAndGroupsList} actions={customActionsManage} ref="dialogManage" onRequestClose={this._handleCloseDialog}>
+					<div className="dialogFriendAndGroupManage" style={{padding: '20px'}}>
+						<h4>Friends and Groups manage {list.title}</h4><br/>
 						<ul >
 							{
-								list.participants.map( item => <li>{item.name}<span className="glyphicon glyphicon-remove" onClick={() => this.handleOnRemoveFriendGroupToList(item.id)}></span></li>)
+								list.participants.map( (item, index) => <li key={index}><span className="deleteButtonFriendGroup glyphicon glyphicon-remove" onClick={() => this.handleOnRemoveFriendGroupToList(item.id)}></span>{item.name}</li>)
 							}
 						</ul>
 					</div>
