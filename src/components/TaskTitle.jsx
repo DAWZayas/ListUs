@@ -101,7 +101,6 @@ export default class TaskTitle extends Component {
   }
 
   componentWillUnmount(){
-    debugger;
     this.refs.popover.open =false;
 
   }

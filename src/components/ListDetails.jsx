@@ -127,7 +127,7 @@ render() {
         </ul>
       </div>
       <div>
-      <ul className="nav nav-tabs" style={{'display': 'flex', 'justify-content': 'space-around'}}>
+      <ul className="nav nav-tabs" style={{'display': 'flex', 'justifyContent': 'space-around'}}>
         <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'All' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">All</a></li>
         <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Done' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Done</a></li>
         <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Undo' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Undo</a></li>

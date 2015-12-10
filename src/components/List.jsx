@@ -39,8 +39,7 @@ export default class List extends Component {
     onRemoveList(list.id, list.title, list.date);
   }
 
-  handleShowEdit(e, listId){
-    e.preventDefault();
+  handleShowEdit(){
     this.refs.dialogEdit.show();
   }
 
@@ -56,7 +55,7 @@ export default class List extends Component {
         </div>
         <div className="col-xs-8" >
           <span className="badge">{tasks.filter(task => task.done===false).length}/{tasks.length}</span>
-          <button type="button" className="btn btn-default pull-right" onClick={e=>this.handleShowEdit(e, list.id)} style={{height: '34.2px'}}> <span className="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+          <button type="button" className="btn btn-default pull-right" onClick={() =>this.handleShowEdit()} style={{height: '34.2px'}}> <span className="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
           <span className="dateBtn pull-right btn btn-default">{list.date}</span>
 
         </div>
