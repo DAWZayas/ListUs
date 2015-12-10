@@ -161,7 +161,7 @@ export const groups = [
     name: 'ListUs',
     friends: ['00', '11'], // pick up the friends id.
     showFriends: false,
-    administrator: '2'
+    administrator: '10'
   },
 
   {
@@ -169,7 +169,7 @@ export const groups = [
     name: 'Empresas',
     friends: [],
     showFriends: false,
-    administrator: '1'
+    administrator: '22'
   },
 
   {
@@ -177,13 +177,13 @@ export const groups = [
     name: 'Servidor',
     friends: ['22'],
     showFriends: false,
-    administrator: '5'
+    administrator: '10'
   }
 
 ];
 
 export const user = {
-  idUser: '10',
+  id: '10',
   name: 'Troya',
   password: 'troya',
   img: 'http://www.planwallpaper.com/static/images/Conflict-HD-Wallpaper_Sf0xtpv.jpg',

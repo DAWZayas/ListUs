@@ -140,7 +140,7 @@ render() {
           }
         </ul>
         <div className={`${Object.values(tasksToShow).length === 0 ? 'col-xs-12' : 'hidden'}`}>
-          <h3>No tasks to show</h3>
+          <h3 style={{paddingLeft: '2em', fontStyle: 'italic'}}>No tasks to show</h3>
         </div>
       </div>
       <div className="col-md-12 center">

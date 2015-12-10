@@ -49,6 +49,7 @@ export const SET_FRIENDS = 'SET_FRIENDS';
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const REMOVE_FRIEND = 'REMOVE_FRIEND';
 export const ADD_FRIEND_GROUP = 'ADD_FRIEND_GROUP';
+export const REMOVE_FRIEND_GROUP = 'REMOVE_FRIEND_GROUP';
 
 /*
 * GROUPS
@@ -187,9 +188,9 @@ export function setGroups(groups){
 }
 
 
-export function addGroup(name){
+export function addGroup(name, idUser){
   return {
-    type: ADD_GROUP, name
+    type: ADD_GROUP, name, idUser
   };
 }
 
@@ -214,6 +215,12 @@ export function showGroupFriends(idGroup){
 export function addGroupFriend(idFriend, idGroup){
   return {
     type: ADD_FRIEND_GROUP, idFriend, idGroup
+  };
+}
+
+export function removeGroupFriend(idFriend, idGroup){
+  return {
+    type: REMOVE_FRIEND_GROUP, idFriend, idGroup
   };
 }
 

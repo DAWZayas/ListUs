@@ -55,27 +55,37 @@ export function objIsEmpty(obj){
 
 /*********************** GROUP FUNCTIONS *************************************/
 
-export function groupFriends(idFriends, idGroup, friends, idUser){
+export function groupFriends(idFriends, idGroup, friends, idUser, that){
 		const refer =  'fr'+idGroup;
 		const idFriendsPure = idFriends.filter(idFriend => idFriend !== idUser);
 		return (
 			<div ref={refer} className="group-friends" >
 				<img src={'https://upload.wikimedia.org/wikipedia/commons/3/38/UtR_arrow.svg'} width="30" />
-				{idFriendsPure.map(function(idFriend){
+				{(idFriendsPure.length !== 0)?idFriendsPure.map(function(idFriend){
 					const pos = arrayPositionByObjectKey('id', idFriend, friends);
 					const friend = (pos !== -1)?friends[pos] :{};
 					return (friend['img'] !== '')
-						?<img
-							className="avatar"
-							key={friend['id']}
-							src={friend['img']}
-							alt={friend['name']}
-							width="50"/>
-						:avatarLetter(friend['name'], friend['id']);
-					}.bind(this))}
+						?<a style={{cursor: 'pointer'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
+							<img
+								className="avatar"
+								key={friend['id']}
+								src={friend['img']}
+								alt={friend['name']}
+								width="50"/>
+						</a>
+						:<a style={{cursor: 'pointer'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
+							{avatarLetter(friend['name'], friend['id'])}
+						</a>;
+					}.bind(this))
+				: <h3 style={{fontStyle: 'italic'}}>No friends</h3>}
 			</div>
 		);
 	}
+
+
+
+
+	
 
 /************************* GET USER INFO ***************************************/
 
