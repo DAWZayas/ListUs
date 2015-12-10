@@ -48,9 +48,8 @@ onClickPrevious(){
   }
 }
 
-numberOfPages(){
-  const { tasks } = this.props;
-  return Math.ceil(Object.values(tasks).length/6);
+numberOfPages(tasksToShow){
+  return Math.ceil(Object.values(tasksToShow).length/6);
 }
 
 onClickNext(e){
@@ -80,18 +79,11 @@ renderForce(){
 
 render() {
 
-  const numberOfPages = this.numberOfPages()===0 ? 1 : this.numberOfPages();
-  if(this.state.page>this.numberOfPages()) this.setState({page: this.numberOfPages()});
-  const lastNumPage = this.state.page+2<=numberOfPages ? this.state.page+2 : this.state.page+1<=numberOfPages ? this.state.page+1 : this.state.page;
-  const initNumPage = this.state.page-2>0 ? this.state.page-2 : this.state.page-1>0 ? this.state.page-1 : this.state.page;
-  const initTask = this.state.page*6-6;
-  const lastTask = this.state.page*6;
 
   const { list, lists, onRemoveList, onEditList, tasks, onAddTask, onRemoveTask, onEditTask, friends, groups, onAddFriendGroupToList, onRemoveFriendGroupToList } = this.props;
 
   let tasksToShow;
   let showTasks = this.state.tasksShown;
-
   if (showTasks === 'All') {
     tasksToShow = tasks;
   }
@@ -103,6 +95,13 @@ render() {
   if (showTasks === 'Done') {
     tasksToShow = Object.values(tasks).reduce ( (tasks, task) => task.done ? Object.assign({}, tasks, {[task.id]:task}) : tasks, {});
   }
+
+  const numberOfPages = this.numberOfPages(tasksToShow)===0 ? 1 : this.numberOfPages(tasksToShow);
+  if(this.state.page>this.numberOfPages(tasksToShow) && this.state.page !== 1) this.setState({page: this.numberOfPages(tasksToShow)});
+  const lastNumPage = this.state.page+2<=numberOfPages ? this.state.page+2 : this.state.page+1<=numberOfPages ? this.state.page+1 : this.state.page;
+  const initNumPage = this.state.page-2>0 ? this.state.page-2 : this.state.page-1>0 ? this.state.page-1 : this.state.page;
+  const initTask = this.state.page*6-6;
+  const lastTask = this.state.page*6;
 
   return(
 
@@ -122,8 +121,10 @@ render() {
 
         </ul>
       </div>
-      <div className="col-xs-12"  style={{'display': 'flex', 'justify-content': 'space-around'}}>
-        <ul className="nav nav-tabs">
+
+      <div className="col-xs-12">
+        <ul className="nav nav-tabs" style={{'display': 'flex', 'justify-content': 'space-around'}}>
+
           <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'All' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">All</a></li>
           <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Done' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Done</a></li>
           <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Undo' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Undo</a></li>

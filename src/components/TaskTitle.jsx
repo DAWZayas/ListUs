@@ -12,7 +12,6 @@ export default class TaskTitle extends Component {
 
   render() {
 
-
     const { list,  onEditList, onRemoveList, onAddFriendGroupToList, lists, groups, friends, onRemoveFriendGroupToList } = this.props;
 
     return(

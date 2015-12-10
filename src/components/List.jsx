@@ -1,21 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 //import ItemList from './ItemList';
+import { Dialog, ListItem } from 'material-ui';
+import { List as Listt } from 'material-ui';
 import { Link } from 'react-router';
 import ListsEdit from './ListsEdit';
-
+ 
 export default class List extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      isModifyList: false,
-      openEdit: false
+      isModifyList: false
     };
   }
 
   handleOnClickEdit(e){
     e.stopPropagation();
-    this.setState({openEdit: false});
+    this.refs.dialogEdit.dismiss();
     this.setState({ isModifyList: true});
   }
 
@@ -34,14 +35,13 @@ export default class List extends Component {
 
   handleOnClickRemove(e){
     e.stopPropagation();
-    this.setState({openEdit: false});
+    this.refs.dialogEdit.dismiss();
     const { list, onRemoveList } = this.props;
     onRemoveList(list.id, list.title, list.date);
   }
 
-  handleShowEdit(e, listId){
-    e.preventDefault();
-    this.setState({listId, openEdit: true});
+  handleShowEdit(){
+    this.refs.dialogEdit.show();
   }
 
   render() {
@@ -70,10 +70,6 @@ export default class List extends Component {
         </div>
 
       </div>
-
-
-
-
 
     </div>
     );

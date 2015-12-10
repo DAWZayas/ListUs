@@ -5,47 +5,106 @@ import { getId } from './index';
 export const lists = [
   {
     id: getId(),
-    title: 'Real Madrid',
+    title: 'ListUs project',
     participants: [], //id group or id friend
-    date: '3/11/2015',
+    date: '11/12/2015',
     importance: 3
   },
   {
     id: getId(),
-    title: 'Barsa',
+    title: 'Final DAW project',
     participants: [],
-    date: '3/11/2015',
+    date: '20/12/2015',
     importance: 1
   },
   {
     id: getId(),
-    title: 'Patetic',
+    title: 'John\'s birthday',
     participants: [],
-    date: '8/1/2016',
+    date: '31/12/2015',
     importance: 2
   },
   {
     id: getId(),
-    title: 'Valencia',
+    title: 'Family meeting',
     participants: [],
-    date: '16/11/2015',
+    date: '24/12/2015',
     importance: 0
   },
   {
     id: getId(),
-    title: 'Celta',
+    title: 'Party all night',
     participants: [],
-    date: '26/11/2015',
+    date: '31/12/2015',
     importance: 0
   },
   {
     id: getId(),
-    title: 'Betis',
+    title: 'Sleepover',
     participants: [],
-    date: '2/12/2015',
+    date: '1/1/2016',
     importance: 2
   }
 ];
+
+export const tasks = {
+  0: {
+    id: '0',
+    idList: lists[0].id,
+    title: 'Improve the style',
+    participants: [],
+    done: false
+  },
+  1: {
+    id: '1',
+    idLists: lists[0].id,
+    title: 'Fix the calendar section',
+    participants: [],
+    done: false
+  },
+  2: {
+    id: '2',
+    idList: lists[0].id,
+    title: 'Implement FireBase',
+    participants: [],
+    done: false
+  },
+  3: {
+    id: '3',
+    idList: lists[0].id,
+    title: 'Check errors and warnings',
+    participants: [],
+    done: false
+  },
+  7: {
+    id: '7',
+    idList: lists[1].id,
+    title: 'Read documentation',
+    participants: [],
+    done: false
+  },
+  8: {
+    id: '8',
+    idList: lists[1].id,
+    title: 'Set the requirements',
+    participants: [],
+    done: false
+  },
+  9: {
+    id: '9',
+    idList: lists[1].id,
+    title: 'Code',
+    participants: [],
+    done: false
+  },
+  10: {
+    id: '10',
+    idList: lists[1].id,
+    title: 'Prepare the presentation',
+    participants: [],
+    done: false
+  }
+};
 
 export const comments = {
   [lists[0].id]: [ {  user:'pepe', date:'12/7/2015', hour:'11:22', msg:'eeeeee'}, { user:'juan', date:'12/7/2015', hour:'11:22', msg:'wwww'}],
@@ -95,65 +154,6 @@ export const friends = [
   },
 
 ];
-
-export const tasks = {
-	0: {
-    id: '0',
-		idList: lists[1].id,
-		title: 'Messi',
-    participants: [],
-    done: false
-	},
-  1: {
-    id: '1',
-    idLists: lists[1].id,
-    title: 'Neymar',
-    participants: [],
-    done: false
-  },
-  2: {
-    id: '2',
-    idList: lists[1].id,
-    title: 'Iniesta',
-    participants: [],
-    done: false
-  },
-  3: {
-    id: '3',
-    idList: lists[1].id,
-    title: 'Suarez',
-    participants: [],
-    done: false
-  },
-  7: {
-    id: '7',
-    idList: lists[0].id,
-    title: 'James',
-    participants: [],
-    done: false
-  },
-  8: {
-    id: '8',
-    idList: lists[0].id,
-    title: 'Benzema',
-    participants: [],
-    done: false
-  },
-  9: {
-    id: '9',
-    idList: lists[0].id,
-    title: 'Cristiano',
-    participants: [],
-    done: false
-  },
-  10: {
-    id: '10',
-    idList: lists[0].id,
-    title: 'Modric',
-    participants: [],
-    done: false
-  }
-};
 
 export const groups = [
   {
@@ -219,19 +219,17 @@ export const dataBase = {
 
 export const calendar = {
   2015: {
-    'Noviembre': {
-      3: [{ title: 'Real Madrid', importance: 3, id: lists[0].id },
-          { title: 'Barsa', importance: 1, id: lists[1].id }],
-      16: [{ title: 'Valencia', importance: 1, id: lists[3].id }],
-      26: [{ title: 'Celta', importance: 0, id: lists[4].id }]
-    },
     'Diciembre': {
-      2: [{ title: 'Betis', importance: 2, id: lists[5].id }]
+      11: [{ title: 'ListUs project', importance: 3, id: lists[0].id }],
+      20: [{ title: 'Final DAW project', importance: 1, id: lists[1].id }],
+      24: [{ title: 'Family meeting', importance: 0, id: lists[3].id }],
+      31: [{ title: 'John\'s birthday', importance: 0, id: lists[2].id },
+           { title: 'Party all night', importance: 3, id: lists[4].id }]
     }
   },
   2016: {
     'Enero': {
-      8: [{ title: 'Patetic', importance: 2, id: lists[2].id }]
+      1: [{ title: 'Sleepover', importance: 2, id: lists[5].id }]
     }
   }
 };
