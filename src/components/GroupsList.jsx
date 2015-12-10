@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { AppBar, FlatButton } from 'material-ui';
 import { groupFriends } from '../utils/functions';
 
@@ -37,3 +37,10 @@ export default class GroupsList extends Component{
 
 
 }
+
+GroupsList.propTypes = {
+	groups: PropTypes.array,
+	friends: PropTypes.array,
+	user: PropTypes.object,
+	that: PropTypes.object
+};
