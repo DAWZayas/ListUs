@@ -68,7 +68,6 @@ export default class Groups extends Component {
 	addGroupNonExistent(e, pos, name){
 		if(pos !== -1) this.setState({error: 'Group\'s name already exists.'});
 		else{
-			debugger;
 			this.props.onAddGroup(name, this.props.user.id);
 			this.setState({error: '', search: []});
 			this.handleClickDismissDialog(e, 'dialogAddGroup');
