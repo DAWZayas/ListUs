@@ -1,6 +1,6 @@
 
 import { connect } from 'react-redux';
-import { addTask, removeTask, editTask, removeList, editList, addComment, removeComments, addFriendGroupToList, addFriendGroupToTask } from '../actions';
+import { addTask, removeTask, removeListAndNavigate, editTask, editList, addComment, removeComments, addFriendGroupToList, addFriendGroupToTask } from '../actions';
 import ListDetails from '../components/ListDetails';
 
 
@@ -17,7 +17,7 @@ function mapActionsToProps(dispatch){
     onRemoveTask: id => dispatch(removeTask(id)),
     onEditTask: (id, title) => dispatch(editTask(id, title)),
     onAddFriendGroupToTask: (idTask, idParticipant) => dispatch(addFriendGroupToTask(idTask, idParticipant)),
-    onRemoveList: (id, title, date) => dispatch(removeList(id, title, date)),
+    onRemoveList: (id, title, date) => dispatch(removeListAndNavigate(id, title, date)),
     onEditList: (id, title) => dispatch(editList(id, title)),
     onAddComment: (idList, user, date, msg) => dispatch(addComment(idList, user, date, msg)),
     onRemoveComments: idList => dispatch(removeComments(idList)),

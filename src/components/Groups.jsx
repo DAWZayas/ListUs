@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-import { FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
-import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, sortArray, menuItems } from '../utils/functions';
+import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar} from 'material-ui';
+import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, groupFriends, sortArray, menuItems } from '../utils/functions';
 import SectionHeader from './SectionHeader';
 import GroupEditList from './GroupEditList';
 import GroupsList from './GroupsList';
@@ -181,18 +181,42 @@ export default class Groups extends Component {
 	render(){
 		const { sorted, groupId, openEdit } = this.state;
 		const key = (sorted.split(' ')[0] === 'Name')?'name':'date';
-		/*const groups = (sorted === 'Sort By')
-				?this.props.groups 
-				:sortArray(this.props.groups, key, sorted.split(' ')[1]);*/
+		const groups = (sorted === 'Sort By')
+				?this.props.groups
+				:sortArray(this.props.groups, key, sorted.split(' ')[1]);
 		return (
 			<section>
-       			<SectionHeader title="GROUPS" menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
-				<GroupsList groups={this.props.groups} friends={this.props.friends} user={this.props.user}
-							that={this}/>
+       			<SectionHeader title="GROUPS" openDialog={() => this.handleClickShowDialog('dialogAddGroup')} menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
+				{(groups)?groups.map(function(group){
+						return (
+							<div key={group['id']}>
+								<AppBar
+										title={group['name']}
+										className="listGroups"
+										iconElementRight={<div className="deleteEdit">
+
+											<button type="button" className="btn btn-default" onClick={e=>this.handleShowEdit(e, group['id'])}> <span className="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+											{/*<a className="glyphicon glyphicon-remove-circle" onClick={e => this.handleClickRemoveGroup(e, group['id'])} />
+											<a className="glyphicon glyphicon-edit" onClick={e => this.handleClickSetRefToEdit(e, group['id'])}/><br/>
+											<a className="glyphicon glyphicon-transfer" onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', group['id'], true)}/>*/}
+										</div>
+										}
+										onLeftIconButtonTouchTap={e => this.handleClickShowGroupFriends(e, group['id'])}
+
+								/>
+		 						{(group['showFriends']===true)?<div>
+		 															{groupFriends(group['friends'], group['id'], this.props.friends, this.props.user.id)}
+		 															<FlatButton label=" +Friend" primary onClick={() => this.handleClickShowDialog('dialogAddFriend', group['id'])}/>
+		 														</div>
+		 													  :''}
+	 						</div>
+	 					);
+					}.bind(this))
+					: <p>No groups created.</p>}
 
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
 				<br/>
-				<div className="addGroup"><FlatButton label="Create Group" primary onClick={() => this.handleClickShowDialog('dialogAddGroup')}/></div>
+				
 
 				{(this.state.listToShow !== 0)
 					 ?<div className="col-md-12 center">
@@ -202,10 +226,10 @@ export default class Groups extends Component {
 			        </div>
 			        : ''
 		    	}
-										 
-		    	{(!openEdit)?'' :<GroupEditList 
-		    		   editName={() => this.handleClickSetRefToEdit(groupId)} 
-					   removeGroup={() => this.handleClickRemoveGroup(groupId)} 
+
+		    	{(!openEdit)?'' :<GroupEditList
+		    		   editName={() => this.handleClickSetRefToEdit(groupId)}
+					   removeGroup={() => this.handleClickRemoveGroup(groupId)}
 					   switchAdmin={() => this.handleClickShowDialog('dialogAddFriend', groupId, true)}
 					   open={openEdit} />}
 

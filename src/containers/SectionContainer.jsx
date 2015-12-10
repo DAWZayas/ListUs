@@ -5,7 +5,7 @@ import Section from '../components/Section';
 function mapStateToProps(state){
   return {
     lists: state.lists,
-    asideVisibility: state.aside,
+    tasks: state.tasks
   };
 }
 

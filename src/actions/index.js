@@ -1,3 +1,7 @@
+
+import { pushState } from 'redux-router';
+import sequencer from './sequencer';
+
 /*
 * TASK
 */
@@ -7,7 +11,7 @@ export const ADD_TASK = 'ADD_TASK';
 export const REMOVE_TASK = 'REMOVE_TASK';
 export const EDIT_TASK = 'EDIT_TASK';
 export const ADD_FRIEND_OR_GROUP_TO_TASK = 'ADD_FRIEND_OR_GROUP_TO_TASK';
-
+export const SET_AS_DONE = 'SET_AS_DONE';
 /*
 * LIST
 */
@@ -94,6 +98,10 @@ export function editTask( idTask, title ){
 export function addFriendGroupToTask(idTask, id){
   return { type: ADD_FRIEND_OR_GROUP_TO_TASK, idTask, id};
 }
+export function setAsDone(idTask){
+    return { type: SET_ASS_DONE, idTask};
+}
+
 /*
 * list action creator
 */
@@ -112,6 +120,12 @@ export function editList( idList, title ){
 }
 export function addFriendGroupToList(idList, id){
   return { type: ADD_FRIEND_OR_GROUP_TO_LIST, idList, id};
+}
+export function removeListAndNavigate(idList, title, date) {
+  return dispatch => sequencer([
+      () => dispatch(removeList(idList, title, date)),
+      () => dispatch(pushState(null, '/'))
+    ]);
 }
 /*
 * visibility aside action creator

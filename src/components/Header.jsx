@@ -3,8 +3,6 @@ import Nav from './Nav';
 import { Link } from 'react-router';
 import ItemList from './ItemList';
 
-import { clearUser } from '../utils/functions';
-
 
 export default class Header extends Component{
 
@@ -12,7 +10,7 @@ export default class Header extends Component{
     super(props);
     this.state = {
       isVisible: false,
-      newLists: []
+      word: ''
     };
   }
 
@@ -22,14 +20,11 @@ export default class Header extends Component{
 
   handleVisibility(){
     this.refs.inputText.value='';
-    this.state.isVisible ? this.setState({ isVisible: false }) : this.setState({ isVisible: true });
-    this.setState({newLists: []});
+    this.state.isVisible ? this.setState({ isVisible: false, word: '' }) : this.setState({ isVisible: true, word: '' });
   }
 
-  handleFilterList(event){
- 		let updateLists = this.props.lists;
- 		updateLists = updateLists.filter( list=> list.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1);
- 		this.setState({newLists: updateLists});
+  handleChangeInput(){
+ 		this.setState({word: this.refs.inputText.value, isVisible: true});
  	}
 
   handleClearUser(e){
@@ -44,57 +39,54 @@ export default class Header extends Component{
   
 
   render() {
-    return(
 
+    const newLists = this.state.word!=='' ?
+      this.props.lists.filter( list=> list.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
+      : [];
+
+    return(
       <header className="header">
 
-          <div className="principal">
-            <div style={{display: 'flex'}}>
-              <Nav />
+      <div className="navegador">
+        <Nav />
 
-              <Link to="/calendar">
-                <button className="btn btn-info" style={{marginTop: 0}}>
-                  <span className=" biggerGlyphicon  glyphicon  glyphicon-calendar" aria-hidden="true"></span>
-                </button>
-              </Link>
-            </div>
+        <div className="calendarHeader">
+          <Link className="navbar-brand" to="/list">
+              <img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/>
+          </Link>
+        </div>
 
-            <div >
-              <Link style={{display: 'flex'}} to="/list">
-                <img className="image" src={"https://facebook.github.io/react/img/logo.svg"}/>
-                <h4 style={{color: 'white'}}>ListUs</h4>
-              </Link>
-            </div>
+        <div className="search">
+          <div className="search-btn-input">
 
-            <button className="btn btn-info"  onClick={e=>this.handleClearUser(e)}>
-              <span ref="span" className="biggerGlyphicon glyphicon glyphicon-off"></span>
-            </button>
+            <input ref="inputText" type="text" autoFocus className={`${this.state.isVisible ? 'My-control input-search' : 'My-control input-search' }`} placeholder="Search your list..." onChange={ () => this.handleChangeInput()} onBlur={ () => this.handleOnBlur()}/>
           </div>
+          <div className=" list-group search-ul">
 
-          <div className="navegador">
-
-            <div className="search">
-              <div className="search-btn-input">
-                <button className="btn btn-info">
-                  <span className="biggerGlyphicon glyphicon glyphicon-search pull-left" aria-hidden="true" onClick={ () => this.handleVisibility()} />
-                </button>
-                <div >
-                  <input ref="inputText" type="text"  className={`${this.state.isVisible ? 'form-control input-search' : 'hidden' }`} placeholder="Search your list..." onChange={ (event) => this.handleFilterList(event)} onBlur={ () => this.handleOnBlur()}/>
-                  <div >
-                    <ul className={`${this.state.isVisible ? 'search-ul' : 'hidden' }`}>
-                      {
-                        this.state.newLists.map( (list, index) => index<4 ? <ItemList key={index} list={list} /> : null  )
-                      }
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
+              {
+                newLists.map( (list, index) => index<4 ? <ItemList key={index} list={list} /> : null  )
+              }
 
           </div>
+        </div>
+      </div>
 
-      </header>
+
+      <div className="principal">
+
+        <a style={{cursor: 'pointer'}} onClick={e=>this.handleClearUser(e)}>
+          <img
+            width="30"
+            src={'https://cdn2.iconfinder.com/data/icons/perfect-pixel-game-ui-set/256/quit_exit-512.png'}
+            alt="Exit">
+          </img>
+        </a>
+      </div>
+
+  </header>
+
+
+
     );
   }
 
@@ -105,7 +97,7 @@ Header.propTypes = {
   onSetUser: PropTypes.func,
   onSetLists: PropTypes.func,
   onSetTasks: PropTypes.func,
-  onSetGroups: PropTypes.func
+  onSetGroups: PropTypes.funcs
 };
 
 Header.defaultProps = {

@@ -89,7 +89,7 @@ export default class Section extends Component {
         primary
         onClick={() => this.onClickAdd()} />
     ];
-    const {  lists, onEditList, onRemoveList, onAddList } = this.props;
+    const {  lists, onEditList, onRemoveList } = this.props;
 
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
@@ -110,11 +110,18 @@ export default class Section extends Component {
           <TextField disabled style={{top: '-30px', width:'100px'}} ref="importance" defaultValue="0"/>
         </Dialog>
 
-        <SectionHeader title="LISTS" menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)} onAddList={onAddList}/>
-        <div style={{display: 'flex', justifyContent: 'flex-end', paddingRight: '10'}}><button style={{backgroundColor: 'white'}} className="btn btn-default" onClick={() => this.openDialog()}>ADD LIST</button></div>
-        <div className="lists">
+        {/*<div style={{display: 'flex', justifyContent: 'space-between'}}>
+  				<h3 style={{marginLeft: '10'}}>LISTS</h3>
+          <div style={{display: 'flex', justifyContent: 'flex-end', paddingRight: '10'}}><button style={{backgroundColor: 'white', height: '35px'}} className="btn btn-default" onClick={() => this.openDialog()}>ADD LIST</button></div>
+  				<DropDownMenu menuItems={menuItems}
+  					style={{width: '175'}}
+  					onChange={(e, selectedIndex, menuItem)=>sortArray(e, selectedIndex, menuItem)}/>
+  			</div>*/}
+        <SectionHeader title="LISTS" menuItems={menuItems} openDialog={this.openDialog.bind(this)}func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
+
+      <div className="lists">
             {
-              listsEnd.map( (list, index) => index<this.state.numberOfList ? <List list={list} key={index} onRemoveList={onRemoveList} onEditList={onEditList}/> : '' )
+              listsEnd.map( (list, index) => index<this.state.numberOfList ? <List list={list} tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)} key={index} onRemoveList={onRemoveList} onEditList={onEditList}/> : '' )
             }
         </div>
         <br/>
@@ -130,7 +137,7 @@ export default class Section extends Component {
 
 Section.propTypes = {
   lists: PropTypes.array,
-  asideVisibility: PropTypes.object,
+  tasks: PropTypes.object,
   onAddList: PropTypes.func.isRequired,
   onRemoveList: PropTypes.func.isRequired,
   onEditList: PropTypes.func.isRequired
