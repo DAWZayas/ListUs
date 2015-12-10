@@ -40,7 +40,7 @@
     "babel-runtime": "^5.8.29",
     "bootstrap": "^3.3.5",
     "bootstrap-material-design": "https://github.com/FezVrasta/bootstrap-material-design/archive/0.3.0.tar.gz",
-    "history": "1.13.x",
+    "history": "~1.13.1",
     "material-ui": "^0.13.3",
     "moment": "^2.10.6",
     "node-uuid": "^1.4.3",
