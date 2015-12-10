@@ -34,6 +34,7 @@ App.propTypes = {
   user: PropTypes.object
 };
 
+
 function mapStateToProps(state) {
   return {
      user: state.user
