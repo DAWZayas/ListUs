@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Groups from '../components/Groups';
-import { addGroup, editGroup, removeGroup, showGroupFriends, addGroupFriend, changeGroupAdmin } from '../actions';
+import { addGroup, editGroup, removeGroup, showGroupFriends, addGroupFriend, changeGroupAdmin, removeGroupFriend } from '../actions';
 
 
 function mapStateToProps(state) {
@@ -18,6 +18,7 @@ function mapActionsToProps(dispatch) {
 		onEditGroup: (idGroup, name) => dispatch(editGroup(idGroup, name)),
 		onRemoveGroup: idGroup => dispatch(removeGroup(idGroup)),
 		onAddGroupFriend: (idFriend, idGroup) => dispatch(addGroupFriend(idFriend, idGroup)),
+		onRemoveGroupFriend: (idFriend, idGroup) => dispatch(removeGroupFriend(idFriend, idGroup)),
 		onChangeGroupAdmin: (idFriend, idGroup) => dispatch(changeGroupAdmin(idFriend, idGroup))
   };
 }

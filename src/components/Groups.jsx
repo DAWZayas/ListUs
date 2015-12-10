@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-import { FlatButton, Dialog, TextField, ListItem, List, Avatar} from 'material-ui';
+import { FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
 import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, sortArray, menuItems } from '../utils/functions';
 import SectionHeader from './SectionHeader';
-import GroupsList from './GroupsList';
+import GroupSections from './GroupSections';
 
 
 export default class Groups extends Component {
@@ -32,7 +32,7 @@ export default class Groups extends Component {
 
 	handleClickShowDialog(ref, id){
 		this.refs.dialogEdit.dismiss();
-		if(arguments[3]) this.setState({admin: true});
+		if(arguments.length === 3) this.setState({admin: true});
 		this.setState({id, search: []});
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.show():this.refs.dialogAddFriend.show();
 	}
@@ -66,8 +66,9 @@ export default class Groups extends Component {
 	}
 
 	addGroupNonExistent(e, pos, name){
-		if(pos !== -1) this.setState({error: 'El nombre del grupo ya existe'});
+		if(pos !== -1) this.setState({error: 'Group\'s name already exists.'});
 		else{
+			debugger;
 			this.props.onAddGroup(name, this.props.user.id);
 			this.setState({error: '', search: []});
 			this.handleClickDismissDialog(e, 'dialogAddGroup');
@@ -91,31 +92,49 @@ export default class Groups extends Component {
 		this.props.onRemoveGroup(id);
 	}
 
-	/* Editting groups*/
+	/* Remove friend */
+	handeRemoveGroupFriend(idFriend, idGroup){
+		this.props.onRemoveGroupFriend(idFriend, idGroup);
+		//this.handleHideRemove();
+	}
+
+	/* Editing groups*/
 	handleClickSetRefToEdit(id){
 		this.refs.dialogEdit.dismiss();
-		this.setState({refToEdit: id});
+		setTimeout(() => this.setState({refToEdit: id}), 0);
 	}
 
 	handleClickEditGroup(ref, value){
-		this.props.onEditGroup(ref, value);
-		this.handleHideEdit();
+		const fixedValue = value.trim();
+		if(arrayPositionByObjectKey('name', fixedValue, this.props.groups) === -1 && fixedValue !== ''){
+			this.props.onEditGroup(ref, fixedValue);
+			this.handleHideEdit();
+		}
+		else this.setState({error: 'Group\'s name already exists.'});
+		
+	}
+
+	editDialogActions(ref){
+		return [
+			<FlatButton label="Candel" secondary onClick={() => this.handleHideEdit()}/>,
+			<FlatButton label="Edit" primary onClick={() => this.handleClickEditGroup(ref, this.refs.groupEdit.getValue())}/>
+		];
 	}
 
 	editGroup(ref){
 		const pos = arrayPositionByObjectKey('id', ref, this.props.groups);
-		return (<Dialog ref="dialogEditName" title="Edit Name" defaultOpen>
+		return (<Dialog ref="dialogEditName" title="Edit Name" defaultOpen actions={this.editDialogActions(ref)}>
 					<TextField
 						ref = "groupEdit"
 						hintText={this.props.groups[pos]['name']}
 						underlineStyle={{borderColor:'blue'}}
 						/>
-					<FlatButton label="Cancelar" onClick={() => this.handleHideEdit()}/>
-					<FlatButton label="Editar" onClick={() => this.handleClickEditGroup(ref, this.refs.groupEdit.getValue())}/>
+					{(this.state.error === '')?'' :<p style={{color: 'red'}}>{this.state.error}</p>}
 				</Dialog>);
 	}
 
 	handleHideEdit(){
+		if(this.state.error !== '') this.setState({error: ''});
 		this.setState({refToEdit: ''});
 	}
 
@@ -141,10 +160,6 @@ export default class Groups extends Component {
 		(ref === 'friendNameInput')?this.refs.friendNameInput.setValue(value) :this.refs.changeAdmin.setValue(value);
 	}
 
-	/*clearSearchState(e){
-		e.preventDefault();
-		this.setState({search : []});
-	}*/
 
 	handleSorted(e, selectedIndex, menuItem){
 		e.preventDefault();
@@ -161,24 +176,14 @@ export default class Groups extends Component {
 		const { sorted, groupId } = this.state;
 		const key = (sorted.split(' ')[0] === 'Name')?'name':'date';
 		const groups = (sorted === 'Sort By')
-				?this.props.groups
-				:sortArray(this.props.groups, key, sorted.split(' ')[1]);
+			?this.props.groups
+			:sortArray(this.props.groups, key, sorted.split(' ')[1]);
 		return (
 			<section>
        			<SectionHeader title="GROUPS" openDialog={() => this.handleClickShowDialog('dialogAddGroup')} menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
-				<GroupsList groups={groups} friends={this.props.friends} user={this.props.user} that={this} />
+       			<GroupSections groups={groups} friends={this.props.friends} user={this.props.user} that={this} />
 
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
-				<br/>
-
-				{(this.state.listToShow !== 0)
-					 ?<div className="col-md-12 center">
-			          <a onClick={() => this.openDialog()} style={{cursor: 'pointer'}} >
-			            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width="30" height="30"/>
-			          </a>
-			        </div>
-			        : ''
-		    	}
 
 		    	<Dialog ref="dialogEdit" title="Edit Options">
 					<List>
@@ -194,7 +199,7 @@ export default class Groups extends Component {
 
 				<Dialog className="addFriends"
 						ref="dialogAddFriend"
-						title={(!this.state.admin)?'Add group friend':'Administration Transfering'}
+						title={(this.state.admin === false)?'Add group friend':'Administration Transfering'}
 						actions={this.applyParamsToArray('dialogAddFriend')}
 					>
 					<div ref="subMenuCont" className="subMenuCont" >
@@ -238,6 +243,7 @@ export default class Groups extends Component {
 						/>
 					<p className="error" style={{color: 'red'}}>{this.state.error}</p>
 				</Dialog>
+
 			</section>
 		);
 	}
