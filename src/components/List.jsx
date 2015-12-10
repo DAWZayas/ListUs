@@ -72,8 +72,8 @@ export default class List extends Component {
 
       <Dialog ref="dialogEdit" title="Edit Options" >
         <Listt>
-          <ListItem primaryText="Edit Name" onClick={(e) => this.handleOnClickEdit(e)} />
-          <ListItem primaryText="Remove List" onClick={(e) => this.handleOnClickRemove(e)} />
+          <ListItem primaryText="Edit Name" onClick={(e) => this.handleOnClickEdit(e)} rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-pencil"></span>} />
+          <ListItem primaryText="Remove List" onClick={(e) => this.handleOnClickRemove(e)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>} />
         </Listt>
       </Dialog>
 
