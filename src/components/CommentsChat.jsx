@@ -10,6 +10,9 @@ export default class CommentsChat extends Component {
     };
   }
 
+  componentDidUpdate(){
+    this.refs.final.scrollIntoView(true);
+  }
 
 /*
 
@@ -17,6 +20,8 @@ export default class CommentsChat extends Component {
 
 
 */
+
+
 
   onClickAddComment(){
     const { onAddComment, idList } = this.props;
@@ -81,9 +86,7 @@ export default class CommentsChat extends Component {
     }
   }
 
-  componentDidUpdate(){
-    this.refs.final.scrollIntoView(true);
-  }
+  
 
 
   render(){

@@ -167,10 +167,15 @@ border-radius: 10px;
 */
 
 .article {
-  background-color: lightblue;
+  background-color: #F8F8F8;
   width: 100%;
   height: 400px;
   float: left;
+}
+
+.positionButton {
+  position: relative;
+  top: -18px;
 }
 
 /*
@@ -193,7 +198,7 @@ border-radius: 10px;
 }
 
 .listNotCompleted {
-  background-color: mintcream;
+  background-color: white;
 }
 
 .listCompleted {
@@ -224,6 +229,11 @@ border-radius: 10px;
 
 .dateBtn {
   width: 93px;
+}
+
+.positionBadge {
+  position: relative;
+  top: 15px;
 }
 /*
 *  TASKTITLE

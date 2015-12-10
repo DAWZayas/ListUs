@@ -50,7 +50,7 @@ export default class ItemTaskDetails extends Component {
     return(
     <div style={{'verticalAlign': 'middle'}}>
       <span className="col-xs-2 alignContent">
-        <Checkbox onCheck={this.markAsDone.bind(this)} style={{'width': '30px'}} name='doneTask' value='doneOrUndo' />
+        <Checkbox onCheck={this.markAsDone.bind(this)} style={{'width': '30px'}} name="doneTask" value="doneOrUndo" />
       </span>
       <li role="presentation">
           
