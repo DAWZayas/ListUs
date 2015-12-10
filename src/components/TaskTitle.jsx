@@ -24,7 +24,7 @@ export default class TaskTitle extends Component {
         </div>
         <div className="col-xs-8" >
 
-          <span className="dateBtn pull-right btn btn-default">{list.date}</span>
+
             <ListsEdit
               list={list}
               lists={lists}
@@ -34,6 +34,7 @@ export default class TaskTitle extends Component {
               onRemoveList={onRemoveList}
               onRemoveFriendGroupToList={onRemoveFriendGroupToList}
               onAddFriendGroupToList={onAddFriendGroupToList} />
+            <span className="dateBtn pull-right btn btn-default">{list.date}</span>
         </div>
 
       </div>

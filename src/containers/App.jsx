@@ -16,11 +16,11 @@ export default class App extends Component {
     return (!objIsEmpty(this.props.user))
       ?(
         <div>
-          <div className="row">
-            <div className="col-md-12">
+
+
                 <HeaderContainer />
-            </div>
-          </div>
+
+          
           {this.props.children}
         </div>
       )

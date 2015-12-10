@@ -12,6 +12,7 @@ export default class ListsEdit extends Component{
 			showDialogEdit: false,
 			showDialogRemove: false,
 			showDialogAddFriendsAndGroups: false,
+			showDialogAddFriendsAndGroupsList: false,
 			startDate: moment(),
 			newParticipant: {},
       toggleFriend: true,
@@ -67,6 +68,11 @@ export default class ListsEdit extends Component{
 		this.setState({showDialogList: false, showDialogAddFriendsAndGroups: true});
 	}
 
+	handleOpenFriendsAndGroupsListDialog(){
+
+		this.setState({showDialogList: false, showDialogAddFriendsAndGroupsList: true});
+	}
+
 	_handleCloseDialogList(){
 		this.setState({showDialogList: false});
 	}
@@ -74,7 +80,8 @@ export default class ListsEdit extends Component{
 	_handleCloseDialog(){
 		this.setState({showDialogEdit: false,
 		showDialogRemove: false,
-		showDialogAddFriendsAndGroups: false});
+		showDialogAddFriendsAndGroups: false,
+		showDialogAddFriendsAndGroupsList: false});
 	}
 
 	/* FRIENDS AND GROUPS */
@@ -141,9 +148,15 @@ export default class ListsEdit extends Component{
 
 		let customActions = [
 		  <FlatButton
-		    label="Cancel"
+		    label="Exit"
 		    secondary
 		    onTouchTap={() => this._handleCloseDialogList()} />
+		];
+		let customActionsManage = [
+		  <FlatButton
+		    label="Exit"
+		    secondary
+		    onTouchTap={() => this._handleCloseDialog()} />
 		];
 		let customActionsEdit = [
       <FlatButton
@@ -187,9 +200,10 @@ export default class ListsEdit extends Component{
 				open={this.state.showDialogList}
   			onRequestClose={this._handleCloseDialogList} >
 				<List>
-				  <ListItem primaryText="Edit Name" onClick={() => this.handleOpenEditDialog()} />
+				  <ListItem primaryText="Edit List" onClick={() => this.handleOpenEditDialog()} />
 				  <ListItem primaryText="Remove List" onClick={() => this.handleOpenRemoveDialog()} />
 					<ListItem primaryText="Add Friends or Groups" onClick={() => this.handleOpenFriendsAndGroupsDialog()} />
+					<ListItem primaryText="See the List of Friends and Groups" onClick={() => this.handleOpenFriendsAndGroupsListDialog()} />
 				</List>
 			</Dialog>
 
@@ -214,9 +228,7 @@ export default class ListsEdit extends Component{
 
 	      <Dialog title="Add Friends and Groups to your list" open={this.state.showDialogAddFriendsAndGroups} actions={customActionsAddFriendsAndGroups} ref="dialogAddFriendsAndGroups" onRequestClose={this._handleCloseDialog}>
 
-	        <div style={{padding: '20px', 'display': 'flex'}}>
-
-						<div>
+	        <div style={{padding: '20px'}}>
 							<h4>Add Participants</h4>
 	          <Toggle
 	            style={{width:100}}
@@ -241,17 +253,17 @@ export default class ListsEdit extends Component{
 	              listOfFriendsAndGroups.map( (item, index) => index<=8 && item.length!==0 ? <li style={{cursor: 'pointer'}} key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}>{item.name}</li> : null)
 	            }
 	            </ul>
-							</div>
-							<div>
-								<h4>Your Friends andGroups in this List</h4>
-								<ul >
-									{
-										list.participants.map( item => <li>{item.name}<span className="glyphicon glyphicon-remove" onClick={() => this.handleOnRemoveFriendGroupToList(item.id)}></span></li>)
-									}
-								</ul>
-							</div>
 	        </div>
-
+				</Dialog>
+				<Dialog title="manage list" open={this.state.showDialogAddFriendsAndGroupsList} actions={customActionsManage} ref="dialogManage" onRequestClose={this._handleCloseDialog}>
+					<div>
+						<h4>Friends and Groups manage {list.title}</h4>
+						<ul >
+							{
+								list.participants.map( item => <li>{item.name}<span className="glyphicon glyphicon-remove" onClick={() => this.handleOnRemoveFriendGroupToList(item.id)}></span></li>)
+							}
+						</ul>
+					</div>
 				</Dialog>
 			</div>
 		);

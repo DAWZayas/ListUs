@@ -1,6 +1,9 @@
 /*
   General use
 */
+.My-badge{
+  background: #117D91 !important;
+}
 
 .biggerGlyphicon {
   font-size: 1.6em;
@@ -27,7 +30,7 @@ ul{
   flex-flow: row, nowrap;
   margin-bottom: 20px;
   background-color: #f8f8f8;
-border-color: #e7e7e7;
+  border-color: #e7e7e7;
 }
 .leftNav > button{
     margin-top: 10px !important;
@@ -46,7 +49,8 @@ border-color: #e7e7e7;
   display: flex;
   flex-flow: row, nowrap;
   height: 30%;
-  width: 70%
+  width: 70%;
+  margin-left: 5px;
 }
 
 .calendario{
@@ -239,6 +243,7 @@ border-radius: 10px;
 .button-pagination-lists{
   border-radius: 110px !important;
   margin-top: 20px;
+  margin-bottom: 20px !important;
 }
 /*
 *  TASKTITLE
@@ -266,7 +271,7 @@ border-radius: 10px;
 }*/
 
 .taskDone {
-  position: relative; 
+  position: relative;
 }
 
 .taskDone:after {

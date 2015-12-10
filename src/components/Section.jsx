@@ -138,7 +138,7 @@ export default class Section extends Component {
         </div>
         <br/>
         <div className="col-md-12 center">
-          <button onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></button>
+          <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
 
         </div>
       </article>
