@@ -57,7 +57,7 @@ export default class Header extends Component{
         <div className="search">
           <div className="search-btn-input">
 
-            <input ref="inputText" type="text" autoFocus className={`${this.state.isVisible ? 'My-control input-search' : 'My-control input-search' }`} placeholder="Search your list..." onChange={ () => this.handleChangeInput()} onBlur={ () => this.handleOnBlur()}/>
+            <input ref="inputText" type="text" className={`${this.state.isVisible ? 'My-control input-search' : 'My-control input-search' }`} placeholder="Search your list..." onChange={ () => this.handleChangeInput()} onBlur={ () => this.handleOnBlur()}/>
           </div>
           <div className=" list-group search-ul">
 

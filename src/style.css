@@ -235,6 +235,11 @@ border-radius: 10px;
   position: relative;
   top: 15px;
 }
+
+.button-pagination-lists{
+  border-radius: 110px !important;
+  margin-top: 20px;
+}
 /*
 *  TASKTITLE
 */
