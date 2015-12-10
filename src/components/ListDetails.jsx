@@ -10,7 +10,8 @@ export default class ListDetails extends Component {
 constructor(props){
   super(props);
   this.state = {
-    page: 1
+    page: 1,
+    tasksShown: 'All'
   };
 }
 
@@ -66,6 +67,17 @@ handleOnKeyDown(event){
   }
 }
 
+changeView(e){
+  const option = e.target.innerHTML;
+  this.setState({
+    tasksShown: option
+  });
+}
+
+renderForce(){
+  this.forceUpdate();
+}
+
 render() {
 
   const numberOfPages = this.numberOfPages()===0 ? 1 : this.numberOfPages();
@@ -85,6 +97,21 @@ render() {
       onClick={() => this.onClickAdd()} />
   ];
   const { list, onRemoveList, onEditList, tasks, onRemoveTask, onEditTask, friends, groups, onAddFriendGroupToList } = this.props;
+  
+  let tasksToShow;
+  let showTasks = this.state.tasksShown;
+
+  if (showTasks === 'All') {
+    tasksToShow = tasks;
+  }
+
+  if (showTasks === 'Undo') {
+    tasksToShow = Object.values(tasks).reduce ( (tasks, task) => !task.done ? Object.assign({}, tasks, {[task.id]:task}) : tasks, {});
+  }
+
+  if (showTasks === 'Done') {
+    tasksToShow = Object.values(tasks).reduce ( (tasks, task) => task.done ? Object.assign({}, tasks, {[task.id]:task}) : tasks, {});
+  }
 
   return(
 
@@ -99,12 +126,22 @@ render() {
           <TaskTitle list={list} onRemoveList={onRemoveList} onEditList={onEditList} friends={friends} groups={groups} onAddFriendGroupToList={onAddFriendGroupToList} />
         </ul>
       </div>
+      <div>
+      <ul className="nav nav-tabs" style={{'display': 'flex', 'justify-content': 'space-around'}}>
+        <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'All' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">All</a></li>
+        <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Done' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Done</a></li>
+        <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Undo' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Undo</a></li>
+      </ul>
+      </div>
       <div className="article col-md-12">
         <ul className="nav nav-pills nav-stacked navMarginTop list-group">
           {
-            Object.values(tasks).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails key={index} task={task} onRemoveTask={onRemoveTask} onEditTask={onEditTask} /> : null)
+            Object.values(tasksToShow).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails renderForce={this.renderForce.bind(this)} key={index} task={task} onRemoveTask={onRemoveTask} onEditTask={onEditTask} /> : null)
           }
         </ul>
+        <div className={`${Object.values(tasksToShow).length === 0 ? 'col-xs-12' : 'hidden'}`}>
+          <h3>No tasks to show</h3>
+        </div>
       </div>
       <div className="col-md-12 center">
         <button className="btn btn-round btn-danger" onClick={() => this.openDialog()} > <span className="glyphicon glyphicon-plus" /> </button>
