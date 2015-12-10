@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ItemTaskDetails from './ItemTaskDetails';
 import TaskTitle from './TaskTitle';
-import { Dialog, TextField, FlatButton } from 'material-ui';
+
 import CommentsContainer from '../containers/CommentsContainer';
 
 
@@ -86,18 +86,9 @@ render() {
   const initNumPage = this.state.page-2>0 ? this.state.page-2 : this.state.page-1>0 ? this.state.page-1 : this.state.page;
   const initTask = this.state.page*6-6;
   const lastTask = this.state.page*6;
-  let customActions = [
-    <FlatButton
-      label="Cancel"
-      secondary
-      onClick={() => this.onClickClose()} />,
-    <FlatButton
-      label="Add"
-      primary
-      onClick={() => this.onClickAdd()} />
-  ];
-  const { list, onRemoveList, onEditList, tasks, onRemoveTask, onEditTask, friends, groups, onAddFriendGroupToList } = this.props;
-  
+
+  const { list, lists, onRemoveList, onEditList, tasks, onAddTask, onRemoveTask, onEditTask, friends, groups, onAddFriendGroupToList, onRemoveFriendGroupToList } = this.props;
+
   let tasksToShow;
   let showTasks = this.state.tasksShown;
 
@@ -116,22 +107,27 @@ render() {
   return(
 
     <div className="row section">
-      <Dialog title="Dialog With Standard Actions" actions={customActions} ref="dialog">
-        <TextField ref="titleDialog" hintText="Title List" autoFocus onKeyDown={e => this.handleOnKeyDown(e)} />
-      </Dialog>
-      <div className="col-md-1">
-      </div>
-      <div className="col-md-10 heigthTitle">
+      <div className="col-md-12 heigthTitle">
         <ul className="list-group listTitle">
-          <TaskTitle list={list} onRemoveList={onRemoveList} onEditList={onEditList} friends={friends} groups={groups} onAddFriendGroupToList={onAddFriendGroupToList} />
+          <TaskTitle
+            list={list}
+            lists={lists}
+            friends={friends}
+            groups={groups}
+            onAddTask={onAddTask}
+            onEditList={onEditList}
+            onRemoveList={onRemoveList}
+            onRemoveFriendGroupToList={onRemoveFriendGroupToList}
+            onAddFriendGroupToList={onAddFriendGroupToList} />
+
         </ul>
       </div>
-      <div>
-      <ul className="nav nav-tabs" style={{'display': 'flex', 'justify-content': 'space-around'}}>
-        <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'All' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">All</a></li>
-        <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Done' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Done</a></li>
-        <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Undo' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Undo</a></li>
-      </ul>
+      <div className="col-xs-12"  style={{'display': 'flex', 'justify-content': 'space-around'}}>
+        <ul className="nav nav-tabs">
+          <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'All' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">All</a></li>
+          <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Done' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Done</a></li>
+          <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Undo' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Undo</a></li>
+        </ul>
       </div>
       <div className="article col-md-12">
         <ul className="nav nav-pills nav-stacked navMarginTop list-group">
@@ -173,9 +169,9 @@ render() {
 
 }
 
-
 ListDetails.propTypes = {
   list: PropTypes.object.isRequired,
+  lists: PropTypes.array,
   tasks: PropTypes.object.isRequired,
   friends: PropTypes.array.isRequired,
   groups: PropTypes.array.isRequired,
@@ -184,6 +180,6 @@ ListDetails.propTypes = {
   onEditTask: PropTypes.func.isRequired,
   onRemoveList: PropTypes.func.isRequired,
   onEditList: PropTypes.func.isRequired,
-  onAddFriendGroupToTask: PropTypes.func.isRequired,
-  onAddFriendGroupToList: PropTypes.func.isRequired
+  onAddFriendGroupToList: PropTypes.func.isRequired,
+  onRemoveFriendGroupToList: PropTypes.func.isRequired
 };

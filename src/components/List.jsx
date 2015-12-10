@@ -46,7 +46,7 @@ export default class List extends Component {
 
   render() {
 
-    const { list, tasks } = this.props;
+    const { list, tasks, onEditList, onRemoveList, onAddFriendGroupToList, lists, groups, friends, onRemoveFriendGroupToList } = this.props;
     return(
     <div>
       <div className={`${this.state.isModifyList ? 'hidden' : 'row list listNotCompleted'}`}>
@@ -56,27 +56,25 @@ export default class List extends Component {
         </div>
         <div className="col-xs-8" >
           <span className="badge">{tasks.filter(task => task.done===false).length}/{tasks.length}</span>
-          {/*<span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
-          <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />*/}
-          <button type="button" className="btn btn-default pull-right" onClick={e=>this.handleShowEdit(e, list.id)}> <span className="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+            <ListsEdit
+              list={list}
+              lists={lists}
+              friends={friends}
+              groups={groups}
+              onEditList={onEditList}
+              onRemoveList={onRemoveList}
+              onRemoveFriendGroupToList={onRemoveFriendGroupToList}
+              onAddFriendGroupToList={onAddFriendGroupToList} />
           <span className="dateBtn pull-right btn btn-default">{list.date}</span>
 
         </div>
 
       </div>
 
-      <div className={`input-group ${this.state.isModifyList ? 'col-md-12' : 'hidden'}`}>
-        <input className="form-control inputText" ref="title"/>
-        <span className="input-group-btn">
-          <button className="btn btn-danger glyphicon glyphicon-remove" type="button" onClick={e => this.handleCancelClick(e)}></button>
-          <button className="btn btn-success glyphicon glyphicon-ok" type="button" onClick={e => this.handleOkClick(e)}></button>
-        </span>
-      </div>
 
-      {(!this.state.openEdit)?'' :<ListsEdit
-             editName={(e) => this.handleOnClickEdit(e)}
-             removeList={(e) => this.handleOnClickRemove(e)}
-             open={this.state.openEdit} />}
+
+
+
     </div>
     );
 
@@ -86,10 +84,15 @@ export default class List extends Component {
 
 
 List.propTypes = {
+  lists: PropTypes.array,
   list: PropTypes.object,
   tasks: PropTypes.array,
+  friends: PropTypes.array.isRequired,
+  groups: PropTypes.array.isRequired,
   onRemoveList: PropTypes.func.isRequired,
-  onEditList: PropTypes.func.isRequired
+  onEditList: PropTypes.func.isRequired,
+  onAddFriendGroupToList: PropTypes.func.isRequired,
+  onRemoveFriendGroupToList: PropTypes.func.isRequired
 };
 
 List.defaultProps = {

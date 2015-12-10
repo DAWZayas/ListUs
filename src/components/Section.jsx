@@ -89,7 +89,7 @@ export default class Section extends Component {
         primary
         onClick={() => this.onClickAdd()} />
     ];
-    const {  lists, onEditList, onRemoveList } = this.props;
+    const {  lists } = this.props;
 
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
@@ -121,7 +121,19 @@ export default class Section extends Component {
 
       <div className="lists">
             {
-              listsEnd.map( (list, index) => index<this.state.numberOfList ? <List list={list} tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)} key={index} onRemoveList={onRemoveList} onEditList={onEditList}/> : '' )
+              listsEnd.map( (list, index) => index<this.state.numberOfList ?
+                <List
+                  list={list}
+                  lists={this.props.lists}
+                  friends={this.props.friends}
+                  groups={this.props.groups}
+                  tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
+                  key={index} lists={this.props.lists}
+                  onAddFriendGroupToList={this.props.onAddFriendGroupToList}
+                  onRemoveList={this.props.onRemoveList}
+                  onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
+                  onEditList={this.props.onEditList} />
+                : '' )
             }
         </div>
         <br/>
@@ -137,9 +149,13 @@ export default class Section extends Component {
 Section.propTypes = {
   lists: PropTypes.array,
   tasks: PropTypes.object,
+  friends: PropTypes.array.isRequired,
+  groups: PropTypes.array.isRequired,
+  onAddFriendGroupToList: PropTypes.func.isRequired,
   onAddList: PropTypes.func.isRequired,
   onRemoveList: PropTypes.func.isRequired,
-  onEditList: PropTypes.func.isRequired
+  onEditList: PropTypes.func.isRequired,
+  onRemoveFriendGroupToList: PropTypes.func.isRequired
 };
 
 Section.defaultProps = {

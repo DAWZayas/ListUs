@@ -8,7 +8,7 @@ function mapStateToProps(state){
     const idList = state.router.params.idList;
     const list = state.lists.reduce( (listas, list) => list.id===idList ?  list : listas, {});
     const tasks = Object.values(state.tasks).reduce( (tasks, task) => task.idList === idList ? Object.assign(tasks, {[task.id]: task}) : tasks, {});
-    return{list, tasks, friends: state.friends, groups: state.groups};
+    return{list, lists: state.lists, tasks, friends: state.friends, groups: state.groups};
 }
 
 function mapActionsToProps(dispatch){
@@ -18,11 +18,11 @@ function mapActionsToProps(dispatch){
     onEditTask: (id, title) => dispatch(editTask(id, title)),
     onAddFriendGroupToTask: (idTask, idParticipant) => dispatch(addFriendGroupToTask(idTask, idParticipant)),
     onRemoveList: (id, title, date) => dispatch(removeListAndNavigate(id, title, date)),
-    onEditList: (id, title) => dispatch(editList(id, title)),
+    onEditList: ( idList, title, date, newDate, importance ) => dispatch(editList( idList, title, date, newDate, importance )),
     onAddComment: (idList, user, date, msg) => dispatch(addComment(idList, user, date, msg)),
     onRemoveComments: idList => dispatch(removeComments(idList)),
     onAddFriendGroupToList: (idList, idParticipant) => dispatch(addFriendGroupToList(idList, idParticipant)),
-
+    onRemoveFriendGroupToList: (idList, idParticipant) => dispatch(addFriendGroupToList(idList, idParticipant))
   };
 }
 

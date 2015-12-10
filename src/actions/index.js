@@ -21,6 +21,8 @@ export const ADD_LIST = 'ADD_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const EDIT_LIST = 'EDIT_LIST';
 export const ADD_FRIEND_OR_GROUP_TO_LIST = 'ADD_FRIEND_OR_GROUP_TO_LIST';
+export const REMOVE_FRIEND_OR_GROUP_TO_LIST = 'REMOVE_FRIEND_OR_GROUP_TO_LIST';
+
 
 /*
 * DISPLAY ASIDE
@@ -115,11 +117,14 @@ export function addList(title, date, importance, id){
 export function removeList(idList, title, date){
   return { type: REMOVE_LIST, idList, title, date };
 }
-export function editList( idList, title, date, importance ){
-  return { type: EDIT_LIST, idList, title, date, importance };
+export function editList( idList, title, date, newDate, importance ){
+  return { type: EDIT_LIST, idList, title, date, newDate, importance };
 }
 export function addFriendGroupToList(idList, id){
   return { type: ADD_FRIEND_OR_GROUP_TO_LIST, idList, id};
+}
+export function removeFriendGroupToList(idList, idPaticipant){
+  return { type: REMOVE_FRIEND_OR_GROUP_TO_LIST, idList, idPaticipant};
 }
 export function removeListAndNavigate(idList, title, date) {
   return dispatch => sequencer([

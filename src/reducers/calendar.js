@@ -28,8 +28,6 @@ function returnActualDates(objectToIterate, dateToCheck){
 
 function addDate(state, title, date, importance, id){
 
-  console.log(date);
-
   let day = date.split('/')[0];
 
   if(day[0] === '0'){
@@ -77,7 +75,6 @@ function removeDate(state, title, date) {
   const month = date.split('/')[1];
   const monthName = months[month];
   const year = date.split('/')[2];
-
   const objectToDelete = state[year][monthName];
 
   let newState = state;
@@ -91,9 +88,11 @@ function removeDate(state, title, date) {
   return newState;
 }
 
-function editList(state, idList, title, date, importance){
-  removeDate(state, title, date);
-  addDate(state, title, date, importance, idList);
+function editList(state, idList, title, date, newDate, importance){
+  let newState = Object.assign(state);
+  newState = addDate(newState, title, newDate, importance, idList);
+  newState = removeDate(newState, title, date);
+  return newState;
 }
 
 export default function reducerCalendar( state = {}, action ){
@@ -103,7 +102,7 @@ export default function reducerCalendar( state = {}, action ){
     case REMOVE_LIST:
       return removeDate(state, action.title, action.date);
     case EDIT_LIST:
-      return editList(state, action.idList, action.title, action.date, action.importance);
+      return editList(state, action.idList, action.title, action.date, action.newDate, action.importance);
     default:
       return state;
   }
