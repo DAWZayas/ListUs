@@ -3,8 +3,6 @@ import Nav from './Nav';
 import { Link } from 'react-router';
 import ItemList from './ItemList';
 
-import { clearUser } from '../utils/functions';
-
 
 export default class Header extends Component{
 
@@ -25,7 +23,7 @@ export default class Header extends Component{
     this.state.isVisible ? this.setState({ isVisible: false, word: '' }) : this.setState({ isVisible: true, word: '' });
   }
 
-  handleChangeInput(np){
+  handleChangeInput(){
  		this.setState({word: this.refs.inputText.value, isVisible: true});
  	}
 
@@ -59,7 +57,7 @@ export default class Header extends Component{
         <div className="search">
           <div className="search-btn-input">
 
-            <input ref="inputText" type="text" autoFocus className={`${this.state.isVisible ? 'My-control input-search' : 'My-control input-search' }`} placeholder="Search your list..." onChange={ (event) => this.handleChangeInput(event)} onBlur={ () => this.handleOnBlur()}/>
+            <input ref="inputText" type="text" autoFocus className={`${this.state.isVisible ? 'My-control input-search' : 'My-control input-search' }`} placeholder="Search your list..." onChange={ () => this.handleChangeInput()} onBlur={ () => this.handleOnBlur()}/>
           </div>
           <div className=" list-group search-ul">
 
@@ -93,7 +91,11 @@ export default class Header extends Component{
 }
 
 Header.propTypes = {
-  lists: PropTypes.array.isRequired
+  lists: PropTypes.array.isRequired,
+  onSetUser: PropTypes.func,
+  onSetLists: PropTypes.func,
+  onSetTasks: PropTypes.func,
+  onSetGroups: PropTypes.funcs
 };
 
 Header.defaultProps = {

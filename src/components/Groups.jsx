@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar, IconMenu, MenuItem, Menu } from 'material-ui';
+import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar} from 'material-ui';
 import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, groupFriends, sortArray, menuItems } from '../utils/functions';
 import SectionHeader from './SectionHeader';
 import GroupEditList from './GroupEditList';

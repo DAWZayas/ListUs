@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Dialog, List, ListItem } from 'material-ui';
 
 
@@ -36,3 +36,10 @@ export default class GroupEditList extends Component{
 
 
 }
+
+GroupEditList.propTypes = {
+	open: PropTypes.bool,
+	editName: PropTypes.func,
+	removeGroup: PropTypes.func,
+	switchAdmin: PropTypes.func
+};
