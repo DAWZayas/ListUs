@@ -50,7 +50,7 @@ export default class Section extends Component {
     const date = this.state.startDate.format('DD/MM/YYYY');
     const importance = Math.ceil(this.refs.slider.getValue()/0.2);
     if(this.validationTitle(title)) onAddList(title, date, importance, id);
-    _handleCloseDialog();
+    this._handleCloseDialog();
   }
 
   _handleCloseDialog(){
