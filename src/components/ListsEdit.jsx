@@ -170,35 +170,35 @@ export default class ListsEdit extends Component{
 		    onTouchTap={() => this._handleCloseDialog()} />
 		];
 		let customActionsEdit = [
-      <FlatButton
-        label="Cancel"
-        secondary
-        onClick={() => this._handleCloseDialogList()} />,
-      <FlatButton
-        label="Edit"
-        primary
-        onClick={() => this.onClickEdit()} />
-    ];
+	      <FlatButton
+	        label="Cancel"
+	        secondary
+	        onClick={() => this._handleCloseDialog()} />,
+	      <FlatButton
+	        label="Edit"
+	        primary
+	        onClick={() => this.onClickEdit()} />
+	    ];
 		let customActionsRemove = [
 			<FlatButton
-        label="Cancel"
-        secondary
-        onClick={() => this._handleCloseDialog()} />,
-      <FlatButton
-        label="Remove"
-        primary
-        onClick={() => this.onClickRemove()} />
-		];
-		let customActionsAddFriendsAndGroups = [
-			<FlatButton
-        label="Cancel"
-        secondary
-        onClick={() => this._handleCloseDialog()} />,
-      <FlatButton
-        label="Add"
-        primary
-        onClick={e => this.handleOnClickAddFriendGroupToList(e)} />
-		];
+	        label="Cancel"
+	        secondary
+	        onClick={() => this._handleCloseDialog()} />,
+	      <FlatButton
+	        label="Remove"
+	        primary
+	        onClick={() => this.onClickRemove()} />
+			];
+			let customActionsAddFriendsAndGroups = [
+				<FlatButton
+	        label="Cancel"
+	        secondary
+	        onClick={() => this._handleCloseDialog()} />,
+	      <FlatButton
+	        label="Add"
+	        primary
+	        onClick={e => this.handleOnClickAddFriendGroupToList(e)} />
+			];
 
 
 		return (
