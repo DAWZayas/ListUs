@@ -26,7 +26,7 @@ export default class ListsEdit extends Component{
       startDate: moment(this.props.list.date, 'DD/MM/YYYY')
     });
 	}
-	
+
 	/* EDIT LIST */
 
 	changeImportance(){
@@ -170,6 +170,7 @@ export default class ListsEdit extends Component{
 		    onTouchTap={() => this._handleCloseDialog()} />
 		];
 		let customActionsEdit = [
+
 	      <FlatButton
 	        label="Cancel"
 	        secondary

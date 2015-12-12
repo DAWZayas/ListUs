@@ -57,7 +57,7 @@ export default class Calendar extends Component {
       if (numberDay === key) {
         pendingTasks = (<ul>
           {
-            dates[key].map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task.id}`}>{task.title}</Link> <span> with an importance of: </span></li>)
+            dates[key].map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task.id}`}>{task.title}</Link> <span> with an importance of: {task.importance}</span></li>)
           }
         </ul>);
         tasks = false;
