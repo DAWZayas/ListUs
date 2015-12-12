@@ -21,6 +21,12 @@ export default class ListsEdit extends Component{
 		};
 	}
 
+	componentWillMount(){
+		this.setState({
+      startDate: moment(this.props.list.date, 'DD/MM/YYYY')
+    });
+	}
+	
 	/* EDIT LIST */
 
 	changeImportance(){
