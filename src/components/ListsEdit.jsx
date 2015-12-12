@@ -170,17 +170,7 @@ export default class ListsEdit extends Component{
 		    onTouchTap={() => this._handleCloseDialog()} />
 		];
 		let customActionsEdit = [
-<<<<<<< HEAD
-      <FlatButton
-        label="Cancel"
-        secondary
-        onClick={() => this._handleCloseDialog()} />,
-      <FlatButton
-        label="Edit"
-        primary
-        onClick={() => this.onClickEdit()} />
-    ];
-=======
+
 	      <FlatButton
 	        label="Cancel"
 	        secondary
@@ -190,7 +180,6 @@ export default class ListsEdit extends Component{
 	        primary
 	        onClick={() => this.onClickEdit()} />
 	    ];
->>>>>>> 6e59018ca2c39bc71131f7ccd1f847304a586e60
 		let customActionsRemove = [
 			<FlatButton
 	        label="Cancel"
