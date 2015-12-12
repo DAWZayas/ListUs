@@ -16,11 +16,7 @@ export default class App extends Component {
     return (!objIsEmpty(this.props.user))
       ?(
         <div>
-
-
-                <HeaderContainer />
-
-          
+          <HeaderContainer />
           {this.props.children}
         </div>
       )

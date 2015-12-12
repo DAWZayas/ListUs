@@ -26,7 +26,7 @@ export default class Groups extends Component {
 
 	handleClickDismissDialog(e, ref){
 		e.preventDefault();
-		this.setState({id: '', search: []});
+		this.setState({id: '', search: [], error: ''});
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.dismiss():this.refs.dialogAddFriend.dismiss();
 	}
 
@@ -101,7 +101,7 @@ export default class Groups extends Component {
 	/* Editing groups*/
 	handleClickSetRefToEdit(id){
 		this.refs.dialogEdit.dismiss();
-		setTimeout(() => this.setState({refToEdit: id}), 0);
+		setTimeout(() => this.setState({refToEdit: id}), 2);
 	}
 
 	handleClickEditGroup(ref, value){
@@ -116,7 +116,7 @@ export default class Groups extends Component {
 
 	editDialogActions(ref){
 		return [
-			<FlatButton label="Candel" secondary onClick={() => this.handleHideEdit()}/>,
+			<FlatButton label="Cancel" secondary onClick={() => this.handleHideEdit()}/>,
 			<FlatButton label="Edit" primary onClick={() => this.handleClickEditGroup(ref, this.refs.groupEdit.getValue())}/>
 		];
 	}
