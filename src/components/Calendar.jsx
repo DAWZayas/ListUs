@@ -57,7 +57,7 @@ export default class Calendar extends Component {
       if (numberDay === key) {
         pendingTasks = (<ul>
           {
-            dates[key].map( (task, index) =>  <li key={index}><span>Tienes que hacer la tarea</span> <Link to={`/list/${task.id}`}>{task.title}</Link> <span> con una importancia de: </span></li>)
+            dates[key].map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task.id}`}>{task.title}</Link> <span> with an importance of: {task.importance}</span></li>)
           }
         </ul>);
         tasks = false;
@@ -65,7 +65,7 @@ export default class Calendar extends Component {
     }
 
     if (tasks) {
-      pendingTasks = 'Nada planeado para este día.';
+      pendingTasks = 'Nothing planed for that day.';
     };
 
     this.setState({
@@ -108,7 +108,7 @@ export default class Calendar extends Component {
         <div>
           Selected: { this.state.selectedDay ? this.state.selectedDay.toLocaleDateString() : 'Select'}
           <br/><br/>
-          Pending tasks: { this.state.selectedDay ? this.state.pendingTasks : 'Nada seleccionado'}
+          Pending tasks: { this.state.selectedDay ? this.state.pendingTasks : 'Nothing selected'}
         </div>
       </div>
     );

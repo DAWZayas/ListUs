@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Dialog, List, ListItem, TextField, Toggle, FlatButton, Slider } from 'material-ui';
+import { Dialog, Avatar, List, ListItem, TextField, Toggle, FlatButton, Slider } from 'material-ui';
 import DatePicker from 'react-datepicker';
 let moment = require('moment');
 require('react-datepicker/dist/react-datepicker.css');
@@ -12,12 +12,19 @@ export default class ListsEdit extends Component{
 			showDialogEdit: false,
 			showDialogRemove: false,
 			showDialogAddFriendsAndGroups: false,
+			showDialogAddFriendsAndGroupsList: false,
 			startDate: moment(),
 			newParticipant: {},
       toggleFriend: true,
       toggleGroup: true,
       textToSearch: ''
 		};
+	}
+
+	componentWillMount(){
+		this.setState({
+      startDate: moment(this.props.list.date, 'DD/MM/YYYY')
+    });
 	}
 
 	/* EDIT LIST */
@@ -67,6 +74,11 @@ export default class ListsEdit extends Component{
 		this.setState({showDialogList: false, showDialogAddFriendsAndGroups: true});
 	}
 
+	handleOpenFriendsAndGroupsListDialog(){
+
+		this.setState({showDialogList: false, showDialogAddFriendsAndGroupsList: true});
+	}
+
 	_handleCloseDialogList(){
 		this.setState({showDialogList: false});
 	}
@@ -74,7 +86,8 @@ export default class ListsEdit extends Component{
 	_handleCloseDialog(){
 		this.setState({showDialogEdit: false,
 		showDialogRemove: false,
-		showDialogAddFriendsAndGroups: false});
+		showDialogAddFriendsAndGroups: false,
+		showDialogAddFriendsAndGroupsList: false});
 	}
 
 	/* FRIENDS AND GROUPS */
@@ -117,6 +130,11 @@ export default class ListsEdit extends Component{
     Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list.id, this.state.newParticipant) ;
 		this._handleCloseDialog();
 	}
+
+	setImg(participant){
+    return participant.img !== '' ? <Avatar className="avatarFriendAndGroups" src={participant.img}/> : <Avatar className="avatarFriendAndGroups ">{participant.name.substring(0, 1).toUpperCase()}</Avatar>;
+  }
+
 /* REMOVE LIST */
 	onClickRemove(){
 		const { list, onRemoveList} = this.props;
@@ -141,40 +159,47 @@ export default class ListsEdit extends Component{
 
 		let customActions = [
 		  <FlatButton
-		    label="Cancel"
+		    label="Exit"
 		    secondary
 		    onTouchTap={() => this._handleCloseDialogList()} />
 		];
+		let customActionsManage = [
+		  <FlatButton
+		    label="Exit"
+		    secondary
+		    onTouchTap={() => this._handleCloseDialog()} />
+		];
 		let customActionsEdit = [
-      <FlatButton
-        label="Cancel"
-        secondary
-        onClick={() => this._handleCloseDialog()} />,
-      <FlatButton
-        label="Edit"
-        primary
-        onClick={() => this.onClickEdit()} />
-    ];
+
+	      <FlatButton
+	        label="Cancel"
+	        secondary
+	        onClick={() => this._handleCloseDialog()} />,
+	      <FlatButton
+	        label="Edit"
+	        primary
+	        onClick={() => this.onClickEdit()} />
+	    ];
 		let customActionsRemove = [
 			<FlatButton
-        label="Cancel"
-        secondary
-        onClick={() => this._handleCloseDialog()} />,
-      <FlatButton
-        label="Remove"
-        primary
-        onClick={() => this.onClickRemove()} />
-		];
-		let customActionsAddFriendsAndGroups = [
-			<FlatButton
-        label="Cancel"
-        secondary
-        onClick={() => this._handleCloseDialog()} />,
-      <FlatButton
-        label="Add"
-        primary
-        onClick={e => this.handleOnClickAddFriendGroupToList(e)} />
-		];
+	        label="Cancel"
+	        secondary
+	        onClick={() => this._handleCloseDialog()} />,
+	      <FlatButton
+	        label="Remove"
+	        primary
+	        onClick={() => this.onClickRemove()} />
+			];
+			let customActionsAddFriendsAndGroups = [
+				<FlatButton
+	        label="Cancel"
+	        secondary
+	        onClick={() => this._handleCloseDialog()} />,
+	      <FlatButton
+	        label="Add"
+	        primary
+	        onClick={e => this.handleOnClickAddFriendGroupToList(e)} />
+			];
 
 
 		return (
@@ -187,9 +212,10 @@ export default class ListsEdit extends Component{
 				open={this.state.showDialogList}
   			onRequestClose={this._handleCloseDialogList} >
 				<List>
-				  <ListItem primaryText="Edit Name" onClick={() => this.handleOpenEditDialog()} />
+				  <ListItem primaryText="Edit List" onClick={() => this.handleOpenEditDialog()} />
 				  <ListItem primaryText="Remove List" onClick={() => this.handleOpenRemoveDialog()} />
 					<ListItem primaryText="Add Friends or Groups" onClick={() => this.handleOpenFriendsAndGroupsDialog()} />
+					<ListItem primaryText="See the List of Friends and Groups" onClick={() => this.handleOpenFriendsAndGroupsListDialog()} />
 				</List>
 			</Dialog>
 
@@ -214,10 +240,8 @@ export default class ListsEdit extends Component{
 
 	      <Dialog title="Add Friends and Groups to your list" open={this.state.showDialogAddFriendsAndGroups} actions={customActionsAddFriendsAndGroups} ref="dialogAddFriendsAndGroups" onRequestClose={this._handleCloseDialog}>
 
-	        <div style={{padding: '20px', 'display': 'flex'}}>
+	        <div className="dialogFriendAndGroup" style={{padding: '20px'}}>
 
-						<div>
-							<h4>Add Participants</h4>
 	          <Toggle
 	            style={{width:100}}
 	            name="Friends"
@@ -235,23 +259,24 @@ export default class ListsEdit extends Component{
 	            ref="group"
 	            onToggle={() => this.handleOnToggleGroup()}
 	            defaultToggled />
-	          <TextField ref="textField" hintText="Title List" onChange={ () => this.handleOnChangeTextField()}  />
-	              <ul>
-	            {
-	              listOfFriendsAndGroups.map( (item, index) => index<=8 && item.length!==0 ? <li style={{cursor: 'pointer'}} key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}>{item.name}</li> : null)
-	            }
-	            </ul>
-							</div>
-							<div>
-								<h4>Your Friends andGroups in this List</h4>
-								<ul >
-									{
-										list.participants.map( item => <li>{item.name}<span className="glyphicon glyphicon-remove" onClick={() => this.handleOnRemoveFriendGroupToList(item.id)}></span></li>)
-									}
-								</ul>
-							</div>
-	        </div>
+						<ul>
+							{
+							listOfFriendsAndGroups.map( (item, index) => index<=8 && item.length!==0 ? <li style={{cursor: 'pointer'}} key={index} onClick={(e) => this.handleOnClickListParticipant(e, item)}><span>{this.setImg(item)}</span>{item.name}</li> : null)
+							}
+						</ul>
+						<TextField ref="textField" hintText="Participant" onChange={ () => this.handleOnChangeTextField()}  />
 
+	        </div>
+				</Dialog>
+				<Dialog title="" open={this.state.showDialogAddFriendsAndGroupsList} actions={customActionsManage} ref="dialogManage" onRequestClose={this._handleCloseDialog}>
+					<div className="dialogFriendAndGroupManage" style={{padding: '20px'}}>
+						<h4>Friends and Groups manage {list.title}</h4><br/>
+						<ul >
+							{
+								list.participants.map( (item, index) => <li key={index}><span className="deleteButtonFriendGroup glyphicon glyphicon-remove" onClick={() => this.handleOnRemoveFriendGroupToList(item.id)}></span>{item.name}</li>)
+							}
+						</ul>
+					</div>
 				</Dialog>
 			</div>
 		);

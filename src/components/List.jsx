@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 //import ItemList from './ItemList';
-import { Dialog, ListItem } from 'material-ui';
-import { List as Listt } from 'material-ui';
 import { Link } from 'react-router';
 import ListsEdit from './ListsEdit';
- 
+
 export default class List extends Component {
 
   constructor(props){
@@ -55,7 +53,7 @@ export default class List extends Component {
           <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
         </div>
         <div className="col-xs-8" >
-          <span className="badge">{tasks.filter(task => task.done===false).length}/{tasks.length}</span>
+          <span className="badge My-badge">{tasks.filter(task => task.done===false).length}/{tasks.length}</span>
             <ListsEdit
               list={list}
               lists={lists}
