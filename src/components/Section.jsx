@@ -94,7 +94,7 @@ export default class Section extends Component {
     const listsEnd = (sorted === 'Sort By') ? lists : sortArray(lists, key, sorted.split(' ')[1]);
     return(
       <article className="article">
-        <Dialog title="Dialog With Standard Actions" open={this.state.dialogState} actions={customActions} ref="dialog">
+        <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} ref="dialog">
           <TextField ref="titleDialog" hintText="Title List" autoFocus />
           <DatePicker
             dateFormat="DD/MM/YYYY"
