@@ -25,12 +25,16 @@ export default class TaskTitle extends Component {
     this.setState({showDialog: true});
   }
 
+  closeDialog(){
+    this.setState({showDialog: false});
+  }
+
   handleClickAdd(){
     const { onAddTask, list } = this.props;
     const title = this.refs.taskText.getValue();
     const idList = list.id;
     this.validationTitle(title) ? onAddTask(idList, title) : this.refs.dialog.dismiss();
-    this.refs.dialog.dismiss();
+    this.closeDialog();
   }
 
   render() {
@@ -40,7 +44,7 @@ export default class TaskTitle extends Component {
       <FlatButton
         label="Cancel"
         secondary
-        onClick={() => this._handleCloseDialog()} />,
+        onClick={() => this._handleCloseDialogList()} />,
       <FlatButton
         label="Add"
         primary
@@ -92,6 +96,7 @@ export default class TaskTitle extends Component {
 TaskTitle.propTypes = {
   list: PropTypes.object.isRequired,
   lists: PropTypes.array,
+  tasks: PropTypes.object.isRequired,
   friends: PropTypes.array.isRequired,
   groups: PropTypes.array.isRequired,
   onAddTask: PropTypes.func.isRequired,

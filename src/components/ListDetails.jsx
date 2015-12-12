@@ -69,7 +69,7 @@ render() {
     tasksToShow = tasks;
   }
 
-  if (showTasks === 'Undo') {
+  if (showTasks === 'To do') {
     tasksToShow = Object.values(tasks).reduce ( (tasks, task) => !task.done ? Object.assign({}, tasks, {[task.id]:task}) : tasks, {});
   }
 
@@ -92,6 +92,7 @@ render() {
           <TaskTitle
             list={list}
             lists={lists}
+            tasks={tasks}
             friends={friends}
             groups={groups}
             onAddTask={onAddTask}
@@ -104,11 +105,11 @@ render() {
       </div>
 
       <div className="col-xs-12">
-        <ul className="nav nav-tabs" style={{'display': 'flex', 'justify-content': 'space-around'}}>
+        <ul className="nav nav-tabs" style={{'display': 'flex', 'justifyContent': 'space-around'}}>
 
           <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'All' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">All</a></li>
           <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Done' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Done</a></li>
-          <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'Undo' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">Undo</a></li>
+          <li role="presentation" className={`biggerTasks ${this.state.tasksShown === 'To do' ? 'active' : ''}`}><a onClick={(e) => this.changeView(e)} href="#">To do</a></li>
         </ul>
       </div>
       <div className="article col-md-12">
