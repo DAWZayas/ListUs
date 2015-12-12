@@ -173,7 +173,7 @@ export default class ListsEdit extends Component{
       <FlatButton
         label="Cancel"
         secondary
-        onClick={() => this._handleCloseDialog()} />,
+        onClick={() => this._handleCloseDialogList()} />,
       <FlatButton
         label="Edit"
         primary

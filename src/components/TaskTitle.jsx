@@ -43,7 +43,7 @@ export default class TaskTitle extends Component {
       <FlatButton
         label="Cancel"
         secondary
-        onClick={() => this._handleCloseDialogList()} />,
+        onClick={() => this._handleCloseDialog()} />,
       <FlatButton
         label="Add"
         primary
