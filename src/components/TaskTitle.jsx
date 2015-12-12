@@ -54,8 +54,8 @@ export default class TaskTitle extends Component {
 				actions={customActions}
 				open={this.state.showDialog}
   			onRequestClose={this._handleCloseDialog} >
-        Name of the new task:
-        <TextField ref="taskText" autoFocus />
+          <span style={{'fontSize': '14px', 'marginRight': '10px'}}>Name of the new task:</span>
+          <TextField className="dialogFriendAndGroup" ref="taskText" autoFocus />
 			</Dialog>
 
       <div className="row list listNotCompleted">

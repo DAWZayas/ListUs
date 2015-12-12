@@ -49,13 +49,11 @@ export default class Section extends Component {
     const title = this.refs.titleDialog.getValue();
     const date = this.state.startDate.format('DD/MM/YYYY');
     const importance = Math.ceil(this.refs.slider.getValue()/0.2);
-    this.validationTitle(title) ? onAddList(title, date, importance, id) : this.refs.dialog.dismiss();
-    this.setState({
-      dialogState: false
-    });
+    if(this.validationTitle(title)) onAddList(title, date, importance, id);
+    _handleCloseDialog();
   }
 
-  onClickClose(){
+  _handleCloseDialog(){
     this.setState({
       dialogState: false
     });
@@ -83,7 +81,7 @@ export default class Section extends Component {
       <FlatButton
         label="Cancel"
         secondary
-        onClick={() => this.onClickClose()} />,
+        onClick={() => this._handleCloseDialog()} />,
       <FlatButton
         label="Add"
         primary
@@ -110,13 +108,6 @@ export default class Section extends Component {
           <TextField disabled style={{top: '-30px', width:'100px'}} ref="importance" defaultValue="0"/>
         </Dialog>
 
-        {/*<div style={{display: 'flex', justifyContent: 'space-between'}}>
-  				<h3 style={{marginLeft: '10'}}>LISTS</h3>
-          <div style={{display: 'flex', justifyContent: 'flex-end', paddingRight: '10'}}><button style={{backgroundColor: 'white', height: '35px'}} className="btn btn-default" onClick={() => this.openDialog()}>ADD LIST</button></div>
-  				<DropDownMenu menuItems={menuItems}
-  					style={{width: '175'}}
-  					onChange={(e, selectedIndex, menuItem)=>sortArray(e, selectedIndex, menuItem)}/>
-  			</div>*/}
         <SectionHeader title="LISTS" menuItems={menuItems} openDialog={this.openDialog.bind(this)}func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
 
       <div className="lists">
@@ -128,7 +119,7 @@ export default class Section extends Component {
                   friends={this.props.friends}
                   groups={this.props.groups}
                   tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
-                  key={index} lists={this.props.lists}
+                  key={index}
                   onAddFriendGroupToList={this.props.onAddFriendGroupToList}
                   onRemoveList={this.props.onRemoveList}
                   onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
