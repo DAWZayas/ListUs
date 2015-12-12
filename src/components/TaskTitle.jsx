@@ -12,7 +12,7 @@ export default class TaskTitle extends Component {
     };
   }
 
-  _handleCloseDialogList(){
+  _handleCloseDialog(){
 		this.setState({showDialog: false});
 	}
 
@@ -28,9 +28,8 @@ export default class TaskTitle extends Component {
   handleClickAdd(){
     const { onAddTask, list } = this.props;
     const title = this.refs.taskText.getValue();
-    const idList = list.id;
-    this.validationTitle(title) ? onAddTask(idList, title) : this.refs.dialog.dismiss();
-    this.refs.dialog.dismiss();
+    if(this.validationTitle(title)) onAddTask(list.id, title);
+    this._handleCloseDialog();
   }
 
   render() {
@@ -91,7 +90,8 @@ export default class TaskTitle extends Component {
 
 TaskTitle.propTypes = {
   list: PropTypes.object.isRequired,
-  lists: PropTypes.array,
+  lists: PropTypes.array.isRequired,
+  tasks: PropTypes.object.isRequired,
   friends: PropTypes.array.isRequired,
   groups: PropTypes.array.isRequired,
   onAddTask: PropTypes.func.isRequired,

@@ -92,6 +92,7 @@ render() {
           <TaskTitle
             list={list}
             lists={lists}
+            tasks={tasks}
             friends={friends}
             groups={groups}
             onAddTask={onAddTask}
@@ -121,7 +122,7 @@ render() {
           <h3 style={{paddingLeft: '2em', fontStyle: 'italic'}}>No tasks to show</h3>
         </div>
       </div>
-      
+
       <div className="col-md-12 center pagination-tasks">
         <ul className="pagination">
           <li>
