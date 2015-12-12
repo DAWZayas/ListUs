@@ -25,6 +25,10 @@ export default class TaskTitle extends Component {
     this.setState({showDialog: true});
   }
 
+  closeDialog(){
+    this.setState({showDialog: false});
+  }
+
   handleClickAdd(){
     const { onAddTask, list } = this.props;
     const title = this.refs.taskText.getValue();
@@ -39,7 +43,7 @@ export default class TaskTitle extends Component {
       <FlatButton
         label="Cancel"
         secondary
-        onClick={() => this._handleCloseDialog()} />,
+        onClick={() => this._handleCloseDialogList()} />,
       <FlatButton
         label="Add"
         primary

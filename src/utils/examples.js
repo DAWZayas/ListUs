@@ -12,7 +12,7 @@ export const lists = [
   },
   {
     id: getId(),
-    title: 'Final DAW project',
+    title: 'Final project',
     participants: [],
     date: '20/12/2015',
     importance: 1
@@ -58,35 +58,35 @@ export const tasks = {
   1: {
     id: '1',
     idLists: lists[0].id,
-    title: 'Fix the calendar section',
+    title: 'Fix the calendar',
     participants: [],
     done: false
   },
   2: {
     id: '2',
     idList: lists[0].id,
-    title: 'Implement FireBase',
+    title: 'Implement DB',
     participants: [],
     done: false
   },
   3: {
     id: '3',
     idList: lists[0].id,
-    title: 'Check errors and warnings',
+    title: 'Check errors',
     participants: [],
     done: false
   },
   7: {
     id: '7',
     idList: lists[1].id,
-    title: 'Read documentation',
+    title: 'Read docs',
     participants: [],
     done: false
   },
   8: {
     id: '8',
     idList: lists[1].id,
-    title: 'Set the requirements',
+    title: 'Requirements',
     participants: [],
     done: false
   },
@@ -100,7 +100,7 @@ export const tasks = {
   10: {
     id: '10',
     idList: lists[1].id,
-    title: 'Prepare the presentation',
+    title: 'Presentation',
     participants: [],
     done: false
   }
