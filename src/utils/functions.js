@@ -41,7 +41,10 @@ export function getIdByOtherKey(key, value, array){
 export function avatarLetter(name, id){
 	return (<Avatar 
 		key={id}
-		className="avatarLetter">{name.slice(0, 1)}</Avatar>);
+		className="avatarLetter"
+		style={{position: 'absolute'}}>
+			{name.slice(0, 1)}
+		</Avatar>);
 }
 
 export function objIsEmpty(obj){
@@ -65,16 +68,27 @@ export function groupFriends(idFriends, idGroup, friends, idUser, that){
 					const pos = arrayPositionByObjectKey('id', idFriend, friends);
 					const friend = (pos !== -1)?friends[pos] :{};
 					return (friend['img'] !== '')
-						?<a style={{cursor: 'pointer'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
+						?<a title={friend['name']} style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
 							<img
+								style={{position: 'absolute'}}
 								className="avatar"
 								key={friend['id']}
 								src={friend['img']}
 								alt={friend['name']}
-								width="50"/>
+								/>
+							<div className="avatar" style={{position: 'absolute'}}>
+								<div style={{display: 'flex', justifyContent: 'flex-end'}}>
+									<img style={{width: '13', height: '13'}} src="https://cdn1.iconfinder.com/data/icons/ui-icons-2/512/wrong-01-512.png" />
+								</div>
+							</div>
 						</a>
-						:<a style={{cursor: 'pointer'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
+						:<a style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
 							{avatarLetter(friend['name'], friend['id'])}
+							<div className="avatar" style={{position: 'absolute'}}>
+								<div style={{display: 'flex', justifyContent: 'flex-end'}}>
+									<img style={{width: '13', height: '13'}} src="https://cdn1.iconfinder.com/data/icons/ui-icons-2/512/wrong-01-512.png" />
+								</div>
+							</div>
 						</a>;
 					}.bind(this))
 				: <h3 style={{fontStyle: 'italic'}}>No friends</h3>}
