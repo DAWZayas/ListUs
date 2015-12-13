@@ -220,17 +220,22 @@ export default class ListsEdit extends Component{
 			</Dialog>
 
 			<Dialog title="Edit List" open={this.state.showDialogEdit} actions={customActionsEdit} ref="dialogEdit" onRequestClose={this._handleCloseDialog}>
+				<div style={{'display': 'flex', 'flexFlow': 'column'}}>
 				<TextField ref="titleDialog" defaultValue={list.title} autoFocus />
-				<DatePicker
+				<div style={{'display': 'flex', 'justifyContent': 'flex-start'}}>
+			<DatePicker
 					dateFormat="DD/MM/YYYY"
 					selected={this.state.startDate}
 					onChange={this.handleChange.bind(this)}
 					popoverAttachment="bottom center"
 					popoverTargetAttachment="top center"
-					popoverTargetOffset="0px 0px" />
+					popoverTargetOffset="0px 0px"
+					 />
+				 </div>
 				<br/><h5 style={{width:'100px'}}>Importance</h5>
 				<Slider name="slider" style={{width: '200px'}} ref="slider" max={0.8} step={0.20} onChange={this.changeImportance.bind(this)} />
 				<TextField disabled style={{top: '-30px', width:'100px'}} ref="importance" defaultValue="0"/>
+				</div>
 			</Dialog>
 
 			<Dialog title="Remove List" open={this.state.showDialogRemove} actions={customActionsRemove} ref="dialogRemove" onRequestClose={this._handleCloseDialog}>

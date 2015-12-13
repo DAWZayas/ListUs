@@ -48,18 +48,19 @@ export default class CommentsChat extends Component {
 
 
   searchIndexOfFirstBlankSpace(string, index){
-    return index>=string.length || string[index+1]===' ' ? index : this.searchIndexOfFirstBlankSpace(string, index+1);
+    return index<string.length && string[index]!==' ' ? this.searchIndexOfFirstBlankSpace(string, index+1) : index;	
   }
 
   msgFormat(msg){
     let firstBlank = 0;
     let secondBlank = 0;
     let formatMsg = '';
+
     while (secondBlank<msg.length) {
       secondBlank = this.searchIndexOfFirstBlankSpace(msg, firstBlank);
       let newWord = this.isValidWord(firstBlank, secondBlank) ? msg.slice(firstBlank, secondBlank) : this.wordFormat(msg.slice(firstBlank, secondBlank));
       formatMsg = formatMsg + ' ' + newWord;
-      firstBlank = secondBlank+2;
+      firstBlank = secondBlank+1;
     }
     return formatMsg;
   }
@@ -86,7 +87,7 @@ export default class CommentsChat extends Component {
     }
   }
 
-  
+
 
 
   render(){
