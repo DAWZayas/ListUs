@@ -24,12 +24,12 @@ export default class CommentsChat extends Component {
 
 
   onClickAddComment(){
-    const { onAddComment, idList } = this.props;
+    const { onAddComment, idList, user } = this.props;
     const textComment = this.refs.textArea.value;
     if(textComment!==''){
       const minut = moment().minutes()<10 ? '0'+ moment().minutes() : moment().minutes();
       const time = moment().hours() + ':' + minut;
-      onAddComment(idList, 'pepe', moment().format('L'), time, textComment);
+      onAddComment(idList, user.name, moment().format('L'), time, textComment);
       setTimeout(() => this.refs.textArea.value = '', 0);
     }
   }
@@ -48,7 +48,7 @@ export default class CommentsChat extends Component {
 
 
   searchIndexOfFirstBlankSpace(string, index){
-    return index<string.length && string[index]!==' ' ? this.searchIndexOfFirstBlankSpace(string, index+1) : index;	
+    return index<string.length && string[index]!==' ' ? this.searchIndexOfFirstBlankSpace(string, index+1) : index;
   }
 
   msgFormat(msg){

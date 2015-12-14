@@ -9,7 +9,8 @@ function mapStateToProps(state){
   const comments = state.comments[idList];
   return {
     idList: idList,
-    comments: comments
+    comments: comments,
+    user: state.user
   };
 }
 

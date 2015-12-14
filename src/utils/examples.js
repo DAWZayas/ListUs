@@ -107,7 +107,7 @@ export const tasks = {
 };
 
 export const comments = {
-  [lists[0].id]: [ {  user:'pepe', date:'12/7/2015', hour:'11:22', msg:'eeeeee'}, { user:'juan', date:'12/7/2015', hour:'11:22', msg:'wwww'}],
+  [lists[0].id]: [ {  user:'pepe', date:'5/12/2015', hour:'11:22', msg:'i going to Improve the style'}, { user:'juan', date:'8/12/2015', hour:'11:22', msg:'ok, i going to Implement DB'}],
   [lists[1].id]: [ {  user:'pepe', date:'13/7/2015', hour:'11:22', msg:'goewjpe'}, { user:'juan', date:'13/7/2015', hour:'11:22', msg:'trtrt'}],
   [lists[2].id]: [ ],
   [lists[3].id]: [ ],
