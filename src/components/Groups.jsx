@@ -68,7 +68,6 @@ export default class Groups extends Component {
 	addGroupNonExistent(e, pos, name){
 		if(pos !== -1) this.setState({error: 'Group\'s name already exists.'});
 		else{
-			debugger;
 			this.props.onAddGroup(name, this.props.user.id);
 			this.setState({error: '', search: []});
 			this.handleClickDismissDialog(e, 'dialogAddGroup');
@@ -255,6 +254,7 @@ Groups.propTypes= {
 	user: PropTypes.object,
 	groups: PropTypes.array,
 	friends: PropTypes.array,
+	onRemoveGroupFriend: PropTypes.func,
 	onChangeGroupAdmin: PropTypes.func,
 	onshowGroupFriends: PropTypes.func,
 	onRemoveGroup: PropTypes.func,

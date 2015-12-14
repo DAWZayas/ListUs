@@ -10,7 +10,6 @@ function setGroups(state, groups){
 
 function addGroup(state, name, idUser){
 	var newState = state.slice();
-	debugger;
 	return newState.concat(
 		{
 			id: getId(),
