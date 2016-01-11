@@ -35,7 +35,12 @@ function addDate(state, title, date, importance, id){
   }
 
 
-  const month = date.split('/')[1];
+  let month = date.split('/')[1];
+
+  if (month[0] === '0') {
+    month = month[1];
+  }
+
   const monthName = months[month];
 	const year = date.split('/')[2];
 
