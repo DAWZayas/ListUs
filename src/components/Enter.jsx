@@ -24,15 +24,18 @@ export default class Enter extends Component {
       const pos = arrayPositionByObjectKey('name', this.refs.userLogIn.getValue(), serverUsers);
       if( pos !== -1 ){
         if(serverUsers[pos].password === this.refs.passwordLogIn.getValue()){
+          this.setState({error: ''});
           this.props.onSwitchUser(serverUsers[pos]);
           this.props.onSetFriends(getFriends(serverUsers[pos].friends));
           this.props.onSetGroups(getGroups(serverUsers[pos].groups));
           const userLists = getLists(this.refs.userLogIn.getValue());
           this.props.onSetLists(userLists);
           this.props.onSetTasks(getTasks(userLists));
+
       }
       else this.setState({error: 'User or password incorrect'});
     }
+    else this.setState({error: 'User or password incorrect'});
   }
 
   render() {
@@ -55,9 +58,10 @@ export default class Enter extends Component {
     					underlineStyle={{borderColor:'blue', width: '236'}}
               type="password"
               style={{backgroundColor: 'lightblue', marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}/>
+              {(this.state.error !== '')? <p style={{color: 'red'}}>{this.state.error}</p>:''}
     				<RaisedButton label="LOG IN" secondary  onTouchTap={()=>this.handleClickLogIn()} style={{}}/>
     			</div><br/>
-    			<div><a style={{cursor: 'pointer'}}>Register</a></div>
+    			{/*<div><a style={{cursor: 'pointer'}}>Register</a></div>*/}
         </div>
         <div className="enterHeader enterFooter" height="80px"></div>
     	</div>

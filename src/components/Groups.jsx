@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-import { AppBar, FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
-import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, groupFriends, sortArray, menuItems } from '../utils/functions';
+import { FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
+import { arrayPositionByObjectKey, getIdByOtherKey, avatarLetter, sortArray, menuItems } from '../utils/functions';
 import SectionHeader from './SectionHeader';
+import GroupSections from './GroupSections';
 
 
 export default class Groups extends Component {
@@ -16,7 +17,8 @@ export default class Groups extends Component {
 			id: '',
 			admin: false,
 			search: [],
-			listToShow: 0
+			listToShow: 0,
+			groupId: ''
 		};
 	}
 
@@ -24,25 +26,23 @@ export default class Groups extends Component {
 
 	handleClickDismissDialog(e, ref){
 		e.preventDefault();
-		this.setState({id: '', search: []});
+		this.setState({id: '', search: [], error: ''});
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.dismiss():this.refs.dialogAddFriend.dismiss();
 	}
 
-	handleClickShowDialog(e, ref, id){
-		e.preventDefault();
-		if(arguments[3]) this.setState({admin: true});
+	handleClickShowDialog(ref, id){
+		this.refs.dialogEdit.dismiss();
+		if(arguments.length === 3) this.setState({admin: true});
 		this.setState({id, search: []});
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.show():this.refs.dialogAddFriend.show();
-
 	}
-
 
 	handleClickShowGroupFriends(e, id){
 		e.preventDefault();
 		this.props.onshowGroupFriends(id);
 	}
 
-	/* Add group or friend*/
+	/* Add group or friend */
 	applyParamsToArray(ref){
 		return [
 			<FlatButton label="Cancel" secondary onClick={e=>this.handleClickDismissDialog(e, ref)} />,
@@ -66,7 +66,7 @@ export default class Groups extends Component {
 	}
 
 	addGroupNonExistent(e, pos, name){
-		if(pos !== -1) this.setState({error: 'El nombre del grupo ya existe'});
+		if(pos !== -1) this.setState({error: 'Group\'s name already exists.'});
 		else{
 			this.props.onAddGroup(name, this.props.user.id);
 			this.setState({error: '', search: []});
@@ -86,51 +86,65 @@ export default class Groups extends Component {
 	}
 
 	/* Remove group */
-	handleClickRemoveGroup(e, id){
-		e.preventDefault();
+	handleClickRemoveGroup(id){
+		this.refs.dialogEdit.dismiss();
 		this.props.onRemoveGroup(id);
 	}
 
-	/* Editting groups*/
-	handleClickSetRefToEdit(e, id){
-		e.preventDefault();
-		this.setState({refToEdit: id});
+	/* Remove friend */
+	handeRemoveGroupFriend(idFriend, idGroup){
+		this.props.onRemoveGroupFriend(idFriend, idGroup);
+		//this.handleHideRemove();
 	}
 
-	handleClickEditGroup(e, ref, value){
-		e.preventDefault();
-		this.props.onEditGroup(ref, value);
-		this.handleHideEdit(e);
+	/* Editing groups*/
+	handleClickSetRefToEdit(id){
+		this.refs.dialogEdit.dismiss();
+		setTimeout(() => this.setState({refToEdit: id}), 2);
+	}
+
+	handleClickEditGroup(ref, value){
+		const fixedValue = value.trim();
+		if(arrayPositionByObjectKey('name', fixedValue, this.props.groups) === -1 && fixedValue !== ''){
+			this.props.onEditGroup(ref, fixedValue);
+			this.handleHideEdit();
+		}
+		else this.setState({error: 'Group\'s name already exists.'});
+		
+	}
+
+	editDialogActions(ref){
+		return [
+			<FlatButton label="Cancel" secondary onClick={() => this.handleHideEdit()}/>,
+			<FlatButton label="Edit" primary onClick={() => this.handleClickEditGroup(ref, this.refs.groupEdit.getValue())}/>
+		];
 	}
 
 	editGroup(ref){
 		const pos = arrayPositionByObjectKey('id', ref, this.props.groups);
-		return (<div>
+		return (<Dialog ref="dialogEditName" title="Edit Name" defaultOpen actions={this.editDialogActions(ref)}>
 					<TextField
 						ref = "groupEdit"
 						hintText={this.props.groups[pos]['name']}
 						underlineStyle={{borderColor:'blue'}}
 						/>
-					<FlatButton label="Cancelar" onClick={e => this.handleHideEdit(e)}/>
-					<FlatButton label="Editar" onClick={e => this.handleClickEditGroup(e, ref, this.refs.groupEdit.getValue())}/>
-				</div>);
+					{(this.state.error === '')?'' :<p style={{color: 'red'}}>{this.state.error}</p>}
+				</Dialog>);
 	}
 
-	handleHideEdit(e){
-		e.preventDefault();
+	handleHideEdit(){
+		if(this.state.error !== '') this.setState({error: ''});
 		this.setState({refToEdit: ''});
 	}
 
 	/* Admin tranfer */
-	handleChangeGroupAdmin(e, id){
-		e.preventDefault();
+	handleChangeGroupAdmin(id){
 		this.onChangeGroupAdmin(this.refs.changeAdmin.value, id);
 	}
 
 
 	/* Dialog matches*/
-	/*****/
-	searchingMatch(e){//param ref deleted
+	searchingMatch(e){
 		e.preventDefault();
 		const words = (this.refs.groupNameInput)?this.refs.groupNameInput.getValue():this.refs.friendNameInput.getValue();
 		const array = (this.refs.groupNameInput)?this.props.groups :this.props.friends;
@@ -141,75 +155,52 @@ export default class Groups extends Component {
 		this.setState({search});
 	}
 
-	handleChangeInputValue(e, ref, value){
-		e.preventDefault();
+	handleChangeInputValue(ref, value){
 		(ref === 'friendNameInput')?this.refs.friendNameInput.setValue(value) :this.refs.changeAdmin.setValue(value);
 	}
 
-	clearSearchState(e){
-		e.preventDefault();
-		this.setState({search : []});
-	}
 
 	handleSorted(e, selectedIndex, menuItem){
 		e.preventDefault();
 		this.setState({sorted: menuItem.text});
 	}
 
+	handleShowEdit(groupId){
+		this.setState({groupId});
+		this.refs.dialogEdit.show();
+	}
+
+
 	render(){
-		const { sorted } = this.state;
+		const { sorted, groupId } = this.state;
 		const key = (sorted.split(' ')[0] === 'Name')?'name':'date';
 		const groups = (sorted === 'Sort By')
-				?this.props.groups 
-				:sortArray(this.props.groups, key, sorted.split(' ')[1]);
-		
+			?this.props.groups
+			:sortArray(this.props.groups, key, sorted.split(' ')[1]);
 		return (
 			<section>
-       			<SectionHeader title="GROUPS" menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
-				{(groups)?groups.map(function(group){
-						return (
-							<div key={group['id']}>
-								<AppBar
-										title={group['name']}
-										className="listGroups"
-										iconElementRight={<div className="deleteEdit">
-											<a className="glyphicon glyphicon-remove-circle" onClick={e => this.handleClickRemoveGroup(e, group['id'])} />
-											<a className="glyphicon glyphicon-edit" onClick={e => this.handleClickSetRefToEdit(e, group['id'])}/><br/>
-											<a className="glyphicon glyphicon-transfer" onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', group['id'], true)}/>
-										</div>
-										}
-										onLeftIconButtonTouchTap={e => this.handleClickShowGroupFriends(e, group['id'])}
-
-								/>
-		 						{(group['showFriends']===true)?<div>
-		 															{groupFriends(group['friends'], group['id'], this.props.friends, this.props.user.id)}
-		 															<FlatButton label=" +Friend" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddFriend', group['id'])}/>
-		 														</div>
-		 													  :''}
-	 						</div>
-	 					);
-					}.bind(this))
-					: <p>No groups created.</p>}
+       			<SectionHeader title="GROUPS" openDialog={() => this.handleClickShowDialog('dialogAddGroup')} menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
+       			<GroupSections groups={groups} friends={this.props.friends} user={this.props.user} that={this} />
 
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
-				<br/>
-				<div className="addGroup"><FlatButton label="Create Group" primary onClick={e => this.handleClickShowDialog(e, 'dialogAddGroup')}/></div>
 
-				{(this.state.listToShow !== 0)
-					 ?<div className="col-md-12 center">
-			          <a onClick={() => this.openDialog()} style={{cursor: 'pointer'}} >
-			            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width="30" height="30"/>
-			          </a>
-			        </div>
-			        : ''
-		    	}
+		    	<Dialog ref="dialogEdit" title="Edit Options">
+					<List>
+					  <ListItem primaryText="Edit Name" onClick={() => this.handleClickSetRefToEdit(groupId)} rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-pencil"></span>}/>
+					  <ListItem primaryText="Remove Group" onClick={() => this.handleClickRemoveGroup(groupId)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>}/>
+					  <ListItem primaryText="Switch Admin" onClick={() => this.handleClickShowDialog('dialogAddFriend', groupId, true)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="
+	glyphicon glyphicon-refresh"></span>}/>
+					</List>
+				</Dialog>
+
+		    	
+
 
 				<Dialog className="addFriends"
 						ref="dialogAddFriend"
-						title={(!this.state.admin)?'Add group friend':'Administration Transfering'}
+						title={(this.state.admin === false)?'Add group friend':'Administration Transfering'}
 						actions={this.applyParamsToArray('dialogAddFriend')}
 					>
-
 					<div ref="subMenuCont" className="subMenuCont" >
 						<p>Friend's name: </p>
 						<div className="inputDiv">
@@ -231,11 +222,10 @@ export default class Groups extends Component {
 														leftAvatar={(friend.img !== '')?<Avatar src={friend.img}/>: avatarLetter(friend.name)}
 														primaryText={friend.name}
 														style={{height: '49px', borderTop: 'solid 1px lightblue'}}
-														onTouchTap={e => this.handleChangeInputValue(e, 'friendNameInput', friend.name)} />
+														onTouchTap={() => this.handleChangeInputValue('friendNameInput', friend.name)} />
 												);
 											}.bind(this))}
 										</List>}
-
 							</div>
 						</div>
 						<p className="error" style={{color: 'red'}}>{this.state.error}</p>
@@ -243,7 +233,7 @@ export default class Groups extends Component {
 				</Dialog>
 
 				<Dialog ref="dialogAddGroup" title="Add Group" actions={this.applyParamsToArray('dialogAddGroup')}>
-					<p>Group's name: {/*<input ref="groupNameInput" autoFocus />*/}</p>
+					<p>Group's name: </p>
 					<TextField
 						ref = "groupNameInput"
 						hintText="Group name"
@@ -252,6 +242,7 @@ export default class Groups extends Component {
 						/>
 					<p className="error" style={{color: 'red'}}>{this.state.error}</p>
 				</Dialog>
+
 			</section>
 		);
 	}
@@ -263,6 +254,7 @@ Groups.propTypes= {
 	user: PropTypes.object,
 	groups: PropTypes.array,
 	friends: PropTypes.array,
+	onRemoveGroupFriend: PropTypes.func,
 	onChangeGroupAdmin: PropTypes.func,
 	onshowGroupFriends: PropTypes.func,
 	onRemoveGroup: PropTypes.func,

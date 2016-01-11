@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import HeaderContainer from './HeaderContainer';
 import Enter from '../components/Enter';
+
 import { objIsEmpty } from '../utils/functions';
 
 
@@ -15,11 +16,7 @@ export default class App extends Component {
     return (!objIsEmpty(this.props.user))
       ?(
         <div>
-          <div className="row">
-            <div className="col-md-12">
-                <HeaderContainer />
-            </div>
-          </div>
+          <HeaderContainer />
           {this.props.children}
         </div>
       )
@@ -33,19 +30,14 @@ App.propTypes = {
   user: PropTypes.object
 };
 
+
 function mapStateToProps(state) {
   return {
      user: state.user
   };
 }
 
-function mapActionsToProps(dispatch) {
-  return {
-     dispatch
-  };
-}
 
 export default connect(
-  mapStateToProps,
-  mapActionsToProps
+  mapStateToProps
 )(App);

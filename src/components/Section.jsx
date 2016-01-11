@@ -49,13 +49,11 @@ export default class Section extends Component {
     const title = this.refs.titleDialog.getValue();
     const date = this.state.startDate.format('DD/MM/YYYY');
     const importance = Math.ceil(this.refs.slider.getValue()/0.2);
-    this.validationTitle(title) ? onAddList(title, date, importance, id) : this.refs.dialog.dismiss();
-    this.setState({
-      dialogState: false
-    });
+    if(this.validationTitle(title)) onAddList(title, date, importance, id);
+    this._handleCloseDialog();
   }
 
-  onClickClose(){
+  _handleCloseDialog(){
     this.setState({
       dialogState: false
     });
@@ -83,20 +81,20 @@ export default class Section extends Component {
       <FlatButton
         label="Cancel"
         secondary
-        onClick={() => this.onClickClose()} />,
+        onClick={() => this._handleCloseDialog()} />,
       <FlatButton
         label="Add"
         primary
         onClick={() => this.onClickAdd()} />
     ];
-    const {  lists, onEditList, onRemoveList, onAddList } = this.props;
+    const {  lists } = this.props;
 
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
     const listsEnd = (sorted === 'Sort By') ? lists : sortArray(lists, key, sorted.split(' ')[1]);
     return(
       <article className="article">
-        <Dialog title="Dialog With Standard Actions" open={this.state.dialogState} actions={customActions} ref="dialog">
+        <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} ref="dialog">
           <TextField ref="titleDialog" hintText="Title List" autoFocus />
           <DatePicker
             dateFormat="DD/MM/YYYY"
@@ -110,18 +108,29 @@ export default class Section extends Component {
           <TextField disabled style={{top: '-30px', width:'100px'}} ref="importance" defaultValue="0"/>
         </Dialog>
 
-        <SectionHeader title="LISTS" menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)} onAddList={onAddList}/>
-        <div style={{display: 'flex', justifyContent: 'flex-end', paddingRight: '10'}}><button style={{backgroundColor: 'white'}} className="btn btn-default" onClick={() => this.openDialog()}>ADD LIST</button></div>
-        <div className="lists">
+        <SectionHeader title="LISTS" menuItems={menuItems} openDialog={this.openDialog.bind(this)}func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
+
+      <div className="lists">
             {
-              listsEnd.map( (list, index) => index<this.state.numberOfList ? <List list={list} key={index} onRemoveList={onRemoveList} onEditList={onEditList}/> : '' )
+              listsEnd.map( (list, index) => index<this.state.numberOfList ?
+                <List
+                  list={list}
+                  lists={this.props.lists}
+                  friends={this.props.friends}
+                  groups={this.props.groups}
+                  tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
+                  key={index}
+                  onAddFriendGroupToList={this.props.onAddFriendGroupToList}
+                  onRemoveList={this.props.onRemoveList}
+                  onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
+                  onEditList={this.props.onEditList} />
+                : '' )
             }
         </div>
         <br/>
         <div className="col-md-12 center">
-          <a onClick={() => this.pagination()} style={{cursor: 'pointer'}} >
-            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width="30" height="30"/>
-          </a>
+          <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
+
         </div>
       </article>
     );
@@ -130,10 +139,14 @@ export default class Section extends Component {
 
 Section.propTypes = {
   lists: PropTypes.array,
-  asideVisibility: PropTypes.object,
+  tasks: PropTypes.object,
+  friends: PropTypes.array.isRequired,
+  groups: PropTypes.array.isRequired,
+  onAddFriendGroupToList: PropTypes.func.isRequired,
   onAddList: PropTypes.func.isRequired,
   onRemoveList: PropTypes.func.isRequired,
-  onEditList: PropTypes.func.isRequired
+  onEditList: PropTypes.func.isRequired,
+  onRemoveFriendGroupToList: PropTypes.func.isRequired
 };
 
 Section.defaultProps = {

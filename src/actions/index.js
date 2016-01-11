@@ -1,3 +1,7 @@
+
+import { pushState } from 'redux-router';
+import sequencer from './sequencer';
+
 /*
 * TASK
 */
@@ -7,7 +11,7 @@ export const ADD_TASK = 'ADD_TASK';
 export const REMOVE_TASK = 'REMOVE_TASK';
 export const EDIT_TASK = 'EDIT_TASK';
 export const ADD_FRIEND_OR_GROUP_TO_TASK = 'ADD_FRIEND_OR_GROUP_TO_TASK';
-
+export const SET_AS_DONE = 'SET_AS_DONE';
 /*
 * LIST
 */
@@ -17,6 +21,8 @@ export const ADD_LIST = 'ADD_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const EDIT_LIST = 'EDIT_LIST';
 export const ADD_FRIEND_OR_GROUP_TO_LIST = 'ADD_FRIEND_OR_GROUP_TO_LIST';
+export const REMOVE_FRIEND_OR_GROUP_TO_LIST = 'REMOVE_FRIEND_OR_GROUP_TO_LIST';
+
 
 /*
 * DISPLAY ASIDE
@@ -45,6 +51,7 @@ export const SET_FRIENDS = 'SET_FRIENDS';
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const REMOVE_FRIEND = 'REMOVE_FRIEND';
 export const ADD_FRIEND_GROUP = 'ADD_FRIEND_GROUP';
+export const REMOVE_FRIEND_GROUP = 'REMOVE_FRIEND_GROUP';
 
 /*
 * GROUPS
@@ -94,6 +101,10 @@ export function editTask( idTask, title ){
 export function addFriendGroupToTask(idTask, id){
   return { type: ADD_FRIEND_OR_GROUP_TO_TASK, idTask, id};
 }
+export function setAsDone(idTask){
+    return { type: SET_ASS_DONE, idTask};
+}
+
 /*
 * list action creator
 */
@@ -107,11 +118,20 @@ export function addList(title, date, importance, id){
 export function removeList(idList, title, date){
   return { type: REMOVE_LIST, idList, title, date };
 }
-export function editList( idList, title ){
-  return { type: EDIT_LIST, idList, title };
+export function editList( idList, title, date, newDate, importance ){
+  return { type: EDIT_LIST, idList, title, date, newDate, importance };
 }
 export function addFriendGroupToList(idList, id){
   return { type: ADD_FRIEND_OR_GROUP_TO_LIST, idList, id};
+}
+export function removeFriendGroupToList(idList, idPaticipant){
+  return { type: REMOVE_FRIEND_OR_GROUP_TO_LIST, idList, idPaticipant};
+}
+export function removeListAndNavigate(idList, title, date) {
+  return dispatch => sequencer([
+      () => dispatch(removeList(idList, title, date)),
+      () => dispatch(pushState(null, '/'))
+    ]);
 }
 /*
 * visibility aside action creator
@@ -173,9 +193,9 @@ export function setGroups(groups){
 }
 
 
-export function addGroup(name){
+export function addGroup(name, idUser){
   return {
-    type: ADD_GROUP, name
+    type: ADD_GROUP, name, idUser
   };
 }
 
@@ -200,6 +220,12 @@ export function showGroupFriends(idGroup){
 export function addGroupFriend(idFriend, idGroup){
   return {
     type: ADD_FRIEND_GROUP, idFriend, idGroup
+  };
+}
+
+export function removeGroupFriend(idFriend, idGroup){
+  return {
+    type: REMOVE_FRIEND_GROUP, idFriend, idGroup
   };
 }
 

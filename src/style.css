@@ -1,6 +1,9 @@
 /*
   General use
 */
+.My-badge{
+  background: #117D91 !important;
+}
 
 .biggerGlyphicon {
   font-size: 1.6em;
@@ -18,21 +21,16 @@ ul{
 */
 
 .header {
-  background: rgba(245,252,255,1);
-  background: -moz-linear-gradient(left, rgba(245,252,255,1) 0%, rgba(245,252,255,1) 0%, rgba(66,211,255,1) 50%, rgba(255,255,255,1) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(245,252,255,1)), color-stop(0%, rgba(245,252,255,1)), color-stop(50%, rgba(66,211,255,1)), color-stop(100%, rgba(255,255,255,1)));
-  background: -webkit-linear-gradient(left, rgba(245,252,255,1) 0%, rgba(245,252,255,1) 0%, rgba(66,211,255,1) 50%, rgba(255,255,255,1) 100%);
-  background: -o-linear-gradient(left, rgba(245,252,255,1) 0%, rgba(245,252,255,1) 0%, rgba(66,211,255,1) 50%, rgba(255,255,255,1) 100%);
-  background: -ms-linear-gradient(left, rgba(245,252,255,1) 0%, rgba(245,252,255,1) 0%, rgba(66,211,255,1) 50%, rgba(255,255,255,1) 100%);
-  background: linear-gradient(to right, rgba(245,252,255,1) 0%, rgba(245,252,255,1) 0%, rgba(66,211,255,1) 50%, rgba(255,255,255,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5fcff', endColorstr='#ffffff', GradientType=1 );
+
   width: 100%;
-  height: 100px;
+  height: 56px;
   text-align: center;
   border-bottom: 1px solid lightblue;
   display: flex;
   flex-flow: row, nowrap;
   margin-bottom: 20px;
+  background-color: #f8f8f8;
+  border-color: #e7e7e7;
 }
 .leftNav > button{
     margin-top: 10px !important;
@@ -51,7 +49,8 @@ ul{
   display: flex;
   flex-flow: row, nowrap;
   height: 30%;
-  width: 70%
+  width: 70%;
+  margin-left: 5px;
 }
 
 .calendario{
@@ -64,6 +63,8 @@ ul{
   flex-flow: column;
   margin-top: 10px;
   height: 36px !important;
+  position: relative;
+
 }
 
 .search-btn-input{
@@ -83,7 +84,25 @@ ul{
 }
 
 .search-ul{
+  width: 250px;
+  z-index: 10;
+}
 
+.Mylist-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #555;
+    width: 78%;
+}
+
+.Mylist-group-item:hover{
+  color: #555;
+    text-decoration: none;
+    background-color: #f5f5f5;
 }
 
 .principal{
@@ -117,14 +136,11 @@ ul{
   height: 40px;
   width: 40px;
   border-radius: 50%;
-  transition: all 1s ;
+  position: relative;
+  top: -8px;
 }
 
-.image:hover {
-  height: 60px;
-  width: 60px;
-  border-radius: 45%;
-}
+
 
 .search-div{
   margin: 0;
@@ -137,17 +153,33 @@ ul{
   position: relative;
   top: 10px;
 }*/
+.My-control{
+  height: 34px;
+padding: 6px 12px;
+font-size: 14px;
+line-height: 1.42857143;
+color: #555;
+background-color: #fff;
+background-image: none;
+border: 1px solid #ccc;
+border-radius: 10px;
 
+}
 
 /*
   SECTION
 */
 
 .article {
-  background-color: lightblue;
+  background-color: #F8F8F8;
   width: 100%;
   height: 400px;
   float: left;
+}
+
+.positionButton {
+  position: relative;
+  top: -18px;
 }
 
 /*
@@ -170,7 +202,7 @@ ul{
 }
 
 .listNotCompleted {
-  background-color: mintcream;
+  background-color: white;
 }
 
 .listCompleted {
@@ -202,6 +234,17 @@ ul{
 .dateBtn {
   width: 93px;
 }
+
+.positionBadge {
+  position: relative;
+  top: 15px;
+}
+
+.button-pagination-lists{
+  border-radius: 110px !important;
+  margin-top: 20px;
+  margin-bottom: 20px !important;
+}
 /*
 *  TASKTITLE
 */
@@ -227,9 +270,21 @@ ul{
   margin-left: 35px;
 }*/
 
-.pagination-tasks{
-
+.taskDone {
+  position: relative;
 }
+
+.taskDone:after {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  background: #8B8B8B;
+  content: "";
+  width: 100%;
+  display: block;
+}
+
 
 .tableApparence {
   margin: 0 auto;
@@ -238,6 +293,29 @@ ul{
 
   text-align: center;
 }
+
+.marginBottomInput {
+  margin-bottom: 20px;
+}
+
+.alignContent {
+  line-height: 56px;
+}
+
+.alignTaskButton {
+  margin-top: 11px;
+}
+
+.alignCheckBox {
+  position: relative !important;
+  top: 7px !important;
+}
+
+.biggerTasks {
+  width: 30%;
+  text-align: center;
+}
+
 
 
 
@@ -317,6 +395,8 @@ ul{
 
 .avatar{
   border-radius: 20px;
+  width: 50px;
+  height: 33px;
 }
 
 /*
@@ -421,11 +501,8 @@ ul{
   display: flex;
   flex-flow:column nowrap;
   max-width:200px;
-  border:;
+  
 }
-
-
-
 
 .tools{
 
@@ -501,4 +578,98 @@ ul{
     font-size: 15px !important;
   }
 
+}
+
+
+/*
+*   COMMENTS
+*/
+
+.chat{
+    background-image: url('../img/symphony.png');
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 90%;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+.listComments{
+    overflow: auto;
+    height: 400px;
+}
+
+.commentDate{
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  background: lightblue;
+  width: 80px;
+  height: 20px;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.itemComment{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: row;
+  background: white;
+  margin-right: 50px;
+  justify-content: space-between;
+  height: auto;
+  overflow: hidden;
+}
+
+.commentInfo{
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+
+}
+
+.messageAndButtonSend{
+    display: flex;
+    flex-flow: row nowrap;
+    margin-left: 40px;
+    margin-right: 60px;
+    height: 40px !important;
+}
+
+.buttonSendMessage{
+  margin-top: 0 !important;
+}
+
+.inputSendMsg{
+  overflow: hidden;
+}
+
+/* DIALOG */
+
+.dialogFriendAndGroup{
+  font-size: 14px;
+}
+
+.dialogFriendAndGroupManage{
+  font-size: 17px;
+}
+
+.avatarFriendAndGroups{
+  height: 30px !important;
+  width: 30px !important;
+
+  line-height: 20px !important;
+
+}
+
+.deleteButtonFriendGroup{
+  color: #D9534F;
+  margin-right: 5px;
 }

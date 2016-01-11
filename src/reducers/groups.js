@@ -1,4 +1,4 @@
-import { SET_GROUPS, ADD_GROUP, REMOVE_GROUP, EDIT_GROUP, SHOW_GROUP_FRIENDS, ADD_FRIEND_GROUP, CHANGE_GROUP_ADMIN } from '../actions';
+import { SET_GROUPS, ADD_GROUP, REMOVE_GROUP, EDIT_GROUP, SHOW_GROUP_FRIENDS, ADD_FRIEND_GROUP, REMOVE_FRIEND_GROUP, CHANGE_GROUP_ADMIN } from '../actions';
 import { arrayPositionByObjectKey } from '../utils/functions';
 import { getId } from '../utils';
 
@@ -22,24 +22,13 @@ function addGroup(state, name, idUser){
 }
 
 function editGroup(state, id, name){
-	//espachurra
 	return state.map( group => group.id===id ? Object.assign( {}, group, {name}) : group );
 }
 
 const removeGroup = (state, id) => state.slice().filter(group => group['id'] !== id);
 
-
-
-/*function showGroupFriends(state, id){
-	var newState = state.slice();
-	var showFriends = newState[arrayPositionByObjectKey('id', id, newState)]['showFriends'];
-	newState[arrayPositionByObjectKey('id', id, newState)]['showFriends'] = (showFriends === true)?false :true;
-	return newState;
-	return state.map(group => (group.id === id)*/
-
 function showGroupFriends(state, idGroup){
 	return state.map(group => (group.id === idGroup)
-
 				?(group.showFriends)
 					? Object.assign({}, group, {'showFriends': false})
 					: Object.assign({}, group, {'showFriends': true})
@@ -54,12 +43,15 @@ function addGroupFriend(state, idFriend, id){
 	return newState;
 }
 
+function removeGroupFriend(state, idFriend, id){
+	var newState = state.slice();
+	return newState.map(group => (group.id === id) 
+		?Object.assign({}, group, {friends: group.friends.filter(idF => idF !== idFriend)})
+		:group);
+}
+
 function changeGroupAdmin(state, idFriend, idGroup){
-
-	/*var newState = state.slice();
-	newState[arrayPositionByObjectKey('idGroup', idGroup, newState)]['administrator'] = idFriend;*/
 	return state.map( group => (group.id === idGroup)? Object.assign({}, group, {'administrator': idFriend}): Object.assign({}, group));
-
 }
 
 export default function groupsReducer(state = [], action){
@@ -67,7 +59,7 @@ export default function groupsReducer(state = [], action){
 		case SET_GROUPS:
 			return setGroups(state, action.groups);
 		case ADD_GROUP:
-			return addGroup(state, action.name);
+			return addGroup(state, action.name, action.idUser);
 		case EDIT_GROUP:
 			return editGroup(state, action.idGroup, action.name);
 		case REMOVE_GROUP:
@@ -76,6 +68,8 @@ export default function groupsReducer(state = [], action){
 			return showGroupFriends(state, action.idGroup);
 		case ADD_FRIEND_GROUP:
 			return addGroupFriend(state, action.idFriend, action.idGroup);
+		case REMOVE_FRIEND_GROUP:
+			return removeGroupFriend(state, action.idFriend, action.idGroup);
 		case CHANGE_GROUP_ADMIN:
 			return changeGroupAdmin(state, action.idFriend, action.idGroup);
 		default:

@@ -1,31 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 
+import { Checkbox } from 'material-ui';
+
 
 export default class ItemTaskDetails extends Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      isModifyTask: false
-    };
-  }
-
-  handleOnClickEdit(e){
-    e.stopPropagation();
-    this.setState({ isModifyTask: true});
-  }
-
-  handleOkClick(e){
-    e.stopPropagation();
-    const newTitle = this.refs.title.value;
-    const { onEditTask, task } = this.props;
-    onEditTask(task.id, newTitle);
-    this.setState({ isModifyTask: false});
-  }
-
-  handleCancelClick(e){
-    e.stopPropagation();
-    this.setState({ isModifyTask: false});
   }
 
   handleOnClickRemove(e){
@@ -34,27 +15,31 @@ export default class ItemTaskDetails extends Component {
     onRemoveTask(task.id);
   }
 
+  markAsDone(){
+    const { task, renderForce } = this.props;
+    let undoOrDo = task.done;
+    task.done = !undoOrDo;
+    this.forceUpdate();
+    setTimeout(() => renderForce(), 100);
+  }
+
   render() {
     const { task } = this.props;
     return(
-    <li  className="">
-        <a href="#" className={`${this.state.isModifyTask ? 'hidden' : 'col-xs-12 li-a'}`}>
-
-            <span className="" style={{color: 'inherit', textDecoration: 'inherit'}}>{ task.title }</span>
-            <span className="btn btn-danger glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
-            <span className="btn btn-warning glyphicon glyphicon-wrench pull-right"  onClick={(e) => this.handleOnClickEdit(e)} />
-
-        </a>
-
-
-        <div className={`input-group ${this.state.isModifyTask ? 'col-md-12' : 'hidden'}`}>
-          <input className="form-control inputText" ref="title"/>
-          <span className="input-group-btn">
-            <button className="btn btn-danger glyphicon glyphicon-remove" type="button" onClick={e => this.handleCancelClick(e)}></button>
-            <button className="btn btn-success glyphicon glyphicon-ok" type="button" onClick={e => this.handleOkClick(e)}></button>
-          </span>
+    <div>
+  
+      <span className="col-xs-2 alignCheckbox">
+        <Checkbox className="checkbox" defaultChecked={task.done} onCheck={this.markAsDone.bind(this)} style={{'width': '30px'}} name="doneTask" value="doneOrUndo" />
+      </span>
+      <li role="presentation">
+        <div className={`${task.done ? 'col-xs-10 li-a generalTask taskDone' : 'col-xs-10 li-a generalTask'}`}>  
+           <span className="alignContent" style={{color: 'inherit', textDecoration: 'inherit'}}>
+              { task.title }
+           </span>
+           <span disabled={`${task.done ? 'disabled' : ''}`} style={{'color': '#D9534F'}} className="alignTaskButton btn btn-default glyphicon glyphicon-remove-sign pull-right" onClick={(e) => this.handleOnClickRemove(e)} />
         </div>
-   </li>
+     </li>
+   </div>
     );
   }
 
@@ -64,7 +49,7 @@ export default class ItemTaskDetails extends Component {
 ItemTaskDetails.propTypes = {
   task: PropTypes.object,
   onRemoveTask: PropTypes.func.isRequired,
-  onEditTask: PropTypes.func.isRequired
+  renderForce: PropTypes.func
 };
 
 ItemTaskDetails.defaultProps = {

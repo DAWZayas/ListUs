@@ -11,11 +11,11 @@ export default class ItemList extends Component {
   render() {
     const {list} = this.props;
     return(
-      <li>
-        <Link to={`/list/${list.id}`}>
+
+        <Link className="Mylist-group-item" to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>
           {list.title}
         </Link>
-      </li>
+      
     );
   }
 
