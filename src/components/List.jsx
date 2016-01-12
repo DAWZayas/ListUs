@@ -81,12 +81,12 @@ List.propTypes = {
   lists: PropTypes.array,
   list: PropTypes.object,
   tasks: PropTypes.array,
-  friends: PropTypes.array.isRequired,
-  groups: PropTypes.array.isRequired,
-  onRemoveList: PropTypes.func.isRequired,
-  onEditList: PropTypes.func.isRequired,
-  onAddFriendGroupToList: PropTypes.func.isRequired,
-  onRemoveFriendGroupToList: PropTypes.func.isRequired
+  friends: PropTypes.array,
+  groups: PropTypes.array,
+  onRemoveList: PropTypes.func,
+  onEditList: PropTypes.func,
+  onAddFriendGroupToList: PropTypes.func,
+  onRemoveFriendGroupToList: PropTypes.func
 };
 
 List.defaultProps = {

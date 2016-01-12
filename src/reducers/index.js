@@ -9,6 +9,7 @@ import groups from './groups';
 import user from './user';
 import dataBase from './dataBase';
 import calendar from './calendar';
+import firebase from './firebase';
 
 
 export default combineReducers({
@@ -20,5 +21,6 @@ export default combineReducers({
   user,
   dataBase,
   calendar,
-  router
+  router,
+  firebase
 });

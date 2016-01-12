@@ -26,6 +26,14 @@ export default class Section extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.registerListeners();
+  }
+
+  componentWillUnmount() {
+    this.props.unregisterListeners();
+  }
+
   handleChange(date) {
     this.setState({
       startDate: date
@@ -44,12 +52,12 @@ export default class Section extends Component {
   }
 
   onClickAdd(){
-    const { onAddList } = this.props;
+    const { addList } = this.props;
     const id = getId();
     const title = this.refs.titleDialog.getValue();
     const date = this.state.startDate.format('DD/MM/YYYY');
     const importance = Math.ceil(this.refs.slider.getValue()/0.2);
-    if(this.validationTitle(title)) onAddList(title, date, importance, id);
+    if(this.validationTitle(title)) addList(title, date, importance);
     this._handleCloseDialog();
   }
 
@@ -77,6 +85,7 @@ export default class Section extends Component {
   }
 
   render() {
+
     let customActions = [
       <FlatButton
         label="Cancel"
@@ -87,11 +96,13 @@ export default class Section extends Component {
         primary
         onClick={() => this.onClickAdd()} />
     ];
+    debugger;
     const {  lists } = this.props;
 
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
     const listsEnd = (sorted === 'Sort By') ? lists : sortArray(lists, key, sorted.split(' ')[1]);
+
     return(
       <article className="article">
         <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} ref="dialog">
@@ -138,17 +149,19 @@ export default class Section extends Component {
 }
 
 Section.propTypes = {
-  lists: PropTypes.array,
+  lists: PropTypes.array.isRequired,
   tasks: PropTypes.object,
-  friends: PropTypes.array.isRequired,
-  groups: PropTypes.array.isRequired,
-  onAddFriendGroupToList: PropTypes.func.isRequired,
-  onAddList: PropTypes.func.isRequired,
-  onRemoveList: PropTypes.func.isRequired,
-  onEditList: PropTypes.func.isRequired,
-  onRemoveFriendGroupToList: PropTypes.func.isRequired
+  friends: PropTypes.array,
+  groups: PropTypes.array,
+  onAddFriendGroupToList: PropTypes.func,
+  addList: PropTypes.func.isRequired,
+  onRemoveList: PropTypes.func,
+  onEditList: PropTypes.func,
+  onRemoveFriendGroupToList: PropTypes.func,
+  registerListeners: PropTypes.func.isRequired,
+  unregisterListeners: PropTypes.func.isRequired,
 };
 
 Section.defaultProps = {
-  lists: []
+
 };

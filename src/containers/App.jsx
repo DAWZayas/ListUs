@@ -13,14 +13,13 @@ export default class App extends Component {
   }
 
   render() {
-    return (!objIsEmpty(this.props.user))
-      ?(
+    
+    return (
         <div>
           <HeaderContainer />
           {this.props.children}
         </div>
-      )
-      : <Enter />;
+      );
   }
 }
 

@@ -10,6 +10,6 @@ const createStoreWithMiddleware = compose(
   reduxReactRouter({ routes, createHistory })
 )(createStore);
 
-export default function configureStore(initialState = {}) {
-  return createStoreWithMiddleware(reducer, initialState);
+export default function configureStore(initialState) {
+  return createStoreWithMiddleware(reducer, initialState || { firebase: new Firebase(FIREBASE_URL) });
 }
