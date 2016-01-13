@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
-import { addList, removeList, editList, addFriendGroupToList, removeFriendGroupToList } from '../actions';
+import { removeList, editList, addFriendGroupToList, removeFriendGroupToList } from '../actions';
 import Section from '../components/Section';
+import * as listActions from '../actions/list';
 
 function mapStateToProps(state){
   return {
@@ -11,17 +12,18 @@ function mapStateToProps(state){
   };
 }
 
-function mapActionsToProps(dispatch){
+/*function mapActionsToProps(dispatch){
 	return {
-		onAddList: (title, date, importance, id) => dispatch(addList(title, date, importance, id)),
+    onAddList,
+    //onAddList: (title, date, importance, id) => dispatch(addList(title, date, importance, id)),
     onRemoveList: (id, title, date) => dispatch(removeList(id, title, date)),
     onEditList: ( idList, title, date, newDate, importance ) => dispatch(editList( idList, title, date, newDate, importance )),
     onAddFriendGroupToList: (idList, idParticipant) => dispatch(addFriendGroupToList(idList, idParticipant)),
     onRemoveFriendGroupToList: (idList, idParticipant) => dispatch(removeFriendGroupToList(idList, idParticipant))
 	};
-}
+}*/
 
 export default connect(
 	mapStateToProps,
-	mapActionsToProps
+	listActions
 )(Section);

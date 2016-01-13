@@ -1,0 +1,7 @@
+export const SET_LIST = 'SET_LIST';
+export const ADD_LIST = 'ADD_LIST';
+export const REMOVE_LIST = 'REMOVE_LIST';
+export const EDIT_LIST = 'EDIT_LIST';
+export const ADD_FRIEND_OR_GROUP_TO_LIST = 'ADD_FRIEND_OR_GROUP_TO_LIST';
+export const REMOVE_FRIEND_OR_GROUP_TO_LIST = 'REMOVE_FRIEND_OR_GROUP_TO_LIST';
+export const ADD_LIST_ERROR = 'ADD_POLL_ERROR';

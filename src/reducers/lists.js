@@ -5,7 +5,7 @@ function setList(state, list) {
   return list.slice();
 }
 
-function addList( state, title, date, importance, id ){
+/*function addList( state, title, date, importance, id ){
   return state.concat({
     id,
     'title': title,
@@ -13,7 +13,7 @@ function addList( state, title, date, importance, id ){
     'date': date,
     'importance': importance
   });
-}
+}*/
 
 function removeList( state, idList ){
   return state.filter( list => list.id !== idList );

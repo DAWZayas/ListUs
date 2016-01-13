@@ -109,12 +109,7 @@ export function setAsDone(idTask){
 * list action creator
 */
 
-export function setList(list){
-  return { type: SET_LIST, list};
-}
-export function addList(title, date, importance, id){
-  return { type: ADD_LIST, title, date, importance, id };
-}
+
 export function removeList(idList, title, date){
   return { type: REMOVE_LIST, idList, title, date };
 }
@@ -132,21 +127,6 @@ export function removeListAndNavigate(idList, title, date) {
       () => dispatch(removeList(idList, title, date)),
       () => dispatch(pushState(null, '/'))
     ]);
-}
-/*
-* visibility aside action creator
-*/
-
-export function displayAside(display){
-  return { type: DISPLAY_ASIDE, display };
-}
-
-/*
-* visibility calendar action creator
-*/
-
-export function displayCalendar(display){
-  return { type: DISPLAY_CALENDAR, display };
 }
 
 
