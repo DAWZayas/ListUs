@@ -1,1 +1,2 @@
-export const FIREBASE_URL='https://listus.firebaseio.com';
+
+export const FIREBASE_URL = 'https://listus.firebaseio.com';

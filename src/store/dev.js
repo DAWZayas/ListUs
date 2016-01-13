@@ -17,9 +17,7 @@ const createStoreWithMiddleware = compose(
 )(createStore);
 
 export default function configureStore(initialState) {
-
-  const store = createStoreWithMiddleware(reducer,
-    initialState || { firebase: new Firebase(FIREBASE_URL)});
+  const store = createStoreWithMiddleware(reducer, initialState || { firebase: new Firebase(FIREBASE_URL) });
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers

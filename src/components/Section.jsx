@@ -26,6 +26,14 @@ export default class Section extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.registerListeners();
+  }
+
+  componentWillUnmount() {
+    this.props.unregisterListeners();
+  }
+
   handleChange(date) {
     this.setState({
       startDate: date
@@ -44,12 +52,12 @@ export default class Section extends Component {
   }
 
   onClickAdd(){
-    const { onAddList } = this.props;
+    const { addList } = this.props;
     const id = getId();
     const title = this.refs.titleDialog.getValue();
     const date = this.state.startDate.format('DD/MM/YYYY');
     const importance = Math.ceil(this.refs.slider.getValue()/0.2);
-    if(this.validationTitle(title)) onAddList(title, date, importance, id);
+    if(this.validationTitle(title)) addList(title, date, importance);
     this._handleCloseDialog();
   }
 
@@ -77,6 +85,7 @@ export default class Section extends Component {
   }
 
   render() {
+
     let customActions = [
       <FlatButton
         label="Cancel"
@@ -87,11 +96,13 @@ export default class Section extends Component {
         primary
         onClick={() => this.onClickAdd()} />
     ];
+
     const {  lists } = this.props;
 
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
     const listsEnd = (sorted === 'Sort By') ? lists : sortArray(lists, key, sorted.split(' ')[1]);
+
     return(
       <article className="article">
         <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} ref="dialog">
@@ -116,14 +127,11 @@ export default class Section extends Component {
                 <List
                   list={list}
                   lists={this.props.lists}
-                  friends={this.props.friends}
-                  groups={this.props.groups}
-                  tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
-                  key={index}
-                  onAddFriendGroupToList={this.props.onAddFriendGroupToList}
-                  onRemoveList={this.props.onRemoveList}
-                  onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
-                  onEditList={this.props.onEditList} />
+
+
+
+                  registerListeners={this.props.registerListeners}
+                  unregisterListeners={this.props.unregisterListeners} />
                 : '' )
             }
         </div>
@@ -138,17 +146,27 @@ export default class Section extends Component {
 }
 
 Section.propTypes = {
-  lists: PropTypes.array,
-  tasks: PropTypes.object,
+  lists: PropTypes.array.isRequired,
+  /*tasks: PropTypes.object,
   friends: PropTypes.array,
   groups: PropTypes.array,
   onAddFriendGroupToList: PropTypes.func,
-  onAddList: PropTypes.func,
+  addList: PropTypes.func.isRequired,
   onRemoveList: PropTypes.func,
   onEditList: PropTypes.func,
-  onRemoveFriendGroupToList: PropTypes.func
+  onRemoveFriendGroupToList: PropTypes.func,*/
+  registerListeners: PropTypes.func.isRequired,
+  unregisterListeners: PropTypes.func.isRequired
 };
 
 Section.defaultProps = {
-  lists: []
+
 };
+/*friends={this.props.friends}
+groups={this.props.groups}
+tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
+key={index}
+onAddFriendGroupToList={this.props.onAddFriendGroupToList}
+onRemoveList={this.props.onRemoveList}
+onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
+onEditList={this.props.onEditList}*/

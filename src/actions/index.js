@@ -16,7 +16,7 @@ export const SET_AS_DONE = 'SET_AS_DONE';
 * LIST
 */
 
-export const SET_LIST = 'SET_LIST';
+
 export const ADD_LIST = 'ADD_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const EDIT_LIST = 'EDIT_LIST';

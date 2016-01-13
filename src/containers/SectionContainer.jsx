@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
-import { removeList, editList, addFriendGroupToList, removeFriendGroupToList } from '../actions';
+import * as listsActions from '../actions/lists';
+//import { addList, removeList, editList, addFriendGroupToList, removeFriendGroupToList } from '../actions';
+
 import Section from '../components/Section';
 import * as listActions from '../actions/list';
 
-function mapStateToProps(state){
+/*function mapStateToProps(state){
   return {
-    lists: state.lists,
-    tasks: state.tasks,
-    friends: state.friends,
-    groups: state.groups
+    lists: state.lists
   };
 }
 
@@ -24,6 +23,6 @@ function mapStateToProps(state){
 }*/
 
 export default connect(
-	mapStateToProps,
-	listActions
+	state => ({ lists: state.lists }),
+	listsActions
 )(Section);
