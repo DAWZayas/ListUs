@@ -24,15 +24,11 @@ export default class ListsEdit extends Component{
 
 
 	componentWillMount() {
-    this.props.registerListeners();
 		this.setState({
 			startDate: moment(this.props.list.date, 'DD/MM/YYYY')
 		});
   }
 
-  componentWillUnmount() {
-    this.props.unregisterListeners();
-  }
 	/* EDIT LIST */
 
 	changeImportance(){
@@ -143,8 +139,8 @@ export default class ListsEdit extends Component{
 
 /* REMOVE LIST */
 	onClickRemove(){
-		const { list, onRemoveList} = this.props;
-		onRemoveList(list.id, list.title, list.date );
+		const { list, removeList} = this.props;
+		removeList(list.id, list.title, list.date );
 		this._handleCloseDialog();
 	}
 /* REMOVE PARTICIPANT FROM LIST */
@@ -299,9 +295,11 @@ export default class ListsEdit extends Component{
 ListsEdit.propTypes = {
 	lists: PropTypes.array,
 	list: PropTypes.object,
+	removeList: PropTypes.func,
+	onEditList: PropTypes.func,
 	/*friends: PropTypes.array,
   groups: PropTypes.array,
-	onEditList: PropTypes.func,
+
 	onRemoveList: PropTypes.func,
 	onAddFriendGroupToList: PropTypes.func,
 	onRemoveFriendGroupToList: PropTypes.func,*/

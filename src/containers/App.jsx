@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import HeaderContainer from './HeaderContainer';
-import Enter from '../components/Enter';
 
-import { objIsEmpty } from '../utils/functions';
 
 
 export default class App extends Component {

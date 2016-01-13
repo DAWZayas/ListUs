@@ -1,4 +1,4 @@
-import { SET_LIST } from './action-types';
+import { SET_LISTS } from './action-types';
 
 export function registerListeners(){
   return (dispatch, getState) => {
@@ -6,10 +6,12 @@ export function registerListeners(){
     const ref = firebase.child('lists');
 
     ref.on('value', snapshot => {dispatch({
-      type: SET_LIST,
-      lists: Object.keys(snapshot.val() || []).reduce( (init, id) =>
-        init.concat({id, title:snapshot.val()[id].title, importance:snapshot.val()[id].importance, date:snapshot.val()[id].date, participants:snapshot.val()[id].participants}), [])
-    })});
+      type: SET_LISTS,
+      lists: Object.keys(snapshot.val() || [])
+        .reduce( (init, id) =>
+          init.concat({id, title:snapshot.val()[id].title, importance:snapshot.val()[id].importance, date:snapshot.val()[id].date, participants:snapshot.val()[id].participants}), [])
+      });
+    });
   };
 }
 
@@ -19,7 +21,7 @@ export function unregisterListeners(){
     const ref = firebase.child('lists');
     ref.off();
     dispatch({
-      type: SET_LIST,
+      type: SET_LISTS,
       lists: []
     });
   };

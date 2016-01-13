@@ -3,7 +3,7 @@ import List from '../components/List';
 
 import SectionHeader from './SectionHeader';
 import { menuItems, sortArray } from '../utils/functions';
-import { getId } from '../utils';
+
 
 
 import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
@@ -53,7 +53,6 @@ export default class Section extends Component {
 
   onClickAdd(){
     const { addList } = this.props;
-    const id = getId();
     const title = this.refs.titleDialog.getValue();
     const date = this.state.startDate.format('DD/MM/YYYY');
     const importance = Math.ceil(this.refs.slider.getValue()/0.2);
@@ -125,10 +124,11 @@ export default class Section extends Component {
             {
               listsEnd.map( (list, index) => index<this.state.numberOfList ?
                 <List
+                  key={index}
                   list={list}
                   lists={this.props.lists}
-
-
+                  removeList={this.props.removeList}
+                  onEditList={this.props.editList}
 
                   registerListeners={this.props.registerListeners}
                   unregisterListeners={this.props.unregisterListeners} />
@@ -147,13 +147,16 @@ export default class Section extends Component {
 
 Section.propTypes = {
   lists: PropTypes.array.isRequired,
+  addList: PropTypes.func.isRequired,
+  removeList: PropTypes.func.isRequired,
+  editList: PropTypes.func,
   /*tasks: PropTypes.object,
   friends: PropTypes.array,
   groups: PropTypes.array,
   onAddFriendGroupToList: PropTypes.func,
   addList: PropTypes.func.isRequired,
-  onRemoveList: PropTypes.func,
-  onEditList: PropTypes.func,
+
+
   onRemoveFriendGroupToList: PropTypes.func,*/
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired

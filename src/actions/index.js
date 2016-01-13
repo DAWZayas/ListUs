@@ -17,8 +17,6 @@ export const SET_AS_DONE = 'SET_AS_DONE';
 */
 
 
-export const ADD_LIST = 'ADD_LIST';
-export const REMOVE_LIST = 'REMOVE_LIST';
 export const EDIT_LIST = 'EDIT_LIST';
 export const ADD_FRIEND_OR_GROUP_TO_LIST = 'ADD_FRIEND_OR_GROUP_TO_LIST';
 export const REMOVE_FRIEND_OR_GROUP_TO_LIST = 'REMOVE_FRIEND_OR_GROUP_TO_LIST';
@@ -111,9 +109,6 @@ export function setAsDone(idTask){
 
 
 
-export function removeList(idList, title, date){
-  return { type: REMOVE_LIST, idList, title, date };
-}
 export function editList( idList, title, date, newDate, importance ){
   return { type: EDIT_LIST, idList, title, date, newDate, importance };
 }

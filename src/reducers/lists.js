@@ -1,6 +1,5 @@
-import {   REMOVE_LIST, EDIT_LIST, ADD_FRIEND_OR_GROUP_TO_LIST, REMOVE_FRIEND_OR_GROUP_TO_LIST } from '../actions';
+import { SET_LISTS } from '../actions/lists';
 
-import { SET_LIST } from '../actions/lists';
 function setList(state, lists) {
   return lists.slice();
 }
@@ -14,7 +13,7 @@ function setList(state, lists) {
     'importance': importance
   });
 }
-*/
+
 function removeList( state, idList ){
   return state.filter( list => list.id !== idList );
 }
@@ -31,21 +30,15 @@ function removeFriendGroupToList(state, idList, idPaticipant){
   return state.map( list => list.id===idList ? Object.assign( {}, list, {participants:list.participants.filter(item => idPaticipant!==item.id)}) : list);
 }
 
-
+*/
 export default function listReducer( state = [], action){
   switch (action.type) {
-    case SET_LIST:
+    case SET_LISTS:
   		return setList(state, action.lists);
     /*case ADD_LIST:
-      return addList(state, action.title, action.date, action.importance, action.id);*/
+      return addList(state, action.title, action.date, action.importance, action.id);
     case REMOVE_LIST:
-      return removeList(state, action.idList);
-    case EDIT_LIST:
-      return editList(state, action.idList, action.title, action.newDate, action.importance);
-    case ADD_FRIEND_OR_GROUP_TO_LIST:
-      return addFriendGroupToList(state, action.idList, action.id);
-    case REMOVE_FRIEND_OR_GROUP_TO_LIST:
-      return removeFriendGroupToList(state, action.idList, action.idPaticipant);
+      return removeList(state, action.idList);*/
     default:
       return state;
   }

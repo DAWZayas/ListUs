@@ -1,3 +1,4 @@
-export const SET_LIST = 'SET_LIST';
+export const SET_LISTS = 'SET_LISTS';
 export const ADD_LIST_ERROR = 'ADD_LIST_ERROR';
 export const REMOVE_LIST_ERROR = 'REMOVE_LIST_ERROR';
+export const EDIT_LIST_ERROR = 'EDIT_LIST_ERROR';
