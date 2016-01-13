@@ -20,6 +20,6 @@ import Section from '../components/Section';
 }*/
 
 export default connect(
-	state =>({ lists: state }),
+	state => ({ lists: state.lists }),
 	listsActions
 )(Section);

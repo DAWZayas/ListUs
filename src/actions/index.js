@@ -16,7 +16,7 @@ export const SET_AS_DONE = 'SET_AS_DONE';
 * LIST
 */
 
-export const SET_LIST = 'SET_LIST';
+
 export const ADD_LIST = 'ADD_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const EDIT_LIST = 'EDIT_LIST';
@@ -109,12 +109,8 @@ export function setAsDone(idTask){
 * list action creator
 */
 
-export function setList(list){
-  return { type: SET_LIST, list};
-}
-export function addList(title, date, importance, id){
-  return { type: ADD_LIST, title, date, importance, id };
-}
+
+
 export function removeList(idList, title, date){
   return { type: REMOVE_LIST, idList, title, date };
 }

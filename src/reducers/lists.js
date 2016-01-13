@@ -1,6 +1,6 @@
-import { SET_LIST, ADD_LIST, REMOVE_LIST, EDIT_LIST, ADD_FRIEND_OR_GROUP_TO_LIST, REMOVE_FRIEND_OR_GROUP_TO_LIST } from '../actions';
+import {   REMOVE_LIST, EDIT_LIST, ADD_FRIEND_OR_GROUP_TO_LIST, REMOVE_FRIEND_OR_GROUP_TO_LIST } from '../actions';
 
-
+import { SET_LIST } from '../actions/lists';
 function setList(state, lists) {
   return lists.slice();
 }
@@ -35,7 +35,7 @@ function removeFriendGroupToList(state, idList, idPaticipant){
 export default function listReducer( state = [], action){
   switch (action.type) {
     case SET_LIST:
-  		return setList(state, action.list);
+  		return setList(state, action.lists);
     /*case ADD_LIST:
       return addList(state, action.title, action.date, action.importance, action.id);*/
     case REMOVE_LIST:

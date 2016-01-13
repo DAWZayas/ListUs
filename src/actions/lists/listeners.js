@@ -5,11 +5,11 @@ export function registerListeners(){
     const { firebase } = getState();
     const ref = firebase.child('lists');
 
-    ref.on('value', snapshot => dispatch({
+    ref.on('value', snapshot => {dispatch({
       type: SET_LIST,
-      lists: Object.keys(snapshot.val() || []).map( id => (
-        {id, title:snapshot.val()[id].title, importance:snapshot.val()[id].importance, date:snapshot.val()[id].date, participants:snapshot.val()[id].participants}))
-    }));
+      lists: Object.keys(snapshot.val() || []).reduce( (init, id) =>
+        init.concat({id, title:snapshot.val()[id].title, importance:snapshot.val()[id].importance, date:snapshot.val()[id].date, participants:snapshot.val()[id].participants}), [])
+    })});
   };
 }
 

@@ -96,7 +96,7 @@ export default class Section extends Component {
         primary
         onClick={() => this.onClickAdd()} />
     ];
-    debugger;
+
     const {  lists } = this.props;
 
     const { sorted } = this.state;
@@ -127,14 +127,11 @@ export default class Section extends Component {
                 <List
                   list={list}
                   lists={this.props.lists}
-                  friends={this.props.friends}
-                  groups={this.props.groups}
-                  tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
-                  key={index}
-                  onAddFriendGroupToList={this.props.onAddFriendGroupToList}
-                  onRemoveList={this.props.onRemoveList}
-                  onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
-                  onEditList={this.props.onEditList} />
+
+
+
+                  registerListeners={this.props.registerListeners}
+                  unregisterListeners={this.props.unregisterListeners} />
                 : '' )
             }
         </div>
@@ -150,18 +147,26 @@ export default class Section extends Component {
 
 Section.propTypes = {
   lists: PropTypes.array.isRequired,
-  tasks: PropTypes.object,
+  /*tasks: PropTypes.object,
   friends: PropTypes.array,
   groups: PropTypes.array,
   onAddFriendGroupToList: PropTypes.func,
   addList: PropTypes.func.isRequired,
   onRemoveList: PropTypes.func,
   onEditList: PropTypes.func,
-  onRemoveFriendGroupToList: PropTypes.func,
+  onRemoveFriendGroupToList: PropTypes.func,*/
   registerListeners: PropTypes.func.isRequired,
-  unregisterListeners: PropTypes.func.isRequired,
+  unregisterListeners: PropTypes.func.isRequired
 };
 
 Section.defaultProps = {
 
 };
+/*friends={this.props.friends}
+groups={this.props.groups}
+tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
+key={index}
+onAddFriendGroupToList={this.props.onAddFriendGroupToList}
+onRemoveList={this.props.onRemoveList}
+onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
+onEditList={this.props.onEditList}*/

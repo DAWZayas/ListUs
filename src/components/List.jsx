@@ -12,6 +12,14 @@ export default class List extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.registerListeners();
+  }
+
+  componentWillUnmount() {
+    this.props.unregisterListeners();
+  }
+
   handleOnClickEdit(e){
     e.stopPropagation();
     this.refs.dialogEdit.dismiss();
@@ -44,7 +52,8 @@ export default class List extends Component {
 
   render() {
 
-    const { list, tasks, onEditList, onRemoveList, onAddFriendGroupToList, lists, groups, friends, onRemoveFriendGroupToList } = this.props;
+    const { list, lists} = this.props;
+    const tasks = [];
     return(
     <div>
       <div className={`${this.state.isModifyList ? 'hidden' : 'row list listNotCompleted'}`}>
@@ -57,12 +66,11 @@ export default class List extends Component {
             <ListsEdit
               list={list}
               lists={lists}
-              friends={friends}
-              groups={groups}
-              onEditList={onEditList}
-              onRemoveList={onRemoveList}
-              onRemoveFriendGroupToList={onRemoveFriendGroupToList}
-              onAddFriendGroupToList={onAddFriendGroupToList} />
+
+
+
+              registerListeners={this.props.registerListeners}
+              unregisterListeners={this.props.unregisterListeners} />
           <span className="dateBtn pull-right btn btn-default">{list.date}</span>
 
         </div>
@@ -80,15 +88,27 @@ export default class List extends Component {
 List.propTypes = {
   lists: PropTypes.array,
   list: PropTypes.object,
-  tasks: PropTypes.array,
+  /*tasks: PropTypes.array,
   friends: PropTypes.array,
   groups: PropTypes.array,
   onRemoveList: PropTypes.func,
   onEditList: PropTypes.func,
   onAddFriendGroupToList: PropTypes.func,
-  onRemoveFriendGroupToList: PropTypes.func
+  onRemoveFriendGroupToList: PropTypes.func,*/
+  registerListeners: PropTypes.func.isRequired,
+  unregisterListeners: PropTypes.func.isRequired
 };
 
 List.defaultProps = {
-  list: {}
+
 };
+/*, tasks, onEditList, onRemoveList, onAddFriendGroupToList*/
+/*, groups, friends, onRemoveFriendGroupToList} */
+
+
+/*friends={friends}
+groups={groups}
+onEditList={onEditList}
+onRemoveList={onRemoveList}
+onRemoveFriendGroupToList={onRemoveFriendGroupToList}
+onAddFriendGroupToList={onAddFriendGroupToList}*/
