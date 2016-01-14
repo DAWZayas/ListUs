@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import * as listsActions from '../actions/lists';
+import * as listsTasksActions from '../actions/sectionActions';
+
 //import { addList, removeList, editList, addFriendGroupToList, removeFriendGroupToList } from '../actions';
 import Section from '../components/Section';
 
@@ -22,6 +23,6 @@ import Section from '../components/Section';
 }*/
 
 export default connect(
-	state => ({ lists: state.lists }),
-	listsActions
+	state => ({ lists: state.lists, tasks: state.tasks }),
+	listsTasksActions
 )(Section);

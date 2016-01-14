@@ -1,0 +1,4 @@
+export const SET_TASKS = 'SET_TASKS';
+export const ADD_TASKS_ERROR = 'ADD_TASKS_ERROR';
+export const REMOVE_TASKS_ERROR = 'REMOVE_TASKS_ERROR';
+export const EDIT_TASKS_ERROR = 'EDIT_TASKS_ERROR';

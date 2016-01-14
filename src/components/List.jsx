@@ -17,8 +17,8 @@ export default class List extends Component {
 
   render() {
 
-    const { list, lists} = this.props;
-    const tasks = [];
+    const { list, lists, tasks} = this.props;
+    var newTasks = tasks===undefined ? [] : tasks;
     return(
     <div>
       <div className="row list listNotCompleted">
@@ -27,7 +27,7 @@ export default class List extends Component {
           <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
         </div>
         <div className="col-xs-8" >
-          <span className="badge My-badge">{tasks.filter(task => task.done===false).length}/{tasks.length}</span>
+          <span className="badge My-badge">{newTasks.filter(task => task.done===false).length}/{newTasks.length}</span>
             <ListsEdit
               list={list}
               lists={lists}
@@ -55,8 +55,8 @@ List.propTypes = {
   list: PropTypes.object,
   removeList: PropTypes.func,
   onEditList: PropTypes.func,
-  /*tasks: PropTypes.array,
-  friends: PropTypes.array,
+  tasks: PropTypes.array,
+  /*friends: PropTypes.array,
   groups: PropTypes.array,
   onRemoveList: PropTypes.func,
 
@@ -69,7 +69,7 @@ List.propTypes = {
 List.defaultProps = {
 
 };
-/*, tasks, onEditList, onRemoveList, onAddFriendGroupToList*/
+/* onEditList, onRemoveList, onAddFriendGroupToList*/
 /*, groups, friends, onRemoveFriendGroupToList} */
 
 

@@ -84,7 +84,7 @@ export default class Section extends Component {
   }
 
   render() {
-
+    
     let customActions = [
       <FlatButton
         label="Cancel"
@@ -101,7 +101,6 @@ export default class Section extends Component {
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
     const listsEnd = (sorted === 'Sort By') ? lists : sortArray(lists, key, sorted.split(' ')[1]);
-
     return(
       <article className="article">
         <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} ref="dialog">
@@ -129,7 +128,7 @@ export default class Section extends Component {
                   lists={this.props.lists}
                   removeList={this.props.removeList}
                   onEditList={this.props.editList}
-
+                  tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
                   registerListeners={this.props.registerListeners}
                   unregisterListeners={this.props.unregisterListeners} />
                 : '' )
@@ -146,11 +145,12 @@ export default class Section extends Component {
 }
 
 Section.propTypes = {
-  lists: PropTypes.array.isRequired,
-  addList: PropTypes.func.isRequired,
-  removeList: PropTypes.func.isRequired,
+  lists: PropTypes.array,
+  addList: PropTypes.func,
+  removeList: PropTypes.func,
   editList: PropTypes.func,
-  /*tasks: PropTypes.object,
+  tasks: PropTypes.object,
+  /*
   friends: PropTypes.array,
   groups: PropTypes.array,
   onAddFriendGroupToList: PropTypes.func,
@@ -163,7 +163,7 @@ Section.propTypes = {
 };
 
 Section.defaultProps = {
-
+lists: []
 };
 /*friends={this.props.friends}
 groups={this.props.groups}

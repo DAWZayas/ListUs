@@ -1,6 +1,7 @@
 import { SET_LISTS } from '../actions/lists';
 
 function setList(state, lists) {
+
   return lists.slice();
 }
 
@@ -14,7 +15,7 @@ function setList(state, lists) {
   });
 }*/
 
-
+/*
 function removeList( state, idList ){
   return state.filter( list => list.id !== idList );
 }
@@ -30,7 +31,7 @@ function addFriendGroupToList(state, idList, id){
 function removeFriendGroupToList(state, idList, idPaticipant){
   return state.map( list => list.id===idList ? Object.assign( {}, list, {participants:list.participants.filter(item => idPaticipant!==item.id)}) : list);
 }
-
+*/
 
 export default function listReducer( state = [], action){
   switch (action.type) {

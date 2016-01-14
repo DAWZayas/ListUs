@@ -1,10 +1,12 @@
-import {  SET_TASK, ADD_TASK, REMOVE_TASK, EDIT_TASK, ADD_FRIEND_OR_GROUP_TO_TASK } from '../actions';
-import { getId } from '../utils';
+//import {  SET_TASK, ADD_TASK, REMOVE_TASK, EDIT_TASK, ADD_FRIEND_OR_GROUP_TO_TASK } from '../actions';
+//import { getId } from '../utils';
+import { SET_TASKS } from '../actions/tasks';
 
-function setTask(state, task){
-    return Object.assign({}, task);
+function setTask(state, tasks){
+  debugger;
+    return Object.assign({}, tasks);
 }
-
+/*
 
 function addTask(state, idList, title){
   const id = getId();
@@ -40,19 +42,19 @@ function addFriendGroupToTask(state, idTask, id){
   return Object.assign({}, state, newTask);
   //return Object.values(state).reduce( (tasks, task) => task.id===idTask ? Object.assign(tasks, {[task.id]:{id: task.id, idList: task.idList, title: task.title, participants: task.participants.concat(id)}}) : Object.assign( tasks, { [task.id]: task} ) ,{});
 }
-
+*/
 export default function taskReducer( state = {}, action){
   switch (action.type) {
-    case SET_TASK:
-      return setTask(state, action.task);
-    case ADD_TASK:
+    case SET_TASKS:
+      return setTask(state, action.tasks);
+    /*case ADD_TASK:
       return addTask(state, action.idList, action.title);
     case REMOVE_TASK:
       return removeTask(state, action.idTask);
     case EDIT_TASK:
       return editTask(state, action.idTask, action.title);
     case ADD_FRIEND_OR_GROUP_TO_TASK:
-      return addFriendGroupToTask(state, action.idTask, action.id);
+      return addFriendGroupToTask(state, action.idTask, action.id);*/
     default:
       return state;
   }

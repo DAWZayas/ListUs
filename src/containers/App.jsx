@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import HeaderContainer from './HeaderContainer';
+//import Enter from '../components/Enter';
 
+//import { objIsEmpty } from '../utils/functions';
 
 
 export default class App extends Component {
@@ -11,12 +13,13 @@ export default class App extends Component {
   }
 
   render() {
-    return (
+    return(
         <div>
           <HeaderContainer />
           {this.props.children}
         </div>
       );
+
   }
 }
 
@@ -25,7 +28,7 @@ App.propTypes = {
   children: PropTypes.node,
   user: PropTypes.object
 };
-
+ //return (!objIsEmpty(this.props.user)) ?( <div> <HeaderContainer /> {this.props.children} </div> ) : <Enter />; } }
 
 function mapStateToProps(state) {
   return {

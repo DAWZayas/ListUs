@@ -1,6 +1,7 @@
 import { SET_LISTS } from './action-types';
 
 export function registerListeners(){
+
   return (dispatch, getState) => {
     const { firebase } = getState();
     const ref = firebase.child('lists');
