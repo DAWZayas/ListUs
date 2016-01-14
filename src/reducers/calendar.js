@@ -1,11 +1,11 @@
 import { ADD_LIST, REMOVE_LIST, EDIT_LIST } from '../actions';
 
-const months = [ '', 'Enero', 'Febrero',
+/*const months = [ '', 'Enero', 'Febrero',
 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ];
 
 
-function returnActualDates(objectToIterate, dateToCheck){
+/*function returnActualDates(objectToIterate, dateToCheck){
 
   let actualDate = {};
 
@@ -24,9 +24,9 @@ function returnActualDates(objectToIterate, dateToCheck){
   return actualDate;
 
 }
+*/
 
-
-function addDate(state, title, date, importance, id){
+/*function addDate(state, title, date, importance, id){
 
   let day = date.split('/')[0];
 
@@ -51,17 +51,17 @@ function addDate(state, title, date, importance, id){
   };
 
 	/* Get year */
-	let actualYear = returnActualDates(state, year);
+	//let actualYear = returnActualDates(state, year);
 
 	/* Get month */
 
-	let actualMonth = returnActualDates(actualYear, monthName);
+	//let actualMonth = returnActualDates(actualYear, monthName);
 
 	/* Get day */
 
-	let actualDay = returnActualDates(actualMonth, day);
+	//let actualDay = returnActualDates(actualMonth, day);
 
-
+/*
   if(Object.keys(actualDay).length === 0){
 	  actualMonth[day] = [taskObject];
 	}else{
@@ -69,7 +69,7 @@ function addDate(state, title, date, importance, id){
 	}
 
   return state;
-}
+}*/
 
 
 function removeDate(state, title, date) {
