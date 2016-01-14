@@ -89,7 +89,7 @@ export default class Groups extends Component {
 	/* Remove group */
 	handleClickRemoveGroup(id){
 		this.refs.dialogEdit.dismiss();
-		this.props.onRemoveGroup(id);
+		this.props.removeGroup(id);
 	}
 
 	/* Remove friend */
@@ -107,7 +107,7 @@ export default class Groups extends Component {
 	handleClickEditGroup(ref, value){
 		const fixedValue = value.trim();
 		if(arrayPositionByObjectKey('name', fixedValue, this.props.groups) === -1 && fixedValue !== ''){
-			this.props.onEditGroup(ref, fixedValue);
+			this.props.editGroup(ref, fixedValue);
 			this.handleHideEdit();
 		}
 		else this.setState({error: 'Group\'s name already exists.'});

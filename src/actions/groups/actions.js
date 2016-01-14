@@ -7,8 +7,8 @@ export function setGroups(groups){
 export function addGroup(name){
   return (dispatch, getState) => {
     const { firebase } = getState();
-    //debugger;
-    firebase.child('groups').push({name, showFriends: false
+    firebase.child('groups').push({name, showFriends: false,
+       administrator: '0', friends: []
      }, error => {
         if(error){
           console.error('ERROR @ addGroup:', error);
@@ -21,21 +21,35 @@ export function addGroup(name){
   };
 }
 
-/*export function removeGroup(id){
+export function removeGroup(id){
   return (dispatch, getState) => {
     const { firebase } = getState();
-    firebase.child('groups').push({name, showFriends: false
-     }, error => {
+    firebase.child('groups').child(id).remove(
+     error => {
         if(error){
-          console.error('ERROR @ addGroup:', error);
+          console.error('ERROR @ removeGroup:', error);
           dispatch({
-            type: ADD_GROUP_ERROR,
+            type: REMOVE_GROUP_ERROR,
             payload: error,
         });
         }
     });
   };
-}*/
+}
 
+export function editGroup(id, name){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    firebase.child('groups').child(id).child('name').set(name,
+     error => {
+        if(error){
+          console.error('ERROR @ editGroup:', error);
+          dispatch({
+            type: EDIT_GROUP_ERROR,
+            payload: error,
+        });
+        }
+    });
+  };
+}
 
-//const removeGroup = (state, id) => state.slice().filter(group => group['id'] !== id);
