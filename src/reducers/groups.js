@@ -1,14 +1,13 @@
-import { SET_GROUPS, ADD_GROUP, REMOVE_GROUP, EDIT_GROUP, SHOW_GROUP_FRIENDS, ADD_FRIEND_GROUP, REMOVE_FRIEND_GROUP, CHANGE_GROUP_ADMIN } from '../actions';
+import { EDIT_GROUP, SHOW_GROUP_FRIENDS, ADD_FRIEND_GROUP, REMOVE_FRIEND_GROUP, CHANGE_GROUP_ADMIN } from '../actions';
 import { arrayPositionByObjectKey } from '../utils/functions';
 import { getId } from '../utils';
-
+import { SET_GROUPS } from '../actions/groups';
 
 function setGroups(state, groups){
 	return groups.slice();
-
 }
 
-function addGroup(state, name, idUser){
+/*function addGroup(state, name, idUser){
 	var newState = state.slice();
 	return newState.concat(
 		{
@@ -19,13 +18,13 @@ function addGroup(state, name, idUser){
    			administrator: idUser
 		}
 	);
-}
+}*/
 
 function editGroup(state, id, name){
 	return state.map( group => group.id===id ? Object.assign( {}, group, {name}) : group );
 }
 
-const removeGroup = (state, id) => state.slice().filter(group => group['id'] !== id);
+//const removeGroup = (state, id) => state.slice().filter(group => group['id'] !== id);
 
 function showGroupFriends(state, idGroup){
 	return state.map(group => (group.id === idGroup)
@@ -58,12 +57,12 @@ export default function groupsReducer(state = [], action){
 	switch(action.type){
 		case SET_GROUPS:
 			return setGroups(state, action.groups);
-		case ADD_GROUP:
-			return addGroup(state, action.name, action.idUser);
+		/*case ADD_GROUP:
+			return addGroup(state, action.name, action.idUser);*/
 		case EDIT_GROUP:
 			return editGroup(state, action.idGroup, action.name);
-		case REMOVE_GROUP:
-			return removeGroup(state, action.idGroup);
+		/*case REMOVE_GROUP:
+			return removeGroup(state, action.idGroup);*/
 		case SHOW_GROUP_FRIENDS:
 			return showGroupFriends(state, action.idGroup);
 		case ADD_FRIEND_GROUP:

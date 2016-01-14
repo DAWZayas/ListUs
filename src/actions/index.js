@@ -55,9 +55,9 @@ export const REMOVE_FRIEND_GROUP = 'REMOVE_FRIEND_GROUP';
 * GROUPS
 */
 
-export const SET_GROUPS = 'SET_GROUPS';
-export const ADD_GROUP = 'ADD_GROUP';
-export const REMOVE_GROUP = 'REMOVE_GROUP';
+//export const SET_GROUPS = 'SET_GROUPS';
+//export const ADD_GROUP = 'ADD_GROUP';
+//export const REMOVE_GROUP = 'REMOVE_GROUP';
 export const EDIT_GROUP = 'EDIT_GROUP';
 export const SHOW_GROUP_FRIENDS = 'SHOW_GROUP_FRIENDS';
 export const CHANGE_GROUP_ADMIN = 'CHANGE_GROUP_ADMIN';
@@ -106,7 +106,6 @@ export function setAsDone(idTask){
 /*
 * list action creator
 */
-
 
 
 export function editList( idList, title, date, newDate, importance ){
@@ -162,7 +161,7 @@ export function addFriendGroup(idGroup, idFriend){
 * groups actions creator
 */
 
-export function setGroups(groups){
+/*export function setGroups(groups){
   return {
     type: SET_GROUPS, groups
   };
@@ -173,13 +172,13 @@ export function addGroup(name, idUser){
   return {
     type: ADD_GROUP, name, idUser
   };
-}
+}*/
 
-export function removeGroup(idGroup){
+/*export function removeGroup(idGroup){
   return {
     type: REMOVE_GROUP, idGroup
   };
-}
+}*/
 
 export function editGroup(idGroup, name){
   return {

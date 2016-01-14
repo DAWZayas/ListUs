@@ -13,7 +13,5 @@ const createStoreWithMiddleware = compose(
 )(createStore);
 
 export default function configureStore(initialState) {
-
   return createStoreWithMiddleware(reducer, initialState || { firebase: new Firebase(FIREBASE_URL) });
-
 }

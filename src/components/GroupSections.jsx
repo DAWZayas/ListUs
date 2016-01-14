@@ -42,16 +42,18 @@ export default class GroupSections extends Component{
 	}
 
 	groupsOwnAdmin(groups){
-		return groups.filter(group => group.administrator === this.props.user.id);
+		//return groups.filter(group => group.administrator === this.props.user.id);
+		return groups;
 	}
 
 	groupsNoAdmin(groups){
-		return groups.filter(group => group.administrator !== this.props.user.id);
+		//return groups.filter(group => group.administrator !== this.props.user.id);
+		return groups;
+		
 	}
 
 	render(){
 		const { groups, friends, user, that } = this.props;
-
 		return (
 			<Tabs inkBarStyle={{backgroundColor: '#333399', height: '2px'}}>
 			  <Tab ref="total" label="Total Groups" value="totalGroups" style={{backgroundColor: 'white', color: 'grey', borderColor: 'green'}}
