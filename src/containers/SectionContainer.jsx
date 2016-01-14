@@ -4,7 +4,7 @@ import * as listsActions from '../actions/lists';
 //import { addList, removeList, editList, addFriendGroupToList, removeFriendGroupToList } from '../actions';
 
 import Section from '../components/Section';
-import * as listActions from '../actions/list';
+
 
 /*function mapStateToProps(state){
   return {
