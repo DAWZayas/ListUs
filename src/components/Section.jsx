@@ -146,7 +146,6 @@ export default class Section extends Component {
 }
 
 Section.propTypes = {
-
   lists: PropTypes.array.isRequired,
   addList: PropTypes.func.isRequired,
   removeList: PropTypes.func.isRequired,
@@ -161,7 +160,6 @@ Section.propTypes = {
   onRemoveFriendGroupToList: PropTypes.func,*/
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
-
 };
 
 Section.defaultProps = {

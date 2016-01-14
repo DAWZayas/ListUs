@@ -14,6 +14,7 @@ function setList(state, lists) {
   });
 }*/
 
+
 function removeList( state, idList ){
   return state.filter( list => list.id !== idList );
 }

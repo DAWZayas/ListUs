@@ -12,8 +12,6 @@ import calendar from './calendar';
 import firebase from './firebase';
 
 
-
-
 export default combineReducers({
   lists,
   tasks,
