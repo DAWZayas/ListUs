@@ -53,3 +53,40 @@ export function editGroup(id, name){
   };
 }
 
+
+export function changeGroupAdmin(idFriend, idGroup){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    firebase.child('groups/'+idGroup+'/administrator').set(idFriend,
+     error => {
+        if(error){
+          console.error('ERROR @ changeGroupAdmin:', error);
+          dispatch({
+            type: CHANGE_GROUP_ADMIN_ERROR,
+            payload: error,
+        });
+        }
+    });
+  };
+}
+
+
+/***************************************/
+export function showGroupFriends(idGroup){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    firebase.child('groups/'+idGroup+'/administrator').set(idFriend,
+     error => {
+        if(error){
+          console.error('ERROR @ showGroupFriends:', error);
+          dispatch({
+            type: CHANGE_GROUP_ADMIN_ERROR,
+            payload: error,
+        });
+        }
+    });
+  };
+}
+
+
+

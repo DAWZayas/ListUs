@@ -8,7 +8,7 @@ import * as groupsActions from '../actions/groups';
 function mapStateToProps(state) {
   return {
   	groups: state.groups,
-	//friends: state.friends,
+	friends: state.friends,
 	//user: state.user
   };
 }
