@@ -12,42 +12,16 @@ export default class List extends Component {
     };
   }
 
-  handleOnClickEdit(e){
-    e.stopPropagation();
-    this.refs.dialogEdit.dismiss();
-    this.setState({ isModifyList: true});
-  }
 
-  handleOkClick(e){
-    e.stopPropagation();
-    const newTitle = this.refs.title.value;
-    const { onEditList, list } = this.props;
-    onEditList(list.id, newTitle);
-    this.setState({ isModifyList: false});
-  }
 
-  handleCancelClick(e){
-    e.stopPropagation();
-    this.setState({ isModifyList: false});
-  }
-
-  handleOnClickRemove(e){
-    e.stopPropagation();
-    this.refs.dialogEdit.dismiss();
-    const { list, onRemoveList } = this.props;
-    onRemoveList(list.id, list.title, list.date);
-  }
-
-  handleShowEdit(){
-    this.refs.dialogEdit.show();
-  }
 
   render() {
 
-    const { list, tasks, onEditList, onRemoveList, onAddFriendGroupToList, lists, groups, friends, onRemoveFriendGroupToList } = this.props;
+    const { list, lists} = this.props;
+    const tasks = [];
     return(
     <div>
-      <div className={`${this.state.isModifyList ? 'hidden' : 'row list listNotCompleted'}`}>
+      <div className="row list listNotCompleted">
         <div className="col-xs-1"></div>
         <div className="col-xs-3">
           <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
@@ -57,12 +31,11 @@ export default class List extends Component {
             <ListsEdit
               list={list}
               lists={lists}
-              friends={friends}
-              groups={groups}
-              onEditList={onEditList}
-              onRemoveList={onRemoveList}
-              onRemoveFriendGroupToList={onRemoveFriendGroupToList}
-              onAddFriendGroupToList={onAddFriendGroupToList} />
+              removeList={this.props.removeList}
+              onEditList={this.props.onEditList}
+
+              registerListeners={this.props.registerListeners}
+              unregisterListeners={this.props.unregisterListeners} />
           <span className="dateBtn pull-right btn btn-default">{list.date}</span>
 
         </div>
@@ -80,15 +53,29 @@ export default class List extends Component {
 List.propTypes = {
   lists: PropTypes.array,
   list: PropTypes.object,
-  tasks: PropTypes.array,
-  friends: PropTypes.array.isRequired,
-  groups: PropTypes.array.isRequired,
-  onRemoveList: PropTypes.func.isRequired,
-  onEditList: PropTypes.func.isRequired,
-  onAddFriendGroupToList: PropTypes.func.isRequired,
-  onRemoveFriendGroupToList: PropTypes.func.isRequired
+  removeList: PropTypes.func,
+  onEditList: PropTypes.func,
+  /*tasks: PropTypes.array,
+  friends: PropTypes.array,
+  groups: PropTypes.array,
+  onRemoveList: PropTypes.func,
+
+  onAddFriendGroupToList: PropTypes.func,
+  onRemoveFriendGroupToList: PropTypes.func,*/
+  registerListeners: PropTypes.func.isRequired,
+  unregisterListeners: PropTypes.func.isRequired
 };
 
 List.defaultProps = {
-  list: {}
+
 };
+/*, tasks, onEditList, onRemoveList, onAddFriendGroupToList*/
+/*, groups, friends, onRemoveFriendGroupToList} */
+
+
+/*friends={friends}
+groups={groups}
+
+onRemoveList={onRemoveList}
+onRemoveFriendGroupToList={onRemoveFriendGroupToList}
+onAddFriendGroupToList={onAddFriendGroupToList}*/

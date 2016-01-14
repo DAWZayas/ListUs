@@ -21,11 +21,13 @@ export default class ListsEdit extends Component{
 		};
 	}
 
-	componentWillMount(){
+
+
+	componentWillMount() {
 		this.setState({
-      startDate: moment(this.props.list.date, 'DD/MM/YYYY')
-    });
-	}
+			startDate: moment(this.props.list.date, 'DD/MM/YYYY')
+		});
+  }
 
 	/* EDIT LIST */
 
@@ -137,8 +139,8 @@ export default class ListsEdit extends Component{
 
 /* REMOVE LIST */
 	onClickRemove(){
-		const { list, onRemoveList} = this.props;
-		onRemoveList(list.id, list.title, list.date );
+		const { list, removeList} = this.props;
+		removeList(list.id, list.title, list.date );
 		this._handleCloseDialog();
 	}
 /* REMOVE PARTICIPANT FROM LIST */
@@ -149,7 +151,7 @@ export default class ListsEdit extends Component{
 
 	render(){
 
-		const { list, friends, groups } = this.props;
+		const { list } = this.props;
 		let listOfFriendsAndGroups = [];
 		if(this.state.textToSearch!==''){
 			const listFriends = this.state.toggleFriend ? [].concat(friends.filter( friend => !this.isInTheArray(friend.id, list ))) : [];
@@ -276,11 +278,11 @@ export default class ListsEdit extends Component{
 				<Dialog title="" open={this.state.showDialogAddFriendsAndGroupsList} actions={customActionsManage} ref="dialogManage" onRequestClose={this._handleCloseDialog}>
 					<div className="dialogFriendAndGroupManage" style={{padding: '20px'}}>
 						<h4>Friends and Groups manage {list.title}</h4><br/>
-						<ul >
+						{/*<ul >
 							{
 								list.participants.map( (item, index) => <li key={index}><span className="deleteButtonFriendGroup glyphicon glyphicon-remove" onClick={() => this.handleOnRemoveFriendGroupToList(item.id)}></span>{item.name}</li>)
 							}
-						</ul>
+						</ul>*/}
 					</div>
 				</Dialog>
 			</div>
@@ -293,10 +295,14 @@ export default class ListsEdit extends Component{
 ListsEdit.propTypes = {
 	lists: PropTypes.array,
 	list: PropTypes.object,
-	friends: PropTypes.array,
+	removeList: PropTypes.func,
+	onEditList: PropTypes.func,
+	/*friends: PropTypes.array,
   groups: PropTypes.array,
-	onEditList: PropTypes.func.isRequired,
-	onRemoveList: PropTypes.func.isRequired,
-	onAddFriendGroupToList: PropTypes.func.isRequired,
-	onRemoveFriendGroupToList: PropTypes.func.isRequired
+
+	onRemoveList: PropTypes.func,
+	onAddFriendGroupToList: PropTypes.func,
+	onRemoveFriendGroupToList: PropTypes.func,*/
+	registerListeners: PropTypes.func.isRequired,
+  unregisterListeners: PropTypes.func.isRequired
 };
