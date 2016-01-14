@@ -68,7 +68,8 @@ export default class Groups extends Component {
 	addGroupNonExistent(e, pos, name){
 		if(pos !== -1) this.setState({error: 'Group\'s name already exists.'});
 		else{
-			this.props.onAddGroup(name, this.props.user.id);
+			//this.props.onAddGroup(name, this.props.user.id);
+			this.props.addGroup(name, '0');
 			this.setState({error: '', search: []});
 			this.handleClickDismissDialog(e, 'dialogAddGroup');
 		}
@@ -170,6 +171,14 @@ export default class Groups extends Component {
 		this.refs.dialogEdit.show();
 	}
 
+	 componentWillMount() {
+	    this.props.registerListeners();
+	  }
+
+	  componentWillUnmount() {
+	    this.props.unregisterListeners();
+	  }
+
 
 	render(){
 		const { sorted, groupId } = this.state;
@@ -181,6 +190,8 @@ export default class Groups extends Component {
 			<section>
        			<SectionHeader title="GROUPS" openDialog={() => this.handleClickShowDialog('dialogAddGroup')} menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
        			<GroupSections groups={groups} friends={this.props.friends} user={this.props.user} that={this} />
+
+       		{/*this.props.groups.map(group => <p>Nombre: {group.name}; administrator: {group.administrator}</p>)*/}
 
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
 
@@ -254,11 +265,14 @@ Groups.propTypes= {
 	user: PropTypes.object,
 	groups: PropTypes.array,
 	friends: PropTypes.array,
-	onRemoveGroupFriend: PropTypes.func,
+	/*onRemoveGroupFriend: PropTypes.func,
 	onChangeGroupAdmin: PropTypes.func,
 	onshowGroupFriends: PropTypes.func,
 	onRemoveGroup: PropTypes.func,
 	onEditGroup: PropTypes.func,
 	onAddGroup: PropTypes.func,
-	onAddGroupFriend: PropTypes.func
+	onAddGroupFriend: PropTypes.func,*/
+	registerListeners: PropTypes.func,
+	unregisterListeners: PropTypes.func
+
 };
