@@ -35,6 +35,7 @@ export function registerListeners(){
   });
 };
 }
+
 export function unregisterListeners(){
   return (dispatch, getState) => {
     const { firebase } = getState();
