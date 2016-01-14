@@ -80,7 +80,7 @@ export default class Groups extends Component {
 		else{
 			const idFriend = this.props.friends[pos]['id'];
 			if(this.state.admin === false) this.props.onAddGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.id);
-			else this.props.onChangeGroupAdmin(idFriend, this.state.id);
+			else this.props.changeGroupAdmin(idFriend, this.state.id);
 			this.setState({error: ''});
 			this.handleClickDismissDialog(e, 'dialogAddFriend');
 		}
@@ -140,7 +140,7 @@ export default class Groups extends Component {
 
 	/* Admin tranfer */
 	handleChangeGroupAdmin(id){
-		this.onChangeGroupAdmin(this.refs.changeAdmin.value, id);
+		this.changeGroupAdmin(this.refs.changeAdmin.value, id);
 	}
 
 

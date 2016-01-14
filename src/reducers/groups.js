@@ -1,4 +1,4 @@
-import { SHOW_GROUP_FRIENDS, ADD_FRIEND_GROUP, REMOVE_FRIEND_GROUP, CHANGE_GROUP_ADMIN } from '../actions';
+import { ADD_FRIEND_GROUP, REMOVE_FRIEND_GROUP } from '../actions';
 import { arrayPositionByObjectKey } from '../utils/functions';
 import { getId } from '../utils';
 import { SET_GROUPS } from '../actions/groups';
@@ -26,14 +26,14 @@ function setGroups(state, groups){
 
 //const removeGroup = (state, id) => state.slice().filter(group => group['id'] !== id);
 
-function showGroupFriends(state, idGroup){
+/*function showGroupFriends(state, idGroup){
 	return state.map(group => (group.id === idGroup)
 				?(group.showFriends)
 					? Object.assign({}, group, {'showFriends': false})
 					: Object.assign({}, group, {'showFriends': true})
 				: group
 	);
-}
+}*/
 
 function addGroupFriend(state, idFriend, id){
 	var newState = state.slice();
@@ -49,9 +49,9 @@ function removeGroupFriend(state, idFriend, id){
 		:group);
 }
 
-function changeGroupAdmin(state, idFriend, idGroup){
+/*function changeGroupAdmin(state, idFriend, idGroup){
 	return state.map( group => (group.id === idGroup)? Object.assign({}, group, {'administrator': idFriend}): Object.assign({}, group));
-}
+}*/
 
 export default function groupsReducer(state = [], action){
 	switch(action.type){
@@ -63,14 +63,14 @@ export default function groupsReducer(state = [], action){
 			return editGroup(state, action.idGroup, action.name);*/
 		/*case REMOVE_GROUP:
 			return removeGroup(state, action.idGroup);*/
-		case SHOW_GROUP_FRIENDS:
-			return showGroupFriends(state, action.idGroup);
+		/*case SHOW_GROUP_FRIENDS:
+			return showGroupFriends(state, action.idGroup);*/
 		case ADD_FRIEND_GROUP:
 			return addGroupFriend(state, action.idFriend, action.idGroup);
 		case REMOVE_FRIEND_GROUP:
 			return removeGroupFriend(state, action.idFriend, action.idGroup);
-		case CHANGE_GROUP_ADMIN:
-			return changeGroupAdmin(state, action.idFriend, action.idGroup);
+		/*case CHANGE_GROUP_ADMIN:
+			return changeGroupAdmin(state, action.idFriend, action.idGroup);*/
 		default:
 			return state;
 	}

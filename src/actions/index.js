@@ -58,9 +58,9 @@ export const REMOVE_FRIEND_GROUP = 'REMOVE_FRIEND_GROUP';
 //export const SET_GROUPS = 'SET_GROUPS';
 //export const ADD_GROUP = 'ADD_GROUP';
 //export const REMOVE_GROUP = 'REMOVE_GROUP';
-export const EDIT_GROUP = 'EDIT_GROUP';
-export const SHOW_GROUP_FRIENDS = 'SHOW_GROUP_FRIENDS';
-export const CHANGE_GROUP_ADMIN = 'CHANGE_GROUP_ADMIN';
+//export const EDIT_GROUP = 'EDIT_GROUP';
+//export const SHOW_GROUP_FRIENDS = 'SHOW_GROUP_FRIENDS';
+//export const CHANGE_GROUP_ADMIN = 'CHANGE_GROUP_ADMIN';
 
 
 
@@ -180,17 +180,17 @@ export function addGroup(name, idUser){
   };
 }*/
 
-export function editGroup(idGroup, name){
+/*export function editGroup(idGroup, name){
   return {
     type: EDIT_GROUP, idGroup, name
   };
-}
+}*/
 
-export function showGroupFriends(idGroup){
+/*export function showGroupFriends(idGroup){
   return {
     type: SHOW_GROUP_FRIENDS, idGroup
   };
-}
+}*/
 
 export function addGroupFriend(idFriend, idGroup){
   return {
@@ -204,11 +204,11 @@ export function removeGroupFriend(idFriend, idGroup){
   };
 }
 
-export function changeGroupAdmin(idFriend, idGroup){
+/*export function changeGroupAdmin(idFriend, idGroup){
   return {
     type: CHANGE_GROUP_ADMIN, idFriend, idGroup
   };
-}
+}*/
 
 /*
 * User actions creator
