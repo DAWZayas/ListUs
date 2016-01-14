@@ -36,5 +36,22 @@ export function registerListeners(){
 };
 }
 export function unregisterListeners(){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    const refTasks = firebase.child('tasks');
+    const refLists = firebase.child('lists');
+
+    refTasks.off();
+    dispatch({
+      type: SET_TASKS,
+      tasks: {}
+    });
+
+    refLists.off();
+    dispatch({
+      type: SET_LISTS,
+      lists: []
+    });
+  };
 
 }

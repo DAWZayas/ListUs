@@ -14,8 +14,8 @@ export default class Calendar extends Component {
     super(props);
     this.state = {
       selectedDay: null,
-      months: ['Enero', 'Febrero', 'Marzo', 
-      'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 
+      months: ['Enero', 'Febrero', 'Marzo',
+      'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
       'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
       pendingTasks: []
     };
@@ -30,15 +30,15 @@ export default class Calendar extends Component {
   }
 
   getCalendar(day){
-    
+
     const calendar = this.props.calendar;
-   
+
 
     let month = this.state.months[day.getMonth()];
     let year = (1900 + day.getYear()).toString();
-    
+
     let dates = {};
-    
+
     for (let key in calendar) {
       if (year === key){
         for (let key2 in calendar[key]){
@@ -56,7 +56,7 @@ export default class Calendar extends Component {
   handleDayClick(e, day) {
 
     const numberDay = day.getDate().toString();
-    
+
     const dates = this.getCalendar(day);
 
     let tasks = true;
@@ -81,7 +81,7 @@ export default class Calendar extends Component {
       selectedDay: day,
       pendingTasks
     });
-        
+
   }
 
 
@@ -135,4 +135,3 @@ Calendar.propTypes = {
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };
-

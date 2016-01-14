@@ -3,7 +3,6 @@
 import { SET_TASKS } from '../actions/tasks';
 
 function setTask(state, tasks){
-  debugger;
     return Object.assign({}, tasks);
 }
 /*
