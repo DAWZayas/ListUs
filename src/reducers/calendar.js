@@ -1,9 +1,14 @@
 import { ADD_LIST, REMOVE_LIST, EDIT_LIST } from '../actions';
+import { SET_CALENDAR} from '../actions/calendar';
+
+function setCalendar(state, calendar){
+  return Object.assign({}, state, calendar);
+}
+
 
 /*const months = [ '', 'Enero', 'Febrero',
 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ];
-
 
 /*function returnActualDates(objectToIterate, dateToCheck){
 
@@ -102,8 +107,10 @@ function editList(state, idList, title, date, newDate, importance){
 
 export default function reducerCalendar( state = {}, action ){
   switch (action.type) {
-    case ADD_LIST:
-      return addDate(state, action.title, action.date, action.importance, action.id);
+    /*case ADD_LIST:
+      return addDate(state, action.title, action.date, action.importance, action.id);*/
+    case SET_CALENDAR:
+      return setCalendar(state, action.calendar);
     case REMOVE_LIST:
       return removeDate(state, action.title, action.date);
     case EDIT_LIST:

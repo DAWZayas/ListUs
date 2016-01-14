@@ -20,5 +20,16 @@ export function addFriend(name){
 }
 
 export function removeFriend(id){
-  //Function that removes a friend from Firebase;
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    firebase.child(`friends/${id}`).remove( error => {
+        if(error){
+          console.error('ERROR @ removeFriend:', error);
+          dispatch({
+            type: REMOVE_FRIENDS_ERROR,
+            payload: error,
+        });
+        }
+    });
+  };
 }

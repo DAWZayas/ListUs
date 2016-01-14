@@ -21,9 +21,18 @@ export default class Calendar extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.registerListeners();
+  }
+
+  componentWillUnmount() {
+    this.props.unregisterListeners();
+  }
+
   getCalendar(day){
     
     const calendar = this.props.calendar;
+   
 
     let month = this.state.months[day.getMonth()];
     let year = (1900 + day.getYear()).toString();
@@ -82,14 +91,20 @@ export default class Calendar extends Component {
     const dates = this.getCalendar(day);
 
     const date = day.getDate();
+
+    let iterableDates = dates[date];
+
+    if (iterableDates) {
+      iterableDates = Object.keys(iterableDates).reduce( (init, id) => init.concat({id}), [] );
+    }
     return (
       <div>
         <span>{ date }</span>
         <div className="Birthdays-List">
-          { dates[date] &&
-            dates[date].map((list, i) =>
+          { iterableDates &&
+            iterableDates.map((list, i) =>
               <div key={i}>
-                🎁 { list.title } ({ list.importance })
+                🎁 { list.id } (imp.)
               </div>
             )
           }
@@ -101,7 +116,6 @@ export default class Calendar extends Component {
 
 
   render() {
-        
     return(
       <div>
         <DayPicker className="Birthdays" canChangeMonth renderDay={ this.renderDay.bind(this) } localeUtils={localeUtils} locale="es" onDayClick={ this.handleDayClick.bind(this) }/>
@@ -117,6 +131,8 @@ export default class Calendar extends Component {
 }
 
 Calendar.propTypes = {
-  calendar: PropTypes.object
+  calendar: PropTypes.object,
+  registerListeners: PropTypes.func.isRequired,
+  unregisterListeners: PropTypes.func.isRequired
 };
 
