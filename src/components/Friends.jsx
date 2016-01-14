@@ -27,6 +27,13 @@ export default class Friends extends Component {
     return this.state.shouldUpdate;
   }*/
 
+  componentWillMount() {
+    this.props.registerListeners();
+  }
+
+  componentWillUnmount() {
+    this.props.unregisterListeners();
+  }
 
 
   setImg(friend){
@@ -36,8 +43,8 @@ export default class Friends extends Component {
   addFriend(){
 
     const nodeInput = this.refs.addFriendInput;
-    const { onAddFriend } = this.props;
-    onAddFriend(nodeInput.getValue());
+    const { addFriend } = this.props;
+    addFriend(nodeInput.getValue());
     nodeInput.setValue('');
     this.hideDialog();
   }
@@ -62,9 +69,15 @@ export default class Friends extends Component {
 		});   	
   }
 
+  onRemoveFriend(id){
+    const { removeFriend } = this.props;
+    removeFriend(id);
+  }
+
 
 
   render() {
+
     const addFriend = [
   		{ text: 'Cancel', onClick: this.hideDialog.bind(this) },
  		  { text: 'Submit', onClick: this.addFriend.bind(this), ref: 'submit' }
@@ -72,16 +85,19 @@ export default class Friends extends Component {
 
     let friendsGeneral = [];
 
-    const listaFriends = this.props.friends.filter( friend =>  friend.name.toLowerCase().indexOf(this.state.letter.toLowerCase()) !== -1   );
+    let { friends } = this.props;
 
+    const listaFriends = this.props.friends.filter( friend =>  friend.name.toLowerCase().indexOf(this.state.letter.toLowerCase()) !== -1   );
     for(let j = 0; j < listaFriends.length; j = j+6){
       let rowFriends = [];
       let i = j;
       let top = i+6;
       while(i < top){
         if(i < listaFriends.length){
+          let id = listaFriends[i].id;
+          
           rowFriends = rowFriends.concat(<div className="col-xs-2 friendPhotoContainer">
-            <span>{this.setImg(listaFriends[i])}</span><br/>
+            <span onClick={() => this.onRemoveFriend(id)}>{this.setImg(listaFriends[i])}</span><br/>
             <span className="friendName">{listaFriends[i].name}</span>
           </div>);
         }
@@ -128,8 +144,8 @@ export default class Friends extends Component {
 
 Friends.propTypes= {
     friends: PropTypes.array.isRequired,
-    onAddFriend: PropTypes.func.isRequired,
-    onRemoveFriend: PropTypes.func.isRequired
+    registerListeners: PropTypes.func.isRequired,
+    unregisterListeners: PropTypes.func.isRequired
 };
 
 
