@@ -16,6 +16,6 @@ function mapActionsToProps(dispatch) {
 }*/
 
 export default connect(
-	state => ({ calendar: state.calendar }),
+	state => ({ calendar: state.calendar, lists: state.lists }),
 	calendarActions
 )(Calendar);

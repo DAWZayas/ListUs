@@ -62,11 +62,17 @@ export default class Calendar extends Component {
     let tasks = true;
     let pendingTasks;
 
+    let iterableDates = dates[date];
+
+    if (iterableDates) {
+      iterableDates = Object.values(iterableDates).reduce( (init, id) => init.concat({id}), [] );
+    }
+
     for (let key in dates) {
       if (numberDay === key) {
         pendingTasks = (<ul>
           {
-            dates[key].map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task.id}`}>{task.title}</Link> <span> with an importance of: {task.importance}</span></li>)
+            iterableDates.map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task.id}`}>{task.title}</Link> <span> with an importance of: {task.importance}</span></li>)
           }
         </ul>);
         tasks = false;
@@ -91,20 +97,22 @@ export default class Calendar extends Component {
     const dates = this.getCalendar(day);
 
     const date = day.getDate();
+    const { lists } = this.props;
 
     let iterableDates = dates[date];
 
     if (iterableDates) {
-      iterableDates = Object.keys(iterableDates).reduce( (init, id) => init.concat({id}), [] );
+      iterableDates = Object.values(iterableDates).reduce( (init, id) => init.concat({id}), [] );
     }
+
     return (
       <div>
         <span>{ date }</span>
         <div className="Birthdays-List">
           { iterableDates &&
-            iterableDates.map((list, i) =>
+            this.props.lists.map((idList, i) =>
               <div key={i}>
-                🎁 { list.id } (imp.)
+                🎁 {  iterableDates.map(list => idList)[0].id === idList.id ? `${idList.title} - ${idList.importance}`  : null } imp.
               </div>
             )
           }
@@ -132,6 +140,7 @@ export default class Calendar extends Component {
 
 Calendar.propTypes = {
   calendar: PropTypes.object,
+  lists: PropTypes.array,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };

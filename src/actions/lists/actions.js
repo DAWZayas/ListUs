@@ -34,7 +34,9 @@ export function addList(title, date, importance){
 
           const calendar = firebase.child(`calendar/${date.split('/')[2]}/${monthName}/${dayNumber}`);
 
-          calendar.push(`${[idList]}`);
+          let caledarReference = calendar.push(`${[idList]}`);
+          const calendarId = caledarReference.key();
+          calendar.update(`${[calendarId]}`);
         }
     });
 
