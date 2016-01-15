@@ -70,6 +70,7 @@ export default class Calendar extends Component {
 
     for (let key in dates) {
       if (numberDay === key) {
+
         pendingTasks = (<ul>
           {
             iterableDates.map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task.id}`}>{task.title}</Link> <span> with an importance of: {task.importance}</span></li>)
@@ -105,17 +106,24 @@ export default class Calendar extends Component {
       iterableDates = Object.values(iterableDates).reduce( (init, id) => init.concat({id}), [] );
     }
 
+    let arrayObjectsDays = [];
+    if(iterableDates!==undefined && this.props.lists.length!==0){
+      arrayObjectsDays = iterableDates.map( listOfTheDay =>
+        this.props.lists.filter( listOfArrayList =>
+          listOfTheDay.id===listOfArrayList.id ? listOfArrayList : '' ));
+    }
+
     return (
       <div>
         <span>{ date }</span>
         <div className="Birthdays-List">
-          { iterableDates &&
-            this.props.lists.map((idList, i) =>
+          { arrayObjectsDays.length!==0 ?
+            arrayObjectsDays.map((list, i) =>
               <div key={i}>
-                🎁 {  iterableDates.map(list => idList)[0].id === idList.id ? `${idList.title} - ${idList.importance}`  : null } imp.
+                🎁 {list[0].title}, {list[0].importance} imp.
               </div>
             )
-          }
+          : ''}
         </div>
       </div>
     );
