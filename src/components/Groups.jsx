@@ -22,6 +22,14 @@ export default class Groups extends Component {
 		};
 	}
 
+	 componentWillMount() {
+	    this.props.registerListeners();
+	  }
+
+	  componentWillUnmount() {
+	    this.props.unregisterListeners();
+	  }
+
 	/* Dialog functions */
 
 	handleClickDismissDialog(e, ref){
@@ -171,13 +179,7 @@ export default class Groups extends Component {
 		this.refs.dialogEdit.show();
 	}
 
-	 componentWillMount() {
-	    this.props.registerListeners();
-	  }
-
-	  componentWillUnmount() {
-	    this.props.unregisterListeners();
-	  }
+	
 
 
 	render(){

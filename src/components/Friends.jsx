@@ -8,24 +8,11 @@ export default class Friends extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-      //newList: this.props.friends
-      letter: ''
-      //shouldUpdate: true
-    };
+            letter: ''
+           };
 	}
 
-  /*componentDidUpdate(){
-    this.setState({
-      constList: this.props.friends,
-      newList: this.props.friends,
-      shouldUpdate: !this.state.shouldUpdate
-    });
-  }
 
-  shouldComponentUpdate(){
-    debugger;
-    return this.state.shouldUpdate;
-  }*/
 
   componentWillMount() {
     this.props.registerListeners();
@@ -85,7 +72,6 @@ export default class Friends extends Component {
 
     let friendsGeneral = [];
 
-    let { friends } = this.props;
 
     const listaFriends = this.props.friends.filter( friend =>  friend.name.toLowerCase().indexOf(this.state.letter.toLowerCase()) !== -1   );
     for(let j = 0; j < listaFriends.length; j = j+6){

@@ -78,9 +78,9 @@ export default class Calendar extends Component {
         this.props.lists.filter( listOfArrayList =>
           listOfTheDay.id===listOfArrayList.id ? listOfArrayList : null ));
     }
-
     for (let key in dates) {
       if (numberDay === key) {
+        debugger;
         pendingTasks = (<ul>
           {
             arrayObjectsDays.map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task[0].id}`}>{task[0].title}</Link> <span> with an importance of: {task[0].importance}</span></li>)
@@ -108,7 +108,6 @@ export default class Calendar extends Component {
     const dates = this.getCalendar(day);
 
     const date = day.getDate();
-    const { lists } = this.props;
 
     let iterableDates = dates[date];
 
