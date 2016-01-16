@@ -55,6 +55,7 @@ export default class Calendar extends Component {
 
   handleDayClick(e, day) {
 
+
     const numberDay = day.getDate().toString();
 
     const dates = this.getCalendar(day);
@@ -62,18 +63,27 @@ export default class Calendar extends Component {
     let tasks = true;
     let pendingTasks;
 
-    let iterableDates = dates[date];
+
+    let iterableDates = dates[numberDay];
+
 
     if (iterableDates) {
       iterableDates = Object.values(iterableDates).reduce( (init, id) => init.concat({id}), [] );
     }
 
+
+    let arrayObjectsDays = [];
+    if(iterableDates!==undefined && this.props.lists.length!==0){
+      arrayObjectsDays = iterableDates.map( listOfTheDay =>
+        this.props.lists.filter( listOfArrayList =>
+          listOfTheDay.id===listOfArrayList.id ? listOfArrayList : null ));
+    }
+
     for (let key in dates) {
       if (numberDay === key) {
-
         pendingTasks = (<ul>
           {
-            iterableDates.map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task.id}`}>{task.title}</Link> <span> with an importance of: {task.importance}</span></li>)
+            arrayObjectsDays.map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task[0].id}`}>{task[0].title}</Link> <span> with an importance of: {task[0].importance}</span></li>)
           }
         </ul>);
         tasks = false;
@@ -110,18 +120,20 @@ export default class Calendar extends Component {
     if(iterableDates!==undefined && this.props.lists.length!==0){
       arrayObjectsDays = iterableDates.map( listOfTheDay =>
         this.props.lists.filter( listOfArrayList =>
-          listOfTheDay.id===listOfArrayList.id ? listOfArrayList : '' ));
+          listOfTheDay.id===listOfArrayList.id ? listOfArrayList : null ));
     }
+
 
     return (
       <div>
         <span>{ date }</span>
         <div className="Birthdays-List">
           { arrayObjectsDays.length!==0 ?
-            arrayObjectsDays.map((list, i) =>
+            arrayObjectsDays.map((list, i) => list.length !== 0 ? (
               <div key={i}>
                 🎁 {list[0].title}, {list[0].importance} imp.
-              </div>
+              </div>)
+            :('')
             )
           : ''}
         </div>
