@@ -102,7 +102,26 @@ export function editList(idList, title, date, newDate, importance){
 }
 
 
+export function addFriendGroupToList( idList, newParticipant){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    const refParticipants = firebase.child(`lists/${idList}/participants`);
+    const refIdList = firebase.child(`lists/${idList}`);
+    let participants = [];
+    refParticipants.once('value', snapshot => {
 
+      participants = snapshot.val()===null ? [newParticipant.id] : [snapshot.val()[Object.keys(snapshot.val())[0]]].concat([newParticipant.id]);
+debugger;
+      refIdList.update({participants});
+    });
+
+  }
+}
+/*return state.map( list => list.id===idList ? Object.assign( {}, list, {participants:list.participants.concat(id)}) : list);
+
+function removeFriendGroupToList(state, idList, idPaticipant){
+  return state.map( list => list.id===idList ? Object.assign( {}, list, {participants:list.participants.filter(item => idPaticipant!==item.id)}) : list);
+}
 
 /*function returnActualDates(objectToIterate, dateToCheck){
 

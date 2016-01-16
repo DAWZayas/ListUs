@@ -17,7 +17,7 @@ export default class List extends Component {
 
   render() {
 
-    const { list, lists, tasks} = this.props;
+    const { list, lists, tasks, friends, groups} = this.props;
     var newTasks = tasks===undefined ? [] : tasks;
     return(
     <div>
@@ -31,11 +31,11 @@ export default class List extends Component {
             <ListsEdit
               list={list}
               lists={lists}
+              friends={friends}
+              groups={groups}
               removeList={this.props.removeList}
               onEditList={this.props.onEditList}
-
-              registerListeners={this.props.registerListeners}
-              unregisterListeners={this.props.unregisterListeners} />
+              onAddFriendGroupToList={this.props.onAddFriendGroupToList}/>
           <span className="dateBtn pull-right btn btn-default">{list.date}</span>
 
         </div>
@@ -56,14 +56,14 @@ List.propTypes = {
   removeList: PropTypes.func,
   onEditList: PropTypes.func,
   tasks: PropTypes.array,
-  /*friends: PropTypes.array,
+  friends: PropTypes.array,
   groups: PropTypes.array,
-  onRemoveList: PropTypes.func,
+  onAddFriendGroupToList: PropTypes.func
+  /*
 
-  onAddFriendGroupToList: PropTypes.func,
+
   onRemoveFriendGroupToList: PropTypes.func,*/
-  registerListeners: PropTypes.func.isRequired,
-  unregisterListeners: PropTypes.func.isRequired
+
 };
 
 List.defaultProps = {
@@ -73,8 +73,7 @@ List.defaultProps = {
 /*, groups, friends, onRemoveFriendGroupToList} */
 
 
-/*friends={friends}
-groups={groups}
+/*
 
 onRemoveList={onRemoveList}
 onRemoveFriendGroupToList={onRemoveFriendGroupToList}

@@ -44,7 +44,7 @@ function addGroupFriend(state, idFriend, id){
 
 function removeGroupFriend(state, idFriend, id){
 	var newState = state.slice();
-	return newState.map(group => (group.id === id) 
+	return newState.map(group => (group.id === id)
 		?Object.assign({}, group, {friends: group.friends.filter(idF => idF !== idFriend)})
 		:group);
 }

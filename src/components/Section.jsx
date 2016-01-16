@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import List from '../components/List';
-
 import SectionHeader from './SectionHeader';
 import { menuItems, sortArray } from '../utils/functions';
 
@@ -84,7 +83,7 @@ export default class Section extends Component {
   }
 
   render() {
-    
+
     let customActions = [
       <FlatButton
         label="Cancel"
@@ -101,6 +100,7 @@ export default class Section extends Component {
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
     const listsEnd = (sorted === 'Sort By') ? lists : sortArray(lists, key, sorted.split(' ')[1]);
+
     return(
       <article className="article">
         <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} ref="dialog">
@@ -126,11 +126,12 @@ export default class Section extends Component {
                   key={index}
                   list={list}
                   lists={this.props.lists}
+                  tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
+                  friends={this.props.friends}
+                  groups={this.props.groups}
                   removeList={this.props.removeList}
                   onEditList={this.props.editList}
-                  tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
-                  registerListeners={this.props.registerListeners}
-                  unregisterListeners={this.props.unregisterListeners} />
+                  onAddFriendGroupToList={this.props.addFriendGroupToList} />
                 : '' )
             }
         </div>
@@ -150,11 +151,12 @@ Section.propTypes = {
   removeList: PropTypes.func,
   editList: PropTypes.func,
   tasks: PropTypes.object,
-  /*
+  addFriendGroupToList: PropTypes.func,
   friends: PropTypes.array,
-  groups: PropTypes.array,
-  onAddFriendGroupToList: PropTypes.func,
-  addList: PropTypes.func.isRequired,
+
+  /*
+
+
 
 
   onRemoveFriendGroupToList: PropTypes.func,*/
@@ -165,11 +167,9 @@ Section.propTypes = {
 Section.defaultProps = {
 lists: []
 };
-/*friends={this.props.friends}
-groups={this.props.groups}
-tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
-key={index}
+/*
+
 onAddFriendGroupToList={this.props.onAddFriendGroupToList}
-onRemoveList={this.props.onRemoveList}
+
 onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
-onEditList={this.props.onEditList}*/
+*/

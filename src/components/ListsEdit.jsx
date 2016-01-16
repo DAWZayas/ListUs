@@ -107,6 +107,7 @@ export default class ListsEdit extends Component{
   }
 
 	isInTheArray(idParticipants, list){
+
     const leng = list.participants.filter(participant => participant.id!==idParticipants).length;
     return list.participants.length!==leng;
   }
@@ -150,8 +151,7 @@ export default class ListsEdit extends Component{
 	}
 
 	render(){
-
-		const { list } = this.props;
+		const { list, friends, groups } = this.props;
 		let listOfFriendsAndGroups = [];
 		if(this.state.textToSearch!==''){
 			const listFriends = this.state.toggleFriend ? [].concat(friends.filter( friend => !this.isInTheArray(friend.id, list ))) : [];
@@ -278,11 +278,11 @@ export default class ListsEdit extends Component{
 				<Dialog title="" open={this.state.showDialogAddFriendsAndGroupsList} actions={customActionsManage} ref="dialogManage" onRequestClose={this._handleCloseDialog}>
 					<div className="dialogFriendAndGroupManage" style={{padding: '20px'}}>
 						<h4>Friends and Groups manage {list.title}</h4><br/>
-						{/*<ul >
+						<ul >
 							{
 								list.participants.map( (item, index) => <li key={index}><span className="deleteButtonFriendGroup glyphicon glyphicon-remove" onClick={() => this.handleOnRemoveFriendGroupToList(item.id)}></span>{item.name}</li>)
 							}
-						</ul>*/}
+						</ul>
 					</div>
 				</Dialog>
 			</div>
@@ -297,12 +297,11 @@ ListsEdit.propTypes = {
 	list: PropTypes.object,
 	removeList: PropTypes.func,
 	onEditList: PropTypes.func,
-	/*friends: PropTypes.array,
-  groups: PropTypes.array,
+	friends: PropTypes.array,
+  groups: PropTypes.array
+	/*,
 
 	onRemoveList: PropTypes.func,
 	onAddFriendGroupToList: PropTypes.func,
 	onRemoveFriendGroupToList: PropTypes.func,*/
-	registerListeners: PropTypes.func.isRequired,
-  unregisterListeners: PropTypes.func.isRequired
 };

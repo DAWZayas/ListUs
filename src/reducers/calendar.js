@@ -74,7 +74,7 @@ function setCalendar(state, calendar){
 	}
 
   return state;
-}*/
+}
 
 
 function removeDate(state, title, date) {
@@ -104,17 +104,17 @@ function editList(state, idList, title, date, newDate, importance){
   newState = removeDate(newState, title, date);
   return newState;
 }
-
+*/
 export default function reducerCalendar( state = {}, action ){
   switch (action.type) {
     /*case ADD_LIST:
       return addDate(state, action.title, action.date, action.importance, action.id);*/
     case SET_CALENDAR:
       return setCalendar(state, action.calendar);
-    case REMOVE_LIST:
+  /*  case REMOVE_LIST:
       return removeDate(state, action.title, action.date);
     case EDIT_LIST:
-      return editList(state, action.idList, action.title, action.date, action.newDate, action.importance);
+      return editList(state, action.idList, action.title, action.date, action.newDate, action.importance);*/
     default:
       return state;
   }

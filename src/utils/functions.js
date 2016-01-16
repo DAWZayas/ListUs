@@ -39,7 +39,7 @@ export function getIdByOtherKey(key, value, array){
 }
 
 export function avatarLetter(name, id){
-	return (<Avatar 
+	return (<Avatar
 		key={id}
 		className="avatarLetter"
 		style={{position: 'absolute'}}>
@@ -99,7 +99,7 @@ export function groupFriends(idFriends, idGroup, friends, idUser, that){
 
 
 
-	
+
 
 /************************* GET USER INFO ***************************************/
 
@@ -127,7 +127,7 @@ export function getGroups(idGroups){
 	let groups = [];
 	idGroups.map(function(idGroup){
 			const pos = arrayPositionByObjectKey('id', idGroup, serverGroups);
-			if(pos !== -1) groups.push(serverGroups[pos]);					
+			if(pos !== -1) groups.push(serverGroups[pos]);
 		}.bind(this)
 	);
 	return groups;
@@ -181,12 +181,12 @@ export const menuItemsDate = [
 		   { payload: '1', text: 'Name Ascendant' },
 		   { payload: '2', text: 'Name Descendant' },
 		   { payload: '3', text: 'Date Ascendant' },
-		   { payload: '4', text: 'Date Aescendant' }		   
+		   { payload: '4', text: 'Date Aescendant' }
 		];
 export const menuItems = [
 		   { payload: '0', text: 'Sort By' },
 		   { payload: '1', text: 'Name Ascendant' },
-		   { payload: '2', text: 'Name Descendant' }	   
+		   { payload: '2', text: 'Name Descendant' }
 		];
 
 
@@ -197,5 +197,5 @@ export function clearUser(){
 	onSetLists([]);
 	onSetTasks({});
 	onSetGroups([]);
-	
+
 }

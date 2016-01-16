@@ -12,7 +12,6 @@ export function registerListeners(){
           id,
           idList: snapshot.val()[id].idList,
           title: snapshot.val()[id].title,
-          participants: snapshot.val()[id].participants===undefined ? [] : snapshot.val()[id].participants,
           done: false
         }}), {})
       });
