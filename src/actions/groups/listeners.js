@@ -13,7 +13,7 @@ export function registerListeners(){
               showFriends:snapshot.val()[id].showFriends, 
               administrator:snapshot.val()[id].administrator,
               friends: (snapshot.val()[id].friends) ?snapshot.val()[id].friends.split(',') :[]}), [])
-    })});
+    });});
 
      firebase.child('friends').on('value', snapshot => {dispatch({
           type: SET_FRIENDS,
@@ -22,7 +22,7 @@ export function registerListeners(){
               groups:snapshot.val()[id].groups, 
               img:snapshot.val()[id].img, 
               name:snapshot.val()[id].name}), [])
-    })});
+    });});
   };
 }
 

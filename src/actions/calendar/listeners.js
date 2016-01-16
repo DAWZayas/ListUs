@@ -8,7 +8,8 @@ export function registerListeners(){
     ref.on('value', snapshot => {dispatch({
       type: SET_CALENDAR,
       calendar: snapshot.val()
-    })});
+    });
+  });
 
     const refLists = firebase.child('lists');
 

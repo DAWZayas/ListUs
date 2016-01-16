@@ -1,4 +1,3 @@
-import { ADD_LIST, REMOVE_LIST, EDIT_LIST } from '../actions';
 import { SET_CALENDAR} from '../actions/calendar';
 
 function setCalendar(state, calendar){
@@ -76,7 +75,7 @@ function setCalendar(state, calendar){
   return state;
 }
 
-
+/*
 function removeDate(state, title, date) {
   let day = date.split('/')[0];
   if(day[0] === '0'){
@@ -103,19 +102,26 @@ function editList(state, idList, title, date, newDate, importance){
   newState = addDate(newState, title, newDate, importance, idList);
   newState = removeDate(newState, title, date);
   return newState;
+<<<<<<< HEAD
 }
 */
+
+
+
+
 export default function reducerCalendar( state = {}, action ){
   switch (action.type) {
     /*case ADD_LIST:
       return addDate(state, action.title, action.date, action.importance, action.id);*/
     case SET_CALENDAR:
       return setCalendar(state, action.calendar);
+
   /*  case REMOVE_LIST:
       return removeDate(state, action.title, action.date);
     case EDIT_LIST:
       return editList(state, action.idList, action.title, action.date, action.newDate, action.importance);*/
     default:
+  
       return state;
   }
 }

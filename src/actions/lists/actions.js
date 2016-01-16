@@ -102,26 +102,3 @@ export function editList(idList, title, date, newDate, importance){
     });
   };
 }
-
-
-
-
-/*function returnActualDates(objectToIterate, dateToCheck){
-
-  let actualDate = {};
-
-  for (var key in objectToIterate){
-    if(key === dateToCheck){
-      actualDate = objectToIterate[key];
-    }
-  }
-
-  if(Object.keys(actualDate).length === 0){
-    actualDate = objectToIterate;
-    actualDate[dateToCheck] = {};
-    actualDate = actualDate[dateToCheck];
-  }
-
-  return actualDate;
-
-}*/
