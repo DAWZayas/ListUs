@@ -38,7 +38,8 @@ export default class TaskTitle extends Component {
 
   render() {
 
-    const { list,  onEditList, onRemoveList, onAddFriendGroupToList, lists, groups, friends, onRemoveFriendGroupToList } = this.props;
+    const {   onEditList, onRemoveList, onAddFriendGroupToList, lists, groups, friends, onRemoveFriendGroupToList } = this.props;
+
     let customActions = [
       <FlatButton
         label="Cancel"
@@ -49,41 +50,50 @@ export default class TaskTitle extends Component {
         primary
         onClick={() => this.handleClickAdd()} />
     ];
+
     return(
     <div>
+      {this.props.list.id!==undefined ?
+        <span>
+        <Dialog
+  				ref="dialog"
+  				title="Add Task"
+  				actions={customActions}
+  				open={this.state.showDialog}
+    			onRequestClose={this._handleCloseDialog} >
+            <span style={{'fontSize': '14px', 'marginRight': '10px'}}>Name of the new task:</span>
+            <TextField className="dialogFriendAndGroup" ref="taskText" autoFocus />
+  			</Dialog>
 
-      <Dialog
-				ref="dialog"
-				title="Add Task"
-				actions={customActions}
-				open={this.state.showDialog}
-  			onRequestClose={this._handleCloseDialog} >
-          <span style={{'fontSize': '14px', 'marginRight': '10px'}}>Name of the new task:</span>
-          <TextField className="dialogFriendAndGroup" ref="taskText" autoFocus />
-			</Dialog>
+        <div className="row list listNotCompleted">
 
-      <div className="row list listNotCompleted">
+          <div className="col-xs-4">
+            {this.props.list!==undefined ?
+              <Link to={`/list/${this.props.list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{this.props.list.title}</Link>
+              : ''
+            }
+          </div>
+          <div className="col-xs-8" >
 
-        <div className="col-xs-4">
-          <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
+              <ListsEdit
+                list={this.props.list}
+                lists={lists}
+                friends={friends}
+                groups={groups}
+                onEditList={onEditList}
+                onRemoveList={onRemoveList}
+                onRemoveFriendGroupToList={onRemoveFriendGroupToList}
+                onAddFriendGroupToList={onAddFriendGroupToList} />
+              <span className="btn pull-right btn-default" onClick={() => this.openDialog()} >Add</span>
+              <span className="dateBtn pull-right btn btn-default">{this.props.list.date}</span>
+          </div>
+
         </div>
-        <div className="col-xs-8" >
+        </span>
 
-            <ListsEdit
-              list={list}
-              lists={lists}
-              friends={friends}
-              groups={groups}
-              onEditList={onEditList}
-              onRemoveList={onRemoveList}
-              onRemoveFriendGroupToList={onRemoveFriendGroupToList}
-              onAddFriendGroupToList={onAddFriendGroupToList} />
-            <span className="btn pull-right btn-default" onClick={() => this.openDialog()} >Add</span>
-            <span className="dateBtn pull-right btn btn-default">{list.date}</span>
-        </div>
+        : ''
 
-      </div>
-
+      }
     </div>
     );
 

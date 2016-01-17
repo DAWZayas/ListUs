@@ -161,8 +161,7 @@ export default class ListsEdit extends Component{
 		}
 
 		let listOfParticipants =[];
-		if(list!==undefined && friends!==undefined && groups!==undefined){
-
+		if(list!==undefined && friends!==undefined && groups!==undefined && list.participants[0]!==undefined){
 			const listOfGroupsInParticipants = list.participants[0].map( idParticipant => friends.map( group => idParticipant===group.id ? {id:idParticipant, name: group.name} : '' )[0]);
 			const listOfFriendsInParticipants = list.participants[0].map( idParticipant => friends.map( friend => idParticipant===friend.id ? {id:idParticipant, name: friend.name} : '' )[0]);
 			listOfParticipants = listOfGroupsInParticipants.concat(listOfFriendsInParticipants);

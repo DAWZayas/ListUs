@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ItemTaskDetails from './ItemTaskDetails';
 import TaskTitle from './TaskTitle';
 
-import CommentsContainer from '../containers/CommentsContainer';
+//import CommentsContainer from '../containers/CommentsContainer';
 
 
 export default class ListDetails extends Component {
@@ -16,7 +16,13 @@ constructor(props){
 }
 
 
+componentWillMount() {
+  this.props.registerListeners();
+}
 
+componentWillUnmount() {
+  this.props.unregisterListeners();
+}
 
 onClickPagination(e){
   let newPage = parseInt(e.target.text);
@@ -61,7 +67,7 @@ renderForce(){
 render() {
 
 
-  const { list, lists, onRemoveList, onEditList, tasks, onAddTask, onRemoveTask, onEditTask, friends, groups, onAddFriendGroupToList, onRemoveFriendGroupToList } = this.props;
+  const { list, lists, removeList, editList, tasks, addTask, removeTask, editTask, friends, groups, addFriendGroupToList, removeFriendGroupToList } = this.props;
 
   let tasksToShow;
   let showTasks = this.state.tasksShown;
@@ -95,11 +101,11 @@ render() {
             tasks={tasks}
             friends={friends}
             groups={groups}
-            onAddTask={onAddTask}
-            onEditList={onEditList}
-            onRemoveList={onRemoveList}
-            onRemoveFriendGroupToList={onRemoveFriendGroupToList}
-            onAddFriendGroupToList={onAddFriendGroupToList} />
+            onAddTask={addTask}
+            onEditList={editList}
+            onRemoveList={removeList}
+            onRemoveFriendGroupToList={removeFriendGroupToList}
+            onAddFriendGroupToList={addFriendGroupToList} />
 
         </ul>
       </div>
@@ -115,7 +121,7 @@ render() {
       <div className="article col-md-12">
         <ul className="nav nav-pills nav-stacked navMarginTop list-group">
           {
-            Object.values(tasksToShow).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails renderForce={this.renderForce.bind(this)} key={index} task={task} onRemoveTask={onRemoveTask} onEditTask={onEditTask} /> : null)
+            Object.values(tasksToShow).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails renderForce={this.renderForce.bind(this)} key={index} task={task} onRemoveTask={removeTask} onEditTask={editTask} /> : null)
           }
         </ul>
         <div className={`${Object.values(tasksToShow).length === 0 ? 'col-xs-12' : 'hidden'}`}>
@@ -141,7 +147,7 @@ render() {
         </ul>
       </div>
       <div className="col-md-12 center">
-      <CommentsContainer />
+      {/*<CommentsContainer />*/}
       </div>
     </div>
   );
@@ -156,11 +162,13 @@ ListDetails.propTypes = {
   tasks: PropTypes.object.isRequired,
   friends: PropTypes.array.isRequired,
   groups: PropTypes.array.isRequired,
-  onAddTask: PropTypes.func.isRequired,
-  onRemoveTask: PropTypes.func.isRequired,
-  onEditTask: PropTypes.func.isRequired,
-  onRemoveList: PropTypes.func.isRequired,
-  onEditList: PropTypes.func.isRequired,
-  onAddFriendGroupToList: PropTypes.func.isRequired,
-  onRemoveFriendGroupToList: PropTypes.func.isRequired
+  addTask: PropTypes.func.isRequired,
+  removeTask: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
+  removeList: PropTypes.func.isRequired,
+  editList: PropTypes.func.isRequired,
+  addFriendGroupToList: PropTypes.func.isRequired,
+  removeFriendGroupToList: PropTypes.func.isRequired,
+  registerListeners: PropTypes.func.isRequired,
+  unregisterListeners: PropTypes.func.isRequired
 };

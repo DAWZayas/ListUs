@@ -41,7 +41,7 @@ export function registerListeners(){
   refFriends.on('value', snapshot => {dispatch({
     type: SET_FRIENDS,
     friends: Object.keys(snapshot.val() || []).reduce( (init, id) => init.concat({id, groups:snapshot.val()[id].groups, img:snapshot.val()[id].img, name:snapshot.val()[id].name}), [])
-    })
+  });
   });
 
   firebase.child('groups').on('value', snapshot => {dispatch({
@@ -52,7 +52,8 @@ export function registerListeners(){
             showFriends:snapshot.val()[id].showFriends,
             administrator:snapshot.val()[id].administrator,
             friends: (snapshot.val()[id].friends) ?snapshot.val()[id].friends.split(',') :[]}), [])
-  })});
+  });
+});
 
 };
 }

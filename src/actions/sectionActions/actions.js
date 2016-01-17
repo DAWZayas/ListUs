@@ -49,9 +49,6 @@ export function addList(title, date, importance){
 }
 
 
-/*
-* la lista nunca se podra borrar bien del calendario hasta que no consigamos cambiar la estructura de datos
-*/
 export function removeList(idList, title, date){
   return (dispatch, getState) => {
     const { firebase } = getState();
@@ -116,7 +113,7 @@ export function addFriendGroupToList( idList, newParticipant){
       refIdList.update({participants});
     });
 
-  }
+  };
 }
 
 export function removeFriendGroupToList( idList, idPaticipant){
@@ -130,5 +127,5 @@ export function removeFriendGroupToList( idList, idPaticipant){
       refIdList.update({participants});
     });
 
-  }
+  };
 }
