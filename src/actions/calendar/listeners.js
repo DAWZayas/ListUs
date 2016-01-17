@@ -17,7 +17,11 @@ export function registerListeners(){
       type: SET_LISTS,
       lists: Object.keys(snapshot.val() || [])
         .reduce( (init, id) =>
-          init.concat({id, title:snapshot.val()[id].title, importance:snapshot.val()[id].importance, date:snapshot.val()[id].date, participants:snapshot.val()[id].participants}), [])
+          init.concat({id,
+            title:snapshot.val()[id].title,
+            importance:snapshot.val()[id].importance,
+            date:snapshot.val()[id].date,
+            participants: snapshot.val()[id].participants===undefined ? [] : [snapshot.val()[id].participants]}), [])
       });
     });
   };

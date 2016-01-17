@@ -131,7 +131,8 @@ export default class Section extends Component {
                   groups={this.props.groups}
                   removeList={this.props.removeList}
                   onEditList={this.props.editList}
-                  onAddFriendGroupToList={this.props.addFriendGroupToList} />
+                  onAddFriendGroupToList={this.props.addFriendGroupToList}
+                  onRemoveFriendGroupToList={this.props.removeFriendGroupToList}/>
                 : '' )
             }
         </div>
@@ -153,13 +154,7 @@ Section.propTypes = {
   tasks: PropTypes.object,
   addFriendGroupToList: PropTypes.func,
   friends: PropTypes.array,
-
-  /*
-
-
-
-
-  onRemoveFriendGroupToList: PropTypes.func,*/
+  onRemoveFriendGroupToList: PropTypes.func,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };
@@ -167,9 +162,3 @@ Section.propTypes = {
 Section.defaultProps = {
 lists: []
 };
-/*
-
-onAddFriendGroupToList={this.props.onAddFriendGroupToList}
-
-onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
-*/

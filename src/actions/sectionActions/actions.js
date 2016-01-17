@@ -32,9 +32,14 @@ export function addList(title, date, importance){
           const monthNumber = convertMonth(date);
           const monthName = months[monthNumber];
 
-          const calendar = firebase.child(`calendar/${date.split('/')[2]}/${monthName}/${dayNumber}`);
 
-          calendar.push(`${[idList]}`);
+          const refDate = firebase.child(`calendar/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+          const refMonth = firebase.child(`calendar/${date.split('/')[2]}/${monthName}`);
+          let listsInDay = [];
+          refDate.once('value', snapshot => {
+            listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
+            refMonth.update({[dayNumber]:listsInDay});
+          });
         }
     });
 
@@ -65,15 +70,13 @@ export function removeList(idList, title, date){
       const monthNumber = convertMonth(date);
       const monthName = months[monthNumber];
 
-        firebase.child(`calendar/${date.split('/')[2]}/${monthName}/${dayNumber}/${idList}`).remove(error => {
-          if(error){
-            console.error('ERROR @ removeListCalendar:', error);
-            dispatch({
-              type: REMOVE_LIST_ERROR,
-              payload: error
-            });
-          }
-        });
+      const refDate = firebase.child(`calendar/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+      const refMonth = firebase.child(`calendar/${date.split('/')[2]}/${monthName}`);
+      let listsInDay = [];
+      refDate.once('value', snapshot => {
+        listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idList );
+        refMonth.update({[dayNumber]:listsInDay});
+      });
       };
     });
   };
@@ -109,36 +112,23 @@ export function addFriendGroupToList( idList, newParticipant){
     const refIdList = firebase.child(`lists/${idList}`);
     let participants = [];
     refParticipants.once('value', snapshot => {
-
-      participants = snapshot.val()===null ? [newParticipant.id] : [snapshot.val()[Object.keys(snapshot.val())[0]]].concat([newParticipant.id]);
-debugger;
+      participants = snapshot.val()===null ? [newParticipant.id] : snapshot.val().concat([newParticipant.id]);
       refIdList.update({participants});
     });
 
   }
 }
-/*return state.map( list => list.id===idList ? Object.assign( {}, list, {participants:list.participants.concat(id)}) : list);
 
-function removeFriendGroupToList(state, idList, idPaticipant){
-  return state.map( list => list.id===idList ? Object.assign( {}, list, {participants:list.participants.filter(item => idPaticipant!==item.id)}) : list);
+export function removeFriendGroupToList( idList, idPaticipant){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    const refParticipants = firebase.child(`lists/${idList}/participants`);
+    const refIdList = firebase.child(`lists/${idList}`);
+    let participants = [];
+    refParticipants.once('value', snapshot => {
+      participants = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idPaticipant );
+      refIdList.update({participants});
+    });
+
+  }
 }
-
-/*function returnActualDates(objectToIterate, dateToCheck){
-
-  let actualDate = {};
-
-  for (var key in objectToIterate){
-    if(key === dateToCheck){
-      actualDate = objectToIterate[key];
-    }
-  }
-
-  if(Object.keys(actualDate).length === 0){
-    actualDate = objectToIterate;
-    actualDate[dateToCheck] = {};
-    actualDate = actualDate[dateToCheck];
-  }
-
-  return actualDate;
-
-}*/

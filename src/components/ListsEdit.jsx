@@ -152,12 +152,22 @@ export default class ListsEdit extends Component{
 
 	render(){
 		const { list, friends, groups } = this.props;
+
 		let listOfFriendsAndGroups = [];
 		if(this.state.textToSearch!==''){
 			const listFriends = this.state.toggleFriend ? [].concat(friends.filter( friend => !this.isInTheArray(friend.id, list ))) : [];
 			const listGroups = this.state.toggleGroup ? [].concat(groups.filter( group => !this.isInTheArray(group.id, list ))) : [];
 			listOfFriendsAndGroups = listFriends.concat(listGroups).filter( item=> item.name.toLowerCase().search(this.state.textToSearch) !== -1);
 		}
+
+		let listOfParticipants =[];
+		if(list!==undefined && friends!==undefined && groups!==undefined){
+
+			const listOfGroupsInParticipants = list.participants[0].map( idParticipant => friends.map( group => idParticipant===group.id ? {id:idParticipant, name: group.name} : '' )[0]);
+			const listOfFriendsInParticipants = list.participants[0].map( idParticipant => friends.map( friend => idParticipant===friend.id ? {id:idParticipant, name: friend.name} : '' )[0]);
+			listOfParticipants = listOfGroupsInParticipants.concat(listOfFriendsInParticipants);
+		}
+
 
 		let customActions = [
 		  <FlatButton
@@ -280,7 +290,10 @@ export default class ListsEdit extends Component{
 						<h4>Friends and Groups manage {list.title}</h4><br/>
 						<ul >
 							{
-								list.participants.map( (item, index) => <li key={index}><span className="deleteButtonFriendGroup glyphicon glyphicon-remove" onClick={() => this.handleOnRemoveFriendGroupToList(item.id)}></span>{item.name}</li>)
+								listOfParticipants.length===0 ? '' :
+									listOfParticipants.map( (item, index) => item!=='' && item!==undefined ?
+										<li key={index}><span className="deleteButtonFriendGroup glyphicon glyphicon-remove" onClick={() =>
+												 this.handleOnRemoveFriendGroupToList(item.id)}></span>{item.name}</li> : '')
 							}
 						</ul>
 					</div>
@@ -298,10 +311,8 @@ ListsEdit.propTypes = {
 	removeList: PropTypes.func,
 	onEditList: PropTypes.func,
 	friends: PropTypes.array,
-  groups: PropTypes.array
-	/*,
-
-	onRemoveList: PropTypes.func,
+  groups: PropTypes.array,
 	onAddFriendGroupToList: PropTypes.func,
-	onRemoveFriendGroupToList: PropTypes.func,*/
+	onRemoveFriendGroupToList: PropTypes.func
+
 };
