@@ -23,7 +23,7 @@ export default class GroupFriends extends React.Component {
 					const pos = arrayPositionByObjectKey('id', idFriend, friends);
 					const friend = (pos !== -1)?friends[pos] :{};
 					return (friend['img'] !== '')
-						?<a title={friend['name']} style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => this.handleRemoveGroupFriend(idFriend, idGroup, Group)}>
+						?<a title={friend['name']} style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} >
 							<img
 								style={{position: 'absolute'}}
 								className="avatar"
@@ -33,15 +33,15 @@ export default class GroupFriends extends React.Component {
 								/>
 							<div className="avatar" style={{position: 'absolute'}}>
 								<div style={{display: 'flex', justifyContent: 'flex-end'}}>
-									<img style={{width: '13', height: '13'}} src="https://cdn1.iconfinder.com/data/icons/ui-icons-2/512/wrong-01-512.png" />
+									{(Group.props.groups[arrayPositionByObjectKey('id', idGroup, Group.props.groups)].administrator === '0') ?<img style={{width: '13', height: '13', background: 'coral', borderRadius: '10'}} src="http://wiki.guildwars.com/images/1/1d/Cross_grey_200.png" onClick={() => this.handleRemoveGroupFriend(idFriend, idGroup, Group)} /> :''}
 								</div>
 							</div>
 						</a>
-						:<a style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => this.handleRemoveGroupFriend(idFriend, idGroup, Group)}>
+						:<a style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} >
 							{avatarLetter(friend['name'], friend['id'])}
 							<div className="avatar" style={{position: 'absolute'}}>
 								<div style={{display: 'flex', justifyContent: 'flex-end'}}>
-									<img style={{width: '13', height: '13'}} src="https://cdn1.iconfinder.com/data/icons/ui-icons-2/512/wrong-01-512.png" />
+									{(Group.props.groups[arrayPositionByObjectKey('id', idGroup, Group.props.groups)].administrator === '0') ?<img style={{width: '13', height: '13', background: 'coral', borderRadius: '10'}} src="http://wiki.guildwars.com/images/1/1d/Cross_grey_200.png" onClick={() => this.handleRemoveGroupFriend(idFriend, idGroup, Group)}/> :''}
 								</div>
 							</div>
 						</a>;

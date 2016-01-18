@@ -75,18 +75,21 @@ export function addGroupFriend(idFriend, idGroup){
   return (dispatch, getState) => {
     let val='';
     const { firebase } = getState();
-    firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => val += snapshot.val());
-    val += (val === '') ?idFriend :','+idFriend;
-    firebase.child(`groups/${idGroup}/friends`).set(val,
-     error => {
-        if(error){
-          console.error('ERROR @ addGroupFriend:', error);
-          dispatch({
-            type: ADD_FRIEND_GROUP_ERROR,
-            payload: error,
+    firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => val = snapshot.val().split(','));
+    if(val.indexOf(idFriend) === -1){
+        val.join(',');
+        val += (val === '') ?idFriend :','+idFriend;
+        firebase.child(`groups/${idGroup}/friends`).set(val,
+         error => {
+            if(error){
+              console.error('ERROR @ addGroupFriend:', error);
+              dispatch({
+                type: ADD_FRIEND_GROUP_ERROR,
+                payload: error,
+            });
+            }
         });
-        }
-    });
+    }
   };
 }
 
