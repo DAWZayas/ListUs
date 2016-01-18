@@ -10,12 +10,12 @@ export default class CommentsChat extends Component {
     };
   }
 
-  componentDidUpdate(){
-    this.refs.final.scrollIntoView(true);
-  }
-
   componentWillMount() {
     this.props.registerListeners(this.props.router.params.idList);
+  }
+
+  componentDidUpdate(){
+    this.refs.final.scrollIntoView(true);
   }
 
   componentWillUnmount() {
@@ -29,10 +29,8 @@ export default class CommentsChat extends Component {
 
 */
 
-
-
   onClickAddComment(){
-    const { onAddComment, user } = this.props;
+    const { onAddComment } = this.props;
     const textComment = this.refs.textArea.value;
     if(textComment!==''){
       const minut = moment().minutes()<10 ? '0'+ moment().minutes() : moment().minutes();
@@ -131,6 +129,7 @@ export default class CommentsChat extends Component {
 };
 
 CommentsChat.propTypes = {
+  router: PropTypes.object,
   idList: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   onAddComment: PropTypes.func,

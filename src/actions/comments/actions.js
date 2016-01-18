@@ -1,7 +1,3 @@
-import { SET_COMMENTS } from './action-types';
-
-
-
 export function onAddComment(idList, user, date, hour, msg){
   return (dispatch, getState) => {
     const { firebase } = getState();

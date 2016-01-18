@@ -8,7 +8,7 @@ export function registerListeners(idList){
     const ref = firebase.child('comments');
     ref.on('value', snapshot => {
       const list = snapshot.val()[idList] ?
-                        Object.keys(snapshot.val()[idList]).map( (init, id) => snapshot.val()[idList])[0]
+                        Object.keys(snapshot.val()[idList]).map( () => snapshot.val()[idList])[0]
                         : null;
       dispatch({
         type: SET_COMMENTS,

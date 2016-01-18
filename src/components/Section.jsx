@@ -148,13 +148,14 @@ export default class Section extends Component {
 
 Section.propTypes = {
   lists: PropTypes.array,
+  groups: PropTypes.array,
   addList: PropTypes.func,
   removeList: PropTypes.func,
   editList: PropTypes.func,
   tasks: PropTypes.object,
   addFriendGroupToList: PropTypes.func,
   friends: PropTypes.array,
-  onRemoveFriendGroupToList: PropTypes.func,
+  removeFriendGroupToList: PropTypes.func,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };

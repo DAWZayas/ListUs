@@ -80,7 +80,6 @@ export default class Calendar extends Component {
     }
     for (let key in dates) {
       if (numberDay === key) {
-        debugger;
         pendingTasks = (<ul>
           {
             arrayObjectsDays.map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task[0].id}`}>{task[0].title}</Link> <span> with an importance of: {task[0].importance}</span></li>)

@@ -274,13 +274,13 @@ Groups.propTypes= {
 	user: PropTypes.object,
 	groups: PropTypes.array,
 	friends: PropTypes.array,
-	/*onRemoveGroupFriend: PropTypes.func,
-	onChangeGroupAdmin: PropTypes.func,
-	onshowGroupFriends: PropTypes.func,
-	onRemoveGroup: PropTypes.func,
-	onEditGroup: PropTypes.func,
-	onAddGroup: PropTypes.func,
-	onAddGroupFriend: PropTypes.func,*/
+	editGroup: PropTypes.func,
+	onRemoveGroupFriend: PropTypes.func,
+	removeGroup: PropTypes.func,
+	changeGroupAdmin: PropTypes.func,
+	onAddGroupFriend: PropTypes.func,
+	showGroupFriends: PropTypes.func,	
+	addGroup: PropTypes.func,	
 	registerListeners: PropTypes.func,
 	unregisterListeners: PropTypes.func
 
