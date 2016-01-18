@@ -1,6 +1,5 @@
 import { SHOW_GROUP_FRIENDS, ADD_FRIEND_GROUP, REMOVE_FRIEND_GROUP } from '../actions';
 import { arrayPositionByObjectKey } from '../utils/functions';
-import { getId } from '../utils';
 import { SET_GROUPS } from '../actions/groups';
 
 function setGroups(state, groups){

@@ -148,7 +148,7 @@ render() {
         </ul>
       </div>
       <div className="col-md-12 center">
-      {/*<CommentsContainer />*/}
+      <CommentsContainer />
       </div>
     </div>
   );

@@ -130,6 +130,8 @@ export default class Friends extends Component {
 
 Friends.propTypes= {
     friends: PropTypes.array.isRequired,
+    addFriend: PropTypes.func,
+    removeFriend: PropTypes.func,
     registerListeners: PropTypes.func.isRequired,
     unregisterListeners: PropTypes.func.isRequired
 };

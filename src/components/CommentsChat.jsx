@@ -10,12 +10,12 @@ export default class CommentsChat extends Component {
     };
   }
 
-  componentDidUpdate(){
-    this.refs.final.scrollIntoView(true);
-  }
-
   componentWillMount() {
     this.props.registerListeners(this.props.router.params.idList);
+  }
+
+  componentDidUpdate(){
+    this.refs.final.scrollIntoView(true);
   }
 
   componentWillUnmount() {
@@ -29,15 +29,13 @@ export default class CommentsChat extends Component {
 
 */
 
-
-
   onClickAddComment(){
-    const { onAddComment, idList, user } = this.props;
+    const { onAddComment } = this.props;
     const textComment = this.refs.textArea.value;
     if(textComment!==''){
       const minut = moment().minutes()<10 ? '0'+ moment().minutes() : moment().minutes();
       const time = moment().hours() + ':' + minut;
-      onAddComment(idList, user.name, moment().format('L'), time, textComment);
+      onAddComment(this.props.router.params.idList, 'Pepe', moment().format('L'), time, textComment);
       setTimeout(() => this.refs.textArea.value = '', 0);
     }
   }
@@ -100,11 +98,10 @@ export default class CommentsChat extends Component {
 
   render(){
     const {comments} = this.props;
-    debugger;
     return(
 
       <div ref="chat" className="chat">
-        { comments !== [] ? <span>
+        { comments.constructor === Array ? <span>
         <div>
           <ul className="listComments">
             {
@@ -119,11 +116,12 @@ export default class CommentsChat extends Component {
             }
           </ul>
         </div>
+        </span> : ''}
         <div className="messageAndButtonSend">
           <textarea className="form-control inputSendMsg" ref="textArea" max-height="140" onKeyDown={e => this.handleOnKeyDown(e)}></textarea>
           <button className="btn btn-success glyphicon glyphicon-send buttonSendMessage" onClick={ () => this.onClickAddComment()}></button>
         </div>
-      </span> : ''}
+      
     </div>
     );
   }
@@ -131,6 +129,7 @@ export default class CommentsChat extends Component {
 };
 
 CommentsChat.propTypes = {
+  router: PropTypes.object,
   idList: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   onAddComment: PropTypes.func,
