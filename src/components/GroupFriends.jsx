@@ -8,7 +8,7 @@ export default class GroupFriends extends React.Component {
  	}
 
  	handleRemoveGroupFriend(idFriend, idGroup, Group){
-		Group.props.onRemoveGroupFriend(idFriend, idGroup);
+		Group.props.removeGroupFriend(idFriend, idGroup);
 	}
 
  	

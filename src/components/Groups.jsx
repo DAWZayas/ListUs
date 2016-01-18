@@ -76,7 +76,7 @@ export default class Groups extends Component {
 		if(pos === -1) this.setState({error: 'None of your friends matches whith that name'});
 		else{
 			const idFriend = this.props.friends[pos]['id'];
-			if(this.state.admin === false) this.props.onAddGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.id);
+			if(this.state.admin === false) this.props.addGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.id);
 			else this.props.changeGroupAdmin(idFriend, this.state.id);
 			this.setState({error: ''});
 			this.handleClickDismissDialog(e, 'dialogAddFriend');

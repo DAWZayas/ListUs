@@ -158,18 +158,6 @@ export function showGroupFriends(idGroup, idFriend){
   return { type: SHOW_GROUP_FRIENDS, idGroup, idFriend };
 }
 
-export function addGroupFriend(idFriend, idGroup){
-  return {
-    type: ADD_FRIEND_GROUP, idFriend, idGroup
-  };
-}
-
-export function removeGroupFriend(idFriend, idGroup){
-  return {
-    type: REMOVE_FRIEND_GROUP, idFriend, idGroup
-  };
-}
-
 
 
 /*

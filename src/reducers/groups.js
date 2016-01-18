@@ -17,12 +17,12 @@ function showGroupFriends(state, idGroup){
 	);
 }
 
-function addGroupFriend(state, idFriend, id){
+/*function addGroupFriend(state, idFriend, id){
 	var newState = state.slice();
 	var friends = newState[arrayPositionByObjectKey('id', id, newState)]['friends'];
 	if(friends.indexOf(idFriend) === -1) newState[arrayPositionByObjectKey('id', id, newState)]['friends'].push(idFriend);
 	return newState;
-}
+}*/
 
 function removeGroupFriend(state, idFriend, id){
 	var newState = state.slice();
@@ -38,8 +38,8 @@ export default function groupsReducer(state = [], action){
 			return setGroups(state, action.groups);
 		case SHOW_GROUP_FRIENDS:
 			return showGroupFriends(state, action.idGroup);
-		case ADD_FRIEND_GROUP:
-			return addGroupFriend(state, action.idFriend, action.idGroup);
+		/*case ADD_FRIEND_GROUP:
+			return addGroupFriend(state, action.idFriend, action.idGroup);*/
 		case REMOVE_FRIEND_GROUP:
 			return removeGroupFriend(state, action.idFriend, action.idGroup);
 		default:
