@@ -54,14 +54,7 @@ export const REMOVE_FRIEND_GROUP = 'REMOVE_FRIEND_GROUP';
 /*
 * GROUPS
 */
-
-//export const SET_GROUPS = 'SET_GROUPS';
-//export const ADD_GROUP = 'ADD_GROUP';
-//export const REMOVE_GROUP = 'REMOVE_GROUP';
-//export const EDIT_GROUP = 'EDIT_GROUP';
-//export const SHOW_GROUP_FRIENDS = 'SHOW_GROUP_FRIENDS';
-//export const CHANGE_GROUP_ADMIN = 'CHANGE_GROUP_ADMIN';
-
+export const SHOW_GROUP_FRIENDS = 'SHOW_GROUP_FRIENDS';
 
 
 /*
@@ -161,36 +154,9 @@ export function addFriendGroup(idGroup, idFriend){
 * groups actions creator
 */
 
-/*export function setGroups(groups){
-  return {
-    type: SET_GROUPS, groups
-  };
+export function showGroupFriends(idGroup, idFriend){
+  return { type: SHOW_GROUP_FRIENDS, idGroup, idFriend };
 }
-
-
-export function addGroup(name, idUser){
-  return {
-    type: ADD_GROUP, name, idUser
-  };
-}*/
-
-/*export function removeGroup(idGroup){
-  return {
-    type: REMOVE_GROUP, idGroup
-  };
-}*/
-
-/*export function editGroup(idGroup, name){
-  return {
-    type: EDIT_GROUP, idGroup, name
-  };
-}*/
-
-/*export function showGroupFriends(idGroup){
-  return {
-    type: SHOW_GROUP_FRIENDS, idGroup
-  };
-}*/
 
 export function addGroupFriend(idFriend, idGroup){
   return {
@@ -204,11 +170,7 @@ export function removeGroupFriend(idFriend, idGroup){
   };
 }
 
-/*export function changeGroupAdmin(idFriend, idGroup){
-  return {
-    type: CHANGE_GROUP_ADMIN, idFriend, idGroup
-  };
-}*/
+
 
 /*
 * User actions creator

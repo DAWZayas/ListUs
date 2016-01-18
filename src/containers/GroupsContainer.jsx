@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import Groups from '../components/Groups';
-import { editGroup, removeGroup, showGroupFriends, addGroupFriend, changeGroupAdmin, removeGroupFriend } from '../actions';
-import { addGroup } from '../actions/groups';
-import * as groupsActions from '../actions/groups';
+import { showGroupFriends, addGroupFriend, changeGroupAdmin, removeGroupFriend } from '../actions';
+import { addGroup, editGroup, removeGroup, registerListeners, unregisterListeners } from '../actions/groups';
 //import { registerListeners, unregisterListeners } from '../actions/groups';
 
 function mapStateToProps(state) {
@@ -13,23 +12,23 @@ function mapStateToProps(state) {
   };
 }
 
-/*function mapActionsToProps(dispatch) {
+function mapActionsToProps(dispatch) {
   return {
-  		onshowGroupFriends: idGroup => dispatch(showGroupFriends(idGroup)),
-		onAddGroup: (name, idUser) => dispatch(addGroup(name, idUser)),
-		onEditGroup: (idGroup, name) => dispatch(editGroup(idGroup, name)),
-		onRemoveGroup: idGroup => dispatch(removeGroup(idGroup)),
+  		showGroupFriends: idGroup => dispatch(showGroupFriends(idGroup)),
+		addGroup: (name, idUser) => dispatch(addGroup(name, idUser)),
+		editGroup: (idGroup, name) => dispatch(editGroup(idGroup, name)),
+		removeGroup: idGroup => dispatch(removeGroup(idGroup)),
 		onAddGroupFriend: (idFriend, idGroup) => dispatch(addGroupFriend(idFriend, idGroup)),
 		onRemoveGroupFriend: (idFriend, idGroup) => dispatch(removeGroupFriend(idFriend, idGroup)),
-		onChangeGroupAdmin: (idFriend, idGroup) => dispatch(changeGroupAdmin(idFriend, idGroup)),
+		changeGroupAdmin: (idFriend, idGroup) => dispatch(changeGroupAdmin(idFriend, idGroup)),
 		registerListeners: () => dispatch(registerListeners()),
 		unregisterListeners: () => dispatch(unregisterListeners())
   };
-}*/
+}
 
 export default connect(
 	mapStateToProps,
-	//mapActionsToProps
+	mapActionsToProps,
 	//state => ({ groups: state.groups }),
-	groupsActions
+	//groupsActions
 )(Groups);
