@@ -14,6 +14,14 @@ export default class CommentsChat extends Component {
     this.refs.final.scrollIntoView(true);
   }
 
+  componentWillMount() {
+    this.props.registerListeners(this.props.router.params.idList);
+  }
+
+  componentWillUnmount() {
+    this.props.unregisterListeners();
+  }
+
 /*
 
   CAMBIAR EL USER 'PEPE' DE ONCLICKADDCOMMENT()
@@ -92,8 +100,11 @@ export default class CommentsChat extends Component {
 
   render(){
     const {comments} = this.props;
+    debugger;
     return(
+
       <div ref="chat" className="chat">
+        { comments !== [] ? <span>
         <div>
           <ul className="listComments">
             {
@@ -112,6 +123,7 @@ export default class CommentsChat extends Component {
           <textarea className="form-control inputSendMsg" ref="textArea" max-height="140" onKeyDown={e => this.handleOnKeyDown(e)}></textarea>
           <button className="btn btn-success glyphicon glyphicon-send buttonSendMessage" onClick={ () => this.onClickAddComment()}></button>
         </div>
+      </span> : ''}
     </div>
     );
   }
@@ -122,5 +134,7 @@ CommentsChat.propTypes = {
   idList: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   onAddComment: PropTypes.func,
-  onRemoveComments: PropTypes.func
+  onRemoveComments: PropTypes.func,
+  registerListeners: PropTypes.func.isRequired,
+  unregisterListeners: PropTypes.func.isRequired
 };

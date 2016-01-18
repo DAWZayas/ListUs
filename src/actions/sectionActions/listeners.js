@@ -18,7 +18,7 @@ export function registerListeners(){
           id,
           idList: snapshot.val()[id].idList,
           title: snapshot.val()[id].title,
-          done: false
+          done: snapshot.val()[id].done
         }}), {})
       });
     });

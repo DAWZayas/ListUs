@@ -1,13 +1,19 @@
-import {ADD_COMMENT, REMOVE_COMMENTS, ADD_LIST } from '../actions';
+//import {ADD_COMMENT, REMOVE_COMMENTS, ADD_LIST } from '../actions';
+import {SET_COMMENTS} from '../actions/comments';
+
+function setComments(state, comments){
+  return comments.slice();
+}
+
 //import { ROUTER_DID_CHANGE } from 'redux-router/lib/constants';
 
-function addComment(state, idList, user, date, hour, msg){
+/*function addComment(state, idList, user, date, hour, msg){
   const arrayComents = state[idList] === undefined ? [] : state[idList];
   const newArray = arrayComents.concat({ user, date, hour, msg});
   return Object.assign( {}, state, {[idList]:newArray});
 }
 
-function removeComments(state, idList){
+/*function removeComments(state, idList){
   let newState = Object.assign({}, state);
   delete newState[idList];
   return newState;
@@ -25,7 +31,9 @@ function setCommentsReaded(state, path){
 export default function reduceComment( state={}, action ){
 
   switch (action.type) {
-    case ADD_COMMENT:
+    case SET_COMMENTS:
+      return setComments(state, action.comments);
+    /*case ADD_COMMENT:
       return addComment(state, action.idList, action.user, action.date, action.hour, action.msg);
     case REMOVE_COMMENTS:
       return removeComments(state, action.idList);
