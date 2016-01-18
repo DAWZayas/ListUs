@@ -56,54 +56,10 @@ export function objIsEmpty(obj){
 }
 
 
-/*********************** GROUP FUNCTIONS *************************************/
-
-export function groupFriends(idFriends, idGroup, friends, idUser, that){
-		const refer =  'fr'+idGroup;
-		const idFriendsPure = idFriends.filter(idFriend => idFriend !== idUser);
-		return (
-			<div ref={refer} className="group-friends" >
-				<img src={'https://upload.wikimedia.org/wikipedia/commons/3/38/UtR_arrow.svg'} width="30" />
-				{(idFriendsPure.length !== 0)?idFriendsPure.map(function(idFriend){
-					const pos = arrayPositionByObjectKey('id', idFriend, friends);
-					const friend = (pos !== -1)?friends[pos] :{};
-					return (friend['img'] !== '')
-						?<a title={friend['name']} style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
-							<img
-								style={{position: 'absolute'}}
-								className="avatar"
-								key={friend['id']}
-								src={friend['img']}
-								alt={friend['name']}
-								/>
-							<div className="avatar" style={{position: 'absolute'}}>
-								<div style={{display: 'flex', justifyContent: 'flex-end'}}>
-									<img style={{width: '13', height: '13'}} src="https://cdn1.iconfinder.com/data/icons/ui-icons-2/512/wrong-01-512.png" />
-								</div>
-							</div>
-						</a>
-						:<a style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
-							{avatarLetter(friend['name'], friend['id'])}
-							<div className="avatar" style={{position: 'absolute'}}>
-								<div style={{display: 'flex', justifyContent: 'flex-end'}}>
-									<img style={{width: '13', height: '13'}} src="https://cdn1.iconfinder.com/data/icons/ui-icons-2/512/wrong-01-512.png" />
-								</div>
-							</div>
-						</a>;
-					}.bind(this))
-				: <h3 style={{fontStyle: 'italic'}}>No friends</h3>}
-			</div>
-		);
-	}
-
-
-
-
-
 
 /************************* GET USER INFO ***************************************/
 
-export function getFriends(idFriends){
+/*export function getFriends(idFriends){
 	let friends = [];
 	idFriends.map(function(idFriend){
 			const pos = arrayPositionByObjectKey('id', idFriend, serverUsers);
@@ -154,7 +110,7 @@ export function getTasks(userLists){
 	var s=objsAllValuesMatch('idList', arrayValues, serverTasks);
 	return s;
 }
-
+*/
 
 
 /********************** SORTED ARRAY ******************************/
@@ -191,11 +147,11 @@ export const menuItems = [
 
 
 /****************** *************************/
-export function clearUser(){
+/*export function clearUser(){
 	const { onSetUser, onSetLists, onSetTasks, onSetGroups } = this.props;
 	onSetUser({});
 	onSetLists([]);
 	onSetTasks({});
 	onSetGroups([]);
 
-}
+}*/

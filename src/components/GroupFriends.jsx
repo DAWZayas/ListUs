@@ -1,4 +1,5 @@
 import React from 'react';
+import { avatarLetter, arrayPositionByObjectKey } from '../utils/functions';
 
 export default class GroupFriends extends React.Component {
 
@@ -6,8 +7,13 @@ export default class GroupFriends extends React.Component {
     	super(props);
  	}
 
+ 	handleRemoveGroupFriend(idFriend, idGroup, Group){
+		Group.props.onRemoveGroupFriend(idFriend, idGroup);
+	}
+
+ 	
 	render() {
-		const { idFriends, idGroup, friends, idUser, that } = this.props;
+		const { idFriends, idGroup, friends, idUser, Group } = this.props;
 		const refer =  'fr'+idGroup;
 		const idFriendsPure = idFriends.filter(idFriend => idFriend !== idUser);
 		return (
@@ -17,7 +23,7 @@ export default class GroupFriends extends React.Component {
 					const pos = arrayPositionByObjectKey('id', idFriend, friends);
 					const friend = (pos !== -1)?friends[pos] :{};
 					return (friend['img'] !== '')
-						?<a title={friend['name']} style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
+						?<a title={friend['name']} style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => this.handleRemoveGroupFriend(idFriend, idGroup, Group)}>
 							<img
 								style={{position: 'absolute'}}
 								className="avatar"
@@ -31,7 +37,7 @@ export default class GroupFriends extends React.Component {
 								</div>
 							</div>
 						</a>
-						:<a style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => that.handeRemoveGroupFriend(idFriend, idGroup)}>
+						:<a style={{cursor: 'pointer', position: 'relative', width: '50', height: '31'}} onClick={() => this.handleRemoveGroupFriend(idFriend, idGroup, Group)}>
 							{avatarLetter(friend['name'], friend['id'])}
 							<div className="avatar" style={{position: 'absolute'}}>
 								<div style={{display: 'flex', justifyContent: 'flex-end'}}>
