@@ -1,7 +1,6 @@
 #_ListUs_
-  _'The app that will organize your live.  
- -And not only yours'_
- +And not only yours.'_
+  'The app that will organize your live.  
+ And not only yours and not only yours.'
 
 + Manage groups.
 + Create events or lists for a given day, where you can add people or groups to carry on those events or lists.

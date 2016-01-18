@@ -8,7 +8,7 @@ export function addGroup(name){
   return (dispatch, getState) => {
     const { firebase } = getState();
     firebase.child('groups').push({name, showFriends: false,
-       administrator: '0', friends: ""
+       administrator: '0', friends: ''
      }, error => {
         if(error){
           console.error('ERROR @ addGroup:', error);
@@ -95,7 +95,7 @@ export function removeGroupFriend(idFriend, idGroup){
     let val='';
     const { firebase } = getState();
     firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => val = snapshot.val().split(','));
-    val.splice(val.indexOf(idFriend), 1)
+    val.splice(val.indexOf(idFriend), 1);
     val = val.join(',');
     firebase.child(`groups/${idGroup}/friends`).set(val,
      error => {
