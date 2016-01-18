@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ItemTaskDetails from './ItemTaskDetails';
 import TaskTitle from './TaskTitle';
 
-//import CommentsContainer from '../containers/CommentsContainer';
+import CommentsContainer from '../containers/CommentsContainer';
 
 
 export default class ListDetails extends Component {
@@ -64,10 +64,11 @@ renderForce(){
   this.forceUpdate();
 }
 
+
 render() {
 
 
-  const { list, lists, removeList, editList, tasks, addTask, removeTask, editTask, friends, groups, addFriendGroupToList, removeFriendGroupToList } = this.props;
+  const { list, lists, removeList, editList, tasks, addTask, removeTask, editTask, friends, groups, addFriendGroupToList, removeFriendGroupToList, markAsDone } = this.props;
 
   let tasksToShow;
   let showTasks = this.state.tasksShown;
@@ -121,7 +122,7 @@ render() {
       <div className="article col-md-12">
         <ul className="nav nav-pills nav-stacked navMarginTop list-group">
           {
-            Object.values(tasksToShow).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails renderForce={this.renderForce.bind(this)} key={index} task={task} onRemoveTask={removeTask} onEditTask={editTask} /> : null)
+            Object.values(tasksToShow).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails markAsDone={markAsDone} renderForce={this.renderForce.bind(this)} key={index} task={task} onRemoveTask={removeTask} onEditTask={editTask} /> : null)
           }
         </ul>
         <div className={`${Object.values(tasksToShow).length === 0 ? 'col-xs-12' : 'hidden'}`}>
@@ -169,6 +170,7 @@ ListDetails.propTypes = {
   editList: PropTypes.func.isRequired,
   addFriendGroupToList: PropTypes.func.isRequired,
   removeFriendGroupToList: PropTypes.func.isRequired,
+  markAsDone: PropTypes.func.isRequired,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };

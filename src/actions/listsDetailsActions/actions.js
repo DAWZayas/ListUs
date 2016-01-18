@@ -98,7 +98,7 @@ export function editList(idList, title, date, newDate, importance){
           payload, error
         });
       }else{
-        
+
         addToCalendarNewDate(firebase, idList, newDate);
         removeDateFromCalendar(firebase, idList, date);
       }
@@ -183,4 +183,16 @@ export function addFriendGroupToTask( idTask, id){
     });
 
   };
+}
+
+
+export function markAsDone(id){
+  return (dispatch, getState) => {
+    const {firebase} = getState();
+    const taskRef = firebase.child(`tasks/${id}`);
+    taskRef.once('value', snapshot => {
+      const isDone = !snapshot.val().done;
+      taskRef.update({done:isDone});
+    });
+  }
 }

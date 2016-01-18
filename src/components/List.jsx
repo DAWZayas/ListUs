@@ -21,8 +21,7 @@ export default class List extends Component {
     var newTasks = tasks===undefined ? [] : tasks;
     return(
     <div>
-      {
-        list!==undefined ?
+
 
       <div className="row list listNotCompleted">
         <div className="col-xs-1"></div>
@@ -45,7 +44,7 @@ export default class List extends Component {
         </div>
 
       </div>
-      : ''}
+      
     </div>
     );
 
