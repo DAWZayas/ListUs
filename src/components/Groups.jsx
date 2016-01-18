@@ -22,13 +22,6 @@ export default class Groups extends Component {
 		};
 	}
 
-	 componentWillMount() {
-	    this.props.registerListeners();
-	  }
-
-	  componentWillUnmount() {
-	    this.props.unregisterListeners();
-	  }
 
 	/* Dialog functions */
 
@@ -45,10 +38,6 @@ export default class Groups extends Component {
 		(ref === 'dialogAddGroup')?this.refs.dialogAddGroup.show():this.refs.dialogAddFriend.show();
 	}
 
-	handleClickShowGroupFriends(e, id){
-		e.preventDefault();
-		this.props.showGroupFriends(id);
-	}
 
 	/* Add group or friend */
 	applyParamsToArray(ref){
@@ -100,12 +89,6 @@ export default class Groups extends Component {
 		this.props.removeGroup(id);
 	}
 
-	/* Remove friend */
-	handeRemoveGroupFriend(idFriend, idGroup){
-		this.props.onRemoveGroupFriend(idFriend, idGroup);
-		//this.handleHideRemove();
-	}
-
 	/* Editing groups*/
 	handleClickSetRefToEdit(id){
 		this.refs.dialogEdit.dismiss();
@@ -119,7 +102,6 @@ export default class Groups extends Component {
 			this.handleHideEdit();
 		}
 		else this.setState({error: 'Group\'s name already exists.'});
-		
 	}
 
 	editDialogActions(ref){
@@ -195,25 +177,22 @@ export default class Groups extends Component {
 		const groups = (sorted === 'Sort By')
 			?this.props.groups
 			:sortArray(this.props.groups, key, sorted.split(' ')[1]);
+		const posGroup = arrayPositionByObjectKey('id', groupId, this.props.groups);
 		return (
 			<section>
        			<SectionHeader title="GROUPS" openDialog={() => this.handleClickShowDialog('dialogAddGroup')} menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
-       			<GroupSections groups={groups} friends={this.props.friends} user={this.props.user} that={this} />
-
-       		{/*this.props.groups.map(group => <p>Nombre: {group.name}; administrator: {group.administrator}</p>)*/}
+       			<GroupSections groups={groups} friends={this.props.friends} user={this.props.user} Group={this} showGroupFriends={this.props.showGroupFriends}/>
 
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
 
 		    	<Dialog ref="dialogEdit" title="Edit Options">
 					<List>
 					  <ListItem primaryText="Edit Name" onClick={() => this.handleClickSetRefToEdit(groupId)} rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-pencil"></span>}/>
-					  <ListItem primaryText="Remove Group" onClick={() => this.handleClickRemoveGroup(groupId)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>}/>
-					  <ListItem primaryText="Switch Admin" onClick={() => this.handleClickShowDialog('dialogAddFriend', groupId, true)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="
-	glyphicon glyphicon-refresh"></span>}/>
+					  {(posGroup !== -1)?(this.props.groups[posGroup].administrator === '0') ?<ListItem primaryText="Remove Group" onClick={() => this.handleClickRemoveGroup(groupId)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>}/> :'' :''}
+					  {(posGroup !== -1)?(this.props.groups[posGroup].administrator === '0') ?<ListItem primaryText="Switch Admin" onClick={() => this.handleClickShowDialog('dialogAddFriend', groupId, true)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="
+	glyphicon glyphicon-refresh"></span>}/> :'' :''}
 					</List>
 				</Dialog>
-
-		    	
 
 
 				<Dialog className="addFriends"

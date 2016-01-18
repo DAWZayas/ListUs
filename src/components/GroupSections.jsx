@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Tab, Tabs, AppBar, FlatButton } from 'material-ui';
-import { groupFriends } from '../utils/functions';
+import GroupFriends from './GroupFriends';
 
 
 
@@ -9,7 +9,11 @@ export default class GroupSections extends Component{
 		super(props);
 	}
 
-	groupsList(groups, friends, user, that){
+	handleClickShowGroupFriends(id){
+		this.props.showGroupFriends(id);
+	}
+
+	groupsList(groups, friends, user, Group, GroupSection){
 		return (<div>
 			{(groups.length !== 0)?groups.map(function(group){
 						return (
@@ -18,54 +22,55 @@ export default class GroupSections extends Component{
 										title={group['name']}
 										className="listGroups"
 										iconElementRight={<div className="deleteEdit">
-											<button type="button" className="btn btn-default" onClick={() =>that.handleShowEdit(group['id'])} style={{height: '35px'}}> 
+											<button type="button" className="btn btn-default" onClick={() =>Group.handleShowEdit(group['id'])} style={{height: '35px'}}> 
 												<span className="glyphicon glyphicon-edit" aria-hidden="true"></span>
 											</button>
 										</div>
 										}
-										onLeftIconButtonTouchTap={e => that.handleClickShowGroupFriends(e, group['id'])}
+										onLeftIconButtonTouchTap={() => GroupSection.handleClickShowGroupFriends(group['id'])}
 										style={{backgroundColor: '#7394D5', paddingLeft: '50px', paddingRight: '40px'}}
 
 								/>
 		 						{(group['showFriends']===true)?<div>
 												{/*groupFriends(group['friends'], group['id'], friends, user.id, that)*/}
-												{groupFriends(group['friends'], group['id'], friends, '0', that)}
+												<GroupFriends idFriends={group['friends']} idGroup={group['id']} friends={friends} idUser='0' Group={Group} />
 												<div style={{display: 'flex', justifyContent: 'flex-end'}}>
-													<FlatButton label=" +Friend" primary style={{color: 'red', borderRadius: '10'}} onClick={() => that.handleClickShowDialog('dialogAddFriend', group['id'])}/>
+													<FlatButton label=" +Friend" primary style={{color: 'red', borderRadius: '10'}} onClick={() => Group.handleClickShowDialog('dialogAddFriend', group['id'])}/>
 												</div>
 											</div>
 										  :''}
 	 						</div>
 	 					);
-					}.bind(that))
+					}.bind(Group))
 					: <h3 style={{paddingLeft: '2em', fontStyle: 'italic'}}>No groups</h3>}
 				</div>);
 	}
 
 	groupsOwnAdmin(groups){
 		//return groups.filter(group => group.administrator === this.props.user.id);
-		return groups;
+		return groups.filter(group => group.administrator === '0');
 	}
 
 	groupsNoAdmin(groups){
 		//return groups.filter(group => group.administrator !== this.props.user.id);
-		return groups;
+		return groups.filter(group => group.administrator !== '0');
 		
 	}
 
+	
 	render(){
-		const { groups, friends, user, that } = this.props;
+		const { groups, friends, user, Group } = this.props;
 		return (
 			<Tabs inkBarStyle={{backgroundColor: '#333399', height: '2px'}}>
 			  <Tab ref="total" label="Total Groups" value="totalGroups" style={{backgroundColor: 'white', color: 'grey', borderColor: 'green'}}
 			  	>
-			    {this.groupsList(groups, friends, user, that)}
+			    {this.groupsList(groups, friends, user, Group, this)}
 			  </Tab>
 			  <Tab label="Administrated Groups" value="adminGroups" style={{backgroundColor: 'white', color: 'grey'}}>
-			  	{this.groupsList(this.groupsOwnAdmin(groups), friends, user, that)}
+			  	{this.groupsList(this.groupsOwnAdmin(groups), friends, user, Group, this)}
 			  </Tab>
 			  <Tab label="Non-Administrated Groups" value="noAdminGroups" style={{backgroundColor: 'white', color: 'grey'}}>
-			  	{this.groupsList(this.groupsNoAdmin(groups), friends, user, that)}
+			  	{this.groupsList(this.groupsNoAdmin(groups), friends, user, Group, this)}
 			  </Tab>
 			</Tabs>
 		);

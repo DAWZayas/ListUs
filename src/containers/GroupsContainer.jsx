@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import Groups from '../components/Groups';
-import { showGroupFriends, addGroupFriend, changeGroupAdmin, removeGroupFriend } from '../actions';
-import { addGroup, editGroup, removeGroup, registerListeners, unregisterListeners } from '../actions/groups';
-//import { registerListeners, unregisterListeners } from '../actions/groups';
+import { showGroupFriends, addGroupFriend, removeGroupFriend } from '../actions';
+import { addGroup, editGroup, removeGroup, registerListeners, unregisterListeners, changeGroupAdmin } from '../actions/groups';
 
 function mapStateToProps(state) {
   return {
