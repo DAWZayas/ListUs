@@ -1,15 +1,18 @@
 import { SET_COMMENTS } from './action-types';
 
-export function registerListeners(){
+export function registerListeners(idList){
 
   return (dispatch, getState) => {
+
     const { firebase } = getState();
     const ref = firebase.child('comments');
-    //state.router.params.idList;
-
-    ref.on('value', snapshot => {debugger;dispatch({
-      type: SET_COMMENTS,
-      comments: snapshot.val()[idList] ? snapshot.val()[idList] :  []
+    ref.on('value', snapshot => {
+      const list = snapshot.val()[idList] ?
+                        Object.keys(snapshot.val()[idList]).map( (init, id) => snapshot.val()[idList])[0]
+                        : null;
+      dispatch({
+        type: SET_COMMENTS,
+        comments: list ? Object.keys(list).reduce( (init, id) => init.concat({id, user:list[id].user, date:list[id].date, hour:list[id].hour, msg:list[id].msg}), []) :  []
     });
   });
 
@@ -23,7 +26,7 @@ export function unregisterListeners(){
     ref.off();
     dispatch({
       type: SET_COMMENTS,
-      friends: []
+      comments: []
     });
   };
 }
