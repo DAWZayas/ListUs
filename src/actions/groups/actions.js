@@ -40,7 +40,7 @@ export function removeGroup(id){
 export function editGroup(id, name){
   return (dispatch, getState) => {
     const { firebase } = getState();
-    firebase.child('groups').child(id).child('name').set(name,
+    firebase.child('groups/'+id).update({name},
      error => {
         if(error){
           console.error('ERROR @ editGroup:', error);
@@ -57,7 +57,7 @@ export function editGroup(id, name){
 export function changeGroupAdmin(idFriend, idGroup){
   return (dispatch, getState) => {
     const { firebase } = getState();
-    firebase.child('groups/'+idGroup+'/administrator').set(idFriend,
+    firebase.child(`groups/${idGroup}/administrator`).set(idFriend,
      error => {
         if(error){
           console.error('ERROR @ changeGroupAdmin:', error);
@@ -71,22 +71,8 @@ export function changeGroupAdmin(idFriend, idGroup){
 }
 
 
-/***************************************/
-export function showGroupFriends(idGroup){
-  return (dispatch, getState) => {
-    const { firebase } = getState();
-    firebase.child('groups/'+idGroup+'/administrator').set(idFriend,
-     error => {
-        if(error){
-          console.error('ERROR @ showGroupFriends:', error);
-          dispatch({
-            type: CHANGE_GROUP_ADMIN_ERROR,
-            payload: error,
-        });
-        }
-    });
-  };
-}
+
+
 
 
 

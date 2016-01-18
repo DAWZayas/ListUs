@@ -39,7 +39,7 @@ export default class Groups extends Component {
 
 	handleClickShowGroupFriends(e, id){
 		e.preventDefault();
-		this.props.onshowGroupFriends(id);
+		this.props.showGroupFriends(id);
 	}
 
 	/* Add group or friend */
@@ -171,13 +171,13 @@ export default class Groups extends Component {
 		this.refs.dialogEdit.show();
 	}
 
-	 componentWillMount() {
+	componentWillMount() {
 	    this.props.registerListeners();
-	  }
+	}
 
-	  componentWillUnmount() {
+	componentWillUnmount() {
 	    this.props.unregisterListeners();
-	  }
+	}
 
 
 	render(){
