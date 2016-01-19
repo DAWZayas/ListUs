@@ -77,7 +77,6 @@ export default class ListsEdit extends Component{
 	}
 
 	handleOpenFriendsAndGroupsListDialog(){
-
 		this.setState({showDialogList: false, showDialogAddFriendsAndGroupsList: true});
 	}
 
@@ -89,13 +88,19 @@ export default class ListsEdit extends Component{
 		this.setState({showDialogEdit: false,
 		showDialogRemove: false,
 		showDialogAddFriendsAndGroups: false,
-		showDialogAddFriendsAndGroupsList: false});
+		showDialogAddFriendsAndGroupsList: false,
+		newParticipant: {},
+		textToSearch: ''});
 	}
 
 	/* FRIENDS AND GROUPS */
 
 	clearTextField(){
     this.refs.textField.setValue('');
+		this.setState({
+			newParticipant: {},
+			textToSearch: ''
+		});
   }
 
   handleOnToggleFriend(){
@@ -107,9 +112,8 @@ export default class ListsEdit extends Component{
   }
 
 	isInTheArray(idParticipants, list){
-
-    const leng = list.participants.filter(participant => participant.id!==idParticipants).length;
-    return list.participants.length!==leng;
+    const leng = list.participants[0].filter(id => id!==idParticipants).length;
+    return list.participants[0].length!==leng;
   }
 
   handleOnChangeTextField(){
@@ -130,7 +134,8 @@ export default class ListsEdit extends Component{
   handleOnClickAddFriendGroupToList(e){
     e.stopPropagation();
     const { list, onAddFriendGroupToList } = this.props;
-    Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list.id, this.state.newParticipant) ;
+    Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list.id, this.state.newParticipant);
+		this.clearTextField();
 		this._handleCloseDialog();
 	}
 
@@ -149,12 +154,17 @@ export default class ListsEdit extends Component{
 		const { onRemoveFriendGroupToList, list } = this.props;
 		onRemoveFriendGroupToList(list.id, idPaticipant);
 	}
+/**/
+	removeUndefinedFromArrays(arr){
+			return arr.filter(item => item!==undefined);
+	}
 
 	render(){
 		const { list, friends, groups } = this.props;
 
 		let listOfFriendsAndGroups = [];
-		if(this.state.textToSearch!==''){
+
+		if(this.state.textToSearch!=='' && friends!==undefined && groups!==undefined){
 			const listFriends = this.state.toggleFriend ? [].concat(friends.filter( friend => !this.isInTheArray(friend.id, list ))) : [];
 			const listGroups = this.state.toggleGroup ? [].concat(groups.filter( group => !this.isInTheArray(group.id, list ))) : [];
 			listOfFriendsAndGroups = listFriends.concat(listGroups).filter( item=> item.name.toLowerCase().search(this.state.textToSearch) !== -1);
@@ -162,8 +172,21 @@ export default class ListsEdit extends Component{
 
 		let listOfParticipants =[];
 		if(list!==undefined && friends!==undefined && groups!==undefined && list.participants[0]!==undefined){
-			const listOfGroupsInParticipants = list.participants[0].map( idParticipant => friends.map( group => idParticipant===group.id ? {id:idParticipant, name: group.name} : '' )[0]);
-			const listOfFriendsInParticipants = list.participants[0].map( idParticipant => friends.map( friend => idParticipant===friend.id ? {id:idParticipant, name: friend.name} : '' )[0]);
+
+			let listOfGroupsInParticipants = list.participants[0].map( idParticipant => groups.filter( function(group){
+				if(idParticipant===group.id){
+					return {id:idParticipant, name: group.name};
+				}
+			})[0]);
+			listOfGroupsInParticipants = this.removeUndefinedFromArrays(listOfGroupsInParticipants);
+
+			let listOfFriendsInParticipants = list.participants[0].map( idParticipant => friends.filter( function(friend){
+				if(idParticipant===friend.id){
+					return {id:idParticipant, name: friend.name};
+				}
+			})[0]);
+			listOfFriendsInParticipants = this.removeUndefinedFromArrays(listOfFriendsInParticipants);
+
 			listOfParticipants = listOfGroupsInParticipants.concat(listOfFriendsInParticipants);
 		}
 
