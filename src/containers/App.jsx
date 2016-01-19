@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import HeaderContainer from './HeaderContainer';
-//import Enter from '../components/Enter';
-
-//import { objIsEmpty } from '../utils/functions';
+import Login from '../components/Login';
+import * as authActions from '../actions/auth';
 
 
 export default class App extends Component {
@@ -12,16 +11,21 @@ export default class App extends Component {
     super(props);
   }
 
-  render() {
-
-    return(
-        <div>
-          <HeaderContainer />
-          {this.props.children}
-        </div>
-      );
-
+  handleLoginGithub(){
+    this.props.signInWithGithub();
   }
+
+  render() {
+      return (this.props.state.authenticated) 
+        ?( 
+          <div> 
+            <HeaderContainer /> 
+            {this.props.children} 
+          </div> 
+        ) 
+        : <Login {...this.props}/>;
+  }
+
 }
 
 App.propTypes = {
@@ -29,15 +33,15 @@ App.propTypes = {
   children: PropTypes.node,
   user: PropTypes.object
 };
- //return (!objIsEmpty(this.props.user)) ?( <div> <HeaderContainer /> {this.props.children} </div> ) : <Enter />; } }
 
 function mapStateToProps(state) {
   return {
-     user: state.user
+     state: state.auth
   };
 }
 
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  authActions
 )(App);

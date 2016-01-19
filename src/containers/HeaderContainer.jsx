@@ -1,23 +1,21 @@
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import { switchUser, setList, setTask, setGroups } from '../actions';
+import * as authActions from '../actions/auth';
 
 function mapStateToProps(state){
 	return{
-		lists: state.lists
+		lists: state.lists,
+		state: state.auth
 	};
 }
 
 function mapActionsToProps(dispatch){
 	return {
-		onSetUser: user => dispatch(switchUser(user)),
-	    onSetLists: lists => dispatch(setList(lists)),
-	    onSetTasks: tasks => dispatch(setTask(tasks)),
-	    onSetGroups: groups => dispatch(setGroups(groups))
+		
 	};
 }
 
 export default connect(
 	mapStateToProps,
-	mapActionsToProps
+	authActions
 )(Header);

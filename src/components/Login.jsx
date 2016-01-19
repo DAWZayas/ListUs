@@ -1,15 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { switchUser, setFriends, setGroups, setList, setTask } from '../actions';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import { TextField, RaisedButton } from 'material-ui';
 import Logo from '../components/Logo';
-import { arrayPositionByObjectKey, getFriends, getGroups, getLists, getTasks } from '../utils/functions';
-import { serverUsers } from '../utils/dataBase';
 
 
-export default class Enter extends Component {
+export default class Login extends Component {
 
   constructor(props) {
     super(props);
@@ -21,21 +17,16 @@ export default class Enter extends Component {
 
 /************/
   handleClickLogIn(){
-      const pos = arrayPositionByObjectKey('name', this.refs.userLogIn.getValue(), serverUsers);
-      if( pos !== -1 ){
-        if(serverUsers[pos].password === this.refs.passwordLogIn.getValue()){
-          this.setState({error: ''});
-          this.props.onSwitchUser(serverUsers[pos]);
-          this.props.onSetFriends(getFriends(serverUsers[pos].friends));
-          this.props.onSetGroups(getGroups(serverUsers[pos].groups));
-          const userLists = getLists(this.refs.userLogIn.getValue());
-          this.props.onSetLists(userLists);
-          this.props.onSetTasks(getTasks(userLists));
+  
+  }
 
-      }
-      else this.setState({error: 'User or password incorrect'});
-    }
-    else this.setState({error: 'User or password incorrect'});
+  handleLoginGithub(){
+    this.props.signInWithGithub();
+  }
+
+  handleLoginTwitter(){
+    this.props.signInWithTwitter();
+
   }
 
   render() {
@@ -60,6 +51,21 @@ export default class Enter extends Component {
               style={{backgroundColor: 'lightblue', marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}/>
               {(this.state.error !== '')? <p style={{color: 'red'}}>{this.state.error}</p>:''}
     				<RaisedButton label="LOG IN" secondary  onTouchTap={()=>this.handleClickLogIn()} style={{}}/>
+            <br/>
+            <div>
+              <span className="btn" onClick={()=>this.handleLoginGithub()} style={{}} title="Github">
+                <img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" style={{width: '50', height: '50'}} />
+              </span>
+
+              <span className="btn" onClick={()=>this.handleLoginGithub()} style={{}} title="Twitter">
+                <img src="https://pbs.twimg.com/profile_images/666407537084796928/YBGgi9BO_400x400.png" style={{width: '50', height: '50'}} />
+              </span>
+
+              <span className="btn" onClick={()=>this.handleLoginTwitter()} style={{}} title="Facebook">
+                <img src="http://www.freelargeimages.com/wp-content/uploads/2015/05/Facebook_Vector_Logo_Hd_02.png" style={{width: '35', height: '35'}} />
+              </span>
+            </div>
+
     			</div><br/>
     			{/*<div><a style={{cursor: 'pointer'}}>Register</a></div>*/}
         </div>
@@ -69,7 +75,7 @@ export default class Enter extends Component {
   }
 }
 
-Enter.propTypes = {
+Login.propTypes = {
   // Injected by React RouterConfirmDialog
   children: PropTypes.node,
   onSetFriends: PropTypes.func,
@@ -79,25 +85,6 @@ Enter.propTypes = {
   onSwitchUser: PropTypes.func
 };
 
-
-function mapStateToProps(state) {
-  return {
-    state
-    //dataBase: state.dataBase
-  };
-}
-
-function mapActionsToProps(dispatch) {
-  return {
-    onSwitchUser: user => dispatch(switchUser(user)),
-    onSetFriends: friends => dispatch(setFriends(friends)),
-    onSetGroups: groups => dispatch(setGroups(groups)),
-    onSetLists: lists => dispatch(setList(lists)),
-    onSetTasks: tasks => dispatch(setTask(tasks))
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(Enter);
+//https://pbs.twimg.com/profile_images/666407537084796928/YBGgi9BO_400x400.png
+//https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png
+//https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png

@@ -27,19 +27,13 @@ export default class Header extends Component{
  		this.setState({word: this.refs.inputText.value, isVisible: true});
  	}
 
-  handleClearUser(e){
-    e.preventDefault();
-    const { onSetUser, onSetLists, onSetTasks, onSetGroups } = this.props;
-    onSetUser({});
-    onSetLists([]);
-    onSetTasks({});
-    onSetGroups([]);
+  handleSignOut(){
+    this.props.signOut();
   }
 
   
 
   render() {
-
     const newLists = this.state.word!=='' ?
       this.props.lists.filter( list=> list.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
       : [];
@@ -74,7 +68,7 @@ export default class Header extends Component{
 
       <div className="principal">
 
-        <a style={{cursor: 'pointer'}} onClick={e=>this.handleClearUser(e)}>
+        <a style={{cursor: 'pointer'}} onClick={() => this.handleSignOut()} title="Sign Out">
           <img
             width="30"
             src={'https://cdn2.iconfinder.com/data/icons/perfect-pixel-game-ui-set/256/quit_exit-512.png'}

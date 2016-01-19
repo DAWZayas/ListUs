@@ -10,9 +10,12 @@ import user from './user';
 import dataBase from './dataBase';
 import calendar from './calendar';
 import firebase from './firebase';
+import auth from './auth';
+
 
 
 export default combineReducers({
+  auth,
   lists,
   tasks,
   comments,
