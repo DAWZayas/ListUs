@@ -9,11 +9,6 @@ function mapStateToProps(state){
 	};
 }
 
-function mapActionsToProps(dispatch){
-	return {
-		
-	};
-}
 
 export default connect(
 	mapStateToProps,

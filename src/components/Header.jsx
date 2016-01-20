@@ -91,7 +91,8 @@ Header.propTypes = {
   onSetUser: PropTypes.func,
   onSetLists: PropTypes.func,
   onSetTasks: PropTypes.func,
-  onSetGroups: PropTypes.func
+  onSetGroups: PropTypes.func,
+  signOut: PropTypes.func
 };
 
 Header.defaultProps = {
