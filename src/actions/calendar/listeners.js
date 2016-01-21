@@ -2,8 +2,8 @@ import { SET_CALENDAR, SET_LISTS } from './action-types';
 
 export function registerListeners(){
   return (dispatch, getState) => {
-    const { firebase } = getState();
-    const ref = firebase.child('calendar');
+    const { firebase, auth } = getState();
+    const ref = firebase.child(`calendar/${auth.id}`);
 
     ref.on('value', snapshot => {dispatch({
       type: SET_CALENDAR,
@@ -29,8 +29,8 @@ export function registerListeners(){
 
 export function unregisterListeners(){
   return (dispatch, getState) => {
-    const { firebase } = getState();
-    const ref = firebase.child('friends');
+    const { firebase, auth } = getState();
+    const ref = firebase.child(`caledar/${auth.id}`);
     ref.off();
     dispatch({
       type: SET_CALENDAR,

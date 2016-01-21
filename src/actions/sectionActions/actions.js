@@ -15,7 +15,7 @@ export function setList(lists){
 
 export function addList(title, date, importance){
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
     let fireReference = firebase.child('lists').push({title, date, importance, participants:[]}, error => {
         if(error){
           console.error('ERROR @ addList:', error);
@@ -33,8 +33,8 @@ export function addList(title, date, importance){
           const monthName = months[monthNumber];
 
 
-          const refDate = firebase.child(`calendar/${date.split('/')[2]}/${monthName}/${dayNumber}`);
-          const refMonth = firebase.child(`calendar/${date.split('/')[2]}/${monthName}`);
+          const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+          const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
           let listsInDay = [];
           refDate.once('value', snapshot => {
             listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
@@ -42,16 +42,13 @@ export function addList(title, date, importance){
           });
         }
     });
-
-
-
   };
 }
 
 
 export function removeList(idList, title, date){
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
     firebase.child(`lists/${idList}`).remove(error => {
       if(error){
         console.error('ERROR @ removeList:', error);
@@ -67,8 +64,8 @@ export function removeList(idList, title, date){
       const monthNumber = convertMonth(date);
       const monthName = months[monthNumber];
 
-      const refDate = firebase.child(`calendar/${date.split('/')[2]}/${monthName}/${dayNumber}`);
-      const refMonth = firebase.child(`calendar/${date.split('/')[2]}/${monthName}`);
+      const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+      const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
       let listsInDay = [];
       refDate.once('value', snapshot => {
         listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idList );
