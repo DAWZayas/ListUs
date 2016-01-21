@@ -11,6 +11,9 @@ function authenticate(provider) {
         console.error('ERROR @ authWithOAuthPopup :', error); // eslint-disable-line no-console
       }
       else {
+        const userName = authData[authData.provider].username;
+        const id = authData.uid;
+        firebase.child(`users/${id}`).update({name:`${userName}`, img:''});
         dispatch({
           type: SIGN_IN_SUCCESS,
           payload: authData,

@@ -8,9 +8,9 @@ export function registerListeners(){
 
     let friends;
 
-    ref.once('value', snapshot => {
+    ref.on('value', snapshot => {
       friends = snapshot.val() === null ? [] : snapshot.val();
-      refGlobal.on('value', snapshot => {dispatch({
+      refGlobal.once('value', snapshot => {dispatch({
         type: SET_FRIENDS,
         friends: Object.keys(snapshot.val() || []).reduce( (init, id) => friends.indexOf(id) !== -1 ? init.concat({id, groups:snapshot.val()[id].groups, img:snapshot.val()[id].img, name:snapshot.val()[id].name}) : init, [])
       });

@@ -1,7 +1,14 @@
 export function onAddComment(idList, user, date, hour, msg){
   return (dispatch, getState) => {
-    const { firebase } = getState();
-    firebase.child(`comments/${idList}`).push({idList, user:'Pepe', date, hour, msg }, error => {
+    const { firebase, auth } = getState();
+
+    const refUser = firebase.child(`users/${auth.id}/name`);
+    let user;
+    refUser.once('value', snapshot => {
+      user = snapshot.val();
+    });
+
+    firebase.child(`comments/${idList}`).push({idList, user, date, hour, msg }, error => {
         if(error){
           console.error('ERROR @ addFriend:', error);
           dispatch({
