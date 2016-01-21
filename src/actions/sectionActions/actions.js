@@ -15,7 +15,8 @@ export function setList(lists){
 
 export function addList(title, date, importance){
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
+
     let fireReference = firebase.child('lists').push({title, date, importance, participants:[]}, error => {
         if(error){
           console.error('ERROR @ addList:', error);
@@ -24,6 +25,7 @@ export function addList(title, date, importance){
             payload: error
           });
         }else{
+          //ACTION ADD TO ALL LISTS
           const idList = fireReference.key();
           // get day
           const dayNumber = convertDay(date);
@@ -40,8 +42,19 @@ export function addList(title, date, importance){
             listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
             refMonth.update({[dayNumber]:listsInDay});
           });
+          //ACTION ADD TO USER LISTS
+
+          const refListsUser = firebase.child(`users/${auth.id}/lists`);
+          const refUser = firebase.child(`users/${auth.id}`);
+          let lists = [];
+          refListsUser.once('value', snapshot => {
+            lists = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
+            refUser.update({lists});
+          });
+
         }
     });
+
 
 
 
@@ -51,7 +64,7 @@ export function addList(title, date, importance){
 
 export function removeList(idList, title, date){
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
     firebase.child(`lists/${idList}`).remove(error => {
       if(error){
         console.error('ERROR @ removeList:', error);
@@ -74,6 +87,17 @@ export function removeList(idList, title, date){
         listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idList );
         refMonth.update({[dayNumber]:listsInDay});
       });
+
+      //ACTION ADD TO USER LISTS
+
+      const refListsUser = firebase.child(`users/${auth.id}/lists`);
+      const refUser = firebase.child(`users/${auth.id}`);
+      let lists = [];
+      refListsUser.once('value', snapshot => {
+        lists = snapshot.val()===null ? [] : snapshot.val().filter(id => id!==idList);
+        refUser.update({lists});
+      });
+
       };
     });
   };
@@ -92,10 +116,9 @@ export function editList(idList, title, date, newDate, importance){
           payload, error
         });
       }else{
-        sequencer([
-              () => dispatch(removeList(idList, title, date)),
-              () => dispatch(addList(title, newDate, importance))
-            ]);
+        addList(title, newDate, importance);
+        removeList(idList, title, date);
+
       }
     });
   };
@@ -112,7 +135,6 @@ export function addFriendGroupToList( idList, newParticipant){
       participants = snapshot.val()===null ? [newParticipant.id] : snapshot.val().concat([newParticipant.id]);
       refIdList.update({participants});
     });
-
   };
 }
 
