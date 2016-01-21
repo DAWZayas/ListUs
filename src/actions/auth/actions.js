@@ -4,6 +4,7 @@ import { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types.js'
 function authenticate(provider) {
   return (dispatch, getState) => {
     const { firebase } = getState();
+    const users = firebase.child('users');
 
     //dispatch(pushState(null, '/'));
     firebase.authWithOAuthPopup(provider, (error, authData) => {
@@ -11,12 +12,17 @@ function authenticate(provider) {
         console.error('ERROR @ authWithOAuthPopup :', error); // eslint-disable-line no-console
       }
       else {
+        var greet = '';
+        users.orderByKey().equalTo(authData.uid).once('value', snap => {
+          if(!snap.val()) greet = createUserIfNotExists(authData, firebase);
+        });
         dispatch({
           type: SIGN_IN_SUCCESS,
           payload: authData,
           meta: {
             timestamp: Date.now()
-          }
+          },
+          greet: greet
         });
       }
     });
@@ -60,4 +66,13 @@ export function cancelSignIn() {
   return dispatch => {
     return dispatch(pushState(null, '/'));
   };
+}
+
+export function createUserIfNotExists(authData, firebase){
+  var name = '';
+  if(authData.provider === 'github')  name = authData.github.username;
+  else if(authData.provider === 'twitter') name = authData.twitter.username;
+  
+  firebase.child(`users/${authData.uid}`).update({name});
+  return 'Welcome to ListUs';
 }
