@@ -35,8 +35,8 @@ export function addList(title, date, importance){
           const monthName = months[monthNumber];
 
 
-          const refDate = firebase.child(`calendar/${date.split('/')[2]}/${monthName}/${dayNumber}`);
-          const refMonth = firebase.child(`calendar/${date.split('/')[2]}/${monthName}`);
+          const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+          const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
           let listsInDay = [];
           refDate.once('value', snapshot => {
             listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
@@ -54,9 +54,6 @@ export function addList(title, date, importance){
 
         }
     });
-
-
-
 
   };
 }
@@ -80,8 +77,8 @@ export function removeList(idList, title, date){
       const monthNumber = convertMonth(date);
       const monthName = months[monthNumber];
 
-      const refDate = firebase.child(`calendar/${date.split('/')[2]}/${monthName}/${dayNumber}`);
-      const refMonth = firebase.child(`calendar/${date.split('/')[2]}/${monthName}`);
+      const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+      const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
       let listsInDay = [];
       refDate.once('value', snapshot => {
         listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idList );
