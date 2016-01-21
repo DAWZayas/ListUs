@@ -12,13 +12,13 @@ export function registerListeners(){
 
 
     let tasksUser = [];
-    firebase.child(`users/${auth.id}/tasks`).once('value', snapshot =>{
+    firebase.child(`users/${auth.id}/tasks`).on('value', snapshot =>{
 
       tasksUser = snapshot.val()===null ? tasksUser : snapshot.val();
 
-      refTasks.on('value', snapshot => { dispatch({
+      refTasks.once('value', snapshot => { dispatch({
         type: SET_TASKS,
-        tasks: Object.keys(snapshot.val() || {}).reduce( (init, id) => tasksUser.indexOf([id])!==-1 ?
+        tasks: Object.keys(snapshot.val() || {}).reduce( (init, id) => tasksUser.indexOf(id)!==-1 ?
           Object.assign({}, init, {[id]:{
             id,
             idList: snapshot.val()[id].idList,
@@ -30,11 +30,11 @@ export function registerListeners(){
     });
 
     let listsUser = [];
-    firebase.child(`users/${auth.id}/lists`).once('value', snapshot =>{
+    firebase.child(`users/${auth.id}/lists`).on('value', snapshot =>{
 
       listsUser = snapshot.val()===null ? listsUser : snapshot.val();
 
-      refLists.on('value', snapshot => {dispatch({
+      refLists.once('value', snapshot => {dispatch({
         type: SET_LISTS,
         lists: Object.keys(snapshot.val() || [])
           .reduce( (init, id) => listsUser.indexOf(id)!==-1 ?
@@ -48,20 +48,24 @@ export function registerListeners(){
     });
 
 
+    let friends;
 
-  refFriends.on('value', snapshot => {dispatch({
-    type: SET_FRIENDS,
-    friends: Object.keys(snapshot.val() || []).reduce( (init, id) => init.concat({id, groups:snapshot.val()[id].groups, img:snapshot.val()[id].img, name:snapshot.val()[id].name}), [])
-  });
+    firebase.child(`users/${auth.id}/friends`).on('value', snapshot => {
+      friends = snapshot.val() === null ? [] : snapshot.val();
+      refFriends.once('value', snapshot => {dispatch({
+        type: SET_FRIENDS,
+        friends: Object.keys(snapshot.val() || []).reduce( (init, id) => friends.indexOf(id) !== -1 ? init.concat({id, groups:snapshot.val()[id].groups, img:snapshot.val()[id].img, name:snapshot.val()[id].name}) : init, [])
+      });
+    });
   });
 
 
   let groupsUser = [];
-  firebase.child(`users/${auth.id}/groups`).once('value', snapshot =>{
+  firebase.child(`users/${auth.id}/groups`).on('value', snapshot =>{
 
     groupsUser = snapshot.val()===null ? groupsUser : snapshot.val();
 
-    firebase.child('groups').on('value', snapshot => {dispatch({
+    firebase.child('groups').once('value', snapshot => {dispatch({
           type: SET_GROUPS,
           groups: Object.keys(snapshot.val() || []).reduce( (init, id) => groupsUser.indexOf(id)!==-1 ?
            init.concat({id,
@@ -74,16 +78,16 @@ export function registerListeners(){
 
 });
 
-
+};
 }
 
 export function unregisterListeners(){
   return (dispatch, getState) => {
-    const { firebase } = getState();
-    const refTasks = firebase.child('tasks');
-    const refLists = firebase.child('lists');
-    const refFriends = firebase.child('friends');
-    const refGroups = firebase.child('groups');
+    const { firebase, auth } = getState();
+    const refTasks = firebase.child(`users/${auth.id}/tasks`);
+    const refLists = firebase.child(`users/${auth.id}/lists`);
+    const refFriends = firebase.child(`users/${auth.id}/friends`);
+    const refGroups = firebase.child(`users/${auth.id}/groups`);
 
     refTasks.off();
     dispatch({

@@ -127,8 +127,8 @@ export function editList(idList, title, date, newDate, importance){
 
 export function addFriendGroupToList( idList, newParticipant){
   return (dispatch, getState) => {
-    const { firebase } = getState();
-    const refParticipants = firebase.child(`lists/${idList}/participants`);
+    const { firebase, auth } = getState();
+    const refParticipants = firebase.child(`users/${auth.id}/lists/${idList}/participants`);
     const refIdList = firebase.child(`lists/${idList}`);
     let participants = [];
     refParticipants.once('value', snapshot => {
@@ -141,7 +141,7 @@ export function addFriendGroupToList( idList, newParticipant){
 export function removeFriendGroupToList( idList, idPaticipant){
   return (dispatch, getState) => {
     const { firebase } = getState();
-    const refParticipants = firebase.child(`lists/${idList}/participants`);
+    const refParticipants = firebase.child(`users/${auth.id}/lists/${idList}/participants`);
     const refIdList = firebase.child(`lists/${idList}`);
     let participants = [];
     refParticipants.once('value', snapshot => {
