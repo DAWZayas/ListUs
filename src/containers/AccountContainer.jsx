@@ -1,23 +1,16 @@
 import { connect } from 'react-redux';
 import Account from '../components/Account';
-import { changeUserPhoto, changeUserName, changeUserPassword, changeUserVisibility } from '../actions';
+import * as userActions from '../actions/user';
 
 function mapStateToProps(state) {
   return {
-  	user: state.user
+  	user: state.user, 
+    auth: state.auth
   };
 }
 
-function mapActionsToProps(dispatch) {
-  return {
-  	onChangeUserPhoto: url => dispatch(changeUserPhoto(url)),
-  	onChangeUserName: name => dispatch(changeUserName(name)),
-  	onChangeUserPassword: password => dispatch(changeUserPassword(password)),
-  	onChangeUserVisibility: visibility => dispatch(changeUserVisibility(visibility))
-  };
-}
 
 export default connect(
 	mapStateToProps,
-	mapActionsToProps
+  	userActions
 )(Account);

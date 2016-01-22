@@ -44,13 +44,13 @@ export default class Account extends React.Component {
   }
 
   handleChangeUserPhoto(){
-    this.props.onChangeUserPhoto(this.refs.newUrl.getValue());
+    this.props.changeImg(this.refs.newUrl.getValue());
     this.hideDialogChangePhoto();
   }
 
   handleChangeUserName(){
     if(this.refs.newName.getValue() !== ''){
-      this.props.onChangeUserName(this.refs.newName.getValue());
+      this.props.changeName(this.refs.newName.getValue());
       this.hideDialogChangeName();
     }
   }
@@ -70,21 +70,27 @@ export default class Account extends React.Component {
     else this.setState({'error': 'Password incorrect.'});
   }
 
-  handleVisibility(e){
-    e.preventDefault();
+  handleVisibility(){
     var togg = this.refs.visibility.isToggled();
     var vis = this.props.user.visibility;
     if(togg !== vis){
-      this.props.onChangeUserVisibility(togg);
+      this.props.changeVisibility(togg);
     }
     else {
-      this.props.onChangeUserVisibility(!togg);
+      this.props.changeVisibility(!togg);
       this.refs.visibility.setToggled(!togg);
     }
   }
 
-	render() {
+  componentWillMount(){
+    this.props.registerListeners();
+  }
 
+  componentWillUnmount(){
+    this.props.unregisterListeners();
+  }
+
+	render() {
     let changeNameActions = [
       { text: 'Cancel', onClick: this.hideDialogChangeName.bind(this) },
       { text: 'Submit', onClick: this.handleChangeUserName.bind(this), ref: 'submit' }
@@ -112,7 +118,7 @@ export default class Account extends React.Component {
         </div><br/>
       	<ul className="tools nav nav-pills nav-stacked ">
           <li role="presentation"><a onClick={this.showDialogChangeName.bind(this)} href="#"><span className="glyphicon marginGlyph glyphicon-user"></span>Change Name</a></li>
-          <li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href="#"><span className="glyphicon marginGlyph glyphicon-lock"></span>Change password</a></li>
+          {/*<li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href="#"><span className="glyphicon marginGlyph glyphicon-lock"></span>Change password</a></li>*/}
           <li role="presentation" style={{display: 'flex', justifyContent: 'center'}}>
             <a style={{width: '190px', textAlign: 'justify'}}>
               <Toggle
@@ -121,7 +127,7 @@ export default class Account extends React.Component {
                         color: 'blue', fontWeight: '100'}}
                 label="Visibility"
                 defaultToggled={this.props.user.visibility}
-                onToggle={e=>this.handleVisibility(e)}/>
+                onToggle={ () => this.handleVisibility()}/>
               </a>
             </li>
         </ul>

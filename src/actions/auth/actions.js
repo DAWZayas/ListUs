@@ -69,10 +69,11 @@ export function cancelSignIn() {
 }
 
 export function createUserIfNotExists(authData, firebase){
-  var name = '';
+  let name = '';
+
   if(authData.provider === 'github')  name = authData.github.username;
   else if(authData.provider === 'twitter') name = authData.twitter.username;
   
-  firebase.child(`users/${authData.uid}`).update({name});
+  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false});
   return 'Welcome to ListUs';
 }
