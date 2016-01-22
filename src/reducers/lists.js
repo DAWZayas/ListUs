@@ -1,4 +1,4 @@
-import { SET_LISTS } from '../actions/lists';
+import { SET_LISTS } from '../actions/listsDetailsActions';
 
 function setList(state, lists) {
   return lists.slice();

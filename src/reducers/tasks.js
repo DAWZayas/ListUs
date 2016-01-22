@@ -1,6 +1,6 @@
 //import {  SET_TASK, ADD_TASK, REMOVE_TASK, EDIT_TASK, ADD_FRIEND_OR_GROUP_TO_TASK } from '../actions';
 //import { getId } from '../utils';
-import { SET_TASKS } from '../actions/tasks';
+import { SET_TASKS } from '../actions/listsDetailsActions';
 
 function setTask(state, tasks){
     return Object.assign({}, tasks);

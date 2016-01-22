@@ -1,4 +1,4 @@
-import { SET_LISTS } from '../lists/action-types';
+import { SET_LISTS } from '../listsDetailsActions/action-types';
 import { SET_TASKS } from './action-types';
 import { SET_GROUPS } from './action-types';
 import { SET_FRIENDS } from '../friends/action-types';

@@ -205,7 +205,7 @@ export function addTask( idList, title){
           firebase.child(`users/${auth.id}/tasks`).once('value', snapshot => {
             tasks = snapshot.val()===null ? [idTask] : snapshot.val().concat([idTask]);
             firebase.child(`users/${auth.id}`).update({tasks});
-          })
+          });
         }
     });
   };
