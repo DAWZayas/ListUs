@@ -16,6 +16,10 @@ function authenticate(provider) {
         users.orderByKey().equalTo(authData.uid).once('value', snap => {
           if(!snap.val()) greet = createUserIfNotExists(authData, firebase);
         });
+        
+        /*const userName = authData[authData.provider].username;
+        const id = authData.uid;
+        firebase.child(`users/${id}`).update({name:`${userName}`, img:''});*/
         dispatch({
           type: SIGN_IN_SUCCESS,
           payload: authData,
