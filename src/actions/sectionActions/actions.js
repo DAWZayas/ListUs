@@ -136,7 +136,6 @@ export function addFriendGroupToList( idList, newParticipant){
     //añadir la lista a un amigo
     firebase.child('users').once('value', snapshot => {
       let lists = Object.values(snapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.lists : init, [] );
-debugger;
       lists = lists.concat(idList);
       const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===newParticipant.name);
       firebase.child(`users/${idUser}`).update({lists});
