@@ -128,6 +128,8 @@ export function addFriendGroupToList( idList, newParticipant){
     const refParticipants = firebase.child(`users/${auth.id}/lists/${idList}/participants`);
     const refIdList = firebase.child(`lists/${idList}`);
     let participants = [];
+    debugger;
+    
     refParticipants.once('value', snapshot => {
       participants = snapshot.val()===null ? [newParticipant.id] : snapshot.val().concat([newParticipant.id]);
       refIdList.update({participants});

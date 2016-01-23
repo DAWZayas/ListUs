@@ -6,17 +6,17 @@ export function onAddComment(idList, user, date, hour, msg){
     let user;
     refUser.once('value', snapshot => {
       user = snapshot.val();
+      firebase.child(`comments/${idList}`).push({idList, user, date, hour, msg }, error => {
+          if(error){
+            console.error('ERROR @ addFriend:', error);
+            dispatch({
+              type: ADD_COMMENT_ERROR,
+              payload: error,
+          });
+          }
+      });
     });
-
-    firebase.child(`comments/${idList}`).push({idList, user, date, hour, msg }, error => {
-        if(error){
-          console.error('ERROR @ addFriend:', error);
-          dispatch({
-            type: ADD_COMMENT_ERROR,
-            payload: error,
-        });
-        }
-    });
+    
   };
 }
 

@@ -38,7 +38,9 @@ export default class TaskTitle extends Component {
 
   render() {
 
-    const {   onEditList, onRemoveList, onAddFriendGroupToList, lists, groups, friends, onRemoveFriendGroupToList } = this.props;
+    let {   onEditList, onRemoveList, onAddFriendGroupToList, lists, groups, friends, onRemoveFriendGroupToList } = this.props;
+
+    if(friends === undefined) friends = [];
 
     let customActions = [
       <FlatButton

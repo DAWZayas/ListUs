@@ -170,7 +170,7 @@ export function addFriendGroupToList( idList, newParticipant){
   };
 }
 
-export function removeFriendGroupToList( idList, idPaticipant){
+export function removeFriendGroupToList(idList, idPaticipant){
   return (dispatch, getState) => {
     const { firebase } = getState();
     const refParticipants = firebase.child(`lists/${idList}/participants`);
@@ -238,12 +238,13 @@ export function editTask( idTask, title){
   };
 }
 
-export function addFriendGroupToTask( idTask, id){
+export function addFriendGroupToTask(idTask, id){
   return (dispatch, getState) => {
     const { firebase } = getState();
     const refParticipants = firebase.child(`tasks/${idTask}/participants`);
     const refIdList = firebase.child(`tasks/${idTask}`);
     let participants = [];
+
     refParticipants.once('value', snapshot => {
       participants = snapshot.val()===null ? [id] : snapshot.val().concat([id]);
       refIdList.update({participants});

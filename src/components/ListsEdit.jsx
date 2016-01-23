@@ -160,19 +160,18 @@ export default class ListsEdit extends Component{
 	}
 
 	render(){
-		const { list, friends, groups } = this.props;
+		let { list, friends, groups } = this.props;
+
 
 		let listOfFriendsAndGroups = [];
 
-		if(this.state.textToSearch!=='' && friends!==undefined && groups!==undefined){
-			const listFriends = this.state.toggleFriend ? [].concat(friends.filter( friend => !this.isInTheArray(friend.id, list ))) : [];
-			const listGroups = this.state.toggleGroup ? [].concat(groups.filter( group => !this.isInTheArray(group.id, list ))) : [];
-			listOfFriendsAndGroups = listFriends.concat(listGroups).filter( item=> item.name.toLowerCase().search(this.state.textToSearch) !== -1);
-		}
-
 		let listOfParticipants =[];
 		if(list!==undefined && friends!==undefined && groups!==undefined && list.participants[0]!==undefined){
-
+			if(this.state.textToSearch!=='' && friends!==undefined && groups!==undefined){
+				const listFriends = this.state.toggleFriend ? [].concat(friends.filter( friend => !this.isInTheArray(friend.id, list ))) : [];
+				const listGroups = this.state.toggleGroup ? [].concat(groups.filter( group => !this.isInTheArray(group.id, list ))) : [];
+				listOfFriendsAndGroups = listFriends.concat(listGroups).filter( item=> item.name.toLowerCase().search(this.state.textToSearch) !== -1);
+			}
 			let listOfGroupsInParticipants = list.participants[0].map( idParticipant => groups.filter( function(group){
 				if(idParticipant===group.id){
 					return {id:idParticipant, name: group.name};
@@ -189,7 +188,6 @@ export default class ListsEdit extends Component{
 
 			listOfParticipants = listOfGroupsInParticipants.concat(listOfFriendsInParticipants);
 		}
-
 
 		let customActions = [
 		  <FlatButton
