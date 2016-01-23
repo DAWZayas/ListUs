@@ -2,6 +2,7 @@ import { ADD_FRIEND_GROUP } from '../actions';
 import { SET_FRIENDS, NO_FRIEND_FOUND, SET_USERS } from '../actions/friends';
 
 function setFriends(state, friends, users){
+  debugger;
   return {
     friends,
     users

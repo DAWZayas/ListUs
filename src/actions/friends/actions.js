@@ -28,15 +28,18 @@ export function addFriend(name){
             const reference = firebase.child(`users/${auth.id}/friends`);
             const refUser = firebase.child(`users/${auth.id}`);
             let friends = [];
+            debugger;
             const idFriend = idFire.key();
+            //OSCAR TE HE CAMBIADO idFriend PORQUE name TENÍAS PARA QUE AÑADA EL NOMBRE EN VEZ DEL ID ESE RARO
             reference.once('value', snapshot => {
               let friends;
 
               if(snapshot.val() === null){
-                friends = [idFriend];
+                friends = [name];
               }else{
-                friends = snapshot.val().concat([idFriend]);
+                friends = snapshot.val().concat([name]);
               }
+
               refUser.update({friends});
           });
           }

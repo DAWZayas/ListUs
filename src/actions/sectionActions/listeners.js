@@ -52,9 +52,9 @@ export function registerListeners(){
 
     firebase.child(`users/${auth.id}/friends`).on('value', snapshot => {
       friends = snapshot.val() === null ? [] : snapshot.val();
-      refFriends.once('value', snapshot => {dispatch({
+      firebase.child('users').once('value', snapshot => {dispatch({
         type: SET_FRIENDS,
-        friends: Object.keys(snapshot.val() || []).reduce( (init, id) => friends.indexOf(id) !== -1 ? init.concat({id, groups:snapshot.val()[id].groups, img:snapshot.val()[id].img, name:snapshot.val()[id].name}) : init, [])
+        friends: Object.values(snapshot.val() || []).reduce( (init, user) => friends.indexOf(user.name) !== -1 ? init.concat({user, groups:user.groups, img:user.img, name:user.name}) : init, [])
       });
     });
   });

@@ -153,3 +153,7 @@ export function removeFriendGroupToList( idList, idPaticipant){
 
   };
 }
+/*  addFriendGroupToList tendria que crear una accion pendiente en el otro user y a la hora de conectarse le salga el aviso
+    hay que tocar auth/actions para cuando el login sea correcto envie todas las acciones pendientes y  al aceptaarlas las
+    realice
+*/

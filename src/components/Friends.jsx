@@ -62,7 +62,7 @@ export default class Friends extends Component {
 
   render() {
 
-		let { friends, users } = this.props
+		let { friends, users } = this.props;
 
 		if(friends === undefined) friends = [];
 		if(users === undefined) users = [];
@@ -132,7 +132,7 @@ export default class Friends extends Component {
 }
 
 Friends.propTypes= {
-    friends: PropTypes.array.isRequired,
+    friends: PropTypes.array,
 		users: PropTypes.array,
     addFriend: PropTypes.func,
     removeFriend: PropTypes.func,
