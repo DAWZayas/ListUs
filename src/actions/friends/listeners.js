@@ -12,16 +12,13 @@ export function registerListeners(){
 
     ref.on('value', snapshot => {
       friends = snapshot.val() === null ? [] : snapshot.val();
-      refGlobal.once('value', snapshot => {({
+      refGlobal.once('value', snapshot => {dispatch({
         type: SET_FRIENDS,
         friends: Object.values(snapshot.val().users || []).reduce( (init, user) => friends.indexOf(user.name) !== -1 ? init.concat({user, groups:user.groups, img:user.img, name:user.name}) : init, []),
         users: Object.keys(snapshot.val().users || []).reduce( (init, id) => init.concat({id, img:snapshot.val().users[id].img, name:snapshot.val().users[id].name}), [])
       });
     });
-
   });
-
-
   };
 }
 
