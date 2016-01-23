@@ -1,3 +1,5 @@
 export const SET_FRIENDS = 'SET_FRIENDS';
 export const ADD_FRIENDS_ERROR = 'ADD_FRIENDS_ERROR';
 export const REMOVE_FRIENDS_ERROR = 'REMOVE_FRIENDS_ERROR';
+export const NO_FRIEND_FOUND = 'NO_FRIEND_FOUND';
+export const SET_USERS = 'SET_USERS';

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { addFriend } from '../actions';
-import { Avatar, Dialog, TextField } from 'material-ui';
+import { Avatar, Dialog, TextField, FlatButton } from 'material-ui';
 
 
 export default class Friends extends Component {
@@ -11,8 +11,6 @@ export default class Friends extends Component {
             letter: ''
            };
 	}
-
-
 
   componentWillMount() {
     this.props.registerListeners();
@@ -27,12 +25,11 @@ export default class Friends extends Component {
     return friend.img !== '' ? <Avatar className="avatarFriend" src={friend.img}/> : <Avatar className="avatarFriend avatarLetter">{friend.name.substring(0, 1).toUpperCase()}</Avatar>;
   }
 
-  addFriend(){
+  addFriend(e){
 
-    const nodeInput = this.refs.addFriendInput;
     const { addFriend } = this.props;
-    addFriend(nodeInput.getValue());
-    nodeInput.setValue('');
+    addFriend(e.target.innerHTML);
+
     this.hideDialog();
   }
 
@@ -47,13 +44,13 @@ export default class Friends extends Component {
   }
 
   findFriend(){
-    
+
   	let letterToFind = this.refs.findFriendInput.value.toLowerCase();
   	//let newArray = friends.filter( (item) => item.name.toLowerCase().indexOf(letterToFind) !== -1);
 
   	this.setState({
   		letter: letterToFind
-		});   	
+		});
   }
 
   onRemoveFriend(id){
@@ -65,15 +62,19 @@ export default class Friends extends Component {
 
   render() {
 
+		let { friends, users } = this.props
+
+		if(friends === undefined) friends = [];
+		if(users === undefined) users = [];
+
     const addFriend = [
   		{ text: 'Cancel', onClick: this.hideDialog.bind(this) },
- 		  { text: 'Submit', onClick: this.addFriend.bind(this), ref: 'submit' }
 		];
 
     let friendsGeneral = [];
 
 
-    const listaFriends = this.props.friends.filter( friend =>  friend.name.toLowerCase().indexOf(this.state.letter.toLowerCase()) !== -1   );
+    const listaFriends = friends.filter( friend =>  friend.name.toLowerCase().indexOf(this.state.letter.toLowerCase()) !== -1   );
     for(let j = 0; j < listaFriends.length; j = j+6){
       let rowFriends = [];
       let i = j;
@@ -81,7 +82,7 @@ export default class Friends extends Component {
       while(i < top){
         if(i < listaFriends.length){
           let id = listaFriends[i].id;
-          
+
           rowFriends = rowFriends.concat(<div className="col-xs-2 friendPhotoContainer">
             <span onClick={() => this.onRemoveFriend(id)}>{this.setImg(listaFriends[i])}</span><br/>
             <span className="friendName">{listaFriends[i].name}</span>
@@ -99,9 +100,11 @@ export default class Friends extends Component {
 
         <div className="centerFriends">
           <Dialog ref="addFriendDialog" title="Add friend" actions={addFriend} >
-     				<TextField ref="addFriendInput" floatingLabelText="New friend" /> 
+						{
+							users.map( user => <FlatButton label={user.name} onTouchTap={e => this.addFriend(e)}/>)
+						}
   				</Dialog>
-          
+
           <div className="friendsHeader">
          	  <h3>Your friends</h3>
          	  <input type="text" onChange={this.findFriend.bind(this)} className="inputFindFriends form-control friendFinder" ref="findFriendInput" placeholder="Find friends" />
@@ -130,10 +133,9 @@ export default class Friends extends Component {
 
 Friends.propTypes= {
     friends: PropTypes.array.isRequired,
+		users: PropTypes.array,
     addFriend: PropTypes.func,
     removeFriend: PropTypes.func,
     registerListeners: PropTypes.func.isRequired,
     unregisterListeners: PropTypes.func.isRequired
 };
-
-
