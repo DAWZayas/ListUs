@@ -121,7 +121,7 @@ export default class CommentsChat extends Component {
           <textarea className="form-control inputSendMsg" ref="textArea" max-height="140" onKeyDown={e => this.handleOnKeyDown(e)}></textarea>
           <button className="btn btn-success glyphicon glyphicon-send buttonSendMessage" onClick={ () => this.onClickAddComment()}></button>
         </div>
-      
+
     </div>
     );
   }
@@ -130,7 +130,6 @@ export default class CommentsChat extends Component {
 
 CommentsChat.propTypes = {
   router: PropTypes.object,
-  idList: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   onAddComment: PropTypes.func,
   onRemoveComments: PropTypes.func,

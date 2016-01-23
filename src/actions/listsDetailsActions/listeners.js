@@ -34,7 +34,7 @@ export function registerListeners(){
 
       listsUser = snapshot.val()===null ? listsUser : snapshot.val();
 
-      refLists.once('value', snapshot => {dispatch({
+      refLists.on('value', snapshot => {dispatch({
         type: SET_LISTS,
         lists: Object.keys(snapshot.val() || [])
           .reduce( (init, id) => listsUser.indexOf(id)!==-1 ?

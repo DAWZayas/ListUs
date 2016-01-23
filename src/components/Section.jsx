@@ -83,7 +83,7 @@ export default class Section extends Component {
   }
 
   render() {
-
+  
     let customActions = [
       <FlatButton
         label="Cancel"
