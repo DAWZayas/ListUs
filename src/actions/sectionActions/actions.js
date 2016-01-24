@@ -146,17 +146,26 @@ export function addFriendGroupToList( idList, newParticipant){
   };
 }
 
-export function removeFriendGroupToList( idList, idPaticipant){
+export function removeFriendGroupToList( idList, nameParticipant){
+
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
     const refParticipants = firebase.child(`users/${auth.id}/lists/${idList}/participants`);
     const refIdList = firebase.child(`lists/${idList}`);
     let participants = [];
+
     refParticipants.once('value', snapshot => {
-      participants = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idPaticipant );
+      participants = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==nameParticipant );
       refIdList.update({participants});
     });
-
+    
+    //borrar de la lista al amigo
+    firebase.child('users').once('value', snapshot => {
+      let lists = Object.values(snapshot.val()).reduce( (init, user) => user.name===nameParticipant ? user.lists : init, [] );
+      lists = lists.filter( id => id!==idList);
+      const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===nameParticipant);
+      firebase.child(`users/${idUser}`).update({lists});
+    });
   };
 }
 /*  addFriendGroupToList tendria que crear una accion pendiente en el otro user y a la hora de conectarse le salga el aviso

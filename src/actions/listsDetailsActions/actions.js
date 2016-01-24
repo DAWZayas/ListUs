@@ -159,14 +159,25 @@ export function editList(idList, title, date, newDate, importance){
 
 export function addFriendGroupToList( idList, newParticipant){
   return (dispatch, getState) => {
-    const { firebase } = getState();
-    const refParticipants = firebase.child(`lists/${idList}/participants`);
+    const { firebase, auth } = getState();
+    const refParticipants = firebase.child(`users/${auth.id}/lists/${idList}/participants`);
     const refIdList = firebase.child(`lists/${idList}`);
     let participants = [];
+
     refParticipants.once('value', snapshot => {
-      participants = snapshot.val()===null ? [newParticipant.id] : snapshot.val().concat([newParticipant.id]);
+      participants = snapshot.val()===null ? [newParticipant.name] : snapshot.val().concat([newParticipant.name]);
       refIdList.update({participants});
     });
+    //añadir la lista a un amigo
+    firebase.child('users').once('value', snapshot => {
+      let lists = Object.values(snapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.lists : init, [] );
+      lists = lists.concat(idList);
+      const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===newParticipant.name);
+      firebase.child(`users/${idUser}`).update({lists});
+    });
+    /* DEBERÍA LLEGARLE EL ID DEL USER Y añadirsela a sus lists ids pero tocando su calendario,
+    al conectarse podría tener unas actions pendings y si las acepta que se ejecuten las acciones*/
+
   };
 }
 
