@@ -153,10 +153,9 @@ export default class ListsEdit extends Component{
 		this._handleCloseDialog();
 	}
 /* REMOVE PARTICIPANT FROM LIST */
-	handleOnRemoveFriendGroupToList(nameParticipant){
+	handleOnRemoveFriendGroupToList(newParticipant){
 		const { onRemoveFriendGroupToList, list } = this.props;
-
-		onRemoveFriendGroupToList(list.id, nameParticipant);
+		onRemoveFriendGroupToList(list.id, newParticipant);
 	}
 /**/
 	removeUndefinedFromArrays(arr){
@@ -324,7 +323,7 @@ export default class ListsEdit extends Component{
 								listOfParticipants.length===0 ? '' :
 									listOfParticipants.map( (item, index) => item!=='' && item!==undefined ?
 										<li key={index}><span className="deleteButtonFriendGroup glyphicon glyphicon-remove" onClick={() =>
-												 this.handleOnRemoveFriendGroupToList(item.name)}></span>{item.name}</li> : '')
+												 this.handleOnRemoveFriendGroupToList(item)}></span>{item.name}</li> : '')
 							}
 						</ul>
 					</div>
