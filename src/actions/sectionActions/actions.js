@@ -119,7 +119,7 @@ export function removeList(list){
         refUser.update({lists});
       });
 
-
+      firebase.child(`comments/${list.id}`).remove();
 
       };
     });
