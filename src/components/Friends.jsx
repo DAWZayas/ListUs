@@ -22,14 +22,14 @@ export default class Friends extends Component {
 
 
   setImg(friend){
-    return friend.img !== '' ? <Avatar className="avatarFriend" src={friend.img}/> : <Avatar className="avatarFriend avatarLetter">{friend.name.substring(0, 1).toUpperCase()}</Avatar>;
+    return friend.img !== '' ?
+		<Avatar id={friend.name} className="avatarFriend" src={friend.img}/> :
+		<Avatar id={friend.name} className="avatarFriend avatarLetter">{friend.name.substring(0, 1).toUpperCase()}</Avatar>;
   }
 
   addFriend(e){
-
     const { addFriend } = this.props;
-    addFriend(e.target.innerHTML);
-
+    addFriend(e.target.value);
     this.hideDialog();
   }
 
@@ -55,7 +55,7 @@ export default class Friends extends Component {
 
   onRemoveFriend(id){
     const { removeFriend } = this.props;
-    removeFriend(id);
+    removeFriend(id.target.id);
   }
 
 
@@ -84,7 +84,7 @@ export default class Friends extends Component {
           let id = listaFriends[i].id;
 
           rowFriends = rowFriends.concat(<div className="col-xs-2 friendPhotoContainer">
-            <span onClick={() => this.onRemoveFriend(id)}>{this.setImg(listaFriends[i])}</span><br/>
+            <span id={name} onClick={(id) => this.onRemoveFriend(id)}>{this.setImg(listaFriends[i])}</span><br/>
             <span className="friendName">{listaFriends[i].name}</span>
           </div>);
         }
@@ -101,7 +101,7 @@ export default class Friends extends Component {
         <div className="centerFriends">
           <Dialog ref="addFriendDialog" title="Add friend" actions={addFriend} >
 						{
-							users.map( user => <FlatButton label={user.name} onTouchTap={e => this.addFriend(e)}/>)
+							users.map( user => <FlatButton value={user.name} label={user.name} onTouchTap={e => this.addFriend(e)}/>)
 						}
   				</Dialog>
 
@@ -116,13 +116,9 @@ export default class Friends extends Component {
             }
           </div>
          	<div className="row centered">
-  	       	{/*<FloatingActionButton onClick={this.showDialog.bind(this)}>
-  	            <span className="glyphicon glyphicon-plus"></span>
-  	        </FloatingActionButton>*/}
-           <a onClick={this.showDialog.bind(this)} style={{cursor: 'pointer'}} >
-            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width="30" height="30"/>
-           </a>
-
+	           <a onClick={this.showDialog.bind(this)} style={{cursor: 'pointer'}} >
+	            <img src={'http://waxpoetics.com/wp-content/themes/records-waxpoetics/images/newicons4/plus.png'} width="30" height="30"/>
+	           </a>
   	      </div>
 
         </div>
