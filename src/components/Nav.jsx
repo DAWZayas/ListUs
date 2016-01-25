@@ -43,7 +43,15 @@ const menuItems = [
 		  {
 		     route: '/calendar',
 		     text: 'My calendar'
-		  }
+		  },
+			{
+		  	type: MenuItem.Types.SUBHEADER,
+		  	text: 'Notifications'
+		  },
+			{
+				route: '/notifications',
+				text: 'Notifications'
+			}
 		];
 
 export default class Nav extends React.Component {

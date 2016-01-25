@@ -4,13 +4,15 @@ import { Link } from 'react-router';
 import ItemList from './ItemList';
 
 
+
 export default class Header extends Component{
 
   constructor(props){
     super(props);
     this.state = {
       isVisible: false,
-      word: ''
+      word: '',
+      isOpen: false
     };
   }
 
@@ -31,12 +33,34 @@ export default class Header extends Component{
     this.props.signOut();
   }
 
-  
+  /*toggle () {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
+
+  renderPerson (isScared) {
+
+    let notis = '';
+
+    if(isScared){
+      notis += "<ul><li>Noti</li><li>Noti</li><li>Noti</li><li>Noti</li><li>Noti</li></ul>";
+      return notis;
+    }else{
+      return notis;
+    }
+
+  }*/
+
 
   render() {
     const newLists = this.state.word!=='' ?
       this.props.lists.filter( list=> list.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
       : [];
+    const { isOpen } = this.state;
+
+    const notifications = 'Hola';
 
     return(
       <header className="header">
@@ -66,8 +90,26 @@ export default class Header extends Component{
       </div>
 
 
+
+
       <div className="principal">
 
+        {/*<div onClick={this.toggle.bind(this)} className={`notificationContainer ${isOpen ? 'hideNoti' : ''}`}>
+          <div className="notificationIcon">3</div>
+        </div>
+
+        <Popover isOpen={isOpen} place='below' onOuterAction={this.toggle.bind(this)}>
+          <div
+           className={ classNames('target', { isOpen }) }
+           onClick={this.toggle}>
+           { isOpen ? (<ul>
+                        <li>Holita</li>
+                        <li>Holita</li>
+                        <li>Holita</li>
+                        </ul>) : '' }
+         </div>
+        </Popover>
+*/}
         <a style={{cursor: 'pointer'}} onClick={() => this.handleSignOut()} title="Sign Out">
           <img
             width="30"

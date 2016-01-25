@@ -17,33 +17,25 @@ export function addFriend(name){
 
     usersReference.once('value', snapshot => {
       if(Object.keys(snapshot.val()).filter( friend => snapshot.val()[friend].name === name).length > 0){
-        const idFire = friendsReference.push({name, groups:'', img:'' }, error => {
-            if(error){
-              console.error('ERROR @ addFriend:', error);
-              dispatch({
-                type: ADD_FRIENDS_ERROR,
-                payload: error,
-            });
-          }else{
-            const reference = firebase.child(`users/${auth.id}/friends`);
-            const refUser = firebase.child(`users/${auth.id}`);
-            let friends = [];
-            debugger;
-            const idFriend = idFire.key();
-            //OSCAR TE HE CAMBIADO idFriend PORQUE name TENÍAS PARA QUE AÑADA EL NOMBRE EN VEZ DEL ID ESE RARO
-            reference.once('value', snapshot => {
-              let friends;
+          const reference = firebase.child(`users/${auth.id}/friends`);
+          const refUser = firebase.child(`users/${auth.id}`);
+          let friends = [];
 
-              if(snapshot.val() === null){
-                friends = [name];
-              }else{
+          reference.once('value', snapshot => {
+
+            if(snapshot.val() === null){
+              friends = [name];
+            }else{
+              if(snapshot.val().indexOf(name) === -1){
                 friends = snapshot.val().concat([name]);
+              }else{
+                friends = snapshot.val();
               }
+            }
 
-              refUser.update({friends});
-          });
-          }
+            refUser.update({friends});
         });
+
       }else{
         console.error('ERROR @ noFriendFound');
       }
@@ -52,10 +44,10 @@ export function addFriend(name){
   };
 }
 
-export function removeFriend(id){
+export function removeFriend(name){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    firebase.child(`friends/${id}`).remove( error => {
+    firebase.child(`friends/${name}`).remove( error => {
         if(error){
           console.error('ERROR @ removeFriend:', error);
           dispatch({
@@ -67,7 +59,7 @@ export function removeFriend(id){
         const refUser = firebase.child(`users/${auth.id}`);
         let friends = [];
         reference.once('value', snapshot => {
-          friends = snapshot.val() === null ? [] : snapshot.val().filter(friend => id !== friend);
+          friends = snapshot.val() === null ? [] : snapshot.val().filter(friend => name !== friend);
           refUser.update({friends});
       });
       }
