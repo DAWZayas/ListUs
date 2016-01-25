@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { addFriend } from '../actions';
-import { Avatar, Dialog, TextField, FlatButton } from 'material-ui';
+import { Avatar, Dialog, FlatButton } from 'material-ui';
 
 
 export default class Friends extends Component {
@@ -81,7 +81,7 @@ export default class Friends extends Component {
       let top = i+6;
       while(i < top){
         if(i < listaFriends.length){
-          let id = listaFriends[i].id;
+          //let id = listaFriends[i].id;
 
           rowFriends = rowFriends.concat(<div className="col-xs-2 friendPhotoContainer">
             <span id={name} onClick={(id) => this.onRemoveFriend(id)}>{this.setImg(listaFriends[i])}</span><br/>
