@@ -3,8 +3,6 @@ import Nav from './Nav';
 import { Link } from 'react-router';
 import ItemList from './ItemList';
 
-import Popover from 'react-popover';
-import classNames from 'classnames';
 
 
 export default class Header extends Component{
