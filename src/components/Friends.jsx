@@ -29,7 +29,7 @@ export default class Friends extends Component {
 
   addFriend(e){
     const { addFriend } = this.props;
-    addFriend(e.target.value);
+    addFriend(e.target.innerHTML);
     this.hideDialog();
   }
 
