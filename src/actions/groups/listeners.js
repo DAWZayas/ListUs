@@ -3,26 +3,29 @@ import { SET_FRIENDS } from '../friends/action-types';
 
 export function registerListeners(){
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
+      firebase.child(`users/${auth.id}/groups`).on('value', snapshot => {
+        let promise = (snapshot.val() || []).map(idGroup => new Promise(
+          resolve => firebase.child(`groups/${idGroup}`).once('value', snap => {resolve({id: idGroup, name: snap.val().name});})
+        ));
+        Promise.all(promise).then(groups => dispatch({type: SET_GROUPS, groups}));
+      });
+      
 
-    firebase.child('groups').on('value', snapshot => {dispatch({
-          type: SET_GROUPS,
-          groups: Object.keys(snapshot.val() || []).reduce( (init, id) =>
-           init.concat({id, 
-              name:snapshot.val()[id].name, 
-              showFriends:snapshot.val()[id].showFriends, 
-              administrator:snapshot.val()[id].administrator,
-              friends: (snapshot.val()[id].friends) ?snapshot.val()[id].friends.split(',') :[]}), [])
-    });});
+      const refGlobal = firebase.child('friends');
+      let friends;
+      const ref = firebase.child(`users/${auth.id}/friends`);
 
-     firebase.child('friends').on('value', snapshot => {dispatch({
-          type: SET_FRIENDS,
-          friends: Object.keys(snapshot.val() || []).reduce( (init, id) => 
-           init.concat({id, 
-              groups:snapshot.val()[id].groups, 
-              img:snapshot.val()[id].img, 
-              name:snapshot.val()[id].name}), [])
-    });});
+      ref.on('value', snapshot => {
+        friends = snapshot.val() === null ? [] : snapshot.val();
+        refGlobal.once('value', snapshot => {dispatch({
+            type: SET_FRIENDS,
+            friends: Object.keys(snapshot.val() || []).reduce( (init, id) => friends.indexOf(id) !== -1 
+              ? init.concat({id, groups:snapshot.val()[id].groups, img:snapshot.val()[id].img, name:snapshot.val()[id].name}) 
+              : init, [])
+          });
+        });
+      });
   };
 }
 

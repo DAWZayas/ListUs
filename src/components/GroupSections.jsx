@@ -33,7 +33,7 @@ export default class GroupSections extends Component{
 								/>
 		 						{(group['showFriends']===true)?<div>
 												{/*groupFriends(group['friends'], group['id'], friends, user.id, that)*/}
-												<GroupFriends idFriends={group['friends']} idGroup={group['id']} friends={friends} idUser='0' Group={Group} />
+												<GroupFriends idFriends={group['friends'] || []} idGroup={group['id']} friends={friends} idUser='0' Group={Group} />
 												<div style={{display: 'flex', justifyContent: 'flex-end'}}>
 													<FlatButton label=" +Friend" primary style={{color: 'red', borderRadius: '10'}} onClick={() => Group.handleClickShowDialog('dialogAddFriend', group['id'])}/>
 												</div>

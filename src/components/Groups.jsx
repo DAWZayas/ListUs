@@ -167,6 +167,7 @@ export default class Groups extends Component {
 	}
 
 	componentWillUnmount() {
+		debugger;
 	    this.props.unregisterListeners();
 	}
 

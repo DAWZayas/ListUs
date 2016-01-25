@@ -6,9 +6,9 @@ export function setGroups(groups){
 
 export function addGroup(name){
   return (dispatch, getState) => {
-    const { firebase } = getState();
-    firebase.child('groups').push({name, showFriends: false,
-       administrator: '0', friends: ''
+    const { firebase, auth } = getState();
+    const groupRef = firebase.child('groups').push({name, showFriends: false,
+       administrator: auth.id
      }, error => {
         if(error){
           console.error('ERROR @ addGroup:', error);
@@ -18,6 +18,12 @@ export function addGroup(name){
         });
         }
     });
+    
+    new Promise( resolve => {
+      firebase.child(`users/${auth.id}/groups`).once('value', snap => {
+        resolve((snap.val()) ?snap.val().concat(groupRef.key()) :[groupRef.key()]);
+     });
+    }).then(groups => firebase.child(`users/${auth.id}/groups`).set(groups));
   };
 }
 
