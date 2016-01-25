@@ -29,16 +29,22 @@ export function addGroup(name){
 
 export function removeGroup(id){
   return (dispatch, getState) => {
-    const { firebase } = getState();
-    firebase.child('groups').child(id).remove(
+    const { firebase, auth } = getState();
+    firebase.child(`groups/${id}`).remove(
      error => {
         if(error){
           console.error('ERROR @ removeGroup:', error);
           dispatch({
             type: REMOVE_GROUP_ERROR,
             payload: error,
-        });
+          });
         }
+    });
+
+    let groups = [];
+    firebase.child(`users/${auth.id}/groups`).once('value', snap => {
+      groups = snap.val().filter(groupId => groupId !== id);
+      firebase.child(`users/${auth.id}/groups`).set(groups);
     });
   };
 }

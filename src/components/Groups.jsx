@@ -188,8 +188,8 @@ export default class Groups extends Component {
 		    	<Dialog ref="dialogEdit" title="Edit Options">
 					<List>
 					  <ListItem primaryText="Edit Name" onClick={() => this.handleClickSetRefToEdit(groupId)} rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-pencil"></span>}/>
-					  {(posGroup !== -1)?(this.props.groups[posGroup].administrator === '0') ?<ListItem primaryText="Remove Group" onClick={() => this.handleClickRemoveGroup(groupId)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>}/> :'' :''}
-					  {(posGroup !== -1)?(this.props.groups[posGroup].administrator === '0') ?<ListItem primaryText="Switch Admin" onClick={() => this.handleClickShowDialog('dialogAddFriend', groupId, true)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="
+					  {(posGroup !== -1)?(this.props.groups[posGroup].administrator === this.props.user.id) ?<ListItem primaryText="Remove Group" onClick={() => this.handleClickRemoveGroup(groupId)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>}/> :'' :''}
+					  {(posGroup !== -1)?(this.props.groups[posGroup].administrator === this.props.user.id) ?<ListItem primaryText="Switch Admin" onClick={() => this.handleClickShowDialog('dialogAddFriend', groupId, true)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="
 	glyphicon glyphicon-refresh"></span>}/> :'' :''}
 					</List>
 				</Dialog>
