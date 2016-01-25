@@ -83,7 +83,7 @@ export default class TaskTitle extends Component {
                 friends={friends}
                 groups={groups}
                 onEditList={onEditList}
-                onRemoveList={onRemoveList}
+                removeList={onRemoveList}
                 onRemoveFriendGroupToList={onRemoveFriendGroupToList}
                 onAddFriendGroupToList={onAddFriendGroupToList} />
               <span className="btn pull-right btn-default" onClick={() => this.openDialog()} >Add</span>

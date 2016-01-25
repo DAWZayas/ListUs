@@ -67,7 +67,6 @@ renderForce(){
 
 render() {
 
-
   const { list, lists, removeList, editList, tasks, addTask, removeTask, editTask, friends, groups, addFriendGroupToList, removeFriendGroupToList, markAsDone } = this.props;
 
   let tasksToShow;

@@ -8,8 +8,8 @@ export default class Friends extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-            letter: ''
-           };
+	    letter: ''
+	   };
 	}
 
   componentWillMount() {
@@ -29,7 +29,7 @@ export default class Friends extends Component {
 
   addFriend(e){
     const { addFriend } = this.props;
-    addFriend(e.target.value);
+    addFriend(e.target.innerHTML);
     this.hideDialog();
   }
 

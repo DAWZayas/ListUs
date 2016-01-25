@@ -5,12 +5,13 @@ export function registerListeners(){
     const { firebase, auth } = getState();
 
     firebase.child(`users/${auth.id}`).on('value', snapshot => {dispatch({
-          type: SET_USER,
-          user: {name: snapshot.val()['name'],
-            img: snapshot.val()['img'],
-            visibility: snapshot.val()['visibility']
-          }
-    });});
+      type: SET_USER,
+      user: {name: snapshot.val()['name'],
+        img: snapshot.val()['img'],
+        visibility: snapshot.val()['visibility']
+      }
+    });
+  });
   };
 }
 
@@ -25,4 +26,3 @@ export function unregisterListeners(){
     });
   };
 }
-
