@@ -17,52 +17,75 @@ export function addList(title, date, importance){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
 
-    let fireReference = firebase.child('lists').push({title, date, importance, participants:[]}, error => {
-        if(error){
-          console.error('ERROR @ addList:', error);
-          dispatch({
-            type: ADD_LIST_ERROR,
-            payload: error
-          });
-        }else{
-          //ACTION ADD TO ALL LISTS
-          const idList = fireReference.key();
-          // get day
-          const dayNumber = convertDay(date);
 
-          //get month
-          const monthNumber = convertMonth(date);
-          const monthName = months[monthNumber];
+    firebase.child(`users/${auth.id}`).once('value', snapshot => {
+
+      let fireReference = firebase.child('lists').push({title, date, importance, admin: snapshot.val().name, participants:[]}, error => {
+          if(error){
+            console.error('ERROR @ addList:', error);
+            dispatch({
+              type: ADD_LIST_ERROR,
+              payload: error
+            });
+          }else{
+            //ACTION ADD TO ALL LISTS
+            const idList = fireReference.key();
+            // get day
+            const dayNumber = convertDay(date);
+
+            //get month
+            const monthNumber = convertMonth(date);
+            const monthName = months[monthNumber];
 
 
-          const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
-          const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
-          let listsInDay = [];
-          refDate.once('value', snapshot => {
-            listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
-            refMonth.update({[dayNumber]:listsInDay});
-          });
-          //ACTION ADD TO USER LISTS
+            const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+            const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
+            let listsInDay = [];
+            refDate.once('value', snapshot => {
+              listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
+              refMonth.update({[dayNumber]:listsInDay});
+            });
+            //ACTION ADD TO USER LISTS
 
-          const refListsUser = firebase.child(`users/${auth.id}/lists`);
-          const refUser = firebase.child(`users/${auth.id}`);
-          let lists = [];
-          refListsUser.once('value', snapshot => {
-            lists = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
-            refUser.update({lists});
-          });
+            const refListsUser = firebase.child(`users/${auth.id}/lists`);
+            const refUser = firebase.child(`users/${auth.id}`);
+            let lists = [];
+            refListsUser.once('value', snapshot => {
+              lists = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
+              refUser.update({lists});
+            });
 
-        }
+          }
+      });
+
     });
 
   };
 }
 
 
-export function removeList(idList, title, date){
+export function removeList(list){
   return (dispatch, getState) => {
+
     const { firebase, auth } = getState();
-    firebase.child(`lists/${idList}`).remove(error => {
+    let lists = [];
+    //ACTION REMOVE LIST IN ALL participants
+    if(list.participants[0]!==undefined){
+      firebase.child(`lists/${list.id}/participants`).once('value', snapshot => {
+        if(snapshot.val()!==null){
+          snapshot.val().map( nameUser => firebase.child(`users`).once('value', function(snapshotUsers){
+            const user = Object.values(snapshotUsers.val()).filter( user => user.name===nameUser )[0];
+            const userId = Object.keys(snapshotUsers.val()).filter( id => snapshotUsers.val()[id].name===user.name)[0];
+            if(user.lists!==undefined){
+              lists = user.lists.filter( listId => list.id!==listId );
+            }
+            firebase.child(`users/${userId}`).update({lists});
+          }));
+        }
+      });
+    }
+
+    firebase.child(`lists/${list.id}`).remove(error => {
       if(error){
         console.error('ERROR @ removeList:', error);
         dispatch({
@@ -71,6 +94,7 @@ export function removeList(idList, title, date){
         });
       }else{
       // get day
+      const date = list.date;
       const dayNumber = convertDay(date);
 
       //get month
@@ -81,24 +105,27 @@ export function removeList(idList, title, date){
       const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
       let listsInDay = [];
       refDate.once('value', snapshot => {
-        listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idList );
+        listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==list.id );
         refMonth.update({[dayNumber]:listsInDay});
       });
 
-      //ACTION ADD TO USER LISTS
+      //ACTION REMOVE TO USER LISTS
 
       const refListsUser = firebase.child(`users/${auth.id}/lists`);
       const refUser = firebase.child(`users/${auth.id}`);
-      let lists = [];
+      lists = [];
       refListsUser.once('value', snapshot => {
-        lists = snapshot.val()===null ? [] : snapshot.val().filter(id => id!==idList);
+        lists = snapshot.val()===null ? [] : snapshot.val().filter(id => id!==list.id);
         refUser.update({lists});
       });
+
+
 
       };
     });
   };
 }
+
 
 
 export function editList(idList, title, date, newDate, importance){
@@ -134,12 +161,12 @@ export function addFriendGroupToList( idList, newParticipant){
       refIdList.update({participants});
     });
     //para diferenciar grupo de amigo newParticipant.administrador===undefined
-    if(newParticipant.administrador===undefined){
+    if(newParticipant.showFriends===undefined){
       //añadir la lista a un amigo
-      firebase.child('users').once('value', snapshot => {
-        let lists = Object.values(snapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.lists : init, [] );
-        lists = lists.concat(idList);
-        const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===newParticipant.name);
+      firebase.child('users').once('value', userSnapshot => {
+        let lists = Object.values(userSnapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.lists : init, [] );
+        lists = lists===undefined ? [idList] : lists.concat(idList);
+        const idUser = Object.keys(userSnapshot.val()).filter( idUser => userSnapshot.val()[idUser].name===newParticipant.name);
         firebase.child(`users/${idUser}`).update({lists});
       });
     }else{

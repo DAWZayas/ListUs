@@ -39,6 +39,7 @@ export function registerListeners(){
         lists: Object.keys(snapshot.val() || [])
           .reduce( (init, id) => listsUser.indexOf(id)!==-1 ?
             init.concat({id,
+              admin: snapshot.val()[id].admin,
               title:snapshot.val()[id].title,
               importance:snapshot.val()[id].importance,
               date:snapshot.val()[id].date,

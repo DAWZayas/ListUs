@@ -149,7 +149,7 @@ export default class ListsEdit extends Component{
 /* REMOVE LIST */
 	onClickRemove(){
 		const { list, removeList} = this.props;
-		removeList(list.id, list.title, list.date );
+		removeList(list);
 		this._handleCloseDialog();
 	}
 /* REMOVE PARTICIPANT FROM LIST */
@@ -163,6 +163,7 @@ export default class ListsEdit extends Component{
 	}
 
 	render(){
+
 		let { list, friends, groups } = this.props;
 
 
