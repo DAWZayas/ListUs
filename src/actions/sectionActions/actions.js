@@ -128,23 +128,56 @@ export function addFriendGroupToList( idList, newParticipant){
     const refParticipants = firebase.child(`users/${auth.id}/lists/${idList}/participants`);
     const refIdList = firebase.child(`lists/${idList}`);
     let participants = [];
+
     refParticipants.once('value', snapshot => {
-      participants = snapshot.val()===null ? [newParticipant.id] : snapshot.val().concat([newParticipant.id]);
+      participants = snapshot.val()===null ? [newParticipant.name] : snapshot.val().concat([newParticipant.name]);
       refIdList.update({participants});
     });
+    //para diferenciar grupo de amigo newParticipant.administrador===undefined
+    if(newParticipant.administrador===undefined){
+      //añadir la lista a un amigo
+      firebase.child('users').once('value', snapshot => {
+        let lists = Object.values(snapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.lists : init, [] );
+        lists = lists.concat(idList);
+        const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===newParticipant.name);
+        firebase.child(`users/${idUser}`).update({lists});
+      });
+    }else{
+      //añadir a grupo
+    }
+    /* DEBERÍA LLEGARLE EL ID DEL USER Y añadirsela a sus lists ids pero tocando su calendario,
+    al conectarse podría tener unas actions pendings y si las acepta que se ejecuten las acciones*/
+
   };
 }
 
-export function removeFriendGroupToList( idList, idPaticipant){
+export function removeFriendGroupToList( idList, newParticipant){
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
     const refParticipants = firebase.child(`users/${auth.id}/lists/${idList}/participants`);
     const refIdList = firebase.child(`lists/${idList}`);
     let participants = [];
+
     refParticipants.once('value', snapshot => {
-      participants = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idPaticipant );
+      participants = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==newParticipant.name );
       refIdList.update({participants});
     });
+//para diferenciar grupo de amigo newParticipant.administrador===undefined
+    if(newParticipant.administrador===undefined){
+      //borrar de la lista al amigo
+      firebase.child('users').once('value', snapshot => {
+        const lists = newParticipant.lists.filter( id => id!==idList);
+        const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===newParticipant.name);
+        firebase.child(`users/${idUser}`).update({lists});
+      });
+    }else{
+      //borrar la lista del grupo
+
+    }
 
   };
 }
+/*  addFriendGroupToList tendria que crear una accion pendiente en el otro user y a la hora de conectarse le salga el aviso
+    hay que tocar auth/actions para cuando el login sea correcto envie todas las acciones pendientes y  al aceptaarlas las
+    realice
+*/

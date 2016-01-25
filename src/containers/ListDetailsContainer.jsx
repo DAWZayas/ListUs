@@ -5,11 +5,11 @@ import ListDetails from '../components/ListDetails';
 import * as listsActions from '../actions/listsDetailsActions';
 
 function mapStateToProps(state){
-  
+
     const idList = state.router.params.idList;
     const list = state.lists.reduce( (listas, list) => list.id===idList ?  list : listas, {});
     const tasks = Object.values(state.tasks).reduce( (tasks, task) => task.idList === idList ? Object.assign(tasks, {[task.id]: task}) : tasks, {});
-    return{list, lists: state.lists, tasks, friends: state.friends, groups: state.groups};
+    return{list, lists: state.lists, tasks, friends: state.friends.friends, groups: state.groups};
 }
 
 /*function mapActionsToProps(dispatch){
