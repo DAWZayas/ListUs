@@ -57,7 +57,7 @@ export default class Groups extends Component {
 		}
 		else{
 			name = this.refs.friendNameInput.getValue();
-			pos = arrayPositionByObjectKey('name', name, this.props.friends);
+			pos = arrayPositionByObjectKey('name', name, this.props.friends.friends);
 			this.addFriendNonExistent(e, pos, name);
 		}
 	}
@@ -66,7 +66,7 @@ export default class Groups extends Component {
 		if(pos !== -1) this.setState({error: 'Group\'s name already exists.'});
 		else{
 			//this.props.onAddGroup(name, this.props.user.id);
-			this.props.addGroup(name, '0');
+			this.props.addGroup(name);
 			this.setState({error: '', search: []});
 			this.handleClickDismissDialog(e, 'dialogAddGroup');
 		}
@@ -75,8 +75,8 @@ export default class Groups extends Component {
 	addFriendNonExistent(e, pos, name){
 		if(pos === -1) this.setState({error: 'None of your friends matches whith that name'});
 		else{
-			const idFriend = this.props.friends[pos]['id'];
-			if(this.state.admin === false) this.props.addGroupFriend(getIdByOtherKey('name', name, this.props.friends), this.state.id);
+			const idFriend = this.props.friends.friends[pos]['id'];
+			if(this.state.admin === false) this.props.addGroupFriend(getIdByOtherKey('name', name, this.props.friends.friends), this.state.id);
 			else this.props.changeGroupAdmin(idFriend, this.state.id);
 			this.setState({error: ''});
 			this.handleClickDismissDialog(e, 'dialogAddFriend');
@@ -138,7 +138,7 @@ export default class Groups extends Component {
 	searchingMatch(e){
 		e.preventDefault();
 		const words = (this.refs.groupNameInput)?this.refs.groupNameInput.getValue():this.refs.friendNameInput.getValue();
-		const array = (this.refs.groupNameInput)?this.props.groups :this.props.friends;
+		const array = (this.refs.groupNameInput)?this.props.groups :this.props.friends.friends;
 		const search = array.filter(function(object){
 				return object.name.toLowerCase().search(words.toLowerCase()) !== -1;
 			}.bind(this));
@@ -167,7 +167,6 @@ export default class Groups extends Component {
 	}
 
 	componentWillUnmount() {
-		debugger;
 	    this.props.unregisterListeners();
 	}
 
@@ -182,7 +181,7 @@ export default class Groups extends Component {
 		return (
 			<section>
        			<SectionHeader title="GROUPS" openDialog={() => this.handleClickShowDialog('dialogAddGroup')} menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
-       			<GroupSections groups={groups} friends={this.props.friends} user={this.props.user} Group={this} showGroupFriends={this.props.showGroupFriends}/>
+       			<GroupSections groups={groups} friends={this.props.friends.friends} user={this.props.user} Group={this} showGroupFriends={this.props.showGroupFriends}/>
 
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
 
@@ -253,7 +252,7 @@ export default class Groups extends Component {
 Groups.propTypes= {
 	user: PropTypes.object,
 	groups: PropTypes.array,
-	friends: PropTypes.array,
+	//friends: PropTypes.array,
 	editGroup: PropTypes.func,
 	onRemoveGroupFriend: PropTypes.func,
 	removeGroup: PropTypes.func,

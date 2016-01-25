@@ -5,7 +5,7 @@ function setFriends(state, friends, users){
   return {
     friends,
     users
-  }
+  };
 }
 
 function noFriendFound(state, friend){
