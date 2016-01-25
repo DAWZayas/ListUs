@@ -116,7 +116,7 @@ ul{
 
 .principal>div{
   width:80px;
-  margin-top: 10px;
+  margin-top: 3px;
   margin-right: 10px;
   z-index: 3;
 }
@@ -126,7 +126,6 @@ ul{
 }
 
 .principal a{
-
   margin-right: 0;
 }
 
@@ -164,6 +163,32 @@ background-image: none;
 border: 1px solid #ccc;
 border-radius: 10px;
 
+}
+
+.notificationContainer {
+  /*margin-top: 10px;
+  */
+}
+
+.notificationIcon {
+  height: 20px;
+  width: 20px;
+
+  background-color: grey;
+  color: white;
+
+  border-radius: 50%;
+
+}
+
+.hideNoti {
+  display: none;
+}
+
+.isOpen {
+  width: 20em !important;
+  height: 20em;
+  background-color: grey;
 }
 
 /*
@@ -501,7 +526,7 @@ border-radius: 10px;
   display: flex;
   flex-flow:column nowrap;
   max-width:200px;
-  
+
 }
 
 .tools{
