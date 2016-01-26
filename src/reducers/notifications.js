@@ -4,6 +4,7 @@ import { ADD_LIST_CORRECT, REMOVE_LIST_CORRECT } from '../actions/sectionActions
 
 function setNotifications(state, pendingActions){
   return pendingActions.slice();
+}
 
 function showAdvice(state, msg){
   return msg;
