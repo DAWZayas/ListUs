@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import List from '../components/List';
 import SectionHeader from './SectionHeader';
 import { menuItems, sortArray } from '../utils/functions';
-
-
+import Advice from './Advice';
 
 import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
 
@@ -84,6 +83,9 @@ export default class Section extends Component {
 
   render() {
 
+    let advice;
+
+
     let customActions = [
       <FlatButton
         label="Cancel"
@@ -141,7 +143,7 @@ export default class Section extends Component {
           <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
 
         </div>
-      </article>
+    </article>
     );
   }
 }
@@ -156,6 +158,7 @@ Section.propTypes = {
   addFriendGroupToList: PropTypes.func,
   friends: PropTypes.array,
   removeFriendGroupToList: PropTypes.func,
+  payload: PropTypes.string,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };

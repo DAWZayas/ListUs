@@ -7,16 +7,6 @@ export default class Notifications extends Component{
     super(props);
   }
 
-  componentWillMount() {
-    this.props.registerListeners();
-  }
-
-  componentWillUnmount() {
-    this.props.unregisterListeners();
-  }
-
-
-
   render() {
     debugger;
     return(
@@ -29,7 +19,5 @@ export default class Notifications extends Component{
 }
 
 Notifications.propTypes = {
-  state: PropTypes.object,
-  registerListeners: PropTypes.func.isRequired,
-  unregisterListeners: PropTypes.func.isRequired
+  state: PropTypes.object
 };
