@@ -137,7 +137,7 @@ export default class ListsEdit extends Component{
   handleOnClickAddFriendGroupToList(e){
     e.stopPropagation();
     const { list, onAddFriendGroupToList } = this.props;
-    Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list.id, this.state.newParticipant);
+    Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list, this.state.newParticipant);
 		this.clearTextField();
 		this._handleCloseDialog();
 	}

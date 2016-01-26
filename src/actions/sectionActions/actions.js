@@ -1,4 +1,4 @@
-import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR } from './action-types';
+import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_FRIEND_TO_LIST } from './action-types';
 //import sequencer from '../sequencer';
 
 const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
@@ -149,13 +149,33 @@ export function editList(idList, title, date, newDate, importance){
 }
 
 
-export function addFriendGroupToList( idList, newParticipant){
+export function addFriendGroupToList( list, newParticipant){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    const refParticipants = firebase.child(`users/${auth.id}/lists/${idList}/participants`);
-    const refIdList = firebase.child(`lists/${idList}`);
-    let participants = [];
 
+
+    //ENVIARLA AL USER
+    firebase.child('users').once('value', userSnapshot => {
+      //CREAR LA ACCION PENDING
+      const nameUserCreateAction = userSnapshot.val()[auth.id].name;
+      const descr = nameUserCreateAction + ' want to add you a this list: ' + list.title;
+      const newActionPending = {
+        type: ADD_FRIEND_TO_LIST,
+        idList: list.id,
+        descr
+      }
+
+      let pendingActions = Object.values(userSnapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.pendingActions : init, [] );
+      pendingActions = pendingActions===undefined ? [newActionPending] : pendingActions.concat(newActionPending);
+      const idUser = Object.keys(userSnapshot.val()).filter( idUser => userSnapshot.val()[idUser].name===newParticipant.name);
+      firebase.child(`users/${idUser}`).update({pendingActions});
+    });
+
+
+/*
+*     ESTO TENDRA QUE HACERLO EL OTRO USUARIO
+*
+    let participants = [];
     refParticipants.once('value', snapshot => {
       participants = snapshot.val()===null ? [newParticipant.name] : snapshot.val().concat([newParticipant.name]);
       refIdList.update({participants});
@@ -173,8 +193,8 @@ export function addFriendGroupToList( idList, newParticipant){
       //añadir a grupo
     }
     /* DEBERÍA LLEGARLE EL ID DEL USER Y añadirsela a sus lists ids pero tocando su calendario,
-    al conectarse podría tener unas actions pendings y si las acepta que se ejecuten las acciones*/
-
+    al conectarse podría tener unas actions pendings y si las acepta que se ejecuten las acciones
+*/
   };
 }
 
