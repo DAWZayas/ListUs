@@ -6,3 +6,5 @@ export const SET_FRIENDS = 'SET_FRIENDS';
 export const SET_GROUPS = 'SET_GROUPS';
 export const SET_TASKS = 'SET_TASKS';
 export const ADD_FRIEND_TO_LIST = 'ADD_FRIEND_TO_LIST';
+export const ADD_LIST_CORRECT = 'ADD_LIST_CORRECT';
+export const REMOVE_LIST_CORRECT = 'REMOVE_LIST_CORRECT';

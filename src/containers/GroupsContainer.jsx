@@ -7,7 +7,7 @@ function mapStateToProps(state) {
   return {
   	groups: state.groups,
 	friends: state.friends,
-	//user: state.user
+	user: state.user
   };
 }
 

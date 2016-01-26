@@ -1,4 +1,7 @@
-import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_FRIEND_TO_LIST } from './action-types';
+
+
+import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_LIST_CORRECT, REMOVE_LIST_CORRECT, ADD_FRIEND_TO_LIST } from './action-types';
+
 //import sequencer from '../sequencer';
 
 const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
@@ -54,6 +57,24 @@ export function addList(title, date, importance){
               lists = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
               refUser.update({lists});
             });
+
+            firebase.child('lists').once('child_added', snapshot => {
+
+              const msg = title + ' añadida correctamente'
+              dispatch({
+                type: ADD_LIST_CORRECT,
+                msg
+              });
+            });
+
+            firebase.child('lists').once('child_removed', snapshot => {
+              const msg = title + ' borrada correctamente'
+              dispatch({
+                type: REMOVE_LIST_CORRECT,
+                msg
+              });
+            });
+
 
           }
       });
@@ -170,31 +191,6 @@ export function addFriendGroupToList( list, newParticipant){
       const idUser = Object.keys(userSnapshot.val()).filter( idUser => userSnapshot.val()[idUser].name===newParticipant.name);
       firebase.child(`users/${idUser}`).update({pendingActions});
     });
-
-
-/*
-*     ESTO TENDRA QUE HACERLO EL OTRO USUARIO
-*
-    let participants = [];
-    refParticipants.once('value', snapshot => {
-      participants = snapshot.val()===null ? [newParticipant.name] : snapshot.val().concat([newParticipant.name]);
-      refIdList.update({participants});
-    });
-    //para diferenciar grupo de amigo newParticipant.administrador===undefined
-    if(newParticipant.showFriends===undefined){
-      //añadir la lista a un amigo
-      firebase.child('users').once('value', userSnapshot => {
-        let lists = Object.values(userSnapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.lists : init, [] );
-        lists = lists===undefined ? [idList] : lists.concat(idList);
-        const idUser = Object.keys(userSnapshot.val()).filter( idUser => userSnapshot.val()[idUser].name===newParticipant.name);
-        firebase.child(`users/${idUser}`).update({lists});
-      });
-    }else{
-      //añadir a grupo
-    }
-    /* DEBERÍA LLEGARLE EL ID DEL USER Y añadirsela a sus lists ids pero tocando su calendario,
-    al conectarse podría tener unas actions pendings y si las acepta que se ejecuten las acciones
-*/
   };
 }
 

@@ -32,8 +32,7 @@ export default class GroupSections extends Component{
 
 								/>
 		 						{(group['showFriends']===true)?<div>
-												{/*groupFriends(group['friends'], group['id'], friends, user.id, that)*/}
-												<GroupFriends idFriends={group['friends']} idGroup={group['id']} friends={friends} idUser='0' Group={Group} />
+												<GroupFriends idFriends={group['friends'] || []} idGroup={group['id']} friends={friends} idUser= {user.id} Group={Group} />
 												<div style={{display: 'flex', justifyContent: 'flex-end'}}>
 													<FlatButton label=" +Friend" primary style={{color: 'red', borderRadius: '10'}} onClick={() => Group.handleClickShowDialog('dialogAddFriend', group['id'])}/>
 												</div>
@@ -46,15 +45,12 @@ export default class GroupSections extends Component{
 				</div>);
 	}
 
-	groupsOwnAdmin(groups){
-		//return groups.filter(group => group.administrator === this.props.user.id);
-		return groups.filter(group => group.administrator === '0');
+	groupsOwnAdmin(groups, userId){
+		return groups.filter(group => group.administrator === userId);
 	}
 
-	groupsNoAdmin(groups){
-		//return groups.filter(group => group.administrator !== this.props.user.id);
-		return groups.filter(group => group.administrator !== '0');
-		
+	groupsNoAdmin(groups, userId){
+		return groups.filter(group => group.administrator !== userId);
 	}
 
 	
@@ -67,10 +63,10 @@ export default class GroupSections extends Component{
 			    {this.groupsList(groups, friends, user, Group, this)}
 			  </Tab>
 			  <Tab label="Administrated Groups" value="adminGroups" style={{backgroundColor: 'white', color: 'grey'}}>
-			  	{this.groupsList(this.groupsOwnAdmin(groups), friends, user, Group, this)}
+			  	{this.groupsList(this.groupsOwnAdmin(groups, user.id), friends, user, Group, this)}
 			  </Tab>
 			  <Tab label="Non-Administrated Groups" value="noAdminGroups" style={{backgroundColor: 'white', color: 'grey'}}>
-			  	{this.groupsList(this.groupsNoAdmin(groups), friends, user, Group, this)}
+			  	{this.groupsList(this.groupsNoAdmin(groups, user.id), friends, user, Group, this)}
 			  </Tab>
 			</Tabs>
 		);

@@ -1,7 +1,8 @@
 import { SET_LISTS } from '../listsDetailsActions/action-types';
 import { SET_TASKS } from './action-types';
-import { SET_GROUPS } from './action-types';
+import { SET_GROUPS, ADD_LIST_CORRECT } from './action-types';
 import { SET_FRIENDS } from '../friends/action-types';
+
 
 export function registerListeners(){
   return (dispatch, getState) => {
@@ -28,6 +29,14 @@ export function registerListeners(){
         });
       });
     });
+
+    /*firebase.child(`users/${auth.id}/lists`).on('child_added', snapshot =>{
+
+
+    });*/
+
+
+
 
     let listsUser = [];
     firebase.child(`users/${auth.id}/lists`).on('value', snapshot =>{
