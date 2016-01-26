@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import List from '../components/List';
 import SectionHeader from './SectionHeader';
 import { menuItems, sortArray } from '../utils/functions';
-import Advice from './Advice';
 
-import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
+import { Dialog, Snackbar, TextField, FlatButton, Slider } from 'material-ui';
 
 import DatePicker from 'react-datepicker';
 let moment = require('moment');
@@ -20,7 +19,9 @@ export default class Section extends Component {
       sorted: 'Sort By',
       startDate: moment(),
       numberOfList: 5,
-      dialogState: false
+      dialogState: false,
+      autoHideDuration: 0,
+      open: false
     };
   }
 
@@ -30,6 +31,12 @@ export default class Section extends Component {
 
   componentWillUnmount() {
     this.props.unregisterListeners();
+  }
+
+  componentDidMount(){
+    this.setState({
+      msg: []
+    });
   }
 
   handleChange(date) {
@@ -81,9 +88,18 @@ export default class Section extends Component {
     });
   }
 
-  render() {
+  handleActionTouchTap() {
+    alert('We removed the event from your calendar.');
+  }
 
-    let advice;
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
+  render() {
+    const { msg } = this.props;
 
 
     let customActions = [
@@ -143,6 +159,23 @@ export default class Section extends Component {
           <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
 
         </div>
+
+        {/*<Snackbar
+          open={this.state.open}
+          message={msg}
+          action="undo"
+          autoHideDuration={this.state.autoHideDuration}
+          onActionTouchTap={this.handleActionTouchTap}
+          onRequestClose={this.handleRequestClose}
+        />*/}
+
+        {
+          typeof msg === "string" ? (
+            alert(msg)
+          ) : ''
+        }
+
+
     </article>
     );
   }

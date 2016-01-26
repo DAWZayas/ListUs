@@ -30,13 +30,10 @@ export function registerListeners(){
       });
     });
 
-    firebase.child(`users/${auth.id}/lists`).on('child_added', snapshot =>{
-      dispatch({
-        type: ADD_LIST_CORRECT,
-        payload: snapshot.val()
-      });
+    /*firebase.child(`users/${auth.id}/lists`).on('child_added', snapshot =>{
 
-    });
+
+    });*/
 
 
 

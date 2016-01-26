@@ -1,4 +1,4 @@
-import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_LIST_CORRECT } from './action-types';
+import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_LIST_CORRECT, REMOVE_LIST_CORRECT } from './action-types';
 //import sequencer from '../sequencer';
 
 const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
@@ -55,7 +55,23 @@ export function addList(title, date, importance){
               refUser.update({lists});
             });
 
-            
+            firebase.child('lists').once('child_added', snapshot => {
+
+              const msg = title + ' añadida correctamente'
+              dispatch({
+                type: ADD_LIST_CORRECT,
+                msg
+              });
+            });
+
+            firebase.child('lists').once('child_removed', snapshot => {
+              const msg = title + ' borrada correctamente'
+              dispatch({
+                type: REMOVE_LIST_CORRECT,
+                msg
+              });
+            });
+
 
           }
       });
