@@ -48,7 +48,6 @@ export function refusePendingAction(notification){
     firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
       //borrar la pendingAction
       const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => actionPending.idList!==notification.idList );
-debugger;
       firebase.child(`users/${auth.id}`).update({pendingActions});
     });
   };
