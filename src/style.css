@@ -192,6 +192,22 @@ border-radius: 10px;
 }
 
 /*
+  NOTIFICATIONS
+*/
+
+.btnNotifications {
+  margin-left: 10px;
+}
+
+.notificationList {
+  border: 1px solid black;
+  border-radius: 10px;
+
+  width: 60%;
+  padding: 10px;
+}
+
+/*
   SECTION
 */
 
@@ -601,6 +617,11 @@ border-radius: 10px;
 
   .avatarLetter {
     font-size: 15px !important;
+  }
+
+  .notificationList {
+    width: 100%;
+    height: 5.5em;
   }
 
 }

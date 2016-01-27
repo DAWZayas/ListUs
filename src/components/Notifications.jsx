@@ -24,8 +24,10 @@ export default class Notifications extends Component{
         {
         notifications.length!==0 ?
           notifications.map( (not, id) =>
-            <li key={id}><span>{not.descr}</span> <button onClick={() => this.props.aceptPendingAction(not) }> Acept </button>
-              <button onClick={ () => this.props.refusePendingAction(not) }> X </button>
+            <li className="row notificationList" key={id}>
+              <span className="col-xs-6">{not.descr}</span>
+              <button className="btnNotifications btn btn-success" onClick={() => this.props.aceptPendingAction(not) }> Acept </button>
+              <button className="btnNotifications btn btn-danger" onClick={ () => this.props.refusePendingAction(not) }> X </button>
             </li>) : ''
         }
         </ul>
