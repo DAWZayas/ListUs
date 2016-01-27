@@ -12,6 +12,7 @@ function showAdvice(state, msg){
 }
 
 export default function friendReduce(state = [], action){
+
   switch (action.type) {
     case SET_NOTIFICATIONS:
       return setNotifications(state, action.pendingActions);

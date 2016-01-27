@@ -22,10 +22,11 @@ export default class Notifications extends Component{
       <div>
         <ul>
         {
+        notifications.length!==0 ?
           notifications.map( (not, id) =>
             <li key={id}><span>{not.descr}</span> <button onClick={() => this.props.aceptPendingAction(not) }> Acept </button>
               <button onClick={ () => this.props.refusePendingAction(not) }> X </button>
-            </li>)
+            </li>) : ''
         }
         </ul>
       </div>

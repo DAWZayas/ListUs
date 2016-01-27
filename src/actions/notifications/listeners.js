@@ -7,7 +7,7 @@ export function registerListeners(){
     firebase.child(`users/${auth.id}/pendingActions`).on('value', snapshot => {
       dispatch({
         type: SET_NOTIFICATIONS,
-        pendingActions: Object.values(snapshot.val()) || []
+        pendingActions: snapshot.val()!==null ? Object.values(snapshot.val()) : []
       });
     });
   };

@@ -171,7 +171,7 @@ export default class Section extends Component {
 
         {
           typeof msg === "string" ? (
-            alert(msg)
+            console.log(msg)
           ) : ''
         }
 
