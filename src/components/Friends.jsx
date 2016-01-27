@@ -101,7 +101,7 @@ export default class Friends extends Component {
         <div className="centerFriends">
           <Dialog ref="addFriendDialog" title="Add friend" actions={addFriend} >
 						{
-							users.map( user => <FlatButton value={user.name} label={user.name} onTouchTap={e => this.addFriend(e)}/>)
+							users.map( user => <button style={{"marginLeft": "10px" }} className="btn btn-default" onClick={e => this.addFriend(e)}>{user.name}</button>)
 						}
   				</Dialog>
 
