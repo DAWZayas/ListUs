@@ -1,4 +1,4 @@
-import { SET_NOTIFICATIONS, ADD_NOTIFICATION } from './action-types';
+import { SET_NOTIFICATIONS } from './action-types';
 
 export function registerListeners(){
   return (dispatch, getState) => {

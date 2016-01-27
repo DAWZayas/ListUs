@@ -6,7 +6,6 @@ export function registerListeners(){
     const { firebase, auth } = getState();
     const ref = firebase.child(`users/${auth.id}/friends`);
     const refGlobal = firebase.root();
-    const usersRef = firebase.child('users');
 
     let friends = [];
 

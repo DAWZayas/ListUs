@@ -3,7 +3,7 @@ import List from '../components/List';
 import SectionHeader from './SectionHeader';
 import { menuItems, sortArray } from '../utils/functions';
 
-import { Dialog, Snackbar, TextField, FlatButton, Slider } from 'material-ui';
+import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
 
 import DatePicker from 'react-datepicker';
 let moment = require('moment');
@@ -31,12 +31,6 @@ export default class Section extends Component {
 
   componentWillUnmount() {
     this.props.unregisterListeners();
-  }
-
-  componentDidMount(){
-    this.setState({
-      msg: []
-    });
   }
 
   handleChange(date) {
@@ -170,7 +164,7 @@ export default class Section extends Component {
         />*/}
 
         {
-          typeof msg === "string" ? (
+          typeof msg === 'string' ? (
             console.log(msg)
           ) : ''
         }
@@ -191,7 +185,7 @@ Section.propTypes = {
   addFriendGroupToList: PropTypes.func,
   friends: PropTypes.array,
   removeFriendGroupToList: PropTypes.func,
-  payload: PropTypes.string,
+  msg: PropTypes.string,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };

@@ -63,7 +63,7 @@ export function addList(title, date, importance){
   };
 }
 
-function addToCalendarNewDate(firebase, idList, date){
+/*function addToCalendarNewDate(firebase, idList, date){
   // get day
   const dayNumber = convertDay(date);
 
@@ -79,7 +79,7 @@ function addToCalendarNewDate(firebase, idList, date){
     listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
     refMonth.update({[dayNumber]:listsInDay});
   });
-}
+}*/
 
 export function removeList(list){
   return (dispatch, getState) => {
@@ -144,7 +144,7 @@ export function removeList(list){
 }
 
 
-function removeDateFromCalendar(firebase, idList, date){
+/*function removeDateFromCalendar(firebase, idList, date){
   // get day
   const dayNumber = convertDay(date);
 
@@ -159,7 +159,7 @@ function removeDateFromCalendar(firebase, idList, date){
     listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idList );
     refMonth.update({[dayNumber]:listsInDay});
   });
-}
+}*/
 
 export function editList(idList, title, date, newDate, importance){
 
@@ -196,7 +196,7 @@ export function addFriendGroupToList( list, newParticipant){
         type: ADD_FRIEND_TO_LIST,
         idList: list.id,
         descr
-      }
+      };
 
       let pendingActions = Object.values(userSnapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.pendingActions : init, [] );
       pendingActions = pendingActions===undefined ? [newActionPending] : pendingActions.concat(newActionPending);

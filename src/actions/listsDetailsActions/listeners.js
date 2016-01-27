@@ -8,7 +8,6 @@ export function registerListeners(){
     const { firebase, auth } = getState();
     const refTasks = firebase.child('tasks');
     const refLists = firebase.child('lists');
-    const refFriends = firebase.child('friends');
 
 
     let tasksUser = [];

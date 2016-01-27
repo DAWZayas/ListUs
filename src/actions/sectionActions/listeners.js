@@ -1,6 +1,6 @@
 import { SET_LISTS } from '../listsDetailsActions/action-types';
 import { SET_TASKS } from './action-types';
-import { SET_GROUPS, ADD_LIST_CORRECT } from './action-types';
+import { SET_GROUPS } from './action-types';
 import { SET_FRIENDS } from '../friends/action-types';
 
 
@@ -9,7 +9,6 @@ export function registerListeners(){
     const { firebase, auth } = getState();
     const refTasks = firebase.child('tasks');
     const refLists = firebase.child('lists');
-    const refFriends = firebase.child('friends');
 
 
     let tasksUser = [];
@@ -29,13 +28,6 @@ export function registerListeners(){
         });
       });
     });
-
-    /*firebase.child(`users/${auth.id}/lists`).on('child_added', snapshot =>{
-
-
-    });*/
-
-
 
 
     let listsUser = [];

@@ -16,10 +16,9 @@ export function onAddComment(idList, user, date, hour, msg){
           }
       });
     });
-    
+
   };
 }
 
-export function onRemoveComments(idList){
-  debugger;
+export function onRemoveComments(){
 }

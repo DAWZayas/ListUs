@@ -58,17 +58,16 @@ export function addList(title, date, importance){
               refUser.update({lists});
             });
 
-            firebase.child('lists').once('child_added', snapshot => {
-
-              const msg = title + ' añadida correctamente'
+            firebase.child('lists').once('child_added', () => {
+              const msg = title + ' añadida correctamente';
               dispatch({
                 type: ADD_LIST_CORRECT,
                 msg
               });
             });
 
-            firebase.child('lists').once('child_removed', snapshot => {
-              const msg = title + ' borrada correctamente'
+            firebase.child('lists').once('child_removed', () => {
+              const msg = title + ' borrada correctamente';
               dispatch({
                 type: REMOVE_LIST_CORRECT,
                 msg
@@ -179,12 +178,12 @@ export function addFriendGroupToList( list, newParticipant){
     firebase.child('users').once('value', userSnapshot => {
       //CREAR LA ACCION PENDING
       const nameUserCreateAction = userSnapshot.val()[auth.id].name;
-      const descr = nameUserCreateAction + ' want to add you a this list: ' + list.title;
+      const descr = nameUserCreateAction + ' wants to add you to the list: ' + list.title;
       const newActionPending = {
         type: ADD_FRIEND_TO_LIST,
         idList: list.id,
         descr
-      }
+      };
 
       let pendingActions = Object.values(userSnapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.pendingActions : init, [] );
       pendingActions = pendingActions===undefined ? [newActionPending] : pendingActions.concat(newActionPending);
