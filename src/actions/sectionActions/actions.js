@@ -106,7 +106,6 @@ export function removeList(list){
     }
     //REMOVE ACTIONSPENGIG WITH IDLIST IN ALL THE USERS
     firebase.child(`users`).once('value', snapshotUsers => {
-      const idList = list.id;
       let pendingActions;
       const users = Object.values(snapshotUsers.val());
       debugger;
