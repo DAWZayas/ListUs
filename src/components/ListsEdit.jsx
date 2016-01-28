@@ -325,8 +325,8 @@ export default class ListsEdit extends Component{
 							{
 								listOfParticipants.length===0 ? '' :
 									listOfParticipants.map( (item, index) => item!=='' && item!==undefined ?
-										<li key={index}><span className={`${this.props.userName}===${this.props.list.admin} ? deleteButtonFriendGroup glyphicon glyphicon-remove : hiddenRemoveParticipant `} onClick={() =>
-												 this.handleOnRemoveFriendGroupToList(item)}></span>{item.name}</li> : '')
+										<li key={index}><span className={this.props.userName===this.props.list.admin ? 'deleteButtonFriendGroup glyphicon glyphicon-remove' : 'hiddenRemoveParticipant' } onClick={() =>
+												 this.handleOnRemoveFriendGroupToList(item)}></span>{item.name} </li> : '')
 							}
 						</ul>
 					</div>

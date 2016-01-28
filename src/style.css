@@ -18,7 +18,7 @@ ul{
 }
 
 .hiddenRemoveParticipant{
-  display: none;
+  display: none !important;
 }
 /*
   HEADER
