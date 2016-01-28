@@ -4,27 +4,9 @@ import * as listsActions from '../actions/sectionActions';
 //import { addList, removeList, editList, addFriendGroupToList, removeFriendGroupToList } from '../actions';
 import Section from '../components/Section';
 
-
-/*function mapStateToProps(state){
-  return {
-    lists: state.lists
-  };
-}
-
-/*function mapActionsToProps(dispatch){
-	return {
-    onAddList,
-    //onAddList: (title, date, importance, id) => dispatch(addList(title, date, importance, id)),
-    onRemoveList: (id, title, date) => dispatch(removeList(id, title, date)),
-    onEditList: ( idList, title, date, newDate, importance ) => dispatch(editList( idList, title, date, newDate, importance )),
-    onAddFriendGroupToList: (idList, idParticipant) => dispatch(addFriendGroupToList(idList, idParticipant)),
-    onRemoveFriendGroupToList: (idList, idParticipant) => dispatch(removeFriendGroupToList(idList, idParticipant))
-	};
-}*/
-
 export default connect(
 	function(state) {
-		return ({ lists: state.lists, tasks: state.tasks, friends: state.friends.friends, groups: state.groups, msg: state.notifications });
+		return ({ lists: state.lists, tasks: state.tasks, friends: state.friends.friends, groups: state.groups, pendingActions: state.notifications });
 	},
 	listsActions
 )(Section);

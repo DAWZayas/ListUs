@@ -1,6 +1,6 @@
 
 
-import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_LIST_CORRECT, REMOVE_LIST_CORRECT, ADD_FRIEND_TO_LIST } from './action-types';
+import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_FRIEND_TO_LIST } from './action-types';
 
 //import sequencer from '../sequencer';
 
@@ -58,7 +58,7 @@ export function addList(title, date, importance){
               refUser.update({lists});
             });
 
-            firebase.child('lists').once('child_added', () => {
+            /*firebase.child('lists').once('child_added', () => {
               const msg = title + ' añadida correctamente';
               dispatch({
                 type: ADD_LIST_CORRECT,
@@ -72,7 +72,7 @@ export function addList(title, date, importance){
                 type: REMOVE_LIST_CORRECT,
                 msg
               });
-            });
+            });*/
 
 
           }

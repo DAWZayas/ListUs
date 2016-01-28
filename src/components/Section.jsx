@@ -93,8 +93,7 @@ export default class Section extends Component {
   }
 
   render() {
-    const { msg } = this.props;
-
+    //const { pendingActions } = this.props;
 
     let customActions = [
       <FlatButton
@@ -163,13 +162,6 @@ export default class Section extends Component {
           onRequestClose={this.handleRequestClose}
         />*/}
 
-        {
-          typeof msg === 'string' ? (
-            console.log(msg)
-          ) : ''
-        }
-
-
     </article>
     );
   }
@@ -185,7 +177,7 @@ Section.propTypes = {
   addFriendGroupToList: PropTypes.func,
   friends: PropTypes.array,
   removeFriendGroupToList: PropTypes.func,
-  msg: PropTypes.string,
+  pendingActions: PropTypes.array,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };
