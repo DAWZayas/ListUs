@@ -15,11 +15,6 @@ export default class Login extends Component {
   }
 
 
-/************/
-  handleClickLogIn(){
-  
-  }
-
   handleLoginGithub(){
     this.props.signInWithGithub();
   }
@@ -82,9 +77,7 @@ Login.propTypes = {
   onSetTasks: PropTypes.func,
   onSetLists: PropTypes.func,
   onSetGroups: PropTypes.func,
-  onSwitchUser: PropTypes.func
+  onSwitchUser: PropTypes.func,
+  signInWithGithub: PropTypes.func,
+  signInWithTwitter: PropTypes.func
 };
-
-//https://pbs.twimg.com/profile_images/666407537084796928/YBGgi9BO_400x400.png
-//https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png
-//https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png

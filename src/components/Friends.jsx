@@ -3,6 +3,7 @@ import { addFriend } from '../actions';
 import { Avatar, Dialog } from 'material-ui';
 
 
+
 export default class Friends extends Component {
 
 	constructor(props){
