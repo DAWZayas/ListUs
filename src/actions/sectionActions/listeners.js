@@ -3,7 +3,7 @@ import { SET_TASKS } from './action-types';
 import { SET_GROUPS } from './action-types';
 import { SET_FRIENDS } from '../friends/action-types';
 import { SET_NOTIFICATIONS } from '../notifications/action-types';
-
+import { SET_USER } from './action-types';
 
 export function registerListeners(){
   return (dispatch, getState) => {
@@ -86,6 +86,15 @@ export function registerListeners(){
       });
     });
 
+    firebase.child(`users/${auth.id}`).on('value', snapshot => {dispatch({
+      type: SET_USER,
+      user: {name: snapshot.val()['name'],
+        img: snapshot.val()['img'],
+        visibility: snapshot.val()['visibility']
+      }
+    });
+  });
+
 };
 }
 
@@ -127,6 +136,13 @@ export function unregisterListeners(){
       type: SET_NOTIFICATIONS,
       pendingActions: []
     });
+
+    firebase.child(`users/${auth.id}`).off();
+    dispatch({
+      type: SET_USER,
+      user: {}
+    });
+
   };
 
 }

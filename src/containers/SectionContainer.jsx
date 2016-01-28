@@ -6,7 +6,7 @@ import Section from '../components/Section';
 
 export default connect(
 	function(state) {
-		return ({ lists: state.lists, tasks: state.tasks, friends: state.friends.friends, groups: state.groups, pendingActions: state.notifications });
+		return ({ userName: state.user.name, lists: state.lists, tasks: state.tasks, friends: state.friends.friends, groups: state.groups, pendingActions: state.notifications });
 	},
 	listsActions
 )(Section);

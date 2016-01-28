@@ -16,6 +16,10 @@
 ul{
   list-style: none;
 }
+
+.hiddenRemoveParticipant{
+  display: none;
+}
 /*
   HEADER
 */

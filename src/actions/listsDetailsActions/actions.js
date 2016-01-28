@@ -1,5 +1,5 @@
 import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR } from './action-types';
-
+import { pushState } from 'redux-router';
 const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
 const convertMonth = date => date.split('/')[1][0]==='0' ? date.split('/')[1][1] : date.split('/')[1];
 
@@ -154,6 +154,7 @@ export function removeList(list){
 
       };
     });
+    dispatch(pushState(null, '/'));
   };
 }
 

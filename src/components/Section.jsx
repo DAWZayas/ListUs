@@ -94,7 +94,6 @@ export default class Section extends Component {
 
   render() {
     //const { pendingActions } = this.props;
-
     let customActions = [
       <FlatButton
         label="Cancel"
@@ -143,7 +142,8 @@ export default class Section extends Component {
                   removeList={this.props.removeList}
                   onEditList={this.props.editList}
                   onAddFriendGroupToList={this.props.addFriendGroupToList}
-                  onRemoveFriendGroupToList={this.props.removeFriendGroupToList}/>
+                  onRemoveFriendGroupToList={this.props.removeFriendGroupToList}
+                  userName={this.props.userName} />
                 : '' )
             }
         </div>
@@ -179,7 +179,8 @@ Section.propTypes = {
   removeFriendGroupToList: PropTypes.func,
   pendingActions: PropTypes.array,
   registerListeners: PropTypes.func.isRequired,
-  unregisterListeners: PropTypes.func.isRequired
+  unregisterListeners: PropTypes.func.isRequired,
+  userName: PropTypes.string
 };
 
 Section.defaultProps = {

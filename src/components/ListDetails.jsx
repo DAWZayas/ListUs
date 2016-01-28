@@ -105,7 +105,8 @@ render() {
             onEditList={editList}
             onRemoveList={removeList}
             onRemoveFriendGroupToList={removeFriendGroupToList}
-            onAddFriendGroupToList={addFriendGroupToList} />
+            onAddFriendGroupToList={addFriendGroupToList}
+            userName={this.props.userName} />
 
         </ul>
       </div>
@@ -171,5 +172,6 @@ ListDetails.propTypes = {
   removeFriendGroupToList: PropTypes.func.isRequired,
   markAsDone: PropTypes.func.isRequired,
   registerListeners: PropTypes.func.isRequired,
-  unregisterListeners: PropTypes.func.isRequired
+  unregisterListeners: PropTypes.func.isRequired,
+  userName: PropTypes.string
 };
