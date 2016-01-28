@@ -12,6 +12,14 @@ export default class Account extends React.Component {
     };
   }
 
+  componentWillMount(){
+    this.props.registerListeners();
+  }
+
+  componentWillUnmount(){
+    this.props.unregisterListeners();
+  }
+
   showDialogChangeName(){
     const nodeDialog = this.refs.changeName;
     nodeDialog.show();
@@ -82,14 +90,6 @@ export default class Account extends React.Component {
     }
   }
 
-  componentWillMount(){
-    this.props.registerListeners();
-  }
-
-  componentWillUnmount(){
-    this.props.unregisterListeners();
-  }
-
 	render() {
     let changeNameActions = [
       { text: 'Cancel', onClick: this.hideDialogChangeName.bind(this) },
@@ -154,10 +154,12 @@ export default class Account extends React.Component {
 }
 
 Account.propTypes = {
-  onChangeUserName: PropTypes.func,
-  onChangeUserVisibility: PropTypes.func,
+  changeName: PropTypes.func,
+  changeVisibility: PropTypes.func,
   onChangeUserPassword: PropTypes.func,
-  onChangeUserPhoto: PropTypes.func,
-  user: PropTypes.object
+  changeImg: PropTypes.func,
+  user: PropTypes.object,
+  registerListeners: PropTypes.func,
+  unregisterListeners: PropTypes.func
 };
 

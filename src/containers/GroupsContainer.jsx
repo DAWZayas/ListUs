@@ -6,7 +6,7 @@ import { addGroup, editGroup, removeGroup, addGroupFriend, removeGroupFriend, re
 function mapStateToProps(state) {
   return {
   	groups: state.groups,
-	friends: state.friends,
+	friends: {friends: state.friends.friends},
 	user: state.user
   };
 }
@@ -28,6 +28,4 @@ function mapActionsToProps(dispatch) {
 export default connect(
 	mapStateToProps,
 	mapActionsToProps,
-	//state => ({ groups: state.groups }),
-	//groupsActions
 )(Groups);

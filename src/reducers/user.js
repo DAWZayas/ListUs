@@ -1,4 +1,4 @@
-import { SET_USER } from '../actions/user';
+import { SET_USER } from '../actions/user/action-types';
 
 function setUser(state, user){
 	return Object.assign({}, user);

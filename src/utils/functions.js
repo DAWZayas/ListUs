@@ -38,9 +38,9 @@ export function getIdByOtherKey(key, value, array){
 	return array[arrayPositionByObjectKey(key, value, array)]['id'];
 }
 
-export function avatarLetter(name, id){
+export function avatarLetter(name){
 	return (<Avatar
-		key={id}
+		key={name}
 		className="avatarLetter"
 		style={{position: 'absolute'}}>
 			{name.slice(0, 1)}
