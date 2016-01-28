@@ -106,11 +106,8 @@ export function removeList(list){
     firebase.child(`users`).once('value', snapshotUsers => {
       let pendingActions;
       const users = Object.values(snapshotUsers.val());
-      debugger;
       users.map( function(userIterate){
-        debugger;
         if(userIterate.pendingActions!==undefined){
-          debugger;
           pendingActions = userIterate.pendingActions.filter( action => action.idList!==list.id );
           let userId = Object.keys(snapshotUsers.val()).filter( userId => snapshotUsers.val()[userId].name===userIterate.name );
           firebase.child(`users/${userId}`).update({pendingActions});
