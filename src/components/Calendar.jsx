@@ -82,7 +82,7 @@ export default class Calendar extends Component {
       if (numberDay === key) {
         pendingTasks = (<ul>
           {
-            arrayObjectsDays.map( (task, index) =>  <li key={index}><span>You have to do the list </span> <Link to={`/list/${task[0].id}`}>{task[0].title}</Link> <span> with an importance of: {task[0].importance}</span></li>)
+            arrayObjectsDays.map( (task, index) =>  <li className="taskBorder" key={index}><span>You have to do the list </span> <Link to={`/list/${task[0].id}`}>{task[0].title}</Link> <span> with an importance of: {task[0].importance}</span></li>)
           }
         </ul>);
         tasks = false;
@@ -90,7 +90,7 @@ export default class Calendar extends Component {
     }
 
     if (tasks) {
-      pendingTasks = 'Nothing planed for that day.';
+      pendingTasks = <ul><li className="taskBorder">Nothing planed for that day</li></ul>;
     };
 
     this.setState({
@@ -128,7 +128,7 @@ export default class Calendar extends Component {
         <div className="Birthdays-List">
           { arrayObjectsDays.length!==0 ?
             arrayObjectsDays.map((list, i) => list.length !== 0 ? (
-              <div key={i}>
+              <div className="smallerLetter" key={i}>
                 🎁 {list[0].title}, {list[0].importance} imp.
               </div>)
             :('')
@@ -145,10 +145,10 @@ export default class Calendar extends Component {
     return(
       <div>
         <DayPicker className="Birthdays" canChangeMonth renderDay={ this.renderDay.bind(this) } localeUtils={localeUtils} locale="es" onDayClick={ this.handleDayClick.bind(this) }/>
-        <div>
-          Selected: { this.state.selectedDay ? this.state.selectedDay.toLocaleDateString() : 'Select'}
+        <div className="calendarInfo">
+          <span className="pending"><b>Selected</b></span>:<br/><br/> { this.state.selectedDay ? this.state.selectedDay.toLocaleDateString() : 'Select'}
           <br/><br/>
-          Pending tasks: { this.state.selectedDay ? this.state.pendingTasks : 'Nothing selected'}
+          <span className="pending"><b>Pending tasks</b></span>: { this.state.selectedDay ? this.state.pendingTasks : 'Nothing selected'}
         </div>
       </div>
     );
