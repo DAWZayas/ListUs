@@ -8,7 +8,6 @@ function setNotifications(state, pendingActions){
 
 function showAdvice(state, msg){
   return msg;
-
 }
 
 export default function friendReduce(state = [], action){
