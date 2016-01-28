@@ -23,6 +23,8 @@ import Section from '../components/Section';
 }*/
 
 export default connect(
-	state => ({ lists: state.lists, tasks: state.tasks, friends: state.friends.friends, groups: state.groups }),
+	function(state) {
+		return ({ lists: state.lists, tasks: state.tasks, friends: state.friends.friends, groups: state.groups, msg: state.notifications });
+	},
 	listsActions
 )(Section);

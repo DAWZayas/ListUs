@@ -4,6 +4,6 @@ import Notifications from '../components/Notifications';
 import * as notificationsActions from '../actions/notifications';
 
 export default connect(
-	state => ({ state }),
+	state => ({ notifications: state.notifications }),
 	notificationsActions
 )(Notifications);

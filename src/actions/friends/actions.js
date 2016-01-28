@@ -1,4 +1,4 @@
-import { SET_FRIENDS, ADD_FRIENDS_ERROR, REMOVE_FRIENDS_ERROR, NO_FRIEND_FOUND, SET_USERS } from './action-types';
+import { SET_FRIENDS, REMOVE_FRIENDS_ERROR,  SET_USERS } from './action-types';
 
 export function setFriends(friends){
   return { type: SET_FRIENDS, friends};
@@ -12,7 +12,6 @@ export function addFriend(name){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
 
-    const friendsReference = firebase.child('friends');
     const usersReference = firebase.child('users');
 
     usersReference.once('value', snapshot => {

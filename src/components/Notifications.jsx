@@ -16,12 +16,21 @@ export default class Notifications extends Component{
   }
 
 
-
   render() {
-    debugger;
+    const { notifications } = this.props;
     return(
       <div>
-        Notifications
+        <ul>
+        {
+        notifications.length!==0 ?
+          notifications.map( (not, id) =>
+            <li className="row notificationList" key={id}>
+              <span className="col-xs-6">{not.descr}</span>
+              <button className="btnNotifications btn btn-success" onClick={() => this.props.aceptPendingAction(not) }> Acept </button>
+              <button className="btnNotifications btn btn-danger" onClick={ () => this.props.refusePendingAction(not) }> X </button>
+            </li>) : ''
+        }
+        </ul>
       </div>
     );
   }
@@ -29,7 +38,9 @@ export default class Notifications extends Component{
 }
 
 Notifications.propTypes = {
-  state: PropTypes.object,
+  notifications: PropTypes.array.isRequired,
+  aceptPendingAction: PropTypes.func.isRequired,
+  refusePendingAction: PropTypes.func.isRequired,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };

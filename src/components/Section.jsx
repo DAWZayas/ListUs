@@ -3,8 +3,6 @@ import List from '../components/List';
 import SectionHeader from './SectionHeader';
 import { menuItems, sortArray } from '../utils/functions';
 
-
-
 import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
 
 import DatePicker from 'react-datepicker';
@@ -21,7 +19,9 @@ export default class Section extends Component {
       sorted: 'Sort By',
       startDate: moment(),
       numberOfList: 5,
-      dialogState: false
+      dialogState: false,
+      autoHideDuration: 0,
+      open: false
     };
   }
 
@@ -82,7 +82,19 @@ export default class Section extends Component {
     });
   }
 
+  handleActionTouchTap() {
+    alert('We removed the event from your calendar.');
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
   render() {
+    const { msg } = this.props;
+
 
     let customActions = [
       <FlatButton
@@ -141,7 +153,24 @@ export default class Section extends Component {
           <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
 
         </div>
-      </article>
+
+        {/*<Snackbar
+          open={this.state.open}
+          message={msg}
+          action="undo"
+          autoHideDuration={this.state.autoHideDuration}
+          onActionTouchTap={this.handleActionTouchTap}
+          onRequestClose={this.handleRequestClose}
+        />*/}
+
+        {
+          typeof msg === 'string' ? (
+            console.log(msg)
+          ) : ''
+        }
+
+
+    </article>
     );
   }
 }
@@ -156,6 +185,7 @@ Section.propTypes = {
   addFriendGroupToList: PropTypes.func,
   friends: PropTypes.array,
   removeFriendGroupToList: PropTypes.func,
+  msg: PropTypes.string,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired
 };

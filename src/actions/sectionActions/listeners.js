@@ -3,12 +3,12 @@ import { SET_TASKS } from './action-types';
 import { SET_GROUPS } from './action-types';
 import { SET_FRIENDS } from '../friends/action-types';
 
+
 export function registerListeners(){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     const refTasks = firebase.child('tasks');
     const refLists = firebase.child('lists');
-    const refFriends = firebase.child('friends');
 
 
     let tasksUser = [];
@@ -28,6 +28,7 @@ export function registerListeners(){
         });
       });
     });
+
 
     let listsUser = [];
     firebase.child(`users/${auth.id}/lists`).on('value', snapshot =>{

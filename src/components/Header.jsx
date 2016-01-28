@@ -58,9 +58,6 @@ export default class Header extends Component{
     const newLists = this.state.word!=='' ?
       this.props.lists.filter( list=> list.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
       : [];
-    const { isOpen } = this.state;
-
-    const notifications = 'Hola';
 
     return(
       <header className="header">

@@ -3,12 +3,15 @@ import { addFriend } from '../actions';
 import { Avatar, Dialog, FlatButton } from 'material-ui';
 
 
+
 export default class Friends extends Component {
 
 	constructor(props){
 		super(props);
 		this.state = {
-	    letter: ''
+	    letter: '',
+			findUserLetter: '',
+			open: false
 	   };
 	}
 
@@ -34,13 +37,16 @@ export default class Friends extends Component {
   }
 
   showDialog(){
-    const nodeDialog = this.refs.addFriendDialog;
-    nodeDialog.show();
+    this.setState({
+			open: true
+		});
   }
 
   hideDialog(){
-    const nodeDialog = this.refs.addFriendDialog;
-    nodeDialog.dismiss();
+		this.setState({
+			open: false,
+			findUserLetter: ''
+		});
   }
 
   findFriend(){
@@ -58,14 +64,26 @@ export default class Friends extends Component {
     removeFriend(id.target.id);
   }
 
+	findUsers(){
+		const letterToFindUsers = this.refs.findUser.value;
+		this.setState({
+			findUserLetter: letterToFindUsers
+		});
+	}
+
 
 
   render() {
 
 		let { friends, users } = this.props;
+		let usersToShow;
 
 		if(friends === undefined) friends = [];
 		if(users === undefined) users = [];
+
+		const { findUserLetter, open } = this.state;
+
+		usersToShow = users.filter( user => user.name.toLowerCase().indexOf(findUserLetter.toLowerCase()) !== -1 );
 
     const addFriend = [
   		{ text: 'Cancel', onClick: this.hideDialog.bind(this) },
@@ -81,16 +99,14 @@ export default class Friends extends Component {
       let top = i+6;
       while(i < top){
         if(i < listaFriends.length){
-          //let id = listaFriends[i].id;
-
-          rowFriends = rowFriends.concat(<div className="col-xs-2 friendPhotoContainer">
+          rowFriends = rowFriends.concat(<div key={i} className="col-xs-2 friendPhotoContainer">
             <span id={name} onClick={(id) => this.onRemoveFriend(id)}>{this.setImg(listaFriends[i])}</span><br/>
             <span className="friendName">{listaFriends[i].name}</span>
           </div>);
         }
         i++;
       }
-      friendsGeneral = friendsGeneral.concat(<div className="row friendRow"> {rowFriends}
+      friendsGeneral = friendsGeneral.concat(<div key="id" className="row friendRow"> {rowFriends}
       </div>);
     }
 
@@ -99,10 +115,13 @@ export default class Friends extends Component {
       <article className="article">
 
         <div className="centerFriends">
-          <Dialog ref="addFriendDialog" title="Add friend" actions={addFriend} >
-						{
-							users.map( user => <FlatButton value={user.name} label={user.name} onTouchTap={e => this.addFriend(e)}/>)
-						}
+          <Dialog open={open} ref="addFriendDialog" title="Add friend" actions={addFriend} >
+						<div style={{'textAlign': 'center'}}>
+							<input type="text" ref="findUser" onChange={this.findUsers.bind(this)} /><br/><br/>
+							{
+								usersToShow.map( user => <button key={user.name} style={{'marginLeft': '10px' }} className="btn btn-default" onClick={e => this.addFriend(e)}>{user.name}</button>)
+							}
+						</div>
   				</Dialog>
 
           <div className="friendsHeader">
