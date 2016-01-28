@@ -32,7 +32,7 @@ export default class GroupSections extends Component{
 
 								/>
 		 						{(group['showFriends']===true)?<div>
-												<GroupFriends idFriends={group['friends'] || []} idGroup={group['id']} friends={friends} idUser= {user.id} Group={Group} />
+												<GroupFriends friendsName={group['friends'] || []} idGroup={group['id']} friends={friends || []} userName= {user.name} Group={Group} />
 												<div style={{display: 'flex', justifyContent: 'flex-end'}}>
 													<FlatButton label=" +Friend" primary style={{color: 'red', borderRadius: '10'}} onClick={() => Group.handleClickShowDialog('dialogAddFriend', group['id'])}/>
 												</div>
@@ -45,12 +45,12 @@ export default class GroupSections extends Component{
 				</div>);
 	}
 
-	groupsOwnAdmin(groups, userId){
-		return groups.filter(group => group.administrator === userId);
+	groupsOwnAdmin(groups, userName){
+		return groups.filter(group => group.administrator === userName);
 	}
 
-	groupsNoAdmin(groups, userId){
-		return groups.filter(group => group.administrator !== userId);
+	groupsNoAdmin(groups, userName){
+		return groups.filter(group => group.administrator !== userName);
 	}
 
 	
@@ -63,10 +63,10 @@ export default class GroupSections extends Component{
 			    {this.groupsList(groups, friends, user, Group, this)}
 			  </Tab>
 			  <Tab label="Administrated Groups" value="adminGroups" style={{backgroundColor: 'white', color: 'grey'}}>
-			  	{this.groupsList(this.groupsOwnAdmin(groups, user.id), friends, user, Group, this)}
+			  	{this.groupsList(this.groupsOwnAdmin(groups, user.name), friends, user, Group, this)}
 			  </Tab>
 			  <Tab label="Non-Administrated Groups" value="noAdminGroups" style={{backgroundColor: 'white', color: 'grey'}}>
-			  	{this.groupsList(this.groupsNoAdmin(groups, user.id), friends, user, Group, this)}
+			  	{this.groupsList(this.groupsNoAdmin(groups, user.name), friends, user, Group, this)}
 			  </Tab>
 			</Tabs>
 		);
@@ -79,5 +79,6 @@ GroupSections.propTypes = {
 	groups: PropTypes.array,
 	friends: PropTypes.array,
 	user: PropTypes.object,
-	that: PropTypes.object
+	Group: PropTypes.object,
+	showGroupFriends: PropTypes.func
 };
