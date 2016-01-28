@@ -102,6 +102,20 @@ export function removeList(list){
       });
     }
 
+    //REMOVE ACTIONSPENGIG WITH IDLIST IN ALL THE USERS
+    firebase.child(`users`).once('value', snapshotUsers => {
+      let pendingActions;
+      const users = Object.values(snapshotUsers.val());
+      users.map( function(userIterate){
+        if(userIterate.pendingActions!==undefined){
+          pendingActions = userIterate.pendingActions.filter( action => action.idList!==list.id );
+          let userId = Object.keys(snapshotUsers.val()).filter( userId => snapshotUsers.val()[userId].name===userIterate.name );
+          firebase.child(`users/${userId}`).update({pendingActions});
+        }
+      });
+    });
+
+
     firebase.child(`lists/${list.id}`).remove(error => {
       if(error){
         console.error('ERROR @ removeList:', error);

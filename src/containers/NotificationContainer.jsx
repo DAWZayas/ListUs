@@ -5,7 +5,6 @@ import * as notificationsActions from '../actions/notifications';
 
 export default connect(
 	function(state) {
-		debugger;
 		return ({ notifications: state.notifications });
 	},
 	notificationsActions
