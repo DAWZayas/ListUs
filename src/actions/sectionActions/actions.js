@@ -33,21 +33,8 @@ export function addList(title, date, importance){
           }else{
             //ACTION ADD TO ALL LISTS
             const idList = fireReference.key();
-            // get day
-            const dayNumber = convertDay(date);
+            addToCalendar(firebase, auth, idList, date);
 
-            //get month
-            const monthNumber = convertMonth(date);
-            const monthName = months[monthNumber];
-
-
-            const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
-            const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
-            let listsInDay = [];
-            refDate.once('value', snapshot => {
-              listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
-              refMonth.update({[dayNumber]:listsInDay});
-            });
             //ACTION ADD TO USER LISTS
 
             const refListsUser = firebase.child(`users/${auth.id}/lists`);
@@ -57,24 +44,6 @@ export function addList(title, date, importance){
               lists = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
               refUser.update({lists});
             });
-
-            /*firebase.child('lists').once('child_added', () => {
-              const msg = title + ' añadida correctamente';
-              dispatch({
-                type: ADD_LIST_CORRECT,
-                msg
-              });
-            });
-
-            firebase.child('lists').once('child_removed', () => {
-              const msg = title + ' borrada correctamente';
-              dispatch({
-                type: REMOVE_LIST_CORRECT,
-                msg
-              });
-            });*/
-
-
           }
       });
 
@@ -82,7 +51,6 @@ export function addList(title, date, importance){
 
   };
 }
-
 
 export function removeList(list){
   return (dispatch, getState) => {
@@ -126,21 +94,12 @@ export function removeList(list){
           payload: error
         });
       }else{
-      // get day
+
+      const idList = list.id;
       const date = list.date;
-      const dayNumber = convertDay(date);
+      // get day
+      removeFromCalendar(firebase, auth, idList, date);
 
-      //get month
-      const monthNumber = convertMonth(date);
-      const monthName = months[monthNumber];
-
-      const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
-      const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
-      let listsInDay = [];
-      refDate.once('value', snapshot => {
-        listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==list.id );
-        refMonth.update({[dayNumber]:listsInDay});
-      });
 
       //ACTION REMOVE TO USER LISTS
 
@@ -159,12 +118,48 @@ export function removeList(list){
   };
 }
 
+function addToCalendar(firebase, auth, idList, date){
+  // get day
+  const dayNumber = convertDay(date);
+
+  //get month
+  const monthNumber = convertMonth(date);
+  const monthName = months[monthNumber];
+
+
+  const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+  const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
+  let listsInDay = [];
+  refDate.once('value', snapshot => {
+    listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
+    refMonth.update({[dayNumber]:listsInDay});
+  });
+}
+
+function removeFromCalendar(firebase, auth, idList, date){
+
+
+  const dayNumber = convertDay(date);
+
+  //get month
+  const monthNumber = convertMonth(date);
+  const monthName = months[monthNumber];
+
+  const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+  const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
+  let listsInDay = [];
+  refDate.once('value', snapshot => {
+    listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idList );
+    refMonth.update({[dayNumber]:listsInDay});
+  });
+}
+
 
 
 export function editList(idList, title, date, newDate, importance){
 
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
     firebase.child(`lists/${idList}`).set({ title, date:newDate, importance }, error => {
       if(error){
         console.error('ERROR @ editList:', error);
@@ -173,8 +168,9 @@ export function editList(idList, title, date, newDate, importance){
           payload, error
         });
       }else{
-        addList(title, newDate, importance);
-        removeList(idList, title, date);
+
+        removeFromCalendar(firebase, auth, idList, date);
+        addToCalendar(firebase, auth, idList, newDate);
 
       }
     });
