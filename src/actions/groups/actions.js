@@ -6,9 +6,9 @@ export function setGroups(groups){
 
 export function addGroup(name){
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
+    const { firebase, user, auth } = getState();
     const groupRef = firebase.child('groups').push({name, showFriends: false,
-       administrator: auth.id
+       administrator: user.name
      }, error => {
         if(error){
           console.error('ERROR @ addGroup:', error);
@@ -51,7 +51,7 @@ export function removeGroup(id){
 
 export function editGroup(id, name){
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
     firebase.child('groups/'+id).update({name},
      error => {
         if(error){
@@ -62,14 +62,16 @@ export function editGroup(id, name){
         });
         }
     });
+    firebase.child(`users/${auth.id}`).update({refresh: ''});
+    firebase.child(`users/${auth.id}/refresh`).remove();
   };
 }
 
 
-export function changeGroupAdmin(idFriend, idGroup){
+export function changeGroupAdmin(friendName, idGroup){
   return (dispatch, getState) => {
-    const { firebase } = getState();
-    firebase.child(`groups/${idGroup}/administrator`).set(idFriend,
+    const { firebase, auth } = getState();
+    firebase.child(`groups/${idGroup}/administrator`).set(friendName,
      error => {
         if(error){
           console.error('ERROR @ changeGroupAdmin:', error);
@@ -79,18 +81,20 @@ export function changeGroupAdmin(idFriend, idGroup){
         });
         }
     });
+    firebase.child(`users/${auth.id}`).update({refresh: ''});
+    firebase.child(`users/${auth.id}/refresh`).remove();
   };
 }
 
 
-export function addGroupFriend(idFriend, idGroup){
+export function addGroupFriend(friendName, idGroup){
   return (dispatch, getState) => {
-    let val='';
-    const { firebase } = getState();
-    firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => val = snapshot.val().split(','));
-    if(val.indexOf(idFriend) === -1){
-        val.join(',');
-        val += (val === '') ?idFriend :','+idFriend;
+    const { firebase, auth } = getState();
+    new Promise( resolve => {
+      firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => resolve(snapshot.val() || []));
+    }).then( val => {
+      if(val.indexOf(friendName) === -1){
+        val.push(friendName);
         firebase.child(`groups/${idGroup}/friends`).set(val,
          error => {
             if(error){
@@ -101,27 +105,35 @@ export function addGroupFriend(idFriend, idGroup){
             });
             }
         });
-    }
+      }}
+    ).then(
+        () => firebase.child(`users/${auth.id}`).update({refresh: ''})).then(
+        () => firebase.child(`users/${auth.id}/refresh`).remove()
+    );
   };
 }
 
-export function removeGroupFriend(idFriend, idGroup){
+export function removeGroupFriend(friendName, idGroup){
   return (dispatch, getState) => {
-    let val='';
-    const { firebase } = getState();
-    firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => val = snapshot.val().split(','));
-    val.splice(val.indexOf(idFriend), 1);
-    val = val.join(',');
-    firebase.child(`groups/${idGroup}/friends`).set(val,
-     error => {
-        if(error){
-          console.error('ERROR @ removeGroupFriend:', error);
-          dispatch({
-            type: REMOVE_FRIEND_GROUP_ERROR,
-            payload: error,
-        });
-        }
-    });
+    const { firebase, auth } = getState();
+    new Promise( resolve => {
+      firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => resolve(snapshot.val()));
+    }).then( val => {
+      val.splice(val.indexOf(friendName), 1);
+      firebase.child(`groups/${idGroup}/friends`).set(val,
+       error => {
+          if(error){
+            console.error('ERROR @ removeGroupFriend:', error);
+            dispatch({
+              type: REMOVE_FRIEND_GROUP_ERROR,
+              payload: error,
+          });
+          }
+      });
+    }).then(
+        () => firebase.child(`users/${auth.id}`).update({refresh: ''})).then(
+        () => firebase.child(`users/${auth.id}/refresh`).remove()
+    );
   };
 }
 
