@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { addFriend } from '../actions';
-import { Avatar, Dialog, FlatButton } from 'material-ui';
+import { Avatar, Dialog } from 'material-ui';
 
 
 

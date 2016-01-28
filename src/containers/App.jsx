@@ -31,7 +31,10 @@ export default class App extends Component {
 App.propTypes = {
   // Injected by React RouterConfirmDialog
   children: PropTypes.node,
-  user: PropTypes.object
+  user: PropTypes.object,
+  signInWithGithub: PropTypes.func,
+  state: PropTypes.object
+
 };
 
 function mapStateToProps(state) {
