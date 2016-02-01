@@ -2,13 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import List from '../components/List';
 import SectionHeader from './SectionHeader';
 import { menuItems, sortArray } from '../utils/functions';
-
 import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
-
 import DatePicker from 'react-datepicker';
 let moment = require('moment');
-
 require('react-datepicker/dist/react-datepicker.css');
+import Spinner from './Spinner';
 
 
 export default class Section extends Component {
@@ -21,12 +19,20 @@ export default class Section extends Component {
       numberOfList: 5,
       dialogState: false,
       autoHideDuration: 0,
-      open: false
+      open: false,
+      loading: true,
+      count: 0
     };
   }
 
   componentWillMount() {
     this.props.registerListeners();
+  }
+
+  componentWillReceiveProps(){
+    let count = this.state.count+1;
+    this.setState({ count });
+    ( this.state.count === 3) ?this.setState({ loading: false, count: 0 }) :'';
   }
 
   componentWillUnmount() {
@@ -92,10 +98,9 @@ export default class Section extends Component {
     });
   }
 
+
   render() {
     const { msg } = this.props;
-
-
     let customActions = [
       <FlatButton
         label="Cancel"
@@ -131,43 +136,45 @@ export default class Section extends Component {
 
         <SectionHeader title="LISTS" menuItems={menuItems} openDialog={this.openDialog.bind(this)}func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
 
-      <div className="lists">
-            {
-              listsEnd.map( (list, index) => index<this.state.numberOfList ?
-                <List
-                  key={index}
-                  list={list}
-                  lists={this.props.lists}
-                  tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
-                  friends={this.props.friends}
-                  groups={this.props.groups}
-                  removeList={this.props.removeList}
-                  onEditList={this.props.editList}
-                  onAddFriendGroupToList={this.props.addFriendGroupToList}
-                  onRemoveFriendGroupToList={this.props.removeFriendGroupToList}/>
-                : '' )
-            }
-        </div>
-        <br/>
-        <div className="col-md-12 center">
-          <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
+      { (this.state.loading === false)
+          ?<div className="lists">
+              {
+                listsEnd.map( (list, index) => index<this.state.numberOfList ?
+                  <List
+                    key={index}
+                    list={list}
+                    lists={this.props.lists}
+                    tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
+                    friends={this.props.friends}
+                    groups={this.props.groups}
+                    removeList={this.props.removeList}
+                    onEditList={this.props.editList}
+                    onAddFriendGroupToList={this.props.addFriendGroupToList}
+                    onRemoveFriendGroupToList={this.props.removeFriendGroupToList}/>
+                  : '' )
+              }
+          </div>
+          : <Spinner />}
+          <br/>
+          <div className="col-md-12 center">
+            <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
+          </div>
 
-        </div>
+          {/*<Snackbar
+            open={this.state.open}
+            message={msg}
+            action="undo"
+            autoHideDuration={this.state.autoHideDuration}
+            onActionTouchTap={this.handleActionTouchTap}
+            onRequestClose={this.handleRequestClose}
+          />*/}
 
-        {/*<Snackbar
-          open={this.state.open}
-          message={msg}
-          action="undo"
-          autoHideDuration={this.state.autoHideDuration}
-          onActionTouchTap={this.handleActionTouchTap}
-          onRequestClose={this.handleRequestClose}
-        />*/}
-
-        {
-          typeof msg === 'string' ? (
-            console.log(msg)
-          ) : ''
-        }
+          {
+            typeof msg === 'string' ? (
+              console.log(msg)
+            ) : ''
+          }
+        
 
 
     </article>

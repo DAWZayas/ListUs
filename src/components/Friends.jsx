@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { addFriend } from '../actions';
 import { Avatar, Dialog } from 'material-ui';
-
+import Spinner from './Spinner';
 
 
 export default class Friends extends Component {
@@ -11,12 +11,17 @@ export default class Friends extends Component {
 		this.state = {
 	    letter: '',
 			findUserLetter: '',
-			open: false
+			open: false,
+      loading: true
 	   };
 	}
 
   componentWillMount() {
     this.props.registerListeners();
+  }
+
+  componentWillReceiveProps(){
+    this.setState({loading: false});
   }
 
   componentWillUnmount() {
@@ -131,7 +136,7 @@ export default class Friends extends Component {
 
           <div>
             {
-              friendsGeneral
+              (this.state.loading)?<Spinner />:friendsGeneral
             }
           </div>
          	<div className="row centered">

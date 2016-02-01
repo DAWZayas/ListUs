@@ -17,7 +17,7 @@ export function registerListeners(){
               showFriends: snap.val().showFriends
             });})
         ));
-        Promise.all(promise).then(groups => dispatch({type: SET_GROUPS, groups}));
+        Promise.all(promise).then(groups => dispatch({type: SET_GROUPS, groups }));
       });
 
     let friends = [];

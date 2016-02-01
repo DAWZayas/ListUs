@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ItemTaskDetails from './ItemTaskDetails';
 import TaskTitle from './TaskTitle';
-
+import Spinner from './Spinner';
 import CommentsContainer from '../containers/CommentsContainer';
 
 
@@ -11,13 +11,21 @@ constructor(props){
   super(props);
   this.state = {
     page: 1,
-    tasksShown: 'All'
+    tasksShown: 'All',
+    loading: true,
+    count: 0
   };
 }
 
 
 componentWillMount() {
   this.props.registerListeners();
+}
+
+componentWillReceiveProps(){
+  let count = this.state.count+1;
+  this.setState({ count });
+  ( this.state.count === 3) ?this.setState({ loading: false, count: 0 }) :'';
 }
 
 componentWillUnmount() {
@@ -64,7 +72,6 @@ renderForce(){
   this.forceUpdate();
 }
 
-
 render() {
 
   const { list, lists, removeList, editList, tasks, addTask, removeTask, editTask, friends, groups, addFriendGroupToList, removeFriendGroupToList, markAsDone } = this.props;
@@ -109,7 +116,6 @@ render() {
 
         </ul>
       </div>
-
       <div className="col-xs-12">
         <ul className="nav nav-tabs" style={{'display': 'flex', 'justifyContent': 'space-around'}}>
 
@@ -121,12 +127,15 @@ render() {
       <div className="article col-md-12">
         <ul className="nav nav-pills nav-stacked navMarginTop list-group">
           {
-            Object.values(tasksToShow).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails markAsDone={markAsDone} renderForce={this.renderForce.bind(this)} key={index} task={task} onRemoveTask={removeTask} onEditTask={editTask} /> : null)
+            (this.state.loading === false)
+              ? (Object.values(tasksToShow).length === 0) ?<h3 style={{paddingLeft: '2em', fontStyle: 'italic'}}>No tasks to show</h3>
+                   :Object.values(tasksToShow).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails markAsDone={markAsDone} renderForce={this.renderForce.bind(this)} key={index} task={task} onRemoveTask={removeTask} onEditTask={editTask} /> : null)
+              : <Spinner />
           }
         </ul>
-        <div className={`${Object.values(tasksToShow).length === 0 ? 'col-xs-12' : 'hidden'}`}>
+        {/*<div className={`${Object.values(tasksToShow).length === 0 ? 'col-xs-12' : 'hidden'}`}>
           <h3 style={{paddingLeft: '2em', fontStyle: 'italic'}}>No tasks to show</h3>
-        </div>
+        </div>*/}
       </div>
 
       <div className="col-md-12 center pagination-tasks">
