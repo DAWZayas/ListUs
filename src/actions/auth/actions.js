@@ -42,6 +42,44 @@ export function initAuth() {
   };
 }
 
+export function createUser(email, password){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    const users = firebase.child('users');
+
+    firebase.createUser({
+      email,
+      password
+    }, function(error, userData) {
+      if (error) {
+        console.log('Error creating user:', error);
+      } else {
+        console.log('Successfully created user account with uid:', userData.uid);
+        users.orderByKey().equalTo(userData.uid).once('value', snap => {
+          if(!snap.val()) createUserIfNotExists(userData, firebase);
+        });
+      }
+    });
+  };
+}
+
+export function authWithUserPass(email, password){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+
+    firebase.authWithPassword({
+      email,
+      password
+    }, function(error, authData) {
+      if (error) {
+        console.log('Login Failed!', error);
+      } else {
+        console.log('Authenticated successfully with payload:', authData);
+      }
+    });
+  };
+}
+
 export function signInWithGithub() {
   return authenticate('github');
 }
@@ -76,7 +114,12 @@ export function createUserIfNotExists(authData, firebase){
   let name = '';
 
   if(authData.provider === 'github')  name = authData.github.username;
-  else if(authData.provider === 'twitter') name = authData.twitter.username;
+
+  if(authData.provider === 'twitter') name = authData.twitter.username;
+
+  if(authData.provider === 'google') name = authData[authData.provider].displayName;
+
+  if(authData.provider === 'password') name = authData.password.email;
 
   firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false});
   return 'Welcome to ListUs';

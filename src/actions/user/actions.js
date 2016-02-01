@@ -47,6 +47,8 @@ export function createUserIfNotExists(authData, firebase){
 
   if(authData.provider === 'google') name = authData[authData.provider].displayName;
 
+  if(authData.provider === 'password') name = authData.password.email;
+
   firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false, accounts: [auth.id]});
 }
 
