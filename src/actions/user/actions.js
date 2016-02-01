@@ -50,9 +50,9 @@ export function changeName(name){
           if(snapshotGroups.val()[groupId].friends!==undefined && snapshotGroups.val()[groupId].friends.indexOf(oldName)!==-1){
             const friends = snapshotGroups.val()[groupId].friends.filter( nameUserInParticipantsGroups => nameUserInParticipantsGroups!==oldName ).concat(name);
             firebase.child(`groups/${groupId}`).update({friends});
-          }else if (snapshotGroups.val().groupId.admin.indexOf(oldName)!==-1){
-            const admin = snapshotGroups.val().groupId.admin.filter( nameUserInAdminGroups => nameUserInAdminGroups!==oldName ).concat(name);
-            firebase.child(`groups/${groupId}`).update({admin});
+          }else if (snapshotGroups.val().groupId.administrator.indexOf(oldName)!==-1){
+            const administrator = snapshotGroups.val().groupId.administrator.filter( nameUserInAdminGroups => nameUserInAdminGroups!==oldName ).concat(name);
+            firebase.child(`groups/${groupId}`).update({administrator});
           }
         });
       });
