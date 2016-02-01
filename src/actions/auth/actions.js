@@ -6,7 +6,6 @@ function authenticate(provider) {
     const { firebase } = getState();
     const users = firebase.child('users');
 
-    //dispatch(pushState(null, '/'));
     firebase.authWithOAuthPopup(provider, (error, authData) => {
       if (error) {
         console.error('ERROR @ authWithOAuthPopup :', error); // eslint-disable-line no-console
@@ -16,10 +15,7 @@ function authenticate(provider) {
         users.orderByKey().equalTo(authData.uid).once('value', snap => {
           if(!snap.val()) greet = createUserIfNotExists(authData, firebase);
         });
-        
-        /*const userName = authData[authData.provider].username;
-        const id = authData.uid;
-        firebase.child(`users/${id}`).update({name:`${userName}`, img:''});*/
+
         dispatch({
           type: SIGN_IN_SUCCESS,
           payload: authData,
@@ -54,6 +50,10 @@ export function signInWithTwitter() {
   return authenticate('twitter');
 }
 
+export function signInWithGoogle(){
+  return authenticate('google');
+}
+
 export function signOut() {
   return (dispatch, getState) => {
     const { firebase } = getState();
@@ -77,7 +77,7 @@ export function createUserIfNotExists(authData, firebase){
 
   if(authData.provider === 'github')  name = authData.github.username;
   else if(authData.provider === 'twitter') name = authData.twitter.username;
-  
+
   firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false});
   return 'Welcome to ListUs';
 }
