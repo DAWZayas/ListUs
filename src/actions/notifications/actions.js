@@ -17,7 +17,6 @@ export function aceptPendingAction(notification){
 function addMeToList(idList){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    const refParticipants = firebase.child(`users/${auth.id}/lists/${idList}/participants`);
     const refIdList = firebase.child(`lists/${idList}`);
 
     //añadir la lista al usuario
@@ -28,7 +27,7 @@ function addMeToList(idList){
       firebase.child(`users/${auth.id}`).update({lists});
 
       //añadir a la lista el nombre del usuario
-      refParticipants.once('value', snapshot => {
+      firebase.child(`lists/${idList}/participants`).once('value', snapshot => {
         participants = snapshot.val()===null ? [name] : snapshot.val().concat([name]);
         refIdList.update({participants});
       });

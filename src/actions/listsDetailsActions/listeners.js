@@ -2,6 +2,7 @@ import { SET_LISTS } from '../listsDetailsActions/action-types';
 import { SET_TASKS } from './action-types';
 import { SET_GROUPS } from './action-types';
 import { SET_FRIENDS } from '../friends/action-types';
+import { SET_USER } from './action-types';
 
 export function registerListeners(){
   return (dispatch, getState) => {
@@ -60,23 +61,32 @@ export function registerListeners(){
   });
 
 
-  let groupsUser = [];
-  firebase.child(`users/${auth.id}/groups`).on('value', snapshot =>{
+    let groupsUser = [];
+    firebase.child(`users/${auth.id}/groups`).on('value', snapshot =>{
 
-    groupsUser = snapshot.val()===null ? groupsUser : snapshot.val();
+      groupsUser = snapshot.val()===null ? groupsUser : snapshot.val();
 
-    firebase.child('groups').once('value', snapshot => {dispatch({
-          type: SET_GROUPS,
-          groups: Object.keys(snapshot.val() || []).reduce( (init, id) => groupsUser.indexOf(id)!==-1 ?
-           init.concat({id,
-              name:snapshot.val()[id].name,
-              showFriends:snapshot.val()[id].showFriends,
-              administrator:snapshot.val()[id].administrator,
-              friends: (snapshot.val()[id].friends) ? snapshot.val()[id].friends :[]}) : init, [])
-        });
+
+      firebase.child('groups').once('value', snapshot => {dispatch({
+            type: SET_GROUPS,
+            groups: Object.keys(snapshot.val() || []).reduce( (init, id) => groupsUser.indexOf(id)!==-1 ?
+             init.concat({id,
+                name:snapshot.val()[id].name,
+                showFriends:snapshot.val()[id].showFriends,
+                administrator:snapshot.val()[id].administrator,
+                friends: (snapshot.val()[id].friends) ? snapshot.val()[id].friends :[]}) : init, [])
+          });
+      });
     });
 
-});
+    firebase.child(`users/${auth.id}`).on('value', snapshot => {dispatch({
+      type: SET_USER,
+      user: {name: snapshot.val()['name'],
+        img: snapshot.val()['img'],
+        visibility: snapshot.val()['visibility']
+      }
+    });
+    });
 
 };
 }
@@ -113,6 +123,13 @@ export function unregisterListeners(){
       type: SET_GROUPS,
       groups: []
     });
+
+    firebase.child(`users/${auth.id}`).off();
+    dispatch({
+      type: SET_USER,
+      user: {}
+    });
+
   };
 
 }

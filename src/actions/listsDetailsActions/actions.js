@@ -1,5 +1,5 @@
 import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR } from './action-types';
-
+import { pushState } from 'redux-router';
 const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
 const convertMonth = date => date.split('/')[1][0]==='0' ? date.split('/')[1][1] : date.split('/')[1];
 
@@ -106,11 +106,8 @@ export function removeList(list){
     firebase.child(`users`).once('value', snapshotUsers => {
       let pendingActions;
       const users = Object.values(snapshotUsers.val());
-      debugger;
       users.map( function(userIterate){
-        debugger;
         if(userIterate.pendingActions!==undefined){
-          debugger;
           pendingActions = userIterate.pendingActions.filter( action => action.idList!==list.id );
           let userId = Object.keys(snapshotUsers.val()).filter( userId => snapshotUsers.val()[userId].name===userIterate.name );
           firebase.child(`users/${userId}`).update({pendingActions});
@@ -157,6 +154,7 @@ export function removeList(list){
 
       };
     });
+    dispatch(pushState(null, '/'));
   };
 }
 

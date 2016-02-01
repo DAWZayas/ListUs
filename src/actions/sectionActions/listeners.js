@@ -2,7 +2,8 @@ import { SET_LISTS } from '../listsDetailsActions/action-types';
 import { SET_TASKS } from './action-types';
 import { SET_GROUPS } from './action-types';
 import { SET_FRIENDS } from '../friends/action-types';
-
+import { SET_NOTIFICATIONS } from '../notifications/action-types';
+import { SET_USER } from './action-types';
 
 export function registerListeners(){
   return (dispatch, getState) => {
@@ -75,10 +76,24 @@ export function registerListeners(){
               showFriends:snapshot.val()[id].showFriends,
               administrator:snapshot.val()[id].administrator,
               friends: (snapshot.val()[id].friends) ? snapshot.val()[id].friends :[]}) : init, [])
-        });
+            });
+          });
+      });
+    firebase.child(`users/${auth.id}/pendingActions`).on('value', snapshot => {
+      dispatch({
+        type: SET_NOTIFICATIONS,
+        pendingActions: snapshot.val()!==null ? Object.values(snapshot.val()) : []
+      });
     });
 
-});
+    firebase.child(`users/${auth.id}`).on('value', snapshot => {dispatch({
+      type: SET_USER,
+      user: {name: snapshot.val()['name'],
+        img: snapshot.val()['img'],
+        visibility: snapshot.val()['visibility']
+      }
+    });
+  });
 
 };
 }
@@ -90,6 +105,7 @@ export function unregisterListeners(){
     const refLists = firebase.child(`users/${auth.id}/lists`);
     const refFriends = firebase.child(`users/${auth.id}/friends`);
     const refGroups = firebase.child(`users/${auth.id}/groups`);
+    const refNotifications = firebase.child(`users/${auth.id}/pendingActions`);
 
     refTasks.off();
     dispatch({
@@ -114,6 +130,19 @@ export function unregisterListeners(){
       type: SET_GROUPS,
       groups: []
     });
+
+    refNotifications.off();
+    dispatch({
+      type: SET_NOTIFICATIONS,
+      pendingActions: []
+    });
+
+    firebase.child(`users/${auth.id}`).off();
+    dispatch({
+      type: SET_USER,
+      user: {}
+    });
+
   };
 
 }

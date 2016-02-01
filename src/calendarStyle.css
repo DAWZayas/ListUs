@@ -1,3 +1,38 @@
+/* Selected days */
+
+
+.calendarInfo {
+
+  border-radius: 10px;
+  border: 1px solid #2873A0;
+
+  margin: 20px auto;
+  width: 30%;
+  padding: 40px;
+
+  text-align: center;
+}
+
+ul {
+  position: relative;
+  left: -13px;
+}
+
+.pending {
+  color: #2873A0;
+
+  text-decoration: underline;
+  font-size: 1.2em;
+}
+
+.taskBorder {
+  border-bottom: 1px solid #2873A0;
+
+  margin-top: 10px;
+
+  padding: 5px;
+}
+
 /* DayPicker styles */
 
 .DayPicker {
@@ -154,6 +189,35 @@
 }
 
 @media (max-width: 600px) {
+
+  .calendarInfo {
+    border-radius: 10px;
+    border: 1px solid #2873A0;
+
+    margin: 20px auto;
+    width: 100%;
+    padding: 40px;
+
+    text-align: center;
+  }
+
+  .pending {
+    text-decoration: underline;
+    font-size: 1.2em;
+  }
+
+  .taskBorder {
+    border-bottom: 1px solid #2873A0;
+
+    margin-top: 10px;
+
+    padding: 5px;
+  }
+
+  .smallerLetter {
+    font-size: 8px;
+  }
+
 	.DayPicker-Body {
     display: table-row-group;
     font-size: 8px;

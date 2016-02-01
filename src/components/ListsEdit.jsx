@@ -256,7 +256,9 @@ export default class ListsEdit extends Component{
   			onRequestClose={this._handleCloseDialogList} >
 				<List>
 				  <ListItem primaryText="Edit List" onClick={() => this.handleOpenEditDialog()} />
-				  <ListItem primaryText="Remove List" onClick={() => this.handleOpenRemoveDialog()} />
+				  {this.props.userName===this.props.list.admin ?
+						<ListItem primaryText="Remove List" onClick={() => this.handleOpenRemoveDialog()} />
+						: ''}
 					<ListItem primaryText="Add Friends or Groups" onClick={() => this.handleOpenFriendsAndGroupsDialog()} />
 					<ListItem primaryText="See the List of Friends and Groups" onClick={() => this.handleOpenFriendsAndGroupsListDialog()} />
 				</List>
@@ -323,8 +325,8 @@ export default class ListsEdit extends Component{
 							{
 								listOfParticipants.length===0 ? '' :
 									listOfParticipants.map( (item, index) => item!=='' && item!==undefined ?
-										<li key={index}><span className="deleteButtonFriendGroup glyphicon glyphicon-remove" onClick={() =>
-												 this.handleOnRemoveFriendGroupToList(item)}></span>{item.name}</li> : '')
+										<li key={index}><span className={this.props.userName===this.props.list.admin ? 'deleteButtonFriendGroup glyphicon glyphicon-remove' : 'hiddenRemoveParticipant' } onClick={() =>
+												 this.handleOnRemoveFriendGroupToList(item)}></span>{item.name} </li> : '')
 							}
 						</ul>
 					</div>
@@ -344,6 +346,7 @@ ListsEdit.propTypes = {
 	friends: PropTypes.array,
   groups: PropTypes.array,
 	onAddFriendGroupToList: PropTypes.func,
-	onRemoveFriendGroupToList: PropTypes.func
+	onRemoveFriendGroupToList: PropTypes.func,
+	userName: PropTypes.string
 
 };

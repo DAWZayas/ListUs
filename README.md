@@ -10,8 +10,8 @@
  +  and a work calendar, that will be shared with your co-workers, where you have your chores.
 + Mark events or list's parts as done.
 + Comment event or lists // Tiny chat to clear up ideas.
-+
-+#####_Oscar Bellón, Alba Fernández, Adrián Gómez
+
+#####_Oscar BellÃ³n, Alba FernÃ¡ndez, AdriÃ¡n GÃ³mez_
 
 
 # Demo

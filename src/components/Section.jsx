@@ -100,7 +100,7 @@ export default class Section extends Component {
 
 
   render() {
-    const { msg } = this.props;
+    //const { pendingActions } = this.props;
     let customActions = [
       <FlatButton
         label="Cancel"
@@ -136,46 +136,40 @@ export default class Section extends Component {
 
         <SectionHeader title="LISTS" menuItems={menuItems} openDialog={this.openDialog.bind(this)}func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
 
-      { (this.state.loading === false)
+      {(this.state.loading === false)
           ?<div className="lists">
-              {
-                listsEnd.map( (list, index) => index<this.state.numberOfList ?
-                  <List
-                    key={index}
-                    list={list}
-                    lists={this.props.lists}
-                    tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
-                    friends={this.props.friends}
-                    groups={this.props.groups}
-                    removeList={this.props.removeList}
-                    onEditList={this.props.editList}
-                    onAddFriendGroupToList={this.props.addFriendGroupToList}
-                    onRemoveFriendGroupToList={this.props.removeFriendGroupToList}/>
-                  : '' )
-              }
-          </div>
-          : <Spinner />}
-          <br/>
-          <div className="col-md-12 center">
-            <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
-          </div>
+            {
+              listsEnd.map( (list, index) => index<this.state.numberOfList ?
+                <List
+                  key={index}
+                  list={list}
+                  lists={this.props.lists}
+                  tasks={Object.values(this.props.tasks).filter(task => task.idList === list.id)}
+                  friends={this.props.friends}
+                  groups={this.props.groups}
+                  removeList={this.props.removeList}
+                  onEditList={this.props.editList}
+                  onAddFriendGroupToList={this.props.addFriendGroupToList}
+                  onRemoveFriendGroupToList={this.props.removeFriendGroupToList}
+                  userName={this.props.userName} />
+                : '' )
+            }
+        </div>
+        : <Spinner />}
+        <br/>
+        <div className="col-md-12 center">
+          <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
 
-          {/*<Snackbar
-            open={this.state.open}
-            message={msg}
-            action="undo"
-            autoHideDuration={this.state.autoHideDuration}
-            onActionTouchTap={this.handleActionTouchTap}
-            onRequestClose={this.handleRequestClose}
-          />*/}
+        </div>
 
-          {
-            typeof msg === 'string' ? (
-              console.log(msg)
-            ) : ''
-          }
-        
-
+        {/*<Snackbar
+          open={this.state.open}
+          message={msg}
+          action="undo"
+          autoHideDuration={this.state.autoHideDuration}
+          onActionTouchTap={this.handleActionTouchTap}
+          onRequestClose={this.handleRequestClose}
+        />*/}
 
     </article>
     );
@@ -192,9 +186,10 @@ Section.propTypes = {
   addFriendGroupToList: PropTypes.func,
   friends: PropTypes.array,
   removeFriendGroupToList: PropTypes.func,
-  msg: PropTypes.string,
+  pendingActions: PropTypes.array,
   registerListeners: PropTypes.func.isRequired,
-  unregisterListeners: PropTypes.func.isRequired
+  unregisterListeners: PropTypes.func.isRequired,
+  userName: PropTypes.string
 };
 
 Section.defaultProps = {

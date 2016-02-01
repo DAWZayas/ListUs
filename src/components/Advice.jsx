@@ -7,7 +7,6 @@ export default class Advice extends Component{
 
 
   render() {
-    debugger;
     return (
 
     );

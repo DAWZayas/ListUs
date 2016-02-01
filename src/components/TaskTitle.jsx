@@ -85,7 +85,8 @@ export default class TaskTitle extends Component {
                 onEditList={onEditList}
                 removeList={onRemoveList}
                 onRemoveFriendGroupToList={onRemoveFriendGroupToList}
-                onAddFriendGroupToList={onAddFriendGroupToList} />
+                onAddFriendGroupToList={onAddFriendGroupToList}
+                userName={this.props.userName} />
               <span className="btn pull-right btn-default" onClick={() => this.openDialog()} >Add</span>
               <span className="dateBtn pull-right btn btn-default">{this.props.list.date}</span>
           </div>
@@ -114,7 +115,8 @@ TaskTitle.propTypes = {
   onRemoveList: PropTypes.func.isRequired,
   onEditList: PropTypes.func.isRequired,
   onAddFriendGroupToList: PropTypes.func.isRequired,
-  onRemoveFriendGroupToList: PropTypes.func.isRequired
+  onRemoveFriendGroupToList: PropTypes.func.isRequired,
+  userName: PropTypes.string
 };
 
 TaskTitle.defaultProps = {
