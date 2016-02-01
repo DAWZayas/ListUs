@@ -50,10 +50,10 @@ export function changeName(name){
           if(snapshotGroups.val()[groupId].friends!==undefined && snapshotGroups.val()[groupId].friends.indexOf(oldName)!==-1){
             const friends = snapshotGroups.val()[groupId].friends.filter( nameUserInParticipantsGroups => nameUserInParticipantsGroups!==oldName ).concat(name);
             firebase.child(`groups/${groupId}`).update({friends});
-          }/*else if (snapshotGroups.val().groupId.admin.indexOf(oldName)!==-1){
+          }else if (snapshotGroups.val().groupId.admin.indexOf(oldName)!==-1){
             const admin = snapshotGroups.val().groupId.admin.filter( nameUserInAdminGroups => nameUserInAdminGroups!==oldName ).concat(name);
             firebase.child(`groups/${groupId}`).update({admin});
-          }*/
+          }
         });
       });
 
@@ -63,10 +63,10 @@ export function changeName(name){
           if(snapshotLists.val()[listId].participants!==undefined && snapshotLists.val()[listId].participants.indexOf(oldName)!==-1){
             const participants = snapshotLists.val()[listId].participants.filter( nameUserInParticipantsGroups => nameUserInParticipantsGroups!==oldName ).concat(name);
             firebase.child(`lists/${listId}`).update({participants});
-          }/*else if (snapshotGroups.val().groupId.admin.indexOf(oldName)!==-1){
+          }else if (snapshotGroups.val().groupId.admin.indexOf(oldName)!==-1){
             const admin = snapshotGroups.val().groupId.admin.filter( nameUserInAdminGroups => nameUserInAdminGroups!==oldName ).concat(name);
             firebase.child(`groups/${groupId}`).update({admin});
-          }*/
+          }
         });
       });
 

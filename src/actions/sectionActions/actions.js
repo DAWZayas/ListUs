@@ -23,7 +23,7 @@ export function addList(title, date, importance){
 
     firebase.child(`users/${auth.id}`).once('value', snapshot => {
 
-      let fireReference = firebase.child('lists').push({title, date, importance, admin: snapshot.val().name, participants:[snapshot.val().name]}, error => {
+      let fireReference = firebase.child('lists').push({title, date, importance, admin: [snapshot.val().name], participants:[snapshot.val().name]}, error => {
           if(error){
             console.error('ERROR @ addList:', error);
             dispatch({

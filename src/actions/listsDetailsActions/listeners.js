@@ -82,6 +82,7 @@ export function registerListeners(){
       type: SET_USER,
       user: {name: snapshot.val()['name'],
         img: snapshot.val()['img'],
+        lists: snapshot.val().lists || [],
         visibility: snapshot.val()['visibility']
       }
     });

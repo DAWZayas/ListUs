@@ -196,6 +196,9 @@ export default class ListsEdit extends Component{
 				listOfFriendsInParticipants = this.removeUndefinedFromArrays(listOfFriendsInParticipants);
 
 				listOfParticipants = listOfGroupsInParticipants.concat(listOfFriendsInParticipants);
+				//add user if isn't admin for remove list from his lists
+				listOfParticipants = list.admin.indexOf(this.props.user.name)===-1 ? listOfParticipants.concat(this.props.user) : listOfParticipants;
+
 			}
 
 		}
@@ -243,7 +246,7 @@ export default class ListsEdit extends Component{
 	        primary
 	        onClick={e => this.handleOnClickAddFriendGroupToList(e)} />
 			];
-
+debugger;
 
 		return (
 			<div>
@@ -256,7 +259,7 @@ export default class ListsEdit extends Component{
   			onRequestClose={this._handleCloseDialogList} >
 				<List>
 				  <ListItem primaryText="Edit List" onClick={() => this.handleOpenEditDialog()} />
-				  {this.props.userName===this.props.list.admin ?
+				  {this.props.list.admin.indexOf(this.props.user.name)!==-1 ?
 						<ListItem primaryText="Remove List" onClick={() => this.handleOpenRemoveDialog()} />
 						: ''}
 					<ListItem primaryText="Add Friends or Groups" onClick={() => this.handleOpenFriendsAndGroupsDialog()} />
@@ -325,7 +328,7 @@ export default class ListsEdit extends Component{
 							{
 								listOfParticipants.length===0 ? '' :
 									listOfParticipants.map( (item, index) => item!=='' && item!==undefined ?
-										<li key={index}><span className={this.props.userName===this.props.list.admin ? 'deleteButtonFriendGroup glyphicon glyphicon-remove' : 'hiddenRemoveParticipant' } onClick={() =>
+										<li key={index}><span className={this.props.list.admin.indexOf(this.props.user.name)!==-1 || item.name===this.props.user.name ? 'deleteButtonFriendGroup glyphicon glyphicon-remove' : 'hiddenRemoveParticipant' } onClick={() =>
 												 this.handleOnRemoveFriendGroupToList(item)}></span>{item.name} </li> : '')
 							}
 						</ul>
@@ -347,6 +350,6 @@ ListsEdit.propTypes = {
   groups: PropTypes.array,
 	onAddFriendGroupToList: PropTypes.func,
 	onRemoveFriendGroupToList: PropTypes.func,
-	userName: PropTypes.string
+	user: PropTypes.object
 
 };

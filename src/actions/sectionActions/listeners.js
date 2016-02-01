@@ -89,6 +89,7 @@ export function registerListeners(){
     firebase.child(`users/${auth.id}`).on('value', snapshot => {dispatch({
       type: SET_USER,
       user: {name: snapshot.val()['name'],
+        lists: snapshot.val().lists || [],
         img: snapshot.val()['img'],
         visibility: snapshot.val()['visibility']
       }
