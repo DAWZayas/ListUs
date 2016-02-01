@@ -18,7 +18,6 @@ export function addGroup(name){
         });
         }
     });
-    
     new Promise( resolve => {
       firebase.child(`users/${auth.id}/groups`).once('value', snap => {
         resolve((snap.val()) ?snap.val().concat(groupRef.key()) :[groupRef.key()]);
@@ -30,23 +29,49 @@ export function addGroup(name){
 export function removeGroup(id){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    firebase.child(`groups/${id}`).remove(
-     error => {
-        if(error){
-          console.error('ERROR @ removeGroup:', error);
-          dispatch({
-            type: REMOVE_GROUP_ERROR,
-            payload: error,
-          });
-        }
-    });
 
+    new Promise(resolve => {
+      firebase.child(`groups/${id}/name`).once('value', snaps => { 
+        resolve(snaps.val());
+      });
+    }).then( name =>{
+      removeGroupFormLists(name, firebase);
+    }).then( () => {
+        firebase.child(`groups/${id}`).remove(
+         error => {
+            if(error){
+              console.error('ERROR @ removeGroup:', error);
+              dispatch({
+                type: REMOVE_GROUP_ERROR,
+                payload: error,
+              });
+            }
+        });
+    });
+    abandonGroup(id, firebase, auth);
+  };
+}
+
+export function abandonGroup(id, firebase, auth){
     let groups = [];
     firebase.child(`users/${auth.id}/groups`).once('value', snap => {
       groups = snap.val().filter(groupId => groupId !== id);
       firebase.child(`users/${auth.id}/groups`).set(groups);
     });
-  };
+}
+
+export function removeGroupFormLists(name, firebase){
+    firebase.child('lists').once('value', snap => {
+      Object.keys(snap.val()).map( idList => {
+        firebase.child(`lists/${idList}/participantsGroups`).once('value', snapshot => {
+            if(snapshot.val().indexOf(name) !== -1){
+              let participantsGroups = snapshot.val().filter(nameGroup => nameGroup !== name);
+              firebase.child(`lists/${idList}/participantsGroups`).set(participantsGroups);
+            }  
+        });
+      });
+    });
+
 }
 
 export function editGroup(id, name){
