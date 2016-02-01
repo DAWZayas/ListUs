@@ -90,6 +90,18 @@ export default class Account extends React.Component {
     }
   }
 
+  handleLoginGithub(){
+    this.props.signInWithGithub();
+  }
+
+  handleLoginTwitter(){
+    this.props.signInWithTwitter();
+  }
+
+  handleLoginGoogle(){
+    this.props.signInWithGoogle();
+  }
+
 	render() {
     let changeNameActions = [
       { text: 'Cancel', onClick: this.hideDialogChangeName.bind(this) },
@@ -108,6 +120,7 @@ export default class Account extends React.Component {
 
 		return (
 			<article className="article account">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
         <div className="acountImg">
          <div className="photo">
             <img src={this.props.user.img} width="80" height="80" style={{borderRadius: '50px'}} />
@@ -131,21 +144,34 @@ export default class Account extends React.Component {
               </a>
             </li>
         </ul>
+        <br/>
+        <br/>
+
+          <div style={{'textAlign': 'center'}}>
+            <span>If you have any of these accounts, vinculate them to the actual:</span><br/><br/>
+            <div>
+              <span onClick={()=>this.handleLoginGithub()} style={{'fontSize' : '1.5em', 'marginLeft' : '20px'}} className="fa fa-github githubLogin"></span>
+              <span onClick={()=>this.handleLoginTwitter()} style={{'fontSize' : '1.5em', 'marginLeft' : '20px'}} className="fa fa-twitter twitterLogin"></span>
+              <span onClick={()=>this.handleLoginGoogle()} style={{'fontSize' : '1.5em', 'marginLeft' : '20px'}} className="fa fa-google-plus googleLogin"></span>
+
+          </div>
+          </div>
+
 
          <Dialog ref="changeName" title="Change Name" actions={changeNameActions} >
-            <TextField ref="newName" floatingLabelText="New name" /> 
+            <TextField ref="newName" floatingLabelText="New name" />
         </Dialog>
 
         <Dialog ref="changePassword" title="Change Password" actions={changePasswordActions} >
-            <TextField type="password" ref="oldPassword" floatingLabelText="Old password" /> 
+            <TextField type="password" ref="oldPassword" floatingLabelText="Old password" />
             <br/><br/>
-            <TextField type="password" ref="newPassword" floatingLabelText="New password" /> 
-            <TextField type="password" ref="newPassword2" floatingLabelText="Repeat new password" /> 
+            <TextField type="password" ref="newPassword" floatingLabelText="New password" />
+            <TextField type="password" ref="newPassword2" floatingLabelText="Repeat new password" />
             <p className="error" style={{color: 'red'}}>{this.state.error}</p>
         </Dialog>
 
         <Dialog ref="changePhoto" title="Change Photo" actions={changePhotoActions} >
-            <TextField ref="newUrl" floatingLabelText="New photo" /> 
+            <TextField ref="newUrl" floatingLabelText="New photo" />
         </Dialog>
 
       </article>
@@ -159,7 +185,10 @@ Account.propTypes = {
   onChangeUserPassword: PropTypes.func,
   changeImg: PropTypes.func,
   user: PropTypes.object,
+  auth: PropTypes.object,
   registerListeners: PropTypes.func,
-  unregisterListeners: PropTypes.func
+  unregisterListeners: PropTypes.func,
+  signInWithGithub: PropTypes.func,
+  signInWithTwitter: PropTypes.func,
+  signInWithGoogle: PropTypes.func
 };
-
