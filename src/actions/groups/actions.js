@@ -94,19 +94,15 @@ export function editGroup(id, name){
 }
 
 
-export function changeGroupAdmin(friendName, idGroup){
+export function changeGroupAdmin(friendName, idGroup, userName){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    firebase.child(`groups/${idGroup}/administrator`).set(friendName,
-     error => {
-        if(error){
-          console.error('ERROR @ changeGroupAdmin:', error);
-          dispatch({
-            type: CHANGE_GROUP_ADMIN_ERROR,
-            payload: error,
-        });
-        }
+    firebase.child(`groups/${idGroup}/administrator`).once('value', snap => {
+      const admins = snap.val().map( admin => (admin === userName) ?friendName :admin);
+      debugger;
+      firebase.child(`groups/${idGroup}/administrator`).set(admins);
     });
+
     firebase.child(`users/${auth.id}`).update({refresh: ''});
     firebase.child(`users/${auth.id}/refresh`).remove();
   };

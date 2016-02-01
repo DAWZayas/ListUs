@@ -61,11 +61,11 @@ export default class GroupSections extends Component{
 	}
 
 	groupsOwnAdmin(groups, userName){
-		return groups.filter(group => group.administrator === userName);
+		return groups.filter(group => userName.indexOf(group.administrator) !== -1);
 	}
 
 	groupsNoAdmin(groups, userName){
-		return groups.filter(group => group.administrator !== userName);
+		return groups.filter(group => userName.indexOf(group.administrator) === -1);
 	}
 
 	
