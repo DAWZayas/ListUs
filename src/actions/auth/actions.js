@@ -42,6 +42,38 @@ export function initAuth() {
   };
 }
 
+export function createUser(email, password){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    firebase.createUser({
+      email,
+      password
+    }, function(error, userData) {
+      if (error) {
+        console.log('Error creating user:', error);
+      } else {
+        console.log('Successfully created user account with uid:', userData.uid);
+      }
+    });
+  };
+}
+
+export function authWithUserPass(email, password){
+  return (dispatch, getState) => {
+    const { firebase } = getState();
+    firebase.authWithPassword({
+      email,
+      password
+    }, function(error, authData) {
+      if (error) {
+        console.log('Login Failed!', error);
+      } else {
+        console.log('Authenticated successfully with payload:', authData);
+      }
+    });
+  };
+}
+
 export function signInWithGithub() {
   return authenticate('github');
 }

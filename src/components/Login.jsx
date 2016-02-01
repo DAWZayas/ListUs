@@ -3,7 +3,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import { TextField, RaisedButton } from 'material-ui';
 import Logo from '../components/Logo';
-
+import { Link } from 'react-router';
 
 export default class Login extends Component {
 
@@ -12,6 +12,15 @@ export default class Login extends Component {
     this.state= {
       error: ''
     };
+  }
+
+  handleClickLogIn(){
+    const { authWithUserPass } = this.props;
+
+    const user = this.refs.userLogIn.getValue();
+    const password = this.refs.passwordLogIn.getValue();
+
+    authWithUserPass(user, password);
   }
 
   handleLoginGithub(){
@@ -30,15 +39,15 @@ export default class Login extends Component {
     return (
     	<div className="enter">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+        <div className="enterHeader"></div>
 
         <div className="enterPrincipal">
-      		<div className="enterHeader"></div>
           <br/>
       		<Logo />
       		<div className="login">
   	    		<TextField
   	    			ref = "userLogIn"
-    					hintText="User"
+    					hintText="Email"
     					underlineStyle={{borderColor:'blue',  width: '236'}}
               style={{backgroundColor: 'lightgrey', marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}
               />
@@ -64,7 +73,7 @@ export default class Login extends Component {
                 <i className="fa fa-twitter twitterLogin biggerFont"></i>
               </span>
 
-              <span className="btn" onClick={()=>this.handleLoginTwitter()} style={{}} title="Google">
+              <span className="btn" onClick={()=>this.handleLoginGoogle()} style={{}} title="Google">
                 {/*<img src="http://www.freelargeimages.com/wp-content/uploads/2015/05/Facebook_Vector_Logo_Hd_02.png" style={{width: '35', height: '35'}} />}
                 */}
                 <i className="fa fa-google-plus googleLogin biggerFont"></i>
@@ -72,7 +81,7 @@ export default class Login extends Component {
             </div>
 
     			</div><br/>
-    			{/*<div><a style={{cursor: 'pointer'}}>Register</a></div>*/}
+        <div className="text-center">Do not have an account yet? <br/><Link to={`register`} style={{cursor: 'pointer'}}>Register now</Link></div><br/>
         </div>
         <div className="enterHeader enterFooter" height="80px"></div>
     	</div>
@@ -90,5 +99,6 @@ Login.propTypes = {
   onSwitchUser: PropTypes.func,
   signInWithGithub: PropTypes.func,
   signInWithTwitter: PropTypes.func,
-  signInWithGoogle: PropTypes.func
+  signInWithGoogle: PropTypes.func,
+  authWithUserPass: PropTypes.func
 };
