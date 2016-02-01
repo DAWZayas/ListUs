@@ -7,6 +7,7 @@ import SectionHeader from './SectionHeader';
 import GroupSections from './GroupSections';
 
 
+
 export default class Groups extends Component {
 	constructor(props){
 		super(props);
@@ -26,10 +27,15 @@ export default class Groups extends Component {
 	    this.props.registerListeners();
 	}
 
+	componentWillReceiveProps(){
+		let count = this.state.count+1;
+		this.setState({ count });
+		( this.state.count === 2) ?this.setState({ loading: false, count: 0 }) :'';
+	}
+
 	componentWillUnmount() {
 	    this.props.unregisterListeners();
 	}
-
 
 	/* Dialog functions */
 
@@ -173,6 +179,7 @@ export default class Groups extends Component {
 	}
 
 
+
 	render(){
 		const { sorted, groupId } = this.state;
 		const key = (sorted.split(' ')[0] === 'Name')?'name':'date';
@@ -180,10 +187,12 @@ export default class Groups extends Component {
 			?this.props.groups
 			:sortArray(this.props.groups, key, sorted.split(' ')[1]);
 		const posGroup = arrayPositionByObjectKey('id', groupId, this.props.groups);
+
 		return (
 			<section>
        			<SectionHeader title="GROUPS" openDialog={() => this.handleClickShowDialog('dialogAddGroup')} menuItems={menuItems} func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
        			<GroupSections groups={groups} friends={this.props.friends.friends} user={this.props.user} Group={this} showGroupFriends={this.props.showGroupFriends}/>
+       			{/* (this.state.loading === true) ? <Spinner /> :'' */}
 
 				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
 

@@ -2,13 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import List from '../components/List';
 import SectionHeader from './SectionHeader';
 import { menuItems, sortArray } from '../utils/functions';
-
 import { Dialog, TextField, FlatButton, Slider } from 'material-ui';
-
 import DatePicker from 'react-datepicker';
 let moment = require('moment');
-
 require('react-datepicker/dist/react-datepicker.css');
+import Spinner from './Spinner';
 
 
 export default class Section extends Component {
@@ -21,12 +19,20 @@ export default class Section extends Component {
       numberOfList: 5,
       dialogState: false,
       autoHideDuration: 0,
-      open: false
+      open: false,
+      loading: true,
+      count: 0
     };
   }
 
   componentWillMount() {
     this.props.registerListeners();
+  }
+
+  componentWillReceiveProps(){
+    let count = this.state.count+1;
+    this.setState({ count });
+    ( this.state.count === 3) ?this.setState({ loading: false, count: 0 }) :'';
   }
 
   componentWillUnmount() {
@@ -92,6 +98,7 @@ export default class Section extends Component {
     });
   }
 
+
   render() {
     //const { pendingActions } = this.props;
     let customActions = [
@@ -129,7 +136,8 @@ export default class Section extends Component {
 
         <SectionHeader title="LISTS" menuItems={menuItems} openDialog={this.openDialog.bind(this)}func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>
 
-      <div className="lists">
+      {(this.state.loading === false)
+          ?<div className="lists">
             {
               listsEnd.map( (list, index) => index<this.state.numberOfList ?
                 <List
@@ -147,6 +155,7 @@ export default class Section extends Component {
                 : '' )
             }
         </div>
+        : <Spinner />}
         <br/>
         <div className="col-md-12 center">
           <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>

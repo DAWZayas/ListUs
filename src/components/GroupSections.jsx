@@ -1,21 +1,36 @@
 import React, { Component, PropTypes } from 'react';
 import { Tab, Tabs, AppBar, FlatButton } from 'material-ui';
 import GroupFriends from './GroupFriends';
+import Spinner from './Spinner';
 
 
 
 export default class GroupSections extends Component{
 	constructor(props){
 		super(props);
+		this.state = {
+			loading: true,
+			count: 0
+		};
 	}
+
+	componentWillReceiveProps(){
+		let count = this.state.count+1;
+		this.setState({ count });
+		( this.state.count === 3) ?this.setState({ loading: false, count: 0 }) :'';
+	}
+
 
 	handleClickShowGroupFriends(id){
 		this.props.showGroupFriends(id);
 	}
 
+
+
 	groupsList(groups, friends, user, Group, GroupSection){
 		return (<div>
-			{(groups.length !== 0)?groups.map(function(group){
+			{(groups.length !== 0)
+				? groups.map(function(group){
 						return (
 							<div key={group['id']}>
 								<AppBar 
@@ -41,7 +56,7 @@ export default class GroupSections extends Component{
 	 						</div>
 	 					);
 					}.bind(Group))
-					: <h3 style={{paddingLeft: '2em', fontStyle: 'italic'}}>No groups</h3>}
+					: ( this.state.loading ) ?<Spinner /> :<h3 style={{paddingLeft: '2em', fontStyle: 'italic'}}>No groups</h3>}
 				</div>);
 	}
 
