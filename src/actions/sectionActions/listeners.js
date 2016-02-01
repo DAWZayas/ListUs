@@ -45,7 +45,9 @@ export function registerListeners(){
               title:snapshot.val()[id].title,
               importance:snapshot.val()[id].importance,
               date:snapshot.val()[id].date,
-              participants: snapshot.val()[id].participants===undefined ? [] : [snapshot.val()[id].participants]}) : init, [])
+              participantsFriends: snapshot.val()[id].participantsFriends===undefined ? [] : [snapshot.val()[id].participantsFriends],
+              participantsGroups: snapshot.val()[id].participantsGroups===undefined ? [] : [snapshot.val()[id].participantsGroups]}) : init, [])
+
         });
       });
     });
@@ -89,6 +91,7 @@ export function registerListeners(){
     firebase.child(`users/${auth.id}`).on('value', snapshot => {dispatch({
       type: SET_USER,
       user: {name: snapshot.val()['name'],
+        lists: snapshot.val().lists || [],
         img: snapshot.val()['img'],
         visibility: snapshot.val()['visibility']
       }

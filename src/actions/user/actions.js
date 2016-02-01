@@ -1,46 +1,20 @@
 import { SET_USER, CHANGE_IMG_ERROR, CHANGE_NAME_ERROR, CHANGE_VISIBILITY_ERROR } from './action-types';
-import { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from '../auth/action-types.js';
 
 function authenticate(provider) {
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
+    const { firebase } = getState();
     const users = firebase.child('users');
 
-    //dispatch(pushState(null, '/'));
     firebase.authWithOAuthPopup(provider, (error, authData) => {
       if (error) {
-        console.error('ERROR @ authWithOAuthPopup :', error); // eslint-disable-line no-console
-      }
-      else {
-        var greet = '';
+        console.error('ERROR @ authWithOAuthPopup :', error);
+      }else {
         users.orderByKey().equalTo(authData.uid).once('value', snap => {
-          if(!snap.val()) greet = createUserIfNotExists(authData, firebase, auth);
+          if(!snap.val()){
+            createUserIfNotExists(authData, firebase);
+            users.child(`${auth.id}`).update({accounts: [authData.uid]});
+          }
         });
-
-        /*const userName = authData[authData.provider].username;
-        const id = authData.uid;
-        firebase.child(`users/${id}`).update({name:`${userName}`, img:''});*/
-        dispatch({
-          type: SIGN_IN_SUCCESS,
-          payload: authData,
-          meta: {
-            timestamp: Date.now()
-          },
-          greet: greet
-        });
-      }
-    });
-  };
-}
-
-export function initAuth() {
-  return (dispatch, getState) => {
-    const { firebase } = getState();
-    dispatch({
-      type: INIT_AUTH,
-      payload: firebase.getAuth(),
-      meta: {
-        timestamp: Date.now()
       }
     });
   };
@@ -58,25 +32,13 @@ export function signInWithGoogle() {
   return authenticate('google');
 }
 
-export function signOut() {
-  return (dispatch, getState) => {
-    const { firebase } = getState();
-    firebase.unauth();
-    dispatch(pushState(null, '/'));
-    dispatch({
-      type: SIGN_OUT_SUCCESS
-    });
-  };
-}
-
-
 export function cancelSignIn() {
   return dispatch => {
     return dispatch(pushState(null, '/'));
   };
 }
 
-export function createUserIfNotExists(authData, firebase, auth){
+export function createUserIfNotExists(authData, firebase){
   let name = '';
 
   if(authData.provider === 'github')  name = authData.github.username;
@@ -85,8 +47,9 @@ export function createUserIfNotExists(authData, firebase, auth){
 
   if(authData.provider === 'google') name = authData[authData.provider].displayName;
 
+  if(authData.provider === 'password') name = authData.password.email;
+
   firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false, accounts: [auth.id]});
-  return 'Welcome to ListUs';
 }
 
 export function setUser(user){
@@ -139,10 +102,10 @@ export function changeName(name){
           if(snapshotGroups.val()[groupId].friends!==undefined && snapshotGroups.val()[groupId].friends.indexOf(oldName)!==-1){
             const friends = snapshotGroups.val()[groupId].friends.filter( nameUserInParticipantsGroups => nameUserInParticipantsGroups!==oldName ).concat(name);
             firebase.child(`groups/${groupId}`).update({friends});
-          }/*else if (snapshotGroups.val().groupId.admin.indexOf(oldName)!==-1){
-            const admin = snapshotGroups.val().groupId.admin.filter( nameUserInAdminGroups => nameUserInAdminGroups!==oldName ).concat(name);
-            firebase.child(`groups/${groupId}`).update({admin});
-          }*/
+          }else if (snapshotGroups.val().groupId.administrator.indexOf(oldName)!==-1){
+            const administrator = snapshotGroups.val().groupId.administrator.filter( nameUserInAdminGroups => nameUserInAdminGroups!==oldName ).concat(name);
+            firebase.child(`groups/${groupId}`).update({administrator});
+          }
         });
       });
 
@@ -152,10 +115,10 @@ export function changeName(name){
           if(snapshotLists.val()[listId].participants!==undefined && snapshotLists.val()[listId].participants.indexOf(oldName)!==-1){
             const participants = snapshotLists.val()[listId].participants.filter( nameUserInParticipantsGroups => nameUserInParticipantsGroups!==oldName ).concat(name);
             firebase.child(`lists/${listId}`).update({participants});
-          }/*else if (snapshotGroups.val().groupId.admin.indexOf(oldName)!==-1){
+          }else if (snapshotGroups.val().groupId.admin.indexOf(oldName)!==-1){
             const admin = snapshotGroups.val().groupId.admin.filter( nameUserInAdminGroups => nameUserInAdminGroups!==oldName ).concat(name);
             firebase.child(`groups/${groupId}`).update({admin});
-          }*/
+          }
         });
       });
 

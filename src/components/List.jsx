@@ -39,7 +39,7 @@ export default class List extends Component {
               onEditList={this.props.onEditList}
               onAddFriendGroupToList={this.props.onAddFriendGroupToList}
               onRemoveFriendGroupToList={this.props.onRemoveFriendGroupToList}
-              userName={this.props.userName} />
+              user={this.props.user} />
           <span className="dateBtn pull-right btn btn-default">{list.date}</span>
 
         </div>
@@ -64,7 +64,7 @@ List.propTypes = {
   groups: PropTypes.array,
   onAddFriendGroupToList: PropTypes.func,
   onRemoveFriendGroupToList: PropTypes.func,
-  userName: PropTypes.string
+  user: PropTypes.object
 };
 
 List.defaultProps = {

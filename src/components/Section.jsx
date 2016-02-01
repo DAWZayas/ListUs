@@ -151,7 +151,7 @@ export default class Section extends Component {
                   onEditList={this.props.editList}
                   onAddFriendGroupToList={this.props.addFriendGroupToList}
                   onRemoveFriendGroupToList={this.props.removeFriendGroupToList}
-                  userName={this.props.userName} />
+                  user={this.props.user} />
                 : '' )
             }
         </div>
@@ -189,7 +189,7 @@ Section.propTypes = {
   pendingActions: PropTypes.array,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired,
-  userName: PropTypes.string
+  user: PropTypes.object
 };
 
 Section.defaultProps = {

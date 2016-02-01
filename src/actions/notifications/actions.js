@@ -20,16 +20,15 @@ function addMeToList(idList){
     const refIdList = firebase.child(`lists/${idList}`);
 
     //añadir la lista al usuario
-    let participants = [];
     firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
       const name = snapshotUser.val().name;
       const lists = snapshotUser.val().lists===undefined ? [idList] : snapshotUser.val().lists.concat(idList);
       firebase.child(`users/${auth.id}`).update({lists});
 
       //añadir a la lista el nombre del usuario
-      firebase.child(`lists/${idList}/participants`).once('value', snapshot => {
-        participants = snapshot.val()===null ? [name] : snapshot.val().concat([name]);
-        refIdList.update({participants});
+      firebase.child(`lists/${idList}/participantsFriends`).once('value', snapshot => {
+        const participantsFriends = snapshot.val()===null ? [name] : snapshot.val().concat([name]);
+        refIdList.update({participantsFriends});
       });
 
       //borrar la pendingAction

@@ -111,13 +111,19 @@ export default class ListsEdit extends Component{
     this.setState({toggleGroup: !this.state.toggleGroup});
   }
 
-	isInTheArray(nameParticipants, list){
-		if(list.participants.length===0){
+	isInTheArrayFriend(nameParticipants, list){
+		if(list.participantsFriends[0]===undefined ){
 			return false;
 		}
-    const leng = list.participants[0].filter(name => name!==nameParticipants).length;
-    return list.participants.length!==leng;
+    return this.props.list.participantsFriends[0].indexOf(nameParticipants.name)!==-1;
   }
+
+	isInTheArrayGroup(nameParticipants, list){
+		if( list.participantsGroups[0]===undefined ){
+			return false;
+		}
+		return this.props.list.participantsGroups[0].indexOf(nameParticipants.name)!==-1;
+	}
 
   handleOnChangeTextField(){
     const textToSearch = this.refs.textField.getValue().toLowerCase();
@@ -137,7 +143,7 @@ export default class ListsEdit extends Component{
   handleOnClickAddFriendGroupToList(e){
     e.stopPropagation();
     const { list, onAddFriendGroupToList } = this.props;
-    Object.keys(this.state.newParticipant).length===0 || this.isInTheArray(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list, this.state.newParticipant);
+    Object.keys(this.state.newParticipant).length===0 || this.isInTheArrayFriend(this.state.newParticipant.id, list) || this.isInTheArrayGroup(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list, this.state.newParticipant);
 		this.clearTextField();
 		this._handleCloseDialog();
 	}
@@ -171,34 +177,37 @@ export default class ListsEdit extends Component{
 
 		let listOfParticipants =[];
 
-		if(list!==undefined && friends!==undefined && groups!==undefined && list.participants!==undefined){
+		if(list!==undefined && friends!==undefined && groups!==undefined){
 			if(this.state.textToSearch!=='' && friends!==undefined && groups!==undefined){
-				const listFriends = this.state.toggleFriend ? [].concat(friends.filter( friend => !this.isInTheArray(friend.name, list ))) : [];
-				const listGroups = this.state.toggleGroup ? [].concat(groups.filter( group => !this.isInTheArray(group.name, list ))) : [];
-				listOfFriendsAndGroups = listFriends.concat(listGroups).filter( item=> item.name.toLowerCase().search(this.state.textToSearch) !== -1);
+				const listFriends = this.state.toggleFriend ? friends.filter( friend => !this.isInTheArrayFriend(friend, list) ) : [];
+				const listGroups = this.state.toggleGroup ? groups.filter( group => !this.isInTheArrayFriend(group, list) ) : [];
+				listOfFriendsAndGroups = this.removeUndefinedFromArrays(listFriends).concat( this.removeUndefinedFromArrays(listGroups)).filter( item=> item.name.toLowerCase().search(this.state.textToSearch) !== -1);
 			}
-
-			if(list.participants[0]!==undefined){//si esta vacia los participants list.participants[0]===undefined
-				let listOfGroupsInParticipants = list.participants[0].map( nameParticipant => groups.filter( function(group){
+			if(list.participantsGroups[0]!==undefined){//si esta vacia los participants list.participants[0]===undefined
+				let listOfGroupsInParticipants = list.participantsGroups[0].map( nameParticipant => groups.filter( function(group){
 					if(nameParticipant===group.name){
 						return group;
 					}
 				})[0]);
 
 				listOfGroupsInParticipants = this.removeUndefinedFromArrays(listOfGroupsInParticipants);
+				listOfParticipants = listOfParticipants.concat(listOfGroupsInParticipants);
+			}
 
-				let listOfFriendsInParticipants = list.participants[0].map( nameParticipant => friends.filter( function(friend){
+			if(list.participantsFriends[0]!==undefined){
+				let listOfFriendsInParticipants = list.participantsFriends[0].map( nameParticipant => friends.filter( function(friend){
 					if(nameParticipant===friend.name){
 						return friend;
 					}
 				})[0]);
-
 				listOfFriendsInParticipants = this.removeUndefinedFromArrays(listOfFriendsInParticipants);
+				listOfParticipants = listOfParticipants.concat(listOfFriendsInParticipants);
+			}
+				//add user if isn't admin for remove list from his lists
+				listOfParticipants = list.admin.indexOf(this.props.user.name)===-1 ? listOfParticipants.concat(this.props.user) : listOfParticipants;
 
-				listOfParticipants = listOfGroupsInParticipants.concat(listOfFriendsInParticipants);
 			}
 
-		}
 
 		let customActions = [
 		  <FlatButton
@@ -256,7 +265,7 @@ export default class ListsEdit extends Component{
   			onRequestClose={this._handleCloseDialogList} >
 				<List>
 				  <ListItem primaryText="Edit List" onClick={() => this.handleOpenEditDialog()} />
-				  {this.props.userName===this.props.list.admin ?
+				  {this.props.list.admin.indexOf(this.props.user.name)!==-1 ?
 						<ListItem primaryText="Remove List" onClick={() => this.handleOpenRemoveDialog()} />
 						: ''}
 					<ListItem primaryText="Add Friends or Groups" onClick={() => this.handleOpenFriendsAndGroupsDialog()} />
@@ -325,7 +334,7 @@ export default class ListsEdit extends Component{
 							{
 								listOfParticipants.length===0 ? '' :
 									listOfParticipants.map( (item, index) => item!=='' && item!==undefined ?
-										<li key={index}><span className={this.props.userName===this.props.list.admin ? 'deleteButtonFriendGroup glyphicon glyphicon-remove' : 'hiddenRemoveParticipant' } onClick={() =>
+										<li key={index}><span className={this.props.list.admin.indexOf(this.props.user.name)!==-1 || item.name===this.props.user.name ? 'deleteButtonFriendGroup glyphicon glyphicon-remove' : 'hiddenRemoveParticipant' } onClick={() =>
 												 this.handleOnRemoveFriendGroupToList(item)}></span>{item.name} </li> : '')
 							}
 						</ul>
@@ -347,6 +356,6 @@ ListsEdit.propTypes = {
   groups: PropTypes.array,
 	onAddFriendGroupToList: PropTypes.func,
 	onRemoveFriendGroupToList: PropTypes.func,
-	userName: PropTypes.string
+	user: PropTypes.object
 
 };
