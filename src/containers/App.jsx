@@ -18,7 +18,7 @@ export default class App extends Component {
 
   render() {
       const path = this.props.location.pathname;
-      return (this.props.state.authenticated)
+      return (this.props.state.authenticated && (path !== 'register' || path !== '/register') )
         ?(
           <div>
             <HeaderContainer />

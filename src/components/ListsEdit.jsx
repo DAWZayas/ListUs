@@ -143,7 +143,7 @@ export default class ListsEdit extends Component{
   handleOnClickAddFriendGroupToList(e){
     e.stopPropagation();
     const { list, onAddFriendGroupToList } = this.props;
-    Object.keys(this.state.newParticipant).length===0 || this.isInTheArrayFriend(this.state.newParticipant.id, list) || this.isInTheArrayGroup(this.state.newParticipant.id, list) ? '' : onAddFriendGroupToList(list, this.state.newParticipant);
+    Object.keys(this.state.newParticipant).length===0 || this.isInTheArrayFriend(this.state.newParticipant.name, list) || this.isInTheArrayGroup(this.state.newParticipant.name, list) ? '' : onAddFriendGroupToList(list, this.state.newParticipant);
 		this.clearTextField();
 		this._handleCloseDialog();
 	}
@@ -170,20 +170,19 @@ export default class ListsEdit extends Component{
 
 	render(){
 
-		let { list, friends, groups } = this.props;
-
+		let { list, friends, groups, user } = this.props;
 
 		let listOfFriendsAndGroups = [];
 
 		let listOfParticipants =[];
 
-		if(list!==undefined && friends!==undefined && groups!==undefined){
+		if(list!==undefined && friends!==undefined && groups!==undefined && user.name!==undefined){
 			if(this.state.textToSearch!=='' && friends!==undefined && groups!==undefined){
 				const listFriends = this.state.toggleFriend ? friends.filter( friend => !this.isInTheArrayFriend(friend, list) ) : [];
 				const listGroups = this.state.toggleGroup ? groups.filter( group => !this.isInTheArrayFriend(group, list) ) : [];
 				listOfFriendsAndGroups = this.removeUndefinedFromArrays(listFriends).concat( this.removeUndefinedFromArrays(listGroups)).filter( item=> item.name.toLowerCase().search(this.state.textToSearch) !== -1);
 			}
-			if(list.participantsGroups[0]!==undefined){//si esta vacia los participants list.participants[0]===undefined
+			if(list.participantsGroups!==undefined && list.participantsGroups.length!==0){//si esta vacia los participants list.participants[0]===undefined
 				let listOfGroupsInParticipants = list.participantsGroups[0].map( nameParticipant => groups.filter( function(group){
 					if(nameParticipant===group.name){
 						return group;
@@ -194,7 +193,7 @@ export default class ListsEdit extends Component{
 				listOfParticipants = listOfParticipants.concat(listOfGroupsInParticipants);
 			}
 
-			if(list.participantsFriends[0]!==undefined){
+			if(list.participantsFriends!==undefined && list.participantsFriends.length!==0){
 				let listOfFriendsInParticipants = list.participantsFriends[0].map( nameParticipant => friends.filter( function(friend){
 					if(nameParticipant===friend.name){
 						return friend;
@@ -204,6 +203,7 @@ export default class ListsEdit extends Component{
 				listOfParticipants = listOfParticipants.concat(listOfFriendsInParticipants);
 			}
 				//add user if isn't admin for remove list from his lists
+
 				listOfParticipants = list.admin.indexOf(this.props.user.name)===-1 ? listOfParticipants.concat(this.props.user) : listOfParticipants;
 
 			}
@@ -253,8 +253,8 @@ export default class ListsEdit extends Component{
 	        onClick={e => this.handleOnClickAddFriendGroupToList(e)} />
 			];
 
-
 		return (
+
 			<div>
 				<button type="button" className="glyphicon glyphicon-edit btn btn-default pull-right" onClick={()=>this.handleOpenListDialog()}> </button>
 			<Dialog
@@ -265,7 +265,7 @@ export default class ListsEdit extends Component{
   			onRequestClose={this._handleCloseDialogList} >
 				<List>
 				  <ListItem primaryText="Edit List" onClick={() => this.handleOpenEditDialog()} />
-				  {this.props.list.admin.indexOf(this.props.user.name)!==-1 ?
+				  {list.admin.indexOf(this.props.user.name)!==-1 ?
 						<ListItem primaryText="Remove List" onClick={() => this.handleOpenRemoveDialog()} />
 						: ''}
 					<ListItem primaryText="Add Friends or Groups" onClick={() => this.handleOpenFriendsAndGroupsDialog()} />
@@ -357,5 +357,9 @@ ListsEdit.propTypes = {
 	onAddFriendGroupToList: PropTypes.func,
 	onRemoveFriendGroupToList: PropTypes.func,
 	user: PropTypes.object
+
+};
+
+ListsEdit.defaultProps = {
 
 };

@@ -96,12 +96,12 @@ render() {
   const initNumPage = this.state.page-2>0 ? this.state.page-2 : this.state.page-1>0 ? this.state.page-1 : this.state.page;
   const initTask = this.state.page*6-6;
   const lastTask = this.state.page*6;
-
   return(
 
     <div className="section">
       <div className="col-md-12 heigthTitle">
         <ul className="list-group listTitle">
+          {Object.keys(this.props.list).length!==0 ?
           <TaskTitle
             list={list}
             lists={lists}
@@ -113,8 +113,8 @@ render() {
             onRemoveList={removeList}
             onRemoveFriendGroupToList={removeFriendGroupToList}
             onAddFriendGroupToList={addFriendGroupToList}
-            userName={this.props.userName} />
-
+            user={this.props.user} />
+          : '' }
         </ul>
       </div>
       <div className="col-xs-12">
@@ -157,7 +157,7 @@ render() {
         </ul>
       </div>
       <div className="col-md-12 center">
-      <CommentsContainer />
+      { Object.keys(this.props.list).length!==0 ? <CommentsContainer /> : ''}
       </div>
     </div>
   );
@@ -167,20 +167,20 @@ render() {
 }
 
 ListDetails.propTypes = {
-  list: PropTypes.object.isRequired,
+  list: PropTypes.object,
   lists: PropTypes.array,
-  tasks: PropTypes.object.isRequired,
-  friends: PropTypes.array.isRequired,
-  groups: PropTypes.array.isRequired,
-  addTask: PropTypes.func.isRequired,
-  removeTask: PropTypes.func.isRequired,
-  editTask: PropTypes.func.isRequired,
-  removeList: PropTypes.func.isRequired,
-  editList: PropTypes.func.isRequired,
-  addFriendGroupToList: PropTypes.func.isRequired,
-  removeFriendGroupToList: PropTypes.func.isRequired,
-  markAsDone: PropTypes.func.isRequired,
-  registerListeners: PropTypes.func.isRequired,
-  unregisterListeners: PropTypes.func.isRequired,
-  userName: PropTypes.string
+  tasks: PropTypes.object,
+  friends: PropTypes.array,
+  groups: PropTypes.array,
+  addTask: PropTypes.func,
+  removeTask: PropTypes.func,
+  editTask: PropTypes.func,
+  removeList: PropTypes.func,
+  editList: PropTypes.func,
+  addFriendGroupToList: PropTypes.func,
+  removeFriendGroupToList: PropTypes.func,
+  markAsDone: PropTypes.func,
+  registerListeners: PropTypes.func,
+  unregisterListeners: PropTypes.func,
+  user: PropTypes.object
 };

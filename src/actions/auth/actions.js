@@ -68,7 +68,7 @@ export function createUser(email, password){
 }
 
 export function authWithUserPass(email, password){
-  return (dispatch, getState) => {    
+  return (dispatch, getState) => {
     const { firebase } = getState();
 
     firebase.authWithPassword({

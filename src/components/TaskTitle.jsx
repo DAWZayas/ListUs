@@ -52,11 +52,8 @@ export default class TaskTitle extends Component {
         primary
         onClick={() => this.handleClickAdd()} />
     ];
-
     return(
     <div>
-      {this.props.list.id!==undefined ?
-        <span>
         <Dialog
   				ref="dialog"
   				title="Add Task"
@@ -70,13 +67,13 @@ export default class TaskTitle extends Component {
         <div className="row list listNotCompleted">
 
           <div className="col-xs-4">
-            {this.props.list!==undefined ?
+            { Object.keys(this.props.list).length!==0 ?
               <Link to={`/list/${this.props.list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{this.props.list.title}</Link>
               : ''
             }
           </div>
           <div className="col-xs-8" >
-
+            { Object.keys(this.props.list).length!==0 ?
               <ListsEdit
                 list={this.props.list}
                 lists={lists}
@@ -86,17 +83,13 @@ export default class TaskTitle extends Component {
                 removeList={onRemoveList}
                 onRemoveFriendGroupToList={onRemoveFriendGroupToList}
                 onAddFriendGroupToList={onAddFriendGroupToList}
-                userName={this.props.userName} />
+                user={this.props.user} />
+              : '' }
               <span className="btn pull-right btn-default" onClick={() => this.openDialog()} >Add</span>
               <span className="dateBtn pull-right btn btn-default">{this.props.list.date}</span>
           </div>
 
         </div>
-        </span>
-
-        : ''
-
-      }
     </div>
     );
 
@@ -106,19 +99,19 @@ export default class TaskTitle extends Component {
 
 
 TaskTitle.propTypes = {
-  list: PropTypes.object.isRequired,
-  lists: PropTypes.array.isRequired,
-  tasks: PropTypes.object.isRequired,
-  friends: PropTypes.array.isRequired,
-  groups: PropTypes.array.isRequired,
-  onAddTask: PropTypes.func.isRequired,
-  onRemoveList: PropTypes.func.isRequired,
-  onEditList: PropTypes.func.isRequired,
-  onAddFriendGroupToList: PropTypes.func.isRequired,
-  onRemoveFriendGroupToList: PropTypes.func.isRequired,
-  userName: PropTypes.string
+  list: PropTypes.object,
+  lists: PropTypes.array,
+  tasks: PropTypes.object,
+  friends: PropTypes.array,
+  groups: PropTypes.array,
+  onAddTask: PropTypes.func,
+  onRemoveList: PropTypes.func,
+  onEditList: PropTypes.func,
+  onAddFriendGroupToList: PropTypes.func,
+  onRemoveFriendGroupToList: PropTypes.func,
+  user: PropTypes.object
 };
 
 TaskTitle.defaultProps = {
-  list: {}
+
 };

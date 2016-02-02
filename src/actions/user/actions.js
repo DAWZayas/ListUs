@@ -2,15 +2,20 @@ import { SET_USER, CHANGE_IMG_ERROR, CHANGE_NAME_ERROR, CHANGE_VISIBILITY_ERROR 
 
 function authenticate(provider) {
   return (dispatch, getState) => {
-    const { firebase } = getState();
+    const { firebase, auth } = getState();
     const users = firebase.child('users');
 
     firebase.authWithOAuthPopup(provider, (error, authData) => {
       if (error) {
         console.error('ERROR @ authWithOAuthPopup :', error);
       }else {
-        users.orderByKey().equalTo(authData.uid).once('value', snap => {
-          if(!snap.val()){
+        users.once('value', snap => {
+
+          let newId = authData.id;
+          if(!newId) newId = authData.uid;
+          const oldAccounts = snap.val()[auth.id].accounts;
+
+          if(oldAccounts.indexOf(newId) === -1){
             createUserIfNotExists(authData, firebase);
             users.child(`${auth.id}`).update({accounts: [authData.uid]});
           }
