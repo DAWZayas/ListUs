@@ -119,12 +119,9 @@ export function createUserIfNotExists(authData, firebase){
   let name = '';
 
   if(authData.provider === 'github')  name = authData.github.username;
-
-  if(authData.provider === 'twitter') name = authData.twitter.username;
-
-  if(authData.provider === 'google') name = authData[authData.provider].displayName;
-
-  if(authData.email) name = authData.email;
+  else if(authData.provider === 'twitter') name = authData.twitter.username;
+  else if(authData.provider === 'google') name = authData[authData.provider].displayName;
+  else if(authData.email) name = authData.email;
 
   firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: true});
   return 'Welcome to ListUs';

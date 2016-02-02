@@ -76,7 +76,7 @@ export function addGroupFriend(friendName, idGroup){
         () => firebase.child(`users/${auth.id}/refresh`).remove()
     );
 
-    firebase.child('users').once('value', snap => {
+    firebase.child('users').once('value', snapshot => {
         Object.keys(snapshot.val()).map(idUser => {
           if(snapshot.val()[idUser].name === friendName){
             const groups = (snapshot.val()[idUser].groups) 

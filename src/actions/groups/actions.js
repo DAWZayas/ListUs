@@ -1,4 +1,4 @@
-import { SET_GROUPS, ADD_GROUP_ERROR, REMOVE_GROUP_ERROR, ADD_FRIEND_GROUP_ERROR, ADD_FRIEND_GROUP } from './action-types';
+import { SET_GROUPS, ADD_GROUP_ERROR, REMOVE_GROUP_ERROR, ADD_FRIEND_GROUP } from './action-types';
 
 export function setGroups(groups){
   return { type: SET_GROUPS, groups };
@@ -127,7 +127,7 @@ export function addGroupFriend(friendName, idGroup){
           if(snapshot.val()[idUser].name === friendName){
             let pendingActions = (snapshot.val()[idUser].pendingActions) 
                 ?snapshot.val()[idUser].pendingActions.concat(newPendingAction)
-                :[newPendingAction]
+                :[newPendingAction];
             firebase.child(`users/${idUser}/pendingActions`).set(pendingActions);
           }
         });

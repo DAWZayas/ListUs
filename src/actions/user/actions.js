@@ -47,14 +47,11 @@ export function createUserIfNotExists(authData, firebase){
   let name = '';
 
   if(authData.provider === 'github')  name = authData.github.username;
+  else if(authData.provider === 'twitter') name = authData.twitter.username;
+  else if(authData.provider === 'google') name = authData[authData.provider].displayName;
+  else if(authData.provider === 'password') name = authData.password.email;
 
-  if(authData.provider === 'twitter') name = authData.twitter.username;
-
-  if(authData.provider === 'google') name = authData[authData.provider].displayName;
-
-  if(authData.provider === 'password') name = authData.password.email;
-
-  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false, accounts: [auth.id]});
+  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: true, accounts: [auth.id]});
 }
 
 export function setUser(user){
