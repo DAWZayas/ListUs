@@ -19,7 +19,7 @@ function mapActionsToProps(dispatch) {
 		removeGroup: idGroup => dispatch(removeGroup(idGroup)),
 		addGroupFriend: (idFriend, idGroup) => dispatch(addGroupFriend(idFriend, idGroup)),
 		removeGroupFriend: (idFriend, idGroup) => dispatch(removeGroupFriend(idFriend, idGroup)),
-		changeGroupAdmin: (idFriend, idGroup) => dispatch(changeGroupAdmin(idFriend, idGroup)),
+		changeGroupAdmin: (idFriend, idGroup, userName) => dispatch(changeGroupAdmin(idFriend, idGroup, userName)),
 		registerListeners: () => dispatch(registerListeners()),
 		unregisterListeners: () => dispatch(unregisterListeners())
   };

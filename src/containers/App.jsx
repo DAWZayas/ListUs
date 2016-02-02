@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import HeaderContainer from './HeaderContainer';
 import Login from '../components/Login';
 import * as authActions from '../actions/auth';
+import Register from '../components/Register';
 
 
 export default class App extends Component {
@@ -16,13 +17,16 @@ export default class App extends Component {
   }
 
   render() {
-      return (this.props.state.authenticated) 
-        ?( 
-          <div> 
-            <HeaderContainer /> 
-            {this.props.children} 
-          </div> 
-        ) 
+      const path = this.props.location.pathname;
+      return (this.props.state.authenticated)
+        ?(
+          <div>
+            <HeaderContainer />
+            {this.props.children}
+          </div>
+        )
+        : path === 'register' || path === '/register' ?
+          <Register {...this.props}/>
         : <Login {...this.props}/>;
   }
 
@@ -33,7 +37,8 @@ App.propTypes = {
   children: PropTypes.node,
   user: PropTypes.object,
   signInWithGithub: PropTypes.func,
-  state: PropTypes.object
+  state: PropTypes.object,
+  location: PropTypes.object
 
 };
 

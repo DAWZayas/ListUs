@@ -616,11 +616,15 @@ border-radius: 10px;
 }
 
 .githubLogin:hover {
-  color: rgb(107, 107, 124);
+  color: rgb(147, 34, 215);
 }
 
 .googleLogin:hover {
   color: rgb(232, 28, 28);
+}
+
+.biggerFont  {
+  font-size: 3em !important;
 }
 
 

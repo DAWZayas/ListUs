@@ -3,7 +3,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import { TextField, RaisedButton } from 'material-ui';
 import Logo from '../components/Logo';
-
+import { Link } from 'react-router';
 
 export default class Login extends Component {
 
@@ -14,6 +14,14 @@ export default class Login extends Component {
     };
   }
 
+  handleClickLogIn(){
+    const { authWithUserPass } = this.props;
+
+    const user = this.refs.userLogIn.getValue();
+    const password = this.refs.passwordLogIn.getValue();
+
+    authWithUserPass(user, password);
+  }
 
   handleLoginGithub(){
     this.props.signInWithGithub();
@@ -21,24 +29,29 @@ export default class Login extends Component {
 
   handleLoginTwitter(){
     this.props.signInWithTwitter();
+  }
 
+  handleLoginGoogle(){
+    this.props.signInWithGoogle();
   }
 
   render() {
     return (
     	<div className="enter">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+        <div className="enterHeader"></div>
+
         <div className="enterPrincipal">
-      		<div className="enterHeader"></div>
           <br/>
       		<Logo />
       		<div className="login">
-  	    		<TextField 
+  	    		<TextField
   	    			ref = "userLogIn"
-    					hintText="User"
+    					hintText="Email"
     					underlineStyle={{borderColor:'blue',  width: '236'}}
               style={{backgroundColor: 'lightgrey', marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}
               />
-    				<TextField 
+    				<TextField
     	    		ref = "passwordLogIn"
     					hintText="Password"
     					underlineStyle={{borderColor:'blue', width: '236'}}
@@ -49,20 +62,26 @@ export default class Login extends Component {
             <br/>
             <div>
               <span className="btn" onClick={()=>this.handleLoginGithub()} style={{}} title="Github">
-                <img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" style={{width: '50', height: '50'}} />
+                {/*<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" style={{width: '50', height: '50'}} />
+                */}
+                <i className="fa fa-github githubLogin biggerFont"></i>
               </span>
 
               <span className="btn" onClick={()=>this.handleLoginGithub()} style={{}} title="Twitter">
-                <img src="https://pbs.twimg.com/profile_images/666407537084796928/YBGgi9BO_400x400.png" style={{width: '50', height: '50'}} />
+                {/*<img src="https://pbs.twimg.com/profile_images/666407537084796928/YBGgi9BO_400x400.png" style={{width: '50', height: '50'}} />
+                */}
+                <i className="fa fa-twitter twitterLogin biggerFont"></i>
               </span>
 
-              <span className="btn" onClick={()=>this.handleLoginTwitter()} style={{}} title="Facebook">
-                <img src="http://www.freelargeimages.com/wp-content/uploads/2015/05/Facebook_Vector_Logo_Hd_02.png" style={{width: '35', height: '35'}} />
+              <span className="btn" onClick={()=>this.handleLoginGoogle()} style={{}} title="Google">
+                {/*<img src="http://www.freelargeimages.com/wp-content/uploads/2015/05/Facebook_Vector_Logo_Hd_02.png" style={{width: '35', height: '35'}} />}
+                */}
+                <i className="fa fa-google-plus googleLogin biggerFont"></i>
               </span>
             </div>
 
     			</div><br/>
-    			{/*<div><a style={{cursor: 'pointer'}}>Register</a></div>*/}
+        <div className="text-center">Do not have an account yet? <br/><Link to={`register`} style={{cursor: 'pointer'}}>Register now</Link></div><br/>
         </div>
         <div className="enterHeader enterFooter" height="80px"></div>
     	</div>
@@ -79,5 +98,7 @@ Login.propTypes = {
   onSetGroups: PropTypes.func,
   onSwitchUser: PropTypes.func,
   signInWithGithub: PropTypes.func,
-  signInWithTwitter: PropTypes.func
+  signInWithTwitter: PropTypes.func,
+  signInWithGoogle: PropTypes.func,
+  authWithUserPass: PropTypes.func
 };

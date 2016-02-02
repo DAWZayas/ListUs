@@ -9,6 +9,7 @@ import FriendsContainer from './containers/FriendsContainer';
 import CalendarContainer from './containers/CalendarContainer';
 import NotificationContainer from './containers/NotificationContainer';
 
+
 export default (
   <Route path="/" component={App}>
     <Route path="list" component={SectionContainer} />
@@ -18,6 +19,7 @@ export default (
     <Route path="friends" component={FriendsContainer} />
     <Route path="calendar" component={CalendarContainer} />
     <Route path="notifications" component={NotificationContainer} />
+    <Route path="register" component={App} />
 
     <IndexRoute component={SectionContainer} />
   </Route>
