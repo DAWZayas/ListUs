@@ -58,7 +58,7 @@ export function removeList(list){
     const { firebase, auth } = getState();
     let lists = [];
     //ACTION REMOVE LIST IN ALL participants
-    if(list.participants[0]!==undefined){
+    if(list.participantsFriends[0]!==undefined){
       firebase.child(`lists/${list.id}/participantsFriends`).once('value', snapshot => {
         if(snapshot.val()!==null){
           snapshot.val().map( nameUser => firebase.child(`users`).once('value', function(snapshotUsers){
@@ -161,8 +161,10 @@ export function editList(idList, title, date, newDate, importance){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     firebase.child(`lists/${idList}`).once('value', snapshot => {
-      const participants = snapshot.val().participants!==undefined ? snapshot.val().participants : [];
-      firebase.child(`lists/${idList}`).set({ title, date:newDate, importance, participants }, error => {
+      const participantsFriends = snapshot.val().participantsFriends!==undefined ? snapshot.val().participantsFriends : [];
+      const participantsGroups = snapshot.val().participantsGroups!==undefined ? snapshot.val().participantsGroups : [];
+      const admin = snapshot.val().admin!==undefined ? snapshot.val().admin : [];
+      firebase.child(`lists/${idList}`).set({ admin, title, date:newDate, importance, participantsFriends, participantsGroups }, error => {
         if(error){
           console.error('ERROR @ editList:', error);
           dispatch({
@@ -228,8 +230,8 @@ export function removeFriendGroupToList( idList, participant){
       });
       //borrar la lista al usuario
       firebase.child('users').once('value', snapshot => {
-        const lists = participant.lists.filter( id => id!==idList);
         const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===participant.name);
+        const lists = snapshot.val()[idUser].lists.filter( id => id!==idList);
         firebase.child(`users/${idUser}`).update({lists});
       });
     }else{
