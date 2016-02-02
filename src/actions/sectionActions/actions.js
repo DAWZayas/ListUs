@@ -216,7 +216,7 @@ export function addFriendGroupToList( list, newParticipant){
 
 export function removeFriendGroupToList( idList, participant){
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
+    const { firebase } = getState();
     const refIdList = firebase.child(`lists/${idList}`);
 
 
