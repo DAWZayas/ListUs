@@ -56,7 +56,11 @@ export function createUser(email, password){
       } else {
         console.log('Successfully created user account with uid:', userData.uid);
         users.orderByKey().equalTo(userData.uid).once('value', snap => {
-          if(!snap.val()) createUserIfNotExists(userData, firebase);
+          if(!snap.val()){
+            userData.email = email;
+            createUserIfNotExists(userData, firebase);
+            dispatch(authWithUserPass(email, password));
+          }
         });
       }
     });
@@ -64,7 +68,7 @@ export function createUser(email, password){
 }
 
 export function authWithUserPass(email, password){
-  return (dispatch, getState) => {
+  return (dispatch, getState) => {    
     const { firebase } = getState();
 
     firebase.authWithPassword({
@@ -75,6 +79,7 @@ export function authWithUserPass(email, password){
         console.log('Login Failed!', error);
       } else {
         console.log('Authenticated successfully with payload:', authData);
+        dispatch(pushState(null, '/'));
       }
     });
   };
@@ -119,7 +124,7 @@ export function createUserIfNotExists(authData, firebase){
 
   if(authData.provider === 'google') name = authData[authData.provider].displayName;
 
-  if(authData.provider === 'password') name = authData.password.email;
+  if(authData.email) name = authData.email;
 
   firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false});
   return 'Welcome to ListUs';

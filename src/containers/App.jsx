@@ -17,6 +17,7 @@ export default class App extends Component {
   }
 
   render() {
+      const path = this.props.location.pathname;
       return (this.props.state.authenticated)
         ?(
           <div>
@@ -24,7 +25,7 @@ export default class App extends Component {
             {this.props.children}
           </div>
         )
-        : this.props.location.pathname === '/register' ?
+        : path === 'register' || path === '/register' ?
           <Register {...this.props}/>
         : <Login {...this.props}/>;
   }
