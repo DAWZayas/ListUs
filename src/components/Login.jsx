@@ -48,34 +48,26 @@ export default class Login extends Component {
   	    		<TextField
   	    			ref = "userLogIn"
     					hintText="Email"
-    					underlineStyle={{borderColor:'blue',  width: '236'}}
-              style={{backgroundColor: 'lightgrey', marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}
+              style={{marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}
               />
     				<TextField
     	    		ref = "passwordLogIn"
     					hintText="Password"
-    					underlineStyle={{borderColor:'blue', width: '236'}}
               type="password"
-              style={{backgroundColor: 'lightblue', marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}/>
+              style={{marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}/>
               {(this.state.error !== '')? <p style={{color: 'red'}}>{this.state.error}</p>:''}
     				<RaisedButton label="LOG IN" secondary  onTouchTap={()=>this.handleClickLogIn()} style={{}}/>
             <br/>
             <div>
               <span className="btn" onClick={()=>this.handleLoginGithub()} style={{}} title="Github">
-                {/*<img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" style={{width: '50', height: '50'}} />
-                */}
                 <i className="fa fa-github githubLogin biggerFont"></i>
               </span>
 
               <span className="btn" onClick={()=>this.handleLoginGithub()} style={{}} title="Twitter">
-                {/*<img src="https://pbs.twimg.com/profile_images/666407537084796928/YBGgi9BO_400x400.png" style={{width: '50', height: '50'}} />
-                */}
                 <i className="fa fa-twitter twitterLogin biggerFont"></i>
               </span>
 
               <span className="btn" onClick={()=>this.handleLoginGoogle()} style={{}} title="Google">
-                {/*<img src="http://www.freelargeimages.com/wp-content/uploads/2015/05/Facebook_Vector_Logo_Hd_02.png" style={{width: '35', height: '35'}} />}
-                */}
                 <i className="fa fa-google-plus googleLogin biggerFont"></i>
               </span>
             </div>
