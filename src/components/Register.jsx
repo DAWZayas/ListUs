@@ -100,6 +100,7 @@ export default class Login extends Component {
     	    		ref = "passwordSignUp1"
     					hintText="Password"
               type="password"
+              onChange={this.checkPasswords.bind(this)}
               style={{marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}/>
             <TextField
     	    		ref = "passwordSignUp2"
