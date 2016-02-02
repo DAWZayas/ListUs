@@ -9,7 +9,7 @@ function mapStateToProps(state){
     const idList = state.router.params.idList;
     const list = state.lists.reduce( (listas, list) => list.id===idList ?  list : listas, {});
     const tasks = Object.values(state.tasks).reduce( (tasks, task) => task.idList === idList ? Object.assign(tasks, {[task.id]: task}) : tasks, {});
-    return{list, lists: state.lists, tasks, friends: state.friends.friends, groups: state.groups, userName: state.user.name};
+    return{list, lists: state.lists, tasks, friends: state.friends.friends, groups: state.groups, user: state.user};
 }
 
 /*function mapActionsToProps(dispatch){

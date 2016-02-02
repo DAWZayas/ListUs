@@ -15,7 +15,7 @@ export default class CommentsChat extends Component {
   }
 
   componentDidUpdate(){
-    this.refs.final.scrollIntoView(true);
+    if(this.props.comments.length!==0){ this.refs.final.scrollIntoView(true); }
   }
 
   componentWillUnmount() {
@@ -130,7 +130,7 @@ export default class CommentsChat extends Component {
 
 CommentsChat.propTypes = {
   router: PropTypes.object,
-  comments: PropTypes.array.isRequired,
+  comments: PropTypes.array,
   onAddComment: PropTypes.func,
   onRemoveComments: PropTypes.func,
   registerListeners: PropTypes.func.isRequired,

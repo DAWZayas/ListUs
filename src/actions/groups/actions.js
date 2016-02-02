@@ -18,7 +18,7 @@ export function addGroup(name){
         });
         }
     });
-    
+
     new Promise( resolve => {
       firebase.child(`users/${auth.id}/groups`).once('value', snap => {
         resolve((snap.val()) ?snap.val().concat(groupRef.key()) :[groupRef.key()]);
@@ -32,7 +32,7 @@ export function removeGroup(id){
     const { firebase, auth } = getState();
 
     new Promise(resolve => {
-      firebase.child(`groups/${id}/name`).once('value', snaps => { 
+      firebase.child(`groups/${id}/name`).once('value', snaps => {
         resolve(snaps.val());
       });
     }).then( name =>{
@@ -68,7 +68,7 @@ export function removeGroupFormLists(name, firebase){
             if(snapshot.val().indexOf(name) !== -1){
               let participantsGroups = snapshot.val().filter(nameGroup => nameGroup !== name);
               firebase.child(`lists/${idList}/participantsGroups`).set(participantsGroups);
-            }  
+            }
         });
       });
     });
@@ -99,7 +99,6 @@ export function changeGroupAdmin(friendName, idGroup, userName){
     const { firebase, auth } = getState();
     firebase.child(`groups/${idGroup}/administrator`).once('value', snap => {
       const admins = snap.val().map( admin => (admin === userName) ?friendName :admin);
-      debugger;
       firebase.child(`groups/${idGroup}/administrator`).set(admins);
     });
 

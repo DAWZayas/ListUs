@@ -4,7 +4,7 @@ function setComments(state, comments){
   return comments.slice();
 }
 
-export default function reduceComment( state={}, action ){
+export default function reduceComment( state=[], action ){
 
   switch (action.type) {
     case SET_COMMENTS:

@@ -1,6 +1,7 @@
 import { SET_LISTS } from '../actions/listsDetailsActions';
 
 function setList(state, lists) {
+
   return lists.slice();
 }
 
