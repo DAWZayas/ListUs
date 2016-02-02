@@ -66,7 +66,7 @@ export default class GroupFriends extends React.Component {
 GroupFriends.propTypes = {
   friendsName: React.PropTypes.array,
   idGroup: React.PropTypes.string,
-  friends: React.PropTypes.object,
-  userName: React.PropTypes.object,
+  friends: React.PropTypes.array,
+  userName: React.PropTypes.string,
   Group: React.PropTypes.object,
 };

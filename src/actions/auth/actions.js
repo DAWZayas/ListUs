@@ -126,6 +126,6 @@ export function createUserIfNotExists(authData, firebase){
 
   if(authData.email) name = authData.email;
 
-  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false});
+  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: true});
   return 'Welcome to ListUs';
 }
