@@ -80,6 +80,14 @@ export function authWithUserPass(email, password){
       } else {
         console.log('Authenticated successfully with payload:', authData);
         dispatch(pushState(null, '/'));
+        dispatch({
+          type: SIGN_IN_SUCCESS,
+          payload: authData,
+          meta: {
+            timestamp: Date.now()
+          },
+          greet: 'Hello'
+        });
       }
     });
   };
