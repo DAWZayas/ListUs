@@ -1,4 +1,4 @@
-import { SET_NOTIFICATIONS, ADD_FRIEND_TO_LIST } from './action-types';
+import { SET_NOTIFICATIONS, ADD_FRIEND_TO_LIST, ADD_FRIEND_GROUP } from './action-types';
 
 export function setNotifications(notifications){
   return { type: SET_NOTIFICATIONS, notifications };
@@ -8,9 +8,22 @@ export function aceptPendingAction(notification){
   switch (notification.type) {
     case ADD_FRIEND_TO_LIST:
       return addMeToList(notification.idList);
+    case ADD_FRIEND_GROUP:
+      return addGroupFriend(notification.friendName, notification.idGroup);
     default:
       return '';
   }
+}
+
+export function refusePendingAction(notification){
+  return (dispatch, getState) => {
+    const { firebase, auth } = getState();
+    firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
+      //borrar la pendingAction
+      const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => actionPending.idList!==notification.idList );
+      firebase.child(`users/${auth.id}`).update({pendingActions});
+    });
+  };
 }
 
 
@@ -35,18 +48,45 @@ function addMeToList(idList){
       const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => actionPending.idList!==idList );
       firebase.child(`users/${auth.id}`).update({pendingActions});
     });
-
-
   };
 }
 
-export function refusePendingAction(notification){
+
+export function addGroupFriend(friendName, idGroup){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
-      //borrar la pendingAction
-      const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => actionPending.idList!==notification.idList );
-      firebase.child(`users/${auth.id}`).update({pendingActions});
+    new Promise( resolve => {
+      firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => resolve(snapshot.val() || []));
+    }).then( val => {
+      if(val.indexOf(friendName) === -1){
+        val.push(friendName);
+        firebase.child(`groups/${idGroup}/friends`).set(val,
+         error => {
+            if(error){
+              console.error('ERROR @ addGroupFriend:', error);
+              dispatch({
+                type: ADD_FRIEND_GROUP_ERROR,
+                payload: error,
+            });
+            }
+        });
+      }}
+    ).then(
+        () => firebase.child(`users/${auth.id}`).update({refresh: ''})).then(
+        () => firebase.child(`users/${auth.id}/refresh`).remove()
+    );
+
+    firebase.child('users').once('value', snapshot => {
+        Object.keys(snapshot.val()).map(idUser => {
+          if(snapshot.val()[idUser].name === friendName){
+            const groups = (snapshot.val()[idUser].groups) 
+                ? snapshot.val()[idUser].groups.concat(idGroup)
+                : [idGroup];
+            firebase.child(`users/${idUser}/groups`).set(groups);
+          }
+        });
     });
   };
 }
+
+

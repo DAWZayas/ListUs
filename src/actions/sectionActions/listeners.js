@@ -47,7 +47,6 @@ export function registerListeners(){
               date:snapshot.val()[id].date,
               participantsFriends: snapshot.val()[id].participantsFriends===undefined ? [] : [snapshot.val()[id].participantsFriends],
               participantsGroups: snapshot.val()[id].participantsGroups===undefined ? [] : [snapshot.val()[id].participantsGroups]}) : init, [])
-
         });
       });
     });

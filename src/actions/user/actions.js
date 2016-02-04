@@ -4,20 +4,19 @@ function authenticate(provider) {
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     const users = firebase.child('users');
-
     firebase.authWithOAuthPopup(provider, (error, authData) => {
       if (error) {
         console.error('ERROR @ authWithOAuthPopup :', error);
-      }else {
+      }else{
         users.once('value', snap => {
-
           let newId = authData.id;
           if(!newId) newId = authData.uid;
-          const oldAccounts = snap.val()[auth.id].accounts;
+          let oldAccounts = snap.val()[auth.id].accounts || [];
 
-          if(oldAccounts.indexOf(newId) === -1){
-            createUserIfNotExists(authData, firebase);
-            users.child(`${auth.id}`).update({accounts: [authData.uid]});
+          if(oldAccounts.indexOf(newId) === -1 && newId !== auth.id){
+            createUserIfNotExists(authData, firebase, auth);
+            oldAccounts = oldAccounts.concat([newId]);
+            users.child(`${auth.id}`).update({accounts: oldAccounts});
           }
         });
       }
@@ -43,18 +42,15 @@ export function cancelSignIn() {
   };
 }
 
-export function createUserIfNotExists(authData, firebase){
+export function createUserIfNotExists(authData, firebase, auth){
   let name = '';
 
   if(authData.provider === 'github')  name = authData.github.username;
+  else if(authData.provider === 'twitter') name = authData.twitter.username;
+  else if(authData.provider === 'google') name = authData[authData.provider].displayName;
+  else if(authData.provider === 'password') name = authData.password.email;
 
-  if(authData.provider === 'twitter') name = authData.twitter.username;
-
-  if(authData.provider === 'google') name = authData[authData.provider].displayName;
-
-  if(authData.provider === 'password') name = authData.password.email;
-
-  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false, accounts: [auth.id]});
+  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: true, accounts: [auth.id]});
 }
 
 export function setUser(user){

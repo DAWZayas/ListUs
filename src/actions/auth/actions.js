@@ -80,6 +80,14 @@ export function authWithUserPass(email, password){
       } else {
         console.log('Authenticated successfully with payload:', authData);
         dispatch(pushState(null, '/'));
+        dispatch({
+          type: SIGN_IN_SUCCESS,
+          payload: authData,
+          meta: {
+            timestamp: Date.now()
+          },
+          greet: 'Hello'
+        });
       }
     });
   };
@@ -119,13 +127,10 @@ export function createUserIfNotExists(authData, firebase){
   let name = '';
 
   if(authData.provider === 'github')  name = authData.github.username;
+  else if(authData.provider === 'twitter') name = authData.twitter.username;
+  else if(authData.provider === 'google') name = authData[authData.provider].displayName;
+  else if(authData.email) name = authData.email;
 
-  if(authData.provider === 'twitter') name = authData.twitter.username;
-
-  if(authData.provider === 'google') name = authData[authData.provider].displayName;
-
-  if(authData.email) name = authData.email;
-
-  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: false});
+  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: true});
   return 'Welcome to ListUs';
 }
