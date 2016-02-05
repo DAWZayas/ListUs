@@ -121,7 +121,7 @@ export function addGroupFriend(friendName, idGroup){
           type: ADD_FRIEND_GROUP,
           friendName,
           idGroup,
-          description
+          descr: description
         };
         Object.keys(snapshot.val()).map(idUser => {
           if(snapshot.val()[idUser].name === friendName){
