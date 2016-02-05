@@ -29,23 +29,27 @@ export function registerListeners(){
       });
     });
 
-    let listsUser = [];
-    firebase.child(`users/${auth.id}/lists`).on('value', snapshot =>{
-
-      listsUser = snapshot.val()===null ? listsUser : snapshot.val();
-
-      refLists.on('value', snapshot => {dispatch({
-        type: SET_LISTS,
-        lists: Object.keys(snapshot.val() || [])
-          .reduce( (init, id) => listsUser.indexOf(id)!==-1 ?
-            init.concat({id,
-              admin: snapshot.val()[id].admin,
-              title:snapshot.val()[id].title,
-              importance:snapshot.val()[id].importance,
-              date:snapshot.val()[id].date,
-              participantsFriends: snapshot.val()[id].participantsFriends===undefined ? [] : [snapshot.val()[id].participantsFriends],
-              participantsGroups: snapshot.val()[id].participantsGroups===undefined ? [] : [snapshot.val()[id].participantsGroups]}) : init, [])
-
+    firebase.child(`users/${auth.id}`).on('value', snapshot => {
+    let  listsUser = snapshot.val().lists===undefined ? [] : snapshot.val().lists;
+      new Promise( resolve => {
+        resolve(snapshot.val().accounts !== undefined ? snapshot.val().accounts.map( idUser => {
+          firebase.child(`users/${idUser}/lists`).on('value', snapshotLists => {
+            listsUser = listsUser.concat(snapshotLists.val());
+          });
+        }) : '');
+      }).then( () => {
+        refLists.on('value', snapshot => {dispatch({
+          type: SET_LISTS,
+          lists: Object.keys(snapshot.val() || [])
+            .reduce( (init, id) => listsUser.indexOf(id)!==-1 ?
+              init.concat({id,
+                admin: snapshot.val()[id].admin,
+                title:snapshot.val()[id].title,
+                importance:snapshot.val()[id].importance,
+                date:snapshot.val()[id].date,
+                participantsFriends: snapshot.val()[id].participantsFriends===undefined ? [] : [snapshot.val()[id].participantsFriends],
+                participantsGroups: snapshot.val()[id].participantsGroups===undefined ? [] : [snapshot.val()[id].participantsGroups]}) : init, [])
+          });
         });
       });
     });
