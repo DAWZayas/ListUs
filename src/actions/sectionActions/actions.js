@@ -156,7 +156,7 @@ export function addFriendGroupToList( list, newParticipant){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     if (newParticipant.img!==undefined) {//ENVIARLA AL USER
-      sendActionPendingToUser(newActionPending, list, firebase);
+      sendActionPendingToUser(auth, list, firebase, newParticipant);
     }else{//añadir el grupo
       firebase.child(`lists/${list.id}`).once('value', listSnapshot => {
         const participantsGroups = listSnapshot.val().participantsGroups!==undefined ?  listSnapshot.val().participantsGroups.concat(newParticipant.name) : [newParticipant.name];
@@ -167,7 +167,7 @@ export function addFriendGroupToList( list, newParticipant){
   };
 }
 
-function sendActionPendingToUser(newActionPending, list, firebase){
+function sendActionPendingToUser(auth, list, firebase, newParticipant){
   firebase.child('users').once('value', userSnapshot => {
     //CREAR LA ACCION PENDING
     const nameUserCreateAction = userSnapshot.val()[auth.id].name;
