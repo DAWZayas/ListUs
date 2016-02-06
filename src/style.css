@@ -537,22 +537,21 @@ border-radius: 10px;
   width: 80px !important;
 
   line-height: 70px !important;
-
 }
+
 
 .avatarLetter {
   font-size: 30px !important;
-
 }
 
 .inputFindFriends {
   width: 50% !important;
   border-radius: 20% !important;
-
 }
 
 .friendPhotoContainer {
   text-align: center;
+  margin-bottom: 30px;
 }
 
 .photoContainer {
@@ -708,6 +707,34 @@ border-radius: 10px;
 
 .biggerFont  {
   font-size: 3em !important;
+}
+
+@media (min-width: 600px){
+  .displayX:hover .avatarFriend{
+    background: red;
+    box-shadow: 5px 5px 5px black;
+  }
+
+  .displayX:hover:before {
+    content: "X";
+    display: block;
+    position: absolute;
+    margin: -50px 0 0 -40px;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+    font-size: 3.2rem;
+    text-align: center;
+    text-shadow: none;
+    vertical-align: middle;
+    color: #fff;
+    background-color: rgb(232, 78, 68);
+    opacity: 0.6;
+    border-radius: 100em;
+    z-index: 0;
+  }
 }
 
 
