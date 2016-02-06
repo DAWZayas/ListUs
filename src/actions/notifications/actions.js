@@ -1,4 +1,4 @@
-import { SET_NOTIFICATIONS, ADD_FRIEND_TO_LIST, ADD_FRIEND_GROUP } from './action-types';
+import { SET_NOTIFICATIONS, ADD_FRIEND_TO_LIST, ADD_FRIEND_GROUP, ADD_FRIEND } from './action-types';
 
 export function setNotifications(notifications){
   return { type: SET_NOTIFICATIONS, notifications };
@@ -7,9 +7,11 @@ export function setNotifications(notifications){
 export function aceptPendingAction(notification){
   switch (notification.type) {
     case ADD_FRIEND_TO_LIST:
-      return addMeToList(notification.idList);
+      return addMeToList(notification);
     case ADD_FRIEND_GROUP:
       return addGroupFriend(notification.friendName, notification.idGroup);
+    case ADD_FRIEND:
+      return addFriend(notification);
     default:
       return '';
   }
@@ -20,18 +22,18 @@ export function refusePendingAction(notification){
     const { firebase, auth } = getState();
     firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
       //borrar la pendingAction
-      const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => actionPending.idList!==notification.idList );
+      const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => JSON.stringify(actionPending) !== JSON.stringify(notification) );
       firebase.child(`users/${auth.id}`).update({pendingActions});
     });
   };
 }
 
 
-function addMeToList(idList){
+function addMeToList(notification){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     const refIdList = firebase.child(`lists/${idList}`);
-
+    const idList = notification.idList;
     //añadir la lista al usuario
     firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
       const name = snapshotUser.val().name;
@@ -43,9 +45,8 @@ function addMeToList(idList){
         const participantsFriends = snapshot.val()===null ? [name] : snapshot.val().concat([name]);
         refIdList.update({participantsFriends});
       });
-
       //borrar la pendingAction
-      const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => actionPending.idList!==idList );
+      const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => JSON.stringify(actionPending) !== JSON.stringify(notification) );
       firebase.child(`users/${auth.id}`).update({pendingActions});
     });
   };
@@ -79,7 +80,7 @@ export function addGroupFriend(friendName, idGroup){
     firebase.child('users').once('value', snapshot => {
         Object.keys(snapshot.val()).map(idUser => {
           if(snapshot.val()[idUser].name === friendName){
-            const groups = (snapshot.val()[idUser].groups) 
+            const groups = (snapshot.val()[idUser].groups)
                 ? snapshot.val()[idUser].groups.concat(idGroup)
                 : [idGroup];
             firebase.child(`users/${idUser}/groups`).set(groups);
@@ -89,4 +90,30 @@ export function addGroupFriend(friendName, idGroup){
   };
 }
 
-
+function addFriend(notification){
+  return (dispatch, getState) => {
+    const { firebase, auth } = getState();
+    const idOtherUser = notification.idUser;
+    const nameOther = notification.name;
+      new Promise( resolve => {
+        firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
+          const friends = snapshotUser.val().friends!==undefined ? snapshotUser.val().friends.concat(nameOther) : [nameOther];
+          firebase.child(`users/${auth.id}`).update({friends});
+          resolve(snapshotUser.val().name);
+        });
+      }).then( (nameUser) => {
+        new Promise(resolve => {
+            firebase.child(`users/${idOtherUser}/friends`).once('value', snapshotFriendList => {
+              const friends =  snapshotFriendList.val()!==undefined ? snapshotFriendList.val().concat(nameUser) : [nameUser];
+              resolve(firebase.child(`users/${idOtherUser}`).update({friends}));
+            });
+        }).then( () => {
+          //borrar la pendingAction
+          firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
+            const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => JSON.stringify(actionPending) !== JSON.stringify(notification) );
+            firebase.child(`users/${auth.id}`).update({pendingActions});
+          });
+        });
+      });
+  };
+}

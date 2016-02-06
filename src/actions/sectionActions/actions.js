@@ -1,5 +1,4 @@
 
-
 import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_FRIEND_TO_LIST } from './action-types';
 
 //import sequencer from '../sequencer';
@@ -56,7 +55,6 @@ export function removeList(list){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     const idList = list.id;
-    let lists = [];
     //ACTION REMOVE LIST IN ALL participants
     if(list.participantsFriends[0]!==undefined){
       removeListInAllParticipants(firebase, list);
