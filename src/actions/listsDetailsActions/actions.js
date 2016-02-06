@@ -54,7 +54,6 @@ function addListToUserList(refListsUser, refUser, idList){
       return (dispatch, getState) => {
         const { firebase, auth } = getState();
         const idList = list.id;
-        let lists = [];
         //ACTION REMOVE LIST IN ALL participants
         if(list.participantsFriends[0]!==undefined){
           removeListInAllParticipants(firebase, list);

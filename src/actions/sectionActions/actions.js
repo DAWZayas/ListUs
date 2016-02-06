@@ -56,7 +56,6 @@ export function removeList(list){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     const idList = list.id;
-    let lists = [];
     //ACTION REMOVE LIST IN ALL participants
     if(list.participantsFriends[0]!==undefined){
       removeListInAllParticipants(firebase, list);
