@@ -18,7 +18,8 @@ export default class List extends Component {
   render() {
 
     const { list, lists, tasks, friends, groups} = this.props;
-    var newTasks = tasks===undefined ? [] : tasks;
+    const  newTasks = tasks===undefined ? [] : tasks;
+    const doneTasks = newTasks.filter(task => task.done===false).length;
     return(
     <div>
 
@@ -29,7 +30,9 @@ export default class List extends Component {
           <Link to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>{ list.title }</Link>
         </div>
         <div className="col-xs-8" >
-          <span className="badge My-badge">{newTasks.filter(task => task.done===false).length}/{newTasks.length}</span>
+          <span className={ doneTasks!==0 ? 'badge My-badge' : 'badge My-badge-done'}>
+            {doneTasks}/{newTasks.length}
+          </span>
             <ListsEdit
               list={list}
               lists={lists}

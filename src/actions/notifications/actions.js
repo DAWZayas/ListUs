@@ -32,8 +32,8 @@ export function refusePendingAction(notification){
 function addMeToList(notification){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    const refIdList = firebase.child(`lists/${idList}`);
     const idList = notification.idList;
+    const refIdList = firebase.child(`lists/${idList}`);
     //añadir la lista al usuario
     firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
       const name = snapshotUser.val().name;

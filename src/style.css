@@ -87,6 +87,9 @@
 .My-badge{
   background: #117D91 !important;
 }
+.My-badge-done{
+  background: grey !important;
+}
 
 .biggerGlyphicon {
   font-size: 1.6em;
@@ -172,9 +175,11 @@ ul{
 }
 
 .search-ul{
+  margin-top:33px;
   width: 250px;
   z-index: 10;
 }
+
 
 .Mylist-group-item {
     position: relative;
@@ -185,6 +190,8 @@ ul{
     border: 1px solid #ddd;
     color: #555;
     width: 78%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .Mylist-group-item:hover{
@@ -283,14 +290,35 @@ border-radius: 10px;
   NOTIFICATIONS
 */
 
-.btnNotifications {
+.btnNotificationsOk {
   margin-left: 10px;
+  color: green !important;
+  background-color: #fff !important;
+  border-color: #ccc !important;
+}
+
+.btnNotificationsNot {
+  margin-left: 10px;
+  color: red !important;
+  background-color: #fff !important;
+  border-color: #ccc !important;
+}
+
+.btnNotificationsOk:hover{
+  background-color: #ccc !important;
+}
+
+.btnNotificationsNot:hover{
+  background-color: #ccc !important;
 }
 
 .notificationList {
-  border: 1px solid black;
+  background: white;
+  color: #1A5059;
+  font-size: 18px;
+  border: 1px solid #ccc;
   border-radius: 10px;
-
+  margin: 10px;
   width: 60%;
   padding: 10px;
 }
@@ -850,3 +878,5 @@ border-radius: 10px;
   color: #D9534F;
   margin-right: 5px;
 }
+
+/*****notifications*****/

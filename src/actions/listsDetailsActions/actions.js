@@ -223,7 +223,7 @@ export function removeFriendGroupToList( idList, participant){
     const refIdList = firebase.child(`lists/${idList}`);
 //para diferenciar grupo de amigo newParticipant.administrador===undefined
     if(participant.administrador===undefined){
-      removeIdUserFromFriendsParticipants(participant, firebase);
+      removeIdUserFromFriendsParticipants(participant, firebase, idList);
       //borrar la lista al usuario
       firebase.child('users').once('value', snapshot => {
         const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===participant.name);
@@ -240,10 +240,10 @@ export function removeFriendGroupToList( idList, participant){
   };
 }
 
-function removeIdUserFromFriendsParticipants(participant, firebase){
+function removeIdUserFromFriendsParticipants(participant, firebase, idList){
   firebase.child(`lists/${idList}/participantsFriends`).once('value', snapshot => {
     const participantsFriends = snapshot.val()===null ? [] : snapshot.val().filter( iterableNameUsers => iterableNameUsers!==participant.name );
-    refIdList.update({participantsFriends});
+    firebase.child(`lists/${idList}`).update({participantsFriends});
   });
 }
 
