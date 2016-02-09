@@ -1,4 +1,5 @@
 import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR } from './action-types';
+import { getActualDate } from '../../utils/functions';
 import { pushState } from 'redux-router';
 const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
 const convertMonth = date => date.split('/')[1][0]==='0' ? date.split('/')[1][1] : date.split('/')[1];
@@ -204,10 +205,12 @@ function sendActionPendingToUser(auth, list, firebase, newParticipant){
     //CREAR LA ACCION PENDING
     const nameUserCreateAction = userSnapshot.val()[auth.id].name;
     const descr = nameUserCreateAction + ' wants to add you to the list: ' + list.title;
+    const date = getActualDate();
     const newActionPending = {
       type: ADD_FRIEND_TO_LIST,
       idList: list.id,
-      descr
+      descr,
+      date
     };
     let pendingActions = Object.values(userSnapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.pendingActions : init, [] );
     pendingActions = pendingActions===undefined ? [newActionPending] : pendingActions.concat(newActionPending);

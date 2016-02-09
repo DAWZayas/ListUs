@@ -1,4 +1,5 @@
 import { SET_FRIENDS, REMOVE_FRIENDS_ERROR,  SET_USERS, ADD_FRIEND } from './action-types';
+import { getActualDate } from '../../utils/functions';
 
 export function setFriends(friends){
   return { type: SET_FRIENDS, friends};
@@ -27,11 +28,13 @@ function sendActionPendingToUser(nameUserCreateAction, idUserCreateAction, fireb
   firebase.child(`users/${idFriend}`).once('value', userSnapshot => {
     //CREAR LA ACCION PENDING
     const descr = nameUserCreateAction + ' wants to add you to friend';
+    const date = getActualDate();
     const newPendingActions = {
       type: ADD_FRIEND,
       idUser: idUserCreateAction,
       name: nameUserCreateAction,
-      descr
+      descr,
+      date
     };
     const pendingActions = userSnapshot.val().pendingActions !== undefined ?
       userSnapshot.val().pendingActions.concat(newPendingActions) : [newPendingActions];
