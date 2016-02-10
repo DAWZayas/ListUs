@@ -53,9 +53,16 @@ export default class Header extends Component{
 
   }*/
 
+  handleGreet(){
+    setTimeout(() => {
+      document.getElementsByClassName('welcome')[0].style.display = 'none';
+    }, 2000);
+  }
+
+
 
   render() {
-    const newLists = this.state.word!=='' ?
+    const newLists = this.state.word !== '' ?
       this.props.lists.filter( list=> list.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1)
       : [];
 
@@ -77,11 +84,9 @@ export default class Header extends Component{
             <input ref="inputText" type="text" className={`${this.state.isVisible ? 'My-control input-search' : 'My-control input-search' }`} placeholder="Search your list..." onChange={ () => this.handleChangeInput()} onBlur={ () => this.handleOnBlur()}/>
           </div>
           <div className=" list-group search-ul">
-
               {
                 newLists.map( (list, index) => index<4 ? <ItemList key={index} list={list} /> : null  )
               }
-
           </div>
         </div>
       </div>
@@ -106,7 +111,14 @@ export default class Header extends Component{
                         </ul>) : '' }
          </div>
         </Popover>
-*/}
+*/}     
+        {(this.props.metadata['greet'] && this.props.user)
+            ?<div className="welcome" style={{width: '120px', height: '70px', background: 'lightgrey', position: 'absolute', right: -5, opacity: 0.8}}>
+                <p>Welcome {this.props.user.name}</p>
+            </div>
+            :''
+        }
+        {/*this.handleGreet()*/}
         <a style={{cursor: 'pointer'}} onClick={() => this.handleSignOut()} title="Sign Out">
           <img
             width="30"
@@ -114,6 +126,8 @@ export default class Header extends Component{
             alt="Exit">
           </img>
         </a>
+        
+
       </div>
 
   </header>

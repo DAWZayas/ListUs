@@ -1,5 +1,6 @@
 import { pushState } from 'redux-router';
 import { INIT_AUTH, SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from './action-types.js';
+import { SET_METADATA } from '../';
 
 function authenticate(provider) {
   return (dispatch, getState) => {
@@ -11,7 +12,7 @@ function authenticate(provider) {
         console.error('ERROR @ authWithOAuthPopup :', error); // eslint-disable-line no-console
       }
       else {
-        var greet = '';
+        var greet = 'old';
         users.orderByKey().equalTo(authData.uid).once('value', snap => {
           if(!snap.val()) greet = createUserIfNotExists(authData, firebase);
         });
@@ -21,8 +22,11 @@ function authenticate(provider) {
           payload: authData,
           meta: {
             timestamp: Date.now()
-          },
-          greet: greet
+          }
+        });
+        dispatch({
+          type: SET_METADATA,
+          metadata : {greet}
         });
       }
     });

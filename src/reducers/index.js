@@ -12,6 +12,7 @@ import calendar from './calendar';
 import firebase from './firebase';
 import auth from './auth';
 import notifications from './notifications';
+import metadata from './metadata';
 
 
 
@@ -27,5 +28,6 @@ export default combineReducers({
   calendar,
   router,
   notifications,
-  firebase
+  firebase,
+  metadata
 });
