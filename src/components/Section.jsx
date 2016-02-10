@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker';
 let moment = require('moment');
 require('react-datepicker/dist/react-datepicker.css');
 import Spinner from './Spinner';
-
+import alertify from 'alertifyjs';
 
 export default class Section extends Component {
 
@@ -112,7 +112,7 @@ export default class Section extends Component {
         onClick={() => this.onClickAdd()} />
     ];
 
-    const {  lists } = this.props;
+    const { lists, alert } = this.props;
 
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
@@ -120,6 +120,10 @@ export default class Section extends Component {
 
     return(
       <article className="article">
+        {typeof alert === 'string'
+          ? alertify.success(alert, 5, function(){  console.log('dismissed'); })
+          : ''
+        }
         <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} key={1} ref="dialog">
           <TextField key={2} ref="titleDialog" hintText="Title List" autoFocus />
           <DatePicker
@@ -178,6 +182,7 @@ export default class Section extends Component {
 }
 
 Section.propTypes = {
+  alert: PropTypes.string,
   lists: PropTypes.array,
   groups: PropTypes.array,
   addList: PropTypes.func,

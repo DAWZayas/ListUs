@@ -7,6 +7,7 @@ import init from './utils/init';
 require('./style.css');
 require('bootstrap/dist/css/bootstrap.min.css');
 
+
 const store = init();
 
 ReactDOM.render(

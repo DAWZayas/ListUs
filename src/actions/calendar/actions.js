@@ -1,6 +1,5 @@
 import { SET_CALENDAR } from './action-types';
 
-export function setFriends(calendar){
+export function setCalendar(calendar){
   return { type: SET_CALENDAR, calendar};
 }
-

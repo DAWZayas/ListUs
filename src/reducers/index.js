@@ -13,10 +13,11 @@ import firebase from './firebase';
 import auth from './auth';
 import notifications from './notifications';
 import metadata from './metadata';
-
+import alert from './alert';
 
 
 export default combineReducers({
+  alert,
   auth,
   lists,
   tasks,
