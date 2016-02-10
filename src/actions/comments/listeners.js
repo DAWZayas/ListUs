@@ -11,7 +11,7 @@ export function registerListeners(idList){
       if(snapshot.val()!==null){
        list = snapshot.val()[idList] ?
                           Object.keys(snapshot.val()[idList]).map( () => snapshot.val()[idList])[0]
-                          : null;
+                          : '';
       }
       dispatch({
         type: SET_COMMENTS,

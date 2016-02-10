@@ -129,15 +129,12 @@ export function sortArray(array, key, direction){
 }
 
 
-
 /***************************/
 
 export const menuItemsDate = [
 		   { payload: '0', text: 'Sort By' },
-		   { payload: '1', text: 'Name Ascendant' },
-		   { payload: '2', text: 'Name Descendant' },
-		   { payload: '3', text: 'Date Ascendant' },
-		   { payload: '4', text: 'Date Aescendant' }
+		   { payload: '1', text: 'Date Ascendant' },
+		   { payload: '2', text: 'Date Descendant' }
 		];
 export const menuItems = [
 		   { payload: '0', text: 'Sort By' },
@@ -155,3 +152,15 @@ export const menuItems = [
 	onSetGroups([]);
 
 }*/
+
+/*** GET DAY ***/
+
+export function getActualDate(){
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const dd = today.getDate()<10 ? '0' + today.getDate() : today.getDate();
+  const mm = today.getMonth()+1<10 ? '0' + today.getMonth()+1 : today.getMonth()+1;
+  const minutes = today.getMinutes();
+  const hour = today.getHours();
+  return hour + ':' + minutes + ' ~ ' + dd + '/' + mm + '/' + yyyy;
+}

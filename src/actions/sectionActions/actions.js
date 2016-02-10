@@ -1,5 +1,4 @@
-
-
+import { getActualDate } from '../../utils/functions';
 import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_FRIEND_TO_LIST } from './action-types';
 
 //import sequencer from '../sequencer';
@@ -56,7 +55,6 @@ export function removeList(list){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     const idList = list.id;
-    let lists = [];
     //ACTION REMOVE LIST IN ALL participants
     if(list.participantsFriends[0]!==undefined){
       removeListInAllParticipants(firebase, list);
@@ -156,7 +154,7 @@ export function addFriendGroupToList( list, newParticipant){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     if (newParticipant.img!==undefined) {//ENVIARLA AL USER
-      sendActionPendingToUser(newActionPending, list, firebase);
+      sendActionPendingToUser(auth, list, firebase, newParticipant);
     }else{//añadir el grupo
       firebase.child(`lists/${list.id}`).once('value', listSnapshot => {
         const participantsGroups = listSnapshot.val().participantsGroups!==undefined ?  listSnapshot.val().participantsGroups.concat(newParticipant.name) : [newParticipant.name];
@@ -167,15 +165,17 @@ export function addFriendGroupToList( list, newParticipant){
   };
 }
 
-function sendActionPendingToUser(newActionPending, list, firebase){
+function sendActionPendingToUser(auth, list, firebase, newParticipant){
   firebase.child('users').once('value', userSnapshot => {
     //CREAR LA ACCION PENDING
     const nameUserCreateAction = userSnapshot.val()[auth.id].name;
     const descr = nameUserCreateAction + ' wants to add you to the list: ' + list.title;
+    const date = getActualDate();
     const newActionPending = {
       type: ADD_FRIEND_TO_LIST,
       idList: list.id,
-      descr
+      descr,
+      date
     };
     let pendingActions = Object.values(userSnapshot.val()).reduce( (init, user) => user.name===newParticipant.name ? user.pendingActions : init, [] );
     pendingActions = pendingActions===undefined ? [newActionPending] : pendingActions.concat(newActionPending);
@@ -191,7 +191,7 @@ export function removeFriendGroupToList( idList, participant){
     const refIdList = firebase.child(`lists/${idList}`);
 //para diferenciar grupo de amigo newParticipant.administrador===undefined
     if(participant.administrador===undefined){
-      removeIdUserFromFriendsParticipants(participant, firebase);
+      removeIdUserFromFriendsParticipants(participant, firebase, idList);
       //borrar la lista al usuario
       firebase.child('users').once('value', snapshot => {
         const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===participant.name);
@@ -208,10 +208,10 @@ export function removeFriendGroupToList( idList, participant){
   };
 }
 
-function removeIdUserFromFriendsParticipants(participant, firebase){
+function removeIdUserFromFriendsParticipants(participant, firebase, idList){
   firebase.child(`lists/${idList}/participantsFriends`).once('value', snapshot => {
     const participantsFriends = snapshot.val()===null ? [] : snapshot.val().filter( iterableNameUsers => iterableNameUsers!==participant.name );
-    refIdList.update({participantsFriends});
+    firebase.child(`lists/${idList}`).update({participantsFriends});
   });
 }
 

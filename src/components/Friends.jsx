@@ -82,10 +82,10 @@ export default class Friends extends Component {
   handleCancelRemoveFriend(){
     this.setState({friendName: '', openDelete: false});
   }
-  
+
 
   handleRemoveDialog(id){
-    this.setState({friendName: id.target.id, openDelete: true});
+    this.setState({friendName: id.target.children[0].id, openDelete: true});
   }
 
 
@@ -116,8 +116,8 @@ export default class Friends extends Component {
       let top = i+6;
       while(i < top){
         if(i < listaFriends.length){
-          rowFriends = rowFriends.concat(<div key={i} className="col-xs-2 friendPhotoContainer">
-            <span id={name} style={{cursor: 'pointer'}} onClick={(id) => this.handleRemoveDialog(id)}>{this.setImg(listaFriends[i])}</span><br/>
+          rowFriends = rowFriends.concat(<div key={i} className="col-xs-3 friendPhotoContainer">
+            <span className="displayX" id={name} style={{cursor: 'pointer'}} onClick={(id) => this.handleRemoveDialog(id)}>{this.setImg(listaFriends[i])}</span><br/>
             <span className="friendName">{listaFriends[i].name}</span>
           </div>);
         }

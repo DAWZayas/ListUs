@@ -258,6 +258,7 @@ export default class ListsEdit extends Component{
 			<div>
 				<button type="button" className="glyphicon glyphicon-edit btn btn-default pull-right" onClick={()=>this.handleOpenListDialog()}> </button>
 			<Dialog
+				key={6}
 				ref="dialogEditList"
 				title="Edit Options"
 				actions={customActions}
@@ -273,7 +274,7 @@ export default class ListsEdit extends Component{
 				</List>
 			</Dialog>
 
-			<Dialog title="Edit List" open={this.state.showDialogEdit} actions={customActionsEdit} ref="dialogEdit" onRequestClose={this._handleCloseDialog}>
+			<Dialog key={7} title="Edit List" open={this.state.showDialogEdit} actions={customActionsEdit} ref="dialogEdit" onRequestClose={this._handleCloseDialog}>
 				<div style={{'display': 'flex', 'flexFlow': 'column'}}>
 				<TextField ref="titleDialog" defaultValue={list.title} autoFocus />
 				<div style={{'display': 'flex', 'justifyContent': 'flex-start'}}>
@@ -297,7 +298,7 @@ export default class ListsEdit extends Component{
 			</Dialog>
 
 
-	      <Dialog title="Add Friends and Groups to your list" open={this.state.showDialogAddFriendsAndGroups} actions={customActionsAddFriendsAndGroups} ref="dialogAddFriendsAndGroups" onRequestClose={this._handleCloseDialog}>
+	      <Dialog key={8} title="Add Friends and Groups to your list" open={this.state.showDialogAddFriendsAndGroups} actions={customActionsAddFriendsAndGroups} ref="dialogAddFriendsAndGroups" onRequestClose={this._handleCloseDialog}>
 
 	        <div className="dialogFriendAndGroup" style={{padding: '20px'}}>
 
@@ -327,15 +328,15 @@ export default class ListsEdit extends Component{
 
 	        </div>
 				</Dialog>
-				<Dialog title="" open={this.state.showDialogAddFriendsAndGroupsList} actions={customActionsManage} ref="dialogManage" onRequestClose={this._handleCloseDialog}>
+				<Dialog key={9} title="" open={this.state.showDialogAddFriendsAndGroupsList} actions={customActionsManage} ref="dialogManage" onRequestClose={this._handleCloseDialog}>
 					<div className="dialogFriendAndGroupManage" style={{padding: '20px'}}>
 						<h4>Friends and Groups manage {list.title}</h4><br/>
 						<ul >
 							{
 								listOfParticipants.length===0 ? '' :
 									listOfParticipants.map( (item, index) => item!=='' && item!==undefined ?
-										<li key={index}><span className={this.props.list.admin.indexOf(this.props.user.name)!==-1 || item.name===this.props.user.name ? 'deleteButtonFriendGroup glyphicon glyphicon-remove' : 'hiddenRemoveParticipant' } onClick={() =>
-												 this.handleOnRemoveFriendGroupToList(item)}></span>{item.name} </li> : '')
+										<li key={index}><span key={index} className={this.props.list.admin.indexOf(this.props.user.name)!==-1 || item.name===this.props.user.name ? 'deleteButtonFriendGroup glyphicon glyphicon-remove' : 'hiddenRemoveParticipant' } onClick={() =>
+												 this.handleOnRemoveFriendGroupToList(item)}></span>{this.props.list.admin.indexOf(item.name)!==-1 ? item.name + '~Admin' : item.name } </li> : '')
 							}
 						</ul>
 					</div>

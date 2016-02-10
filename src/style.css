@@ -87,6 +87,9 @@
 .My-badge{
   background: #117D91 !important;
 }
+.My-badge-done{
+  background: grey !important;
+}
 
 .biggerGlyphicon {
   font-size: 1.6em;
@@ -172,9 +175,11 @@ ul{
 }
 
 .search-ul{
+  margin-top:33px;
   width: 250px;
   z-index: 10;
 }
+
 
 .Mylist-group-item {
     position: relative;
@@ -185,6 +190,8 @@ ul{
     border: 1px solid #ddd;
     color: #555;
     width: 78%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .Mylist-group-item:hover{
@@ -283,16 +290,39 @@ border-radius: 10px;
   NOTIFICATIONS
 */
 
-.btnNotifications {
+.btnNotificationsOk {
   margin-left: 10px;
+  color: green !important;
+  background-color: #fff !important;
+  border-color: #ccc !important;
+}
+
+.btnNotificationsNot {
+  margin-left: 10px;
+  color: red !important;
+  background-color: #fff !important;
+  border-color: #ccc !important;
+}
+
+.btnNotificationsOk:hover{
+  background-color: #ccc !important;
+}
+
+.btnNotificationsNot:hover{
+  background-color: #ccc !important;
 }
 
 .notificationList {
-  border: 1px solid black;
+  background: white;
+  color: #1A5059;
+  font-size: 18px;
+  border: 1px solid #ccc;
   border-radius: 10px;
-
+  margin: 10px;
   width: 60%;
   padding: 10px;
+  font-size: 16px;
+  height: auto;
 }
 
 /*
@@ -537,22 +567,21 @@ border-radius: 10px;
   width: 80px !important;
 
   line-height: 70px !important;
-
 }
+
 
 .avatarLetter {
   font-size: 30px !important;
-
 }
 
 .inputFindFriends {
   width: 50% !important;
   border-radius: 20% !important;
-
 }
 
 .friendPhotoContainer {
   text-align: center;
+  margin-bottom: 30px;
 }
 
 .photoContainer {
@@ -710,6 +739,34 @@ border-radius: 10px;
   font-size: 3em !important;
 }
 
+@media (min-width: 600px){
+  .displayX:hover .avatarFriend{
+    background: red;
+    box-shadow: 5px 5px 5px black;
+  }
+
+  .displayX:hover:before {
+    content: "X";
+    display: block;
+    position: absolute;
+    margin: -50px 0 0 -40px;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+    font-size: 3.2rem;
+    text-align: center;
+    text-shadow: none;
+    vertical-align: middle;
+    color: #fff;
+    background-color: rgb(232, 78, 68);
+    opacity: 0.6;
+    border-radius: 100em;
+    z-index: 0;
+  }
+}
+
 
 @media (max-width: 600px) {
   .avatarFriend {
@@ -723,9 +780,18 @@ border-radius: 10px;
     font-size: 15px !important;
   }
 
-  .notificationList {
+  .ulNotifications{
     width: 100%;
-    height: 5.5em;
+    padding: 0;
+    left: 0;
+  }
+
+  .notificationList {
+    width: 95%;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
   }
 
 }

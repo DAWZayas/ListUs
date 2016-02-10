@@ -120,9 +120,10 @@ export default class Section extends Component {
 
     return(
       <article className="article">
-        <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} ref="dialog">
-          <TextField ref="titleDialog" hintText="Title List" autoFocus />
+        <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} key={1} ref="dialog">
+          <TextField key={2} ref="titleDialog" hintText="Title List" autoFocus />
           <DatePicker
+            key={3}
             dateFormat="DD/MM/YYYY"
             selected={this.state.startDate}
             onChange={this.handleChange.bind(this)}
@@ -130,8 +131,8 @@ export default class Section extends Component {
             popoverTargetAttachment="top center"
             popoverTargetOffset="0px 0px" />
           <br/><h5 style={{width:'100px'}}>Importance</h5>
-          <Slider name="slider" style={{width: '200px'}} ref="slider" max={0.8} step={0.20} onChange={this.changeImportance.bind(this)} />
-          <TextField disabled style={{top: '-30px', width:'100px'}} ref="importance" defaultValue="0"/>
+          <Slider key={4} name="slider" style={{width: '200px'}} ref="slider" max={0.8} step={0.20} onChange={this.changeImportance.bind(this)} />
+          <TextField key={5} disabled style={{top: '-30px', width:'100px'}} ref="importance" defaultValue="0"/>
         </Dialog>
 
         <SectionHeader title="LISTS" menuItems={menuItems} openDialog={this.openDialog.bind(this)}func={(e, selectedIndex, menuItem)=>this.handleSorted(e, selectedIndex, menuItem)}/>

@@ -1,4 +1,5 @@
 import { SET_GROUPS, ADD_GROUP_ERROR, REMOVE_GROUP_ERROR, ADD_FRIEND_GROUP } from './action-types';
+import { getActualDate } from '../../utils/functions';
 
 export function setGroups(groups){
   return { type: SET_GROUPS, groups };
@@ -117,15 +118,17 @@ export function addGroupFriend(friendName, idGroup){
     }).then(group => {
       firebase.child('users').once('value', snapshot => {
         const description = snapshot.val()[auth.id].name+' wants you to join the group "'+group+'"';
+        const date = getActualDate();
         const newPendingAction = {
           type: ADD_FRIEND_GROUP,
           friendName,
           idGroup,
-          descr: description
+          descr: description,
+          date
         };
         Object.keys(snapshot.val()).map(idUser => {
           if(snapshot.val()[idUser].name === friendName){
-            let pendingActions = (snapshot.val()[idUser].pendingActions) 
+            let pendingActions = (snapshot.val()[idUser].pendingActions)
                 ?snapshot.val()[idUser].pendingActions.concat(newPendingAction)
                 :[newPendingAction];
             firebase.child(`users/${idUser}/pendingActions`).set(pendingActions);

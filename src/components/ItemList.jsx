@@ -15,7 +15,7 @@ export default class ItemList extends Component {
         <Link className="Mylist-group-item" to={`/list/${list.id}`} style={{color: 'inherit', textDecoration: 'inherit'}}>
           {list.title}
         </Link>
-      
+
     );
   }
 
