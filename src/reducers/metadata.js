@@ -11,6 +11,6 @@ export default function metadataReducers(state = {}, action){
 		case SET_METADATA:
 			return setMetadata(state, action.metadata);
 		default:
-			return {};
+			return state;
 	}
 }

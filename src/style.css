@@ -234,6 +234,10 @@ ul{
   top: -8px;
 }
 
+.welcome{
+  transition : display 3s;
+}
+
 
 
 .search-div{
@@ -285,6 +289,8 @@ border-radius: 10px;
   height: 20em;
   background-color: grey;
 }
+
+
 
 /*
   NOTIFICATIONS

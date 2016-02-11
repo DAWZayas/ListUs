@@ -129,8 +129,15 @@ export default class Account extends React.Component {
           </div>
           <span style={{fontFamily: 'verdana', fontWeight: 'bold', fontSize: '20'}}>{this.props.user.name}</span>
         </div><br/>
+
       	<ul className="tools nav nav-pills nav-stacked ">
-          <li role="presentation"><a onClick={this.showDialogChangeName.bind(this)} href="#"><span className="glyphicon marginGlyph glyphicon-user"></span>Change Name</a></li>
+          <li role="presentation">
+            <a onClick={this.showDialogChangeName.bind(this)} href="#">
+              <span className="glyphicon marginGlyph glyphicon-user"></span>
+              <span>Change Name</span>
+            </a>
+          </li>
+
           {/*<li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href="#"><span className="glyphicon marginGlyph glyphicon-lock"></span>Change password</a></li>*/}
           <li role="presentation" style={{display: 'flex', justifyContent: 'center'}}>
             <a style={{width: '190px', textAlign: 'justify'}}>
@@ -143,6 +150,24 @@ export default class Account extends React.Component {
                 onToggle={ () => this.handleVisibility()}/>
               </a>
             </li>
+
+            { this.props.user.personalData
+              ? this.props.user.personalData.gender !== '' 
+                ? <li><span style={{textTransform: 'capitalize'}}>{ this.props.user.personalData.gender}</span></li> 
+                :<li><span>Edit gender</span></li>
+              : ''}
+
+            { this.props.user.personalData
+              ? this.props.user.personalData.town !== ''
+                ? <li><span style={{textTransform: 'capitalize'}}>{ this.props.user.personalData.town}</span></li> 
+                :<li><span>Edit town</span></li>
+              : ''}
+
+            { this.props.user.personalData
+              ? this.props.user.personalData.birthday !== '' 
+                ? <li><span style={{textTransform: 'capitalize'}}>{ this.props.user.personalData.birthday}</span></li> 
+                :<li><span>Edit birthday</span></li>
+              : ''}
         </ul>
         <br/>
         <br/>
@@ -155,6 +180,7 @@ export default class Account extends React.Component {
               <span onClick={()=>this.handleLoginGoogle()} style={{'fontSize' : '1.5em', 'marginLeft' : '20px'}} className="fa fa-google-plus googleLogin"></span>
 
           </div>
+
           </div>
 
 
