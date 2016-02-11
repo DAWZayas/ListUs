@@ -1,6 +1,6 @@
 import { getActualDate } from '../../utils/functions';
 import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_FRIEND_TO_LIST } from './action-types';
-
+import { SET_ALERT } from '../alerts';
 //import sequencer from '../sequencer';
 
 const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
@@ -35,6 +35,10 @@ export function addList(title, date, importance){
             const refListsUser = firebase.child(`users/${auth.id}/lists`);
             const refUser = firebase.child(`users/${auth.id}`);
             addListToUserList(refListsUser, refUser, idList);
+            dispatch({
+              type: SET_ALERT,
+              msg: 'List added'
+            });
           }
       });
 

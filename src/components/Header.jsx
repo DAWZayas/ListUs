@@ -33,26 +33,6 @@ export default class Header extends Component{
     this.props.signOut();
   }
 
-  /*toggle () {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-
-
-  renderPerson (isScared) {
-
-    let notis = '';
-
-    if(isScared){
-      notis += "<ul><li>Noti</li><li>Noti</li><li>Noti</li><li>Noti</li><li>Noti</li></ul>";
-      return notis;
-    }else{
-      return notis;
-    }
-
-  }*/
-
   handleGreet(){
     setTimeout(() => {
       document.getElementsByClassName('welcome')[0].style.display = 'none';
@@ -90,8 +70,6 @@ export default class Header extends Component{
         </div>
       </div>
 
-
-
       <div className="principal">
 
         {/*<div onClick={this.toggle.bind(this)} className={`notificationContainer ${isOpen ? 'hideNoti' : ''}`}>
@@ -115,7 +93,7 @@ export default class Header extends Component{
             ?<div className="welcome animated fadeInRight" 
                   style={{width: '220px', height: '70px', position: 'absolute', right: -8, top: -1, opacity: 0.8}}>
                 <div className="alert alert-info" role="alert">Welcome to ListUs, {this.props.user.name}!</div>
-            </div>
+             </div>
             :''
           : ''
         }
@@ -127,14 +105,8 @@ export default class Header extends Component{
             alt="Exit">
           </img>
         </a>
-        
-
       </div>
-
   </header>
-
-
-
     );
   }
 
@@ -148,7 +120,9 @@ Header.propTypes = {
   onSetLists: PropTypes.func,
   onSetTasks: PropTypes.func,
   onSetGroups: PropTypes.func,
-  signOut: PropTypes.func
+  signOut: PropTypes.func,
+  metadata: PropTypes.object,
+  user: PropTypes.object
 };
 
 Header.defaultProps = {

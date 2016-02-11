@@ -8,6 +8,7 @@ require('./style.css');
 require('./animate.css');
 require('bootstrap/dist/css/bootstrap.min.css');
 
+
 const store = init();
 
 ReactDOM.render(
