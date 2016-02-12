@@ -127,7 +127,6 @@ export default class Section extends Component {
     ];
 
     const { lists, alert } = this.props;
-debugger;
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
     const listsEnd = (sorted === 'Sort By') ? lists : sortArray(lists, key, sorted.split(' ')[1]);
@@ -169,7 +168,8 @@ debugger;
                   onEditList={this.props.editList}
                   onAddFriendGroupToList={this.props.addFriendGroupToList}
                   onRemoveFriendGroupToList={this.props.removeFriendGroupToList}
-                  user={this.props.user} />
+                  user={this.props.user}
+                  cleanAlert = {this.props.cleanAlert} />
                 : '' )
             }
         </div>
@@ -195,7 +195,7 @@ debugger;
 }
 
 Section.propTypes = {
-  alert: PropTypes.string,
+  alert: PropTypes.object,
   lists: PropTypes.array,
   groups: PropTypes.array,
   addList: PropTypes.func,
