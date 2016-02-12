@@ -5,6 +5,7 @@ import Root from './containers/Root';
 import init from './utils/init';
 
 require('./style.css');
+require('./animate.css');
 require('bootstrap/dist/css/bootstrap.min.css');
 
 /*var a = require('alertifyjs/build/alertify.js');

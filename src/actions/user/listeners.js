@@ -8,7 +8,8 @@ export function registerListeners(){
       type: SET_USER,
       user: {name: snapshot.val()['name'],
         img: snapshot.val()['img'],
-        visibility: snapshot.val()['visibility']
+        visibility: snapshot.val()['visibility'],
+        personalData: snapshot.val()['personalData']
       }
     });
   });

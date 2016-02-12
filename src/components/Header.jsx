@@ -36,9 +36,8 @@ export default class Header extends Component{
   handleGreet(){
     setTimeout(() => {
       document.getElementsByClassName('welcome')[0].style.display = 'none';
-    }, 2000);
+    }, 5000);
   }
-
 
 
   render() {
@@ -72,13 +71,33 @@ export default class Header extends Component{
       </div>
 
       <div className="principal">
-        {(this.props.metadata['greet'] && this.props.user)
-            ?<div className="welcome" style={{width: '120px', height: '70px', background: 'lightgrey', position: 'absolute', right: -5, opacity: 0.8}}>
-                <p>Welcome {this.props.user.name}</p>
-            </div>
+
+        {/*<div onClick={this.toggle.bind(this)} className={`notificationContainer ${isOpen ? 'hideNoti' : ''}`}>
+          <div className="notificationIcon">3</div>
+        </div>
+
+        <Popover isOpen={isOpen} place='below' onOuterAction={this.toggle.bind(this)}>
+          <div
+           className={ classNames('target', { isOpen }) }
+           onClick={this.toggle}>
+           { isOpen ? (<ul>
+                        <li>Holita</li>
+                        <li>Holita</li>
+                        <li>Holita</li>
+                        </ul>) : '' }
+         </div>
+        </Popover>
+*/}     
+
+        {(this.props.user.name && this.props.metadata.greet) ? (this.props.metadata.greet !== '')
+            ?<div className="welcome animated fadeInRight" 
+                  style={{width: '220px', height: '70px', position: 'absolute', right: -8, top: -1, opacity: 0.8}}>
+                <div className="alert alert-info" role="alert">Welcome to ListUs, {this.props.user.name}!</div>
+             </div>
             :''
+          : ''
         }
-        {/*this.handleGreet()*/}
+        {(this.props.user.name && this.props.metadata.greet) ?(this.props.metadata.greet !== '') ?this.handleGreet() :'' :''}
         <a style={{cursor: 'pointer'}} onClick={() => this.handleSignOut()} title="Sign Out">
           <img
             width="30"
@@ -95,6 +114,8 @@ export default class Header extends Component{
 
 Header.propTypes = {
   lists: PropTypes.array.isRequired,
+  user: PropTypes.object,
+  metadata: PropTypes.object,
   onSetUser: PropTypes.func,
   onSetLists: PropTypes.func,
   onSetTasks: PropTypes.func,
