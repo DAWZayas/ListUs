@@ -3,7 +3,7 @@ import ItemTaskDetails from './ItemTaskDetails';
 import TaskTitle from './TaskTitle';
 import Spinner from './Spinner';
 import CommentsContainer from '../containers/CommentsContainer';
-
+import alertify from 'alertifyjs/build/alertify.min.js';
 
 export default class ListDetails extends Component {
 
@@ -29,15 +29,18 @@ componentWillReceiveProps(){
 }
 
 componentWillUnmount() {
+  this.props.cleanAlert();
   this.props.unregisterListeners();
 }
 
 onClickPagination(e){
+  this.props.cleanAlert();
   let newPage = parseInt(e.target.text);
   this.setState({page: newPage});
 }
 
 onClickPrevious(){
+  this.props.cleanAlert();
   if(1!==this.state.page){
     this.setState({page: this.state.page-1});
   }
@@ -48,6 +51,7 @@ numberOfPages(tasksToShow){
 }
 
 onClickNext(e){
+  this.props.cleanAlert();
   e.preventDefault();
   if(this.numberOfPages()!==this.state.page){
     this.setState({page: this.state.page+1});
@@ -62,6 +66,7 @@ handleOnKeyDown(event){
 }
 
 changeView(e){
+  this.props.cleanAlert();
   const option = e.target.innerHTML;
   this.setState({
     tasksShown: option
@@ -72,9 +77,21 @@ renderForce(){
   this.forceUpdate();
 }
 
+myAlert(alert){
+  if (alert.msgType==='add'){
+    alertify.success(alert.msg);
+  }
+  if (alert.msgType==='remove'){
+    alertify.error(alert.msg);
+  }
+  if(alert.msgType==='edit'){
+    alertify.message(alert.msg);
+  }
+}
+
 render() {
 
-  const { list, lists, removeList, editList, tasks, addTask, removeTask, editTask, friends, groups, addFriendGroupToList, removeFriendGroupToList, markAsDone } = this.props;
+  const { list, alert, lists, removeList, editList, tasks, addTask, removeTask, editTask, friends, groups, addFriendGroupToList, removeFriendGroupToList, markAsDone } = this.props;
 
   let tasksToShow;
   let showTasks = this.state.tasksShown;
@@ -99,6 +116,10 @@ render() {
   return(
 
     <div className="section">
+      {alert.msg.length
+        ? this.myAlert(alert)
+        : ''
+      }
       <div className="col-md-12 heigthTitle">
         <ul className="list-group listTitle">
           {Object.keys(this.props.list).length!==0 ?
@@ -113,7 +134,8 @@ render() {
             onRemoveList={removeList}
             onRemoveFriendGroupToList={removeFriendGroupToList}
             onAddFriendGroupToList={addFriendGroupToList}
-            user={this.props.user} />
+            user={this.props.user}
+            cleanAlert={this.props.cleanAlert} />
           : '' }
         </ul>
       </div>
@@ -130,7 +152,11 @@ render() {
           {
             (this.state.loading === false)
               ? (Object.values(tasksToShow).length === 0) ?<h3 style={{paddingLeft: '2em', fontStyle: 'italic'}}>No tasks to show</h3>
-                   :Object.values(tasksToShow).map( (task, index) => index>=initTask && index<lastTask ? <ItemTaskDetails markAsDone={markAsDone} renderForce={this.renderForce.bind(this)} key={index} task={task} onRemoveTask={removeTask} onEditTask={editTask} /> : null)
+                   :Object.values(tasksToShow).map( (task, index) => index>=initTask && index<lastTask ?
+                      <ItemTaskDetails markAsDone={markAsDone}
+                        renderForce={this.renderForce.bind(this)} key={index} cleanAlert={this.props.cleanAlert}
+                        task={task} onRemoveTask={removeTask} onEditTask={editTask} />
+                   : null)
               : <Spinner />
           }
         </ul>
@@ -167,6 +193,7 @@ render() {
 }
 
 ListDetails.propTypes = {
+  alert: PropTypes.object,
   list: PropTypes.object,
   lists: PropTypes.array,
   tasks: PropTypes.object,
@@ -182,5 +209,6 @@ ListDetails.propTypes = {
   markAsDone: PropTypes.func,
   registerListeners: PropTypes.func,
   unregisterListeners: PropTypes.func,
-  user: PropTypes.object
+  user: PropTypes.object,
+  cleanAlert: PropTypes.func
 };

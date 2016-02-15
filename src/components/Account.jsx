@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Dialog, TextField, Toggle } from 'material-ui';
+import { Dialog, TextField, Toggle, FlatButton } from 'material-ui';
 import DatePicker from 'react-datepicker';
 //var moment = require('moment');
 require('react-datepicker/dist/react-datepicker.css');
@@ -13,7 +13,11 @@ export default class Account extends React.Component {
     this.state= {
       error:'',
       edit: false,
-      value: 2
+      value: 2,
+      dialog: {
+        changeName: false,
+        changePhoto: false
+      }
     };
   }
 
@@ -26,34 +30,20 @@ export default class Account extends React.Component {
   }
 
   showDialogChangeName(){
-    const nodeDialog = this.refs.changeName;
-    nodeDialog.show();
+    this.setState({dialog: Object.assign(this.state.dialog, {changeName: true})});
+    
   }
 
   hideDialogChangeName(){
-    const nodeDialog = this.refs.changeName;
-    nodeDialog.dismiss();
-  }
-
-  showDialogChangePassword(){
-    const nodeDialog = this.refs.changePassword;
-    this.setState({'error': ''});
-    nodeDialog.show();
-  }
-
-  hideDialogChangePassword(){
-    const nodeDialog = this.refs.changePassword;
-    nodeDialog.dismiss();
+    this.setState({dialog: Object.assign(this.state.dialog, {changeName: false})});
   }
 
   showDialogChangePhoto(){
-    const nodeDialog = this.refs.changePhoto;
-    nodeDialog.show();
+    this.setState({dialog: Object.assign(this.state.dialog, {changePhoto: true})});
   }
 
   hideDialogChangePhoto(){
-    const nodeDialog = this.refs.changePhoto;
-    nodeDialog.dismiss();
+    this.setState({dialog: Object.assign(this.state.dialog, {changePhoto: false})});
   }
 
   handleChangeUserPhoto(){
@@ -68,21 +58,6 @@ export default class Account extends React.Component {
     }
   }
 
-  handleChangeUserPassword(){
-    if(this.refs.oldPassword.getValue() === this.props.user.password){
-      if(this.refs.newPassword.getValue() === this.refs.newPassword2.getValue()){
-        if(this.refs.newPassword.getValue().length >= 6){
-          this.props.onChangeUserPassword(this.refs.newPassword.getValue());
-          this.setState({'error': ''});
-          this.hideDialogChangePassword();
-        }
-        else this.setState({'error': 'Length password less than 6 characteres'});
-      }
-      else this.setState({'error': 'Reapeted password incorrect'});
-    }
-    else this.setState({'error': 'Password incorrect.'});
-  }
-
   handleVisibility(){
     var togg = this.refs.visibility.isToggled();
     var vis = this.props.user.visibility;
@@ -94,8 +69,6 @@ export default class Account extends React.Component {
       this.refs.visibility.setToggled(!togg);
     }
   }
-
-  
 
   handleLoginGithub(){
     this.props.signInWithGithub();
@@ -138,21 +111,17 @@ export default class Account extends React.Component {
 
   render() {
     let changeNameActions = [
-      { text: 'Cancel', onClick: this.hideDialogChangeName.bind(this) },
-      { text: 'Submit', onClick: this.handleChangeUserName.bind(this), ref: 'submit' }
+      <FlatButton label="Cancel" secondary onClick={this.hideDialogChangeName.bind(this) } />,
+      <FlatButton label="Submit" primary onClick={this.handleChangeUserName.bind(this)} />
     ];
 
-    let changePasswordActions = [
-      { text: 'Cancel', onClick: this.hideDialogChangePassword.bind(this) },
-      { text: 'Submit', onClick: this.handleChangeUserPassword.bind(this), ref: 'submit' }
-    ];
 
     let changePhotoActions = [
-      { text: 'Cancel', onClick: this.hideDialogChangePhoto.bind(this) },
-      { text: 'Submit', onClick: this.handleChangeUserPhoto.bind(this), ref: 'submit' }
+      <FlatButton label="Cancel" secondary onClick={this.hideDialogChangePhoto.bind(this) } />,
+      <FlatButton label="Submit" primary onClick={this.handleChangeUserPhoto.bind(this)} />
     ];
 
-    let a = [{payload: '0', text: 'hhh'}];
+    //let a = [{payload: '0', text: 'hhh'}];
 
 
     return (
@@ -171,33 +140,7 @@ export default class Account extends React.Component {
 
         </div><br/>
 
-
-
-        {/*<ul className="tools nav nav-pills nav-stacked ">
-          <li role="presentation">
-            <a onClick={this.showDialogChangeName.bind(this)} href="#">
-              <span className="glyphicon marginGlyph glyphicon-user"></span>
-              <span>Change Name</span>
-            </a>
-          </li>*/}
-
-          {/*<li role="presentation"><a onClick={this.showDialogChangePassword.bind(this)} href="#"><span className="glyphicon marginGlyph glyphicon-lock"></span>Change password</a></li>*/}
-          {/*<li role="presentation" style={{display: 'flex', justifyContent: 'center'}}>
-            <a style={{width: '190px', textAlign: 'justify'}}>
-              <Toggle
-                ref="visibility"
-                style={{fontFamily: '"Helvetica"',
-                        color: 'blue', fontWeight: '100'}}
-                label="Visibility"
-                defaultToggled={this.props.user.visibility}
-                onToggle={ () => this.handleVisibility()}/>
-              </a>
-            </li>
-        </ul>*/}
-
-        {
-
-          (this.props.user.personalData)
+        {(this.props.user.personalData)
               ?(this.state.edit) 
                 ?(<div style={{display: 'flex', flexFlow: 'column', alignItems: 'center'}}>
                   <ul className="tools nav nav-pills nav-stacked" >
@@ -286,25 +229,14 @@ export default class Account extends React.Component {
               <span onClick={()=>this.handleLoginGithub()} style={{'fontSize' : '1.5em', 'marginLeft' : '20px'}} className="fa fa-github githubLogin"></span>
               <span onClick={()=>this.handleLoginTwitter()} style={{'fontSize' : '1.5em', 'marginLeft' : '20px'}} className="fa fa-twitter twitterLogin"></span>
               <span onClick={()=>this.handleLoginGoogle()} style={{'fontSize' : '1.5em', 'marginLeft' : '20px'}} className="fa fa-google-plus googleLogin"></span>
-
+            </div>
           </div>
 
-          </div>
-
-
-         <Dialog ref="changeName" title="Change Name" actions={changeNameActions} >
+         <Dialog ref="changeName" open={this.state.dialog.changeName} title="Change Name" actions={changeNameActions} onRequestClose={() => this.hideDialogChangeName()}>
             <TextField ref="newName" floatingLabelText="New name" />
         </Dialog>
 
-        <Dialog ref="changePassword" title="Change Password" actions={changePasswordActions} >
-            <TextField type="password" ref="oldPassword" floatingLabelText="Old password" />
-            <br/><br/>
-            <TextField type="password" ref="newPassword" floatingLabelText="New password" />
-            <TextField type="password" ref="newPassword2" floatingLabelText="Repeat new password" />
-            <p className="error" style={{color: 'red'}}>{this.state.error}</p>
-        </Dialog>
-
-        <Dialog ref="changePhoto" title="Change Photo" actions={changePhotoActions} >
+        <Dialog ref="changePhoto" open={this.state.dialog.changePhoto} title="Change Photo" actions={changePhotoActions} onRequestClose={() => this.hideDialogChangePhoto()}>
             <TextField ref="newUrl" floatingLabelText="New photo" />
         </Dialog>
 

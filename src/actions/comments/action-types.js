@@ -1,2 +1,3 @@
 export const SET_COMMENTS = 'SET_COMMENTS';
 export const ADD_COMMENT_ERROR = 'ADD_COMMENT_ERROR';
+export const CLEAN_ALERT = 'CLEAN_ALERT';

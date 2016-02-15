@@ -6,3 +6,4 @@ export const SET_FRIENDS = 'SET_FRIENDS';
 export const SET_GROUPS = 'SET_GROUPS';
 export const SET_TASKS = 'SET_TASKS';
 export const SET_USER = 'SET_USER';
+export const CLEAN_ALERT = 'CLEAN_ALERT';

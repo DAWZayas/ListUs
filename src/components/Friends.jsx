@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { addFriend } from '../actions';
 import { Avatar, Dialog, FlatButton } from 'material-ui';
 import Spinner from './Spinner';
-
+import alertify from 'alertifyjs/build/alertify.min.js';
 
 export default class Friends extends Component {
 
@@ -27,6 +27,7 @@ export default class Friends extends Component {
   }
 
   componentWillUnmount() {
+    this.props.cleanAlert();
     this.props.unregisterListeners();
   }
 
@@ -44,12 +45,14 @@ export default class Friends extends Component {
   }
 
   showDialog(){
+    this.props.cleanAlert();
     this.setState({
       open: true
     });
   }
 
   hideDialog(){
+    this.props.cleanAlert();
     this.setState({
       open: false,
       findUserLetter: ''
@@ -85,14 +88,25 @@ export default class Friends extends Component {
 
 
   handleRemoveDialog(id){
+    this.props.cleanAlert();
     this.setState({friendName: id.target.children[0].id, openDelete: true});
   }
 
-
+  myAlert(alert){
+    if (alert.msgType==='add'){
+      alertify.success(alert.msg);
+    }
+    if (alert.msgType==='remove'){
+      alertify.error(alert.msg);
+    }
+    if(alert.msgType==='edit'){
+      alertify.message(alert.msg);
+    }
+  }
 
   render() {
 
-    let { friends, users } = this.props;
+    let { friends, users, alert } = this.props;
     let usersToShow;
 
     if(friends === undefined) friends = [];
@@ -132,10 +146,12 @@ export default class Friends extends Component {
       <FlatButton label="Remove" primary onClick={() => this.onRemoveFriend()} />
     ];
 
-
     return (
       <article className="article">
-
+        {alert.msg.length
+          ? this.myAlert(alert)
+          : ''
+        }
         <div className="centerFriends">
           <Dialog open={open} ref="addFriendDialog" title="Add friend" actions={addFriend} >
             <div style={{'textAlign': 'center'}}>
@@ -178,5 +194,7 @@ Friends.propTypes= {
     addFriend: PropTypes.func,
     removeFriend: PropTypes.func,
     registerListeners: PropTypes.func.isRequired,
-    unregisterListeners: PropTypes.func.isRequired
+    unregisterListeners: PropTypes.func.isRequired,
+    alert: PropTypes.object,
+    cleanAlert: PropTypes.func
 };

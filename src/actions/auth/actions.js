@@ -29,7 +29,7 @@ function authenticate(provider) {
             timestamp: Date.now()
           }
         });
-        
+
       }
     });
   };
@@ -131,11 +131,14 @@ export function cancelSignIn() {
 
 export function createUserIfNotExists(authData, firebase){
   let name = '';
+  let img = '';
 
   if(authData.provider === 'github')  name = authData.github.username;
   else if(authData.provider === 'twitter') name = authData.twitter.username;
-  else if(authData.provider === 'google') name = authData[authData.provider].displayName;
-  else if(authData.email) name = authData.email;
-  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: true, personalData: {town: '', birthday: '', gender: ''}});
+  else if(authData.provider === 'google'){
+    name = authData[authData.provider].displayName;
+    img = authData.google.profileImageURL;
+  }else if(authData.email) name = authData.email;
+  firebase.child(`users/${authData.uid}`).update({name, img, visibility: true, personalData: {town: '', birthday: '', gender: ''}});
   return 'Welcome to ListUs';
 }

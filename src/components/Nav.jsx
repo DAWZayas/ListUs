@@ -4,11 +4,6 @@ import LeftNav from 'material-ui/lib/left-nav';
 import Divider from 'material-ui/lib/divider';
 
 
-
-//var injectTapEventPlugin = require('react-tap-event-plugin');
-//injectTapEventPlugin();
-
-
 export default class Nav extends React.Component {
 
 	constructor(props) {

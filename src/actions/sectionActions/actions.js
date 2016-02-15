@@ -62,7 +62,7 @@ function addListToUserList(refListsUser, refUser, idList){
 /* REMOVE LIST*/
 export function removeList(list){
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
+    const { firebase } = getState();
     const idList = list.id;
     //ACTION REMOVE LIST IN ALL participants
     if(list.participantsFriends[0]!==undefined){
@@ -79,12 +79,17 @@ export function removeList(list){
             payload: error
           });
         }else{
-        const date = list.date;
-        // REMOVE FROM DAY
-        removeFromCalendar(firebase, auth, idList, date);
-        //REMOVE COMMENTS OF THE LIST
-        resolve(firebase.child(`comments/${list.id}`).remove());
+          const date = list.date;
+          // REMOVE FROM DAY
+          list.participantsFriends.map( function(name){
+            firebase.child('users').once('value', snapshotUsers => {
+              Object.keys(snapshotUsers.val()).map( idUser => snapshotUsers.val()[idUser].name === name ? removeFromCalendar(firebase, snapshotUsers.val()[idUser], idList, date) : '');
+            });
+          });
+          //REMOVE COMMENTS OF THE LIST
+          resolve(firebase.child(`comments/${list.id}`).remove());
         };
+
       });
     }).then( () => {
       setTimeout( () => dispatch({
@@ -137,22 +142,32 @@ export function editList(idList, title, date, newDate, importance){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     firebase.child(`lists/${idList}`).once('value', snapshot => {
-      const participantsFriends = snapshot.val().participantsFriends!==undefined ? snapshot.val().participantsFriends : [];
-      const participantsGroups = snapshot.val().participantsGroups!==undefined ? snapshot.val().participantsGroups : [];
-      const admin = snapshot.val().admin!==undefined ? snapshot.val().admin : [];
-      firebase.child(`lists/${idList}`).set({ admin, title, date:newDate, importance, participantsFriends, participantsGroups }, error => {
-        if(error){
-          console.error('ERROR @ editList:', error);
-          dispatch({
-            type: EDIT_LIST_ERROR,
-            payload, error
-          });
-        }else{
-
-          removeFromCalendar(firebase, auth, idList, date);
-          addToCalendar(firebase, auth, idList, newDate);
-
-        }
+      new Promise(resolve => {
+        const participantsFriends = snapshot.val().participantsFriends!==undefined ? snapshot.val().participantsFriends : [];
+        const participantsGroups = snapshot.val().participantsGroups!==undefined ? snapshot.val().participantsGroups : [];
+        const admin = snapshot.val().admin!==undefined ? snapshot.val().admin : [];
+        firebase.child(`lists/${idList}`).set({ admin, title, date:newDate, importance, participantsFriends, participantsGroups }, error => {
+          if(error){
+            console.error('ERROR @ editList:', error);
+            dispatch({
+              type: EDIT_LIST_ERROR,
+              payload, error
+            });
+          }else{
+            resolve(
+              function(){
+                removeFromCalendar(firebase, auth, idList, date);
+                addToCalendar(firebase, auth, idList, newDate);
+              }
+            );
+          }
+        });
+      }).then(() => {
+        setTimeout( () => dispatch({
+          type: SET_ALERT,
+          msg: 'List edited',
+          msgType: 'edit'
+        }), 1000);
       });
     });
   };
@@ -162,14 +177,23 @@ export function editList(idList, title, date, newDate, importance){
 export function addFriendGroupToList( list, newParticipant){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    if (newParticipant.img!==undefined) {//ENVIARLA AL USER
-      sendActionPendingToUser(auth, list, firebase, newParticipant);
-    }else{//añadir el grupo
-      firebase.child(`lists/${list.id}`).once('value', listSnapshot => {
-        const participantsGroups = listSnapshot.val().participantsGroups!==undefined ?  listSnapshot.val().participantsGroups.concat(newParticipant.name) : [newParticipant.name];
-        firebase.child(`lists/${list.id}`).update({participantsGroups});
-      });
-    }
+    new Promise( resolve => {
+      if (newParticipant.img!==undefined) {//ENVIARLA AL USER
+        resolve(sendActionPendingToUser(auth, list, firebase, newParticipant));
+      }else{//añadir el grupo
+        firebase.child(`lists/${list.id}`).once('value', listSnapshot => {
+          const participantsGroups = listSnapshot.val().participantsGroups!==undefined ?  listSnapshot.val().participantsGroups.concat(newParticipant.name) : [newParticipant.name];
+          resolve(firebase.child(`lists/${list.id}`).update({participantsGroups}));
+        });
+      }
+    }).then( () => {
+      setTimeout( () => dispatch({
+        type: SET_ALERT,
+        msg: 'Request was sent',
+        msgType: 'add'
+      }), 1000);
+    });
+
 
   };
 }
@@ -199,21 +223,30 @@ export function removeFriendGroupToList( idList, participant){
     const { firebase } = getState();
     const refIdList = firebase.child(`lists/${idList}`);
 //para diferenciar grupo de amigo newParticipant.administrador===undefined
-    if(participant.administrador===undefined){
-      removeIdUserFromFriendsParticipants(participant, firebase, idList);
-      //borrar la lista al usuario
-      firebase.child('users').once('value', snapshot => {
-        const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===participant.name);
-        const lists = snapshot.val()[idUser].lists.filter( id => id!==idList);
-        firebase.child(`users/${idUser}`).update({lists});
-      });
-    }else{
-      //borrar el idGroup en la lista de partidcipantes
-      firebase.child(`lists/${idList}/participantsGroups`).once('value', snapshot => {
-        const participantsGroups = snapshot.val()===null ? [] : snapshot.val().filter( iterableNameGroups => iterableNameGroups!==participant.name );
-        refIdList.update({participantsGroups});
-      });
-    }
+    new Promise( resolve => {
+      if(participant.administrador===undefined){
+        removeIdUserFromFriendsParticipants(participant, firebase, idList);
+        //borrar la lista al usuario
+        firebase.child('users').once('value', snapshot => {
+          const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===participant.name);
+          const lists = snapshot.val()[idUser].lists.filter( id => id!==idList);
+          resolve(firebase.child(`users/${idUser}`).update({lists}));
+        });
+      }else{
+        //borrar el idGroup en la lista de partidcipantes
+        firebase.child(`lists/${idList}/participantsGroups`).once('value', snapshot => {
+          const participantsGroups = snapshot.val()===null ? [] : snapshot.val().filter( iterableNameGroups => iterableNameGroups!==participant.name );
+          resolve(refIdList.update({participantsGroups}));
+        });
+      }
+    }).then( () => {
+      setTimeout( () => dispatch({
+        type: SET_ALERT,
+        msg: 'Removed from list',
+        msgType: 'remove'
+      }), 1000);
+    });
+
   };
 }
 

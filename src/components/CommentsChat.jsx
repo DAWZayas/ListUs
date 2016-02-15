@@ -129,6 +129,7 @@ export default class CommentsChat extends Component {
 };
 
 CommentsChat.propTypes = {
+  cleanAlert: PropTypes.func,
   router: PropTypes.object,
   comments: PropTypes.array,
   onAddComment: PropTypes.func,

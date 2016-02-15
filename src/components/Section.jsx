@@ -18,7 +18,6 @@ export default class Section extends Component {
       startDate: moment(),
       numberOfList: 5,
       dialogState: false,
-      autoHideDuration: 0,
       open: false,
       loading: true,
       count: 0
@@ -33,10 +32,7 @@ export default class Section extends Component {
     let count = this.state.count+1;
     this.setState({ count });
 
-    /*Cuando vienes desde el calendario, solo pasa dos veces
-    por aquí, y siempre está loading*/
-
-    ( this.state.count === 3) ? this.setState({ loading: false, count: 0 }) : '';
+    ( this.state.count === 2) ? this.setState({ loading: false, count: 0 }) : '';
   }
 
   componentWillUnmount() {
@@ -79,6 +75,7 @@ export default class Section extends Component {
 
 
   handleSorted(e, selectedIndex, menuItem){
+    this.props.cleanAlert();
     e.preventDefault();
     this.setState({sorted: menuItem.text});
   }
@@ -100,6 +97,7 @@ export default class Section extends Component {
   }
 
   handleRequestClose() {
+    this.props.cleanAlert();
     this.setState({
       open: false,
     });
@@ -183,15 +181,6 @@ export default class Section extends Component {
           <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
 
         </div>
-
-        {/*<Snackbar
-          open={this.state.open}
-          message={msg}
-          action="undo"
-          autoHideDuration={this.state.autoHideDuration}
-          onActionTouchTap={this.handleActionTouchTap}
-          onRequestClose={this.handleRequestClose}
-        />*/}
 
     </article>
     );
