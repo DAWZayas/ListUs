@@ -10,12 +10,14 @@ export default class ItemTaskDetails extends Component {
   }
 
   handleOnClickRemove(e){
+    this.props.cleanAlert();
     e.stopPropagation();
     const { task, onRemoveTask } = this.props;
     onRemoveTask(task.id);
   }
 
   markAsDone(id){
+    this.props.cleanAlert();
     this.props.markAsDone(id);
   }
 
@@ -48,7 +50,8 @@ ItemTaskDetails.propTypes = {
   task: PropTypes.object,
   onRemoveTask: PropTypes.func.isRequired,
   renderForce: PropTypes.func,
-  markAsDone: PropTypes.func
+  markAsDone: PropTypes.func,
+  cleanAlert: PropTypes.func
 };
 
 ItemTaskDetails.defaultProps = {

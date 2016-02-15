@@ -22,6 +22,7 @@ export default class TaskTitle extends Component {
   }
 
   openDialog(){
+    this.props.cleanAlert();
     this.setState({showDialog: true});
   }
 
@@ -83,7 +84,8 @@ export default class TaskTitle extends Component {
                 removeList={onRemoveList}
                 onRemoveFriendGroupToList={onRemoveFriendGroupToList}
                 onAddFriendGroupToList={onAddFriendGroupToList}
-                user={this.props.user} />
+                user={this.props.user}
+                cleanAlert={this.props.cleanAlert} />
               : '' }
               <span className="btn pull-right btn-default" onClick={() => this.openDialog()} >Add</span>
               <span className="dateBtn pull-right btn btn-default">{this.props.list.date}</span>
@@ -109,7 +111,8 @@ TaskTitle.propTypes = {
   onEditList: PropTypes.func,
   onAddFriendGroupToList: PropTypes.func,
   onRemoveFriendGroupToList: PropTypes.func,
-  user: PropTypes.object
+  user: PropTypes.object,
+  cleanAlert: PropTypes.func
 };
 
 TaskTitle.defaultProps = {

@@ -132,7 +132,6 @@ function addFriend(notification){
       }).then( (nameUser) => {
         new Promise(resolve => {
             firebase.child(`users/${idOtherUser}/friends`).once('value', snapshotFriendList => {
-              debugger;
               const friends = snapshotFriendList.val()!==null ? snapshotFriendList.val().concat(nameUser) : [nameUser];
               resolve(firebase.child(`users/${idOtherUser}`).update({friends}));
             });

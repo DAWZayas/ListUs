@@ -1,3 +1,5 @@
+import { CLEAN_ALERT } from './action-types';
+
 export function onAddComment(idList, user, date, hour, msg){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
@@ -20,5 +22,10 @@ export function onAddComment(idList, user, date, hour, msg){
   };
 }
 
-export function onRemoveComments(){
+export function cleanAlert(){
+  return (dispatch) => {
+    dispatch({
+      type: CLEAN_ALERT
+    });
+  };
 }
