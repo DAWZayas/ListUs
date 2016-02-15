@@ -19,7 +19,8 @@ export default class Groups extends Component {
 			admin: false,
 			search: [],
 			listToShow: 0,
-			groupId: ''
+			groupId: '',
+			count: 0
 		};
 	}
 
@@ -30,7 +31,7 @@ export default class Groups extends Component {
 	componentWillReceiveProps(){
 		let count = this.state.count+1;
 		this.setState({ count });
-		( this.state.count === 2) ?this.setState({ loading: false, count: 0 }) :'';
+		( this.state.count === 2) ? this.setState({ loading: false, count: 0 }) :'';
 	}
 
 	componentWillUnmount() {
@@ -92,8 +93,8 @@ export default class Groups extends Component {
 		else{
 			const friendName = friends[pos]['name'];
 			if(this.state.admin === false){
-				this.props.addGroupFriend(friendName, this.state.id);	
-			} 
+				this.props.addGroupFriend(friendName, this.state.id);
+			}
 			else this.props.changeGroupAdmin(friendName, this.state.id, this.props.user.name);
 			this.setState({error: ''});
 			this.handleClickDismissDialog(e, 'dialogAddFriend');
@@ -199,15 +200,15 @@ export default class Groups extends Component {
 					<List>
 					  <ListItem primaryText="Edit Name" onClick={() => this.handleClickSetRefToEdit(groupId)} rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-pencil"></span>}/>
 					  {(posGroup !== -1)
-					  	?(this.props.groups[posGroup].administrator.indexOf(this.props.user.name) !== -1) 
-					  			?<ListItem primaryText="Remove Group" onClick={() => this.handleClickRemoveGroup(groupId)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>}/> 
-					  			:'' 
+					  	?(this.props.groups[posGroup].administrator.indexOf(this.props.user.name) !== -1)
+					  			?<ListItem primaryText="Remove Group" onClick={() => this.handleClickRemoveGroup(groupId)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>}/>
+					  			:''
 					  	:''}
 					  {(posGroup !== -1)
-					  	?(this.props.groups[posGroup].administrator.indexOf(this.props.user.name) !== -1) 
+					  	?(this.props.groups[posGroup].administrator.indexOf(this.props.user.name) !== -1)
 					  			?<ListItem primaryText="Switch Admin" onClick={() => this.handleClickShowDialog('dialogAddFriend', groupId, true)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="
-	glyphicon glyphicon-refresh"></span>}/> 
-								:'' 
+	glyphicon glyphicon-refresh"></span>}/>
+								:''
 						:''}
 					</List>
 				</Dialog>
@@ -276,8 +277,8 @@ Groups.propTypes= {
 	removeGroup: PropTypes.func,
 	changeGroupAdmin: PropTypes.func,
 	addGroupFriend: PropTypes.func,
-	showGroupFriends: PropTypes.func,	
-	addGroup: PropTypes.func,	
+	showGroupFriends: PropTypes.func,
+	addGroup: PropTypes.func,
 	registerListeners: PropTypes.func,
 	unregisterListeners: PropTypes.func
 

@@ -33,10 +33,7 @@ export default class Section extends Component {
     let count = this.state.count+1;
     this.setState({ count });
 
-    /*Cuando vienes desde el calendario, solo pasa dos veces
-    por aquí, y siempre está loading*/
-
-    ( this.state.count === 3) ? this.setState({ loading: false, count: 0 }) : '';
+    (this.state.count === 2) ? this.setState({ loading: false, count: 0 }) : '';
   }
 
   componentWillUnmount() {
