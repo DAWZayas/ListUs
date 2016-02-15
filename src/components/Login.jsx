@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+//import injectTapEventPlugin from 'react-tap-event-plugin';
+//injectTapEventPlugin();
 import { TextField, RaisedButton } from 'material-ui';
 import Logo from '../components/Logo';
 import { Link } from 'react-router';
@@ -56,7 +56,7 @@ export default class Login extends Component {
               type="password"
               style={{marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}/>
               {(this.state.error !== '')? <p style={{color: 'red'}}>{this.state.error}</p>:''}
-    				<RaisedButton label="LOG IN" secondary  onTouchTap={()=>this.handleClickLogIn()} style={{}}/>
+    				<RaisedButton label="LOG IN" secondary  onClick={()=>this.handleClickLogIn()} style={{}}/>
             <br/>
             <div>
               <span className="btn" onClick={()=>this.handleLoginGithub()} style={{}} title="Github">

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+//import injectTapEventPlugin from 'react-tap-event-plugin';
+//injectTapEventPlugin();
 import { FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
 import { arrayPositionByObjectKey, avatarLetter, sortArray, menuItems } from '../utils/functions';
 import SectionHeader from './SectionHeader';
@@ -19,7 +19,9 @@ export default class Groups extends Component {
 			admin: false,
 			search: [],
 			listToShow: 0,
-			groupId: ''
+			groupId: '',
+			loading: true,
+			count: 0
 		};
 	}
 
@@ -239,7 +241,7 @@ export default class Groups extends Component {
 														leftAvatar={(friend.img !== '')?<Avatar src={friend.img}/>: avatarLetter(friend.name)}
 														primaryText={friend.name}
 														style={{height: '49px', borderTop: 'solid 1px lightblue'}}
-														onTouchTap={() => this.handleChangeInputValue('friendNameInput', friend.name)} />
+														onClick={() => this.handleChangeInputValue('friendNameInput', friend.name)} />
 												);
 											}.bind(this))}
 										</List>}
