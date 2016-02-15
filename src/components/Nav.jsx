@@ -3,8 +3,8 @@ import React from 'react';
 import { LeftNav, MenuItem } from 'material-ui';
 
 
-var injectTapEventPlugin = require('react-tap-event-plugin');
-injectTapEventPlugin();
+//var injectTapEventPlugin = require('react-tap-event-plugin');
+//injectTapEventPlugin();
 
 const menuItems = [
 
