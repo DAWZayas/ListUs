@@ -1,4 +1,5 @@
-import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR } from './action-types';
+import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, CLEAN_ALERT } from './action-types';
+import { SET_ALERT } from '../alerts';
 import { getActualDate } from '../../utils/functions';
 import { pushState } from 'redux-router';
 const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
@@ -55,28 +56,41 @@ function addListToUserList(refListsUser, refUser, idList){
       return (dispatch, getState) => {
         const { firebase, auth } = getState();
         const idList = list.id;
-        //ACTION REMOVE LIST IN ALL participants
-        if(list.participantsFriends[0]!==undefined){
-          removeListInAllParticipants(firebase, list);
-        }
-        //REMOVE ACTIONSPENGIG WITH IDLIST IN ALL THE USERS
-        removeActionsPendingsWithListIdFromAllTheUsers(firebase, idList);
-        firebase.child(`lists/${list.id}`).remove(error => {
-          if(error){
-            console.error('ERROR @ removeList:', error);
-            dispatch({
-              type: REMOVE_LIST_ERROR,
-              payload: error
-            });
-          }else{
-          const date = list.date;
-          // REMOVE FROM DAY
-          removeFromCalendar(firebase, auth, idList, date);
-          //REMOVE COMMENTS OF THE LIST
-          firebase.child(`comments/${list.id}`).remove();
-          };
+
+        new Promise(resolve => {
+          //ACTION REMOVE LIST IN ALL participants
+          if(list.participantsFriends[0]!==undefined){
+            removeListInAllParticipants(firebase, list);
+          }
+          //REMOVE ACTIONSPENGIG WITH IDLIST IN ALL THE USERS
+          removeActionsPendingsWithListIdFromAllTheUsers(firebase, idList);
+          firebase.child(`lists/${list.id}`).remove(error => {
+            if(error){
+              console.error('ERROR @ removeList:', error);
+              dispatch({
+                type: REMOVE_LIST_ERROR,
+                payload: error
+              });
+            }else{
+              const date = list.date;
+              // REMOVE FROM DAY
+              //REMOVE COMMENTS OF THE LIST
+              resolve(
+                function(){
+                  removeFromCalendar(firebase, auth, idList, date);
+                  firebase.child(`comments/${list.id}`).remove();
+                }
+              );
+            }
+          });
+        }).then( () => {
+          dispatch(pushState(null, '/'));
+          setTimeout( () => dispatch({
+            type: SET_ALERT,
+            msg: 'List removed',
+            msgType: 'add'
+          }), 1000);
         });
-        dispatch(pushState(null, '/'));
       };
     }
 
@@ -119,7 +133,6 @@ function addToCalendar(firebase, auth, idList, date){
   const monthNumber = convertMonth(date);
   const monthName = months[monthNumber];
 
-
   const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
   const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
   let listsInDay = [];
@@ -130,7 +143,6 @@ function addToCalendar(firebase, auth, idList, date){
 }
 
 function removeFromCalendar(firebase, auth, idList, date){
-
 
   const dayNumber = convertDay(date);
 
@@ -152,40 +164,56 @@ export function editList(idList, title, date, newDate, importance){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     firebase.child(`lists/${idList}`).once('value', snapshot => {
-      const participantsFriends = snapshot.val().participantsFriends!==undefined ? snapshot.val().participantsFriends : [];
-      const participantsGroups = snapshot.val().participantsGroups!==undefined ? snapshot.val().participantsGroups : [];
-      const admin = snapshot.val().admin!==undefined ? snapshot.val().admin : [];
-      firebase.child(`lists/${idList}`).set({ admin, title, date:newDate, importance, participantsFriends, participantsGroups }, error => {
-        if(error){
-          console.error('ERROR @ editList:', error);
-          dispatch({
-            type: EDIT_LIST_ERROR,
-            payload, error
-          });
-        }else{
-
-          removeFromCalendar(firebase, auth, idList, date);
-          addToCalendar(firebase, auth, idList, newDate);
-
-        }
+      new Promise(resolve => {
+        const participantsFriends = snapshot.val().participantsFriends!==undefined ? snapshot.val().participantsFriends : [];
+        const participantsGroups = snapshot.val().participantsGroups!==undefined ? snapshot.val().participantsGroups : [];
+        const admin = snapshot.val().admin!==undefined ? snapshot.val().admin : [];
+        firebase.child(`lists/${idList}`).set({ admin, title, date:newDate, importance, participantsFriends, participantsGroups }, error => {
+          if(error){
+            console.error('ERROR @ editList:', error);
+            dispatch({
+              type: EDIT_LIST_ERROR,
+              payload, error
+            });
+          }else{
+            resolve(
+              function(){
+                removeFromCalendar(firebase, auth, idList, date);
+                addToCalendar(firebase, auth, idList, newDate);
+              });
+          }
+        });
+      }).then(() => {
+        setTimeout( () => dispatch({
+          type: SET_ALERT,
+          msg: 'List edited',
+          msgType: 'edit'
+        }), 1000);
       });
     });
   };
 }
 
-
 /*    ADD FRIENDS AND GROUPS IN LISTS   */
 export function addFriendGroupToList( list, newParticipant){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    if (newParticipant.img!==undefined) {//ENVIARLA AL USER
-      sendActionPendingToUser(auth, list, firebase, newParticipant);
-    }else{//añadir el grupo
-      firebase.child(`lists/${list.id}`).once('value', listSnapshot => {
-        const participantsGroups = listSnapshot.val().participantsGroups!==undefined ?  listSnapshot.val().participantsGroups.concat(newParticipant.name) : [newParticipant.name];
-        firebase.child(`lists/${list.id}`).update({participantsGroups});
-      });
-    }
+    new Promise(resolve => {
+      if (newParticipant.img!==undefined) {//ENVIARLA AL USER
+        resolve(sendActionPendingToUser(auth, list, firebase, newParticipant));
+      }else{//añadir el grupo
+        firebase.child(`lists/${list.id}`).once('value', listSnapshot => {
+          const participantsGroups = listSnapshot.val().participantsGroups!==undefined ?  listSnapshot.val().participantsGroups.concat(newParticipant.name) : [newParticipant.name];
+          resolve(firebase.child(`lists/${list.id}`).update({participantsGroups}));
+        });
+      }
+    }).then( () => {
+      setTimeout( () => dispatch({
+        type: SET_ALERT,
+        msg: 'Request was sent',
+        msgType: 'add'
+      }), 1000);
+    });
 
   };
 }
@@ -215,21 +243,29 @@ export function removeFriendGroupToList( idList, participant){
     const { firebase } = getState();
     const refIdList = firebase.child(`lists/${idList}`);
 //para diferenciar grupo de amigo newParticipant.administrador===undefined
-    if(participant.administrador===undefined){
-      removeIdUserFromFriendsParticipants(participant, firebase, idList);
-      //borrar la lista al usuario
-      firebase.child('users').once('value', snapshot => {
-        const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===participant.name);
-        const lists = snapshot.val()[idUser].lists.filter( id => id!==idList);
-        firebase.child(`users/${idUser}`).update({lists});
-      });
-    }else{
-      //borrar el idGroup en la lista de partidcipantes
-      firebase.child(`lists/${idList}/participantsGroups`).once('value', snapshot => {
-        const participantsGroups = snapshot.val()===null ? [] : snapshot.val().filter( iterableNameGroups => iterableNameGroups!==participant.name );
-        refIdList.update({participantsGroups});
-      });
-    }
+    new Promise( resolve => {
+      if(participant.administrador===undefined){
+        removeIdUserFromFriendsParticipants(participant, firebase, idList);
+        //borrar la lista al usuario
+        firebase.child('users').once('value', snapshot => {
+          const idUser = Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===participant.name);
+          const lists = snapshot.val()[idUser].lists.filter( id => id!==idList);
+          resolve(firebase.child(`users/${idUser}`).update({lists}));
+        });
+      }else{
+        //borrar el idGroup en la lista de partidcipantes
+        firebase.child(`lists/${idList}/participantsGroups`).once('value', snapshot => {
+          const participantsGroups = snapshot.val()===null ? [] : snapshot.val().filter( iterableNameGroups => iterableNameGroups!==participant.name );
+          resolve(refIdList.update({participantsGroups}));
+        });
+      }
+    }).then( () => {
+      setTimeout( () => dispatch({
+        type: SET_ALERT,
+        msg: 'Removed from list',
+        msgType: 'remove'
+      }), 1000);
+    });
   };
 }
 
@@ -244,25 +280,33 @@ function removeIdUserFromFriendsParticipants(participant, firebase, idList){
 export function addTask( idList, title){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    let ref = firebase.child('tasks').push({idList, title, done:false}, error => {
-        if(error){
-          console.error('ERROR @ addList:', error);
-          dispatch({
-            type: ADD_LIST_ERROR,
-            payload: error
-          });
-        }else{
-          const idTask = ref.key();
-          firebase.child(`tasks/${idTask}`).update({id: idTask, idList, title, done:false});
+    new Promise(resolve => {
+      let ref = firebase.child('tasks').push({idList, title, done:false}, error => {
+          if(error){
+            console.error('ERROR @ addList:', error);
+            dispatch({
+              type: ADD_LIST_ERROR,
+              payload: error
+            });
+          }else{
+            const idTask = ref.key();
+            firebase.child(`tasks/${idTask}`).update({id: idTask, idList, title, done:false});
 
-          //ACTION ADD TO USER LISTS
-          let tasks = [];
+            //ACTION ADD TO USER LISTS
+            let tasks = [];
 
-          firebase.child(`users/${auth.id}/tasks`).once('value', snapshot => {
-            tasks = snapshot.val()===null ? [idTask] : snapshot.val().concat([idTask]);
-            firebase.child(`users/${auth.id}`).update({tasks});
-          });
-        }
+            firebase.child(`users/${auth.id}/tasks`).once('value', snapshot => {
+              tasks = snapshot.val()===null ? [idTask] : snapshot.val().concat([idTask]);
+              resolve(firebase.child(`users/${auth.id}`).update({tasks}));
+            });
+          }
+      });
+    }).then( () => {
+      setTimeout( () => dispatch({
+        type: SET_ALERT,
+        msg: 'Task added',
+        msgType: 'add'
+      }), 1000);
     });
   };
 }
@@ -270,42 +314,23 @@ export function addTask( idList, title){
 export function removeTask( idTask ){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    firebase.child(`tasks/${idTask}`).remove();
-
-    //ACTION ADD TO USER LISTS
-
-    const refTasksUser = firebase.child(`users/${auth.id}/tasks`);
-    const refUser = firebase.child(`users/${auth.id}`);
-    let tasks = [];
-    refTasksUser.once('value', snapshot => {
-      tasks = snapshot.val()===null ? [] : snapshot.val().filter(id => id!==idTask);
-      refUser.update({tasks});
+    new Promise(resolve => {
+      firebase.child(`tasks/${idTask}`).remove();
+      //ACTION ADD TO USER LISTS
+      const refTasksUser = firebase.child(`users/${auth.id}/tasks`);
+      const refUser = firebase.child(`users/${auth.id}`);
+      let tasks = [];
+      refTasksUser.once('value', snapshot => {
+        tasks = snapshot.val()===null ? [] : snapshot.val().filter(id => id!==idTask);
+        resolve(refUser.update({tasks}));
+      });
+    }).then( () => {
+      setTimeout( () => dispatch({
+        type: SET_ALERT,
+        msg: 'Task removed',
+        msgType: 'remove'
+      }), 1000);
     });
-  };
-}
-
-export function editTask( idTask, title){
-  return (dispatch, getState) => {
-    const { firebase } = getState();
-    firebase.child('tasks').once('value', snapshot => {
-      const editedTask = Object.assign({}, snapshot.val().idTask, {title});
-      firebase.child(`tasks/${idTask}`).update(editedTask);
-    });
-  };
-}
-
-export function addFriendGroupToTask(idTask, id){
-  return (dispatch, getState) => {
-    const { firebase } = getState();
-    const refParticipants = firebase.child(`tasks/${idTask}/participants`);
-    const refIdList = firebase.child(`tasks/${idTask}`);
-    let participants = [];
-
-    refParticipants.once('value', snapshot => {
-      participants = snapshot.val()===null ? [id] : snapshot.val().concat([id]);
-      refIdList.update({participants});
-    });
-
   };
 }
 
@@ -320,3 +345,11 @@ export function markAsDone(id){
     });
   };
 };
+
+export function cleanAlert(){
+  return (dispatch) => {
+    dispatch({
+      type: CLEAN_ALERT
+    });
+  };
+}

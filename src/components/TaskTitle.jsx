@@ -30,6 +30,7 @@ export default class TaskTitle extends Component {
   }
 
   handleClickAdd(){
+    this.props.cleanAlert();
     const { onAddTask, list } = this.props;
     const title = this.refs.taskText.getValue();
     if(this.validationTitle(title)) onAddTask(list.id, title);
@@ -83,7 +84,8 @@ export default class TaskTitle extends Component {
                 removeList={onRemoveList}
                 onRemoveFriendGroupToList={onRemoveFriendGroupToList}
                 onAddFriendGroupToList={onAddFriendGroupToList}
-                user={this.props.user} />
+                user={this.props.user}
+                cleanAlert={this.props.cleanAlert} />
               : '' }
               <span className="btn pull-right btn-default" onClick={() => this.openDialog()} >Add</span>
               <span className="dateBtn pull-right btn btn-default">{this.props.list.date}</span>
@@ -109,7 +111,8 @@ TaskTitle.propTypes = {
   onEditList: PropTypes.func,
   onAddFriendGroupToList: PropTypes.func,
   onRemoveFriendGroupToList: PropTypes.func,
-  user: PropTypes.object
+  user: PropTypes.object,
+  cleanAlert: PropTypes.func
 };
 
 TaskTitle.defaultProps = {

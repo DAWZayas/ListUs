@@ -18,7 +18,6 @@ export default class Section extends Component {
       startDate: moment(),
       numberOfList: 5,
       dialogState: false,
-      autoHideDuration: 0,
       open: false,
       loading: true,
       count: 0
@@ -179,15 +178,6 @@ export default class Section extends Component {
           <span onClick={() => this.pagination()} className="button-pagination-lists btn btn-default glyphicon glyphicon-option-vertical "></span>
 
         </div>
-
-        {/*<Snackbar
-          open={this.state.open}
-          message={msg}
-          action="undo"
-          autoHideDuration={this.state.autoHideDuration}
-          onActionTouchTap={this.handleActionTouchTap}
-          onRequestClose={this.handleRequestClose}
-        />*/}
 
     </article>
     );

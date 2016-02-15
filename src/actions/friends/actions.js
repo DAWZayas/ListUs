@@ -1,4 +1,4 @@
-import { SET_FRIENDS, REMOVE_FRIENDS_ERROR,  SET_USERS, ADD_FRIEND } from './action-types';
+import { SET_FRIENDS, REMOVE_FRIENDS_ERROR,  SET_USERS, ADD_FRIEND, CLEAN_ALERT, SET_ALERT } from './action-types';
 import { getActualDate } from '../../utils/functions';
 
 export function setFriends(friends){
@@ -11,14 +11,26 @@ export function setUsers(users){
 
 export function addFriend(name){
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
-    firebase.child('users').once('value', snapshot => {
-      new Promise(resolve => {
-        resolve(Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===name )[0]);
-      }).then( idFriend  => {
-        firebase.child(`users/${auth.id}`).once('value', snapshot => {
-          sendActionPendingToUser(snapshot.val().name, auth.id, firebase, idFriend);
+    new Promise(resolve => {
+      const { firebase, auth } = getState();
+        firebase.child('users').once('value', snapshot => {
+          resolve(
+            function(){
+              new Promise(resolve => {
+                resolve(Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===name )[0]);
+              }).then( idFriend  => {
+                firebase.child(`users/${auth.id}`).once('value', snapshot => {
+                  sendActionPendingToUser(snapshot.val().name, auth.id, firebase, idFriend);
+                });
+              });
+            }
+          );
         });
+    }).then( () => {
+      dispatch({
+        type: SET_ALERT,
+        msg: 'Request was sent',
+        msgType: 'add'
       });
     });
   };
@@ -45,23 +57,40 @@ function sendActionPendingToUser(nameUserCreateAction, idUserCreateAction, fireb
 
 export function removeFriend(name){
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
-    firebase.child(`friends/${name}`).remove( error => {
-        if(error){
-          console.error('ERROR @ removeFriend:', error);
-          dispatch({
-            type: REMOVE_FRIENDS_ERROR,
-            payload: error,
-        });
-      }else{
-        const reference = firebase.child(`users/${auth.id}/friends`);
-        const refUser = firebase.child(`users/${auth.id}`);
-        let friends = [];
-        reference.once('value', snapshot => {
-          friends = snapshot.val() === null ? [] : snapshot.val().filter(friend => name !== friend);
-          refUser.update({friends});
+    new Promise(resolve => {
+      const { firebase, auth } = getState();
+      firebase.child(`friends/${name}`).remove( error => {
+          if(error){
+            console.error('ERROR @ removeFriend:', error);
+            dispatch({
+              type: REMOVE_FRIENDS_ERROR,
+              payload: error
+            });
+          }else{
+            const reference = firebase.child(`users/${auth.id}/friends`);
+            const refUser = firebase.child(`users/${auth.id}`);
+            let friends = [];
+            reference.once('value', snapshot => {
+              friends = snapshot.val() === null ? [] : snapshot.val().filter(friend => name !== friend);
+              resolve(refUser.update({friends}));
+            });
+          }
       });
-      }
+    }).then( () => {
+      dispatch({
+        type: SET_ALERT,
+        msg: 'Remove friend',
+        msgType: 'remove'
+      });
+    });
+
+  };
+}
+
+export function cleanAlert(){
+  return (dispatch) => {
+    dispatch({
+      type: CLEAN_ALERT
     });
   };
 }
