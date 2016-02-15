@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Tab, Tabs, AppBar, FlatButton } from 'material-ui';
 import GroupFriends from './GroupFriends';
 import Spinner from './Spinner';
-
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 
 export default class GroupSections extends Component{

@@ -1,28 +1,41 @@
 import React, { Component, PropTypes } from 'react';
-import { DropDownMenu } from 'material-ui';
+import { DropDownMenu, MenuItem } from 'material-ui';
 
 
 
 export default class SectionHeader extends Component{
 	constructor(props){
 		super(props);
+		this.state = {
+			value: 'Sort By'
+		};
+	}
+
+	handleChange(e, index, value){
+		this.setState({value});
+		this.props.func(e, index, value);
 	}
 
 	render(){
 
 		return (
 			<div style={{display: 'flex', justifyContent: 'space-between', borderBottom: '2.3px solid #29207A'}}>
-				<h3 style={{paddingLeft: '1em'}}>{this.props.title}</h3>
+				<h3 style={{paddingLeft: '1em', fontSize: '23'}}>{this.props.title}</h3>
 				<div>
 				{
 					this.props.openDialog!==undefined ?
-						<button className="btn btn-default positionButton" onClick={() => this.props.openDialog()}>ADD</button>
+						<button className="btn btn-default" onClick={() => this.props.openDialog()}>ADD</button>
 					: ''
 				}
 
-				<DropDownMenu menuItems={this.props.menuItems}
-					style={{width: '175'}}
-					onChange={this.props.func}/>
+				<DropDownMenu 
+					value={this.state.value}
+					style={{minWidth: '175px'}}
+					onChange={(e, index, value) => this.handleChange(e, index, value)}>
+					<MenuItem value={'Sort By'} primaryText="Sort By"/>
+					<MenuItem value={'Name Ascendant'} primaryText="Name Ascendant"/>
+					<MenuItem value={'Name Descendant'} primaryText="Name Descendant"/>
+				</DropDownMenu>
 				</div>
 			</div>
 		);

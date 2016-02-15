@@ -1,95 +1,66 @@
 import React from 'react';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import LeftNav from 'material-ui/lib/left-nav';
+import Divider from 'material-ui/lib/divider';
 
-import { LeftNav, MenuItem } from 'material-ui';
 
 
 //var injectTapEventPlugin = require('react-tap-event-plugin');
 //injectTapEventPlugin();
 
-const menuItems = [
-
-			{
-				route: '/account',
-				text: 'ListUs'
-			},
-		  {
-		  	type: MenuItem.Types.SUBHEADER,
-		  	text: 'Groups'
-		  },
-		  {
-		     route: '/groups',
-		     text: 'Manage groups'
-		  },
-		  {
-		  	type: MenuItem.Types.SUBHEADER,
-		  	text: 'Manage friends'
-		  },
-		  {
-		     route: '/friends',
-		     text: 'Friends'
-		  },
-		  {
-		  	type: MenuItem.Types.SUBHEADER,
-		  	text: 'Lists'
-		  },
-		  {
-		     route: '/list',
-		     text: 'My lists'
-		  },
-		  {
-		  	type: MenuItem.Types.SUBHEADER,
-		  	text: 'Calendars'
-		  },
-		  {
-		     route: '/calendar',
-		     text: 'My calendar'
-		  },
-			{
-		  	type: MenuItem.Types.SUBHEADER,
-		  	text: 'Notifications'
-		  },
-			{
-				route: '/notifications',
-				text: 'Notifications'
-			}
-		];
 
 export default class Nav extends React.Component {
 
 	constructor(props) {
     super(props);
+    this.state = {
+    	open: false
+    };
   }
 
-  componentDidMount(){
-  	this.refs.leftNav.close();
+
+  handleToggle(){
+  	this.setState({open: !this.state.open});
   }
 
-  showNav(){
-  	this.refs.leftNav.toggle();
+  handleClose(route){
+  	this.setState({open: false});
+    this.context.history.pushState(null, route);
   }
 
-  _onLeftNavChange(e, key, payload) {
-    // Do DOM Diff refresh
-    let path = payload.route;
-    this.context.history.pushState(null, path);
+  handleOpen(open){
+  	this.setState({open});
   }
 
 	render() {
 
 		return (
-
-				<nav className="leftNav">
-					<button className="btn btn-default" onClick={this.showNav.bind(this)}>
-						<span ref="span" className="biggerGlyphicon glyphicon glyphicon-menu-hamburger"></span>
-					</button>
-					<LeftNav
-					ref="leftNav"
+			<nav className="leftNav">
+				<button className="btn btn-default" onClick={() => this.handleToggle()}>
+					<span ref="span" className="biggerGlyphicon glyphicon glyphicon-menu-hamburger"></span>
+				</button>
+				<LeftNav
 					docked={false}
-					menuItems={menuItems}
-	        onChange={this._onLeftNavChange.bind(this)} />
-				</nav>
-
-
+					open={this.state.open}
+	      			onRequestChange={open => this.handleOpen(open)}>
+	          			<MenuItem onClick={() => this.handleClose('/account')} style={{paddingTop: '7px', paddingBottom: '7px'}}>ListUs</MenuItem>
+	          			<Divider />
+	          			<h1 className="menuTitle">Groups</h1>
+	          			<MenuItem onClick={() => this.handleClose('/groups')}>Manage groups</MenuItem>
+	          			<Divider />
+	          			<h1 className="menuTitle">Friends</h1>
+	          			<MenuItem onClick={() => this.handleClose('/friends')}>Manage friends</MenuItem>
+	          			<Divider />
+	          			<h1 className="menuTitle">Lists</h1>
+	          			<MenuItem onClick={() => this.handleClose('/list')}>My lists</MenuItem>
+	          			<Divider />
+	          			<h1 className="menuTitle">Calendar</h1>
+	          			<MenuItem onClick={() => this.handleClose('/calendar')}>My Calendar</MenuItem>
+	          			<Divider />
+	          			<h1 className="menuTitle">Notifications</h1>
+	          			<MenuItem onClick={() => this.handleClose('/notifications')}>Notfications</MenuItem>
+	    		</LeftNav>
+			</nav>
 		);
 	}
 }

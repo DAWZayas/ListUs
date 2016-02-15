@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Dialog, TextField, Toggle } from 'material-ui';
 import DatePicker from 'react-datepicker';
-var moment = require('moment');
+//var moment = require('moment');
 require('react-datepicker/dist/react-datepicker.css');
 import { countries } from '../utils/functions';
 
@@ -223,7 +223,7 @@ export default class Account extends React.Component {
 
                     <li>
                       <div className="form-group">
-                        <label for="genderSelect">Gender</label>
+                        <label htmlFor="genderSelect">Gender</label>
                         <select ref="genderSelect" className="form-control">
                           <option>{(this.props.user.personalData.gender !== '') 
                             ? this.props.user.personalData.gender
@@ -236,7 +236,7 @@ export default class Account extends React.Component {
                     </li>
 
                     <li>
-                      <label for="townSelect">Country</label>
+                      <label htmlFor="townSelect">Country</label>
                       <select ref="townSelect" className="form-control">
                         <option>{(this.props.user.personalData.town !== '') ?this.props.user.personalData.town: ''}</option>
                       { countries.map(country => <option key={country}>{country}</option>)}
