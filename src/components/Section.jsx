@@ -35,7 +35,7 @@ export default class Section extends Component {
     /*Cuando vienes desde el calendario, solo pasa dos veces
     por aquí, y siempre está loading*/
 
-    ( this.state.count === 3) ? this.setState({ loading: false, count: 0 }) : '';
+    ( this.state.count === 2) ? this.setState({ loading: false, count: 0 }) : '';
   }
 
   componentWillUnmount() {
@@ -78,6 +78,7 @@ export default class Section extends Component {
 
 
   handleSorted(e, selectedIndex, menuItem){
+    this.props.cleanAlert();
     e.preventDefault();
     this.setState({sorted: menuItem.text});
   }
@@ -99,6 +100,7 @@ export default class Section extends Component {
   }
 
   handleRequestClose() {
+    this.props.cleanAlert();
     this.setState({
       open: false,
     });

@@ -88,7 +88,7 @@ function addListToUserList(refListsUser, refUser, idList){
           setTimeout( () => dispatch({
             type: SET_ALERT,
             msg: 'List removed',
-            msgType: 'add'
+            msgType: 'remove'
           }), 1000);
         });
       };

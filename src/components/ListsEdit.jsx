@@ -61,7 +61,6 @@ export default class ListsEdit extends Component{
 
 
 	handleOpenListDialog(){
-    this.props.cleanAlert();
 		this.setState({showDialogList: true});
 	}
 
@@ -92,6 +91,7 @@ export default class ListsEdit extends Component{
 		showDialogAddFriendsAndGroupsList: false,
 		newParticipant: {},
 		textToSearch: ''});
+		this.props.cleanAlert();
 	}
 
 	/* FRIENDS AND GROUPS */

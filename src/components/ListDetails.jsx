@@ -40,6 +40,7 @@ onClickPagination(e){
 }
 
 onClickPrevious(){
+  this.props.cleanAlert();
   if(1!==this.state.page){
     this.setState({page: this.state.page-1});
   }
@@ -50,6 +51,7 @@ numberOfPages(tasksToShow){
 }
 
 onClickNext(e){
+  this.props.cleanAlert();
   e.preventDefault();
   if(this.numberOfPages()!==this.state.page){
     this.setState({page: this.state.page+1});

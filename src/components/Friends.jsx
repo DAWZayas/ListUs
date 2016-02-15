@@ -52,6 +52,7 @@ export default class Friends extends Component {
   }
 
   hideDialog(){
+    this.props.cleanAlert();
     this.setState({
       open: false,
       findUserLetter: ''
@@ -76,14 +77,12 @@ export default class Friends extends Component {
   }
 
   onRemoveFriend(){
-    this.props.cleanAlert();
     const { removeFriend } = this.props;
     removeFriend(this.state.friendName);
     this.setState({friendName: '', openDelete: false});
   }
 
   handleCancelRemoveFriend(){
-    this.props.cleanAlert();
     this.setState({friendName: '', openDelete: false});
   }
 

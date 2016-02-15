@@ -30,7 +30,6 @@ export default class CommentsChat extends Component {
 */
 
   onClickAddComment(){
-    this.props.cleanAlert();
     const { onAddComment } = this.props;
     const textComment = this.refs.textArea.value;
     if(textComment!==''){

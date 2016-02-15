@@ -22,6 +22,7 @@ export default class TaskTitle extends Component {
   }
 
   openDialog(){
+    this.props.cleanAlert();
     this.setState({showDialog: true});
   }
 
@@ -30,7 +31,6 @@ export default class TaskTitle extends Component {
   }
 
   handleClickAdd(){
-    this.props.cleanAlert();
     const { onAddTask, list } = this.props;
     const title = this.refs.taskText.getValue();
     if(this.validationTitle(title)) onAddTask(list.id, title);

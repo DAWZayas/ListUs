@@ -11,21 +11,9 @@ export function setUsers(users){
 
 export function addFriend(name){
   return (dispatch, getState) => {
+    const { firebase, auth } = getState();
     new Promise(resolve => {
-      const { firebase, auth } = getState();
-        firebase.child('users').once('value', snapshot => {
-          resolve(
-            function(){
-              new Promise(resolve => {
-                resolve(Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===name )[0]);
-              }).then( idFriend  => {
-                firebase.child(`users/${auth.id}`).once('value', snapshot => {
-                  sendActionPendingToUser(snapshot.val().name, auth.id, firebase, idFriend);
-                });
-              });
-            }
-          );
-        });
+      resolve(addActionPendingToUser(firebase, auth, name));
     }).then( () => {
       dispatch({
         type: SET_ALERT,
@@ -34,6 +22,18 @@ export function addFriend(name){
       });
     });
   };
+}
+
+function addActionPendingToUser(firebase, auth, name){
+  firebase.child('users').once('value', snapshot => {
+    new Promise(resolve => {
+      resolve(Object.keys(snapshot.val()).filter( idUser => snapshot.val()[idUser].name===name )[0]);
+    }).then( idFriend  => {
+      firebase.child(`users/${auth.id}`).once('value', snapshot => {
+        sendActionPendingToUser(snapshot.val().name, auth.id, firebase, idFriend);
+      });
+    });
+  });
 }
 
 function sendActionPendingToUser(nameUserCreateAction, idUserCreateAction, firebase, idFriend){
