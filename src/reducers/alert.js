@@ -1,13 +1,19 @@
-import { SET_ALERT } from '../actions/alerts';
+import { SET_ALERT, CLEAN_ALERT } from '../actions/alerts';
 
 function setAlert(state, msg){
   return msg;
 }
 
-export default function reducerCalendar( state = {}, action ){
+function cleanAlert(){
+  return {msg:''};
+}
+
+export default function reducerCalendar( state = {msg:''}, action ){
   switch (action.type) {
     case SET_ALERT:
-      return setAlert(state, action.msg);
+      return setAlert(state, action);
+    case CLEAN_ALERT:
+      return cleanAlert();
     default:
       return state;
   }

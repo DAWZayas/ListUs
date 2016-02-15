@@ -31,22 +31,25 @@ export default class Calendar extends Component {
 
   getCalendar(day){
 
-    const calendar = this.props.calendar;
-
-
     let month = this.state.months[day.getMonth()];
     let year = (1900 + day.getYear()).toString();
 
     let dates = {};
 
-    for (let key in calendar) {
-      if (year === key){
-        for (let key2 in calendar[key]){
-          if (key2 === month) {
-            dates = calendar[key][key2];
+    const calendarUser = this.props.calendar;
+
+    if(calendarUser.constructor === Array){
+      calendarUser.map( function(calendar){
+        for (let key in calendar) {
+          if (year === key){
+            for (let key2 in calendar[key]){
+              if (key2 === month) {
+                Object.assign(dates, calendar[key][key2]);
+              }
+            }
           }
         }
-      }
+      });
     }
 
     return dates;
@@ -105,7 +108,6 @@ export default class Calendar extends Component {
   renderDay(day){
 
     const dates = this.getCalendar(day);
-
     const date = day.getDate();
 
     let iterableDates = dates[date];
@@ -157,7 +159,7 @@ export default class Calendar extends Component {
 }
 
 Calendar.propTypes = {
-  calendar: PropTypes.object,
+  calendar: PropTypes.array,
   lists: PropTypes.array,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired

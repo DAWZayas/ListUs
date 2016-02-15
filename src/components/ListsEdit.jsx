@@ -61,6 +61,7 @@ export default class ListsEdit extends Component{
 
 
 	handleOpenListDialog(){
+    this.props.cleanAlert();
 		this.setState({showDialogList: true});
 	}
 
@@ -357,8 +358,8 @@ ListsEdit.propTypes = {
   groups: PropTypes.array,
 	onAddFriendGroupToList: PropTypes.func,
 	onRemoveFriendGroupToList: PropTypes.func,
-	user: PropTypes.object
-
+	user: PropTypes.object,
+  cleanAlert: PropTypes.func
 };
 
 ListsEdit.defaultProps = {

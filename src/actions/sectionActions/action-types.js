@@ -9,3 +9,4 @@ export const ADD_FRIEND_TO_LIST = 'ADD_FRIEND_TO_LIST';
 export const ADD_LIST_CORRECT = 'ADD_LIST_CORRECT';
 export const REMOVE_LIST_CORRECT = 'REMOVE_LIST_CORRECT';
 export const SET_USER = 'SET_USER';
+export const CLEAN_ALERT = 'CLEAN_ALERT';

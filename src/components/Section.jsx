@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker';
 let moment = require('moment');
 require('react-datepicker/dist/react-datepicker.css');
 import Spinner from './Spinner';
-import alertify from 'alertifyjs';
+import alertify from 'alertifyjs/build/alertify.min.js';
 
 export default class Section extends Component {
 
@@ -32,11 +32,16 @@ export default class Section extends Component {
   componentWillReceiveProps(){
     let count = this.state.count+1;
     this.setState({ count });
-    ( this.state.count === 3) ?this.setState({ loading: false, count: 0 }) :'';
+
+    /*Cuando vienes desde el calendario, solo pasa dos veces
+    por aquí, y siempre está loading*/
+
+    ( this.state.count === 3) ? this.setState({ loading: false, count: 0 }) : '';
   }
 
   componentWillUnmount() {
     this.props.unregisterListeners();
+    this.props.cleanAlert();
   }
 
   handleChange(date) {
@@ -51,6 +56,7 @@ export default class Section extends Component {
   }
 
   openDialog(){
+    this.props.cleanAlert();
     this.setState({
       dialogState: true
     });
@@ -83,6 +89,7 @@ export default class Section extends Component {
   }
 
   pagination(){
+    this.props.cleanAlert();
     this.setState({
       numberOfList: this.state.numberOfList+5
     });
@@ -98,6 +105,17 @@ export default class Section extends Component {
     });
   }
 
+  myAlert(alert){
+    if (alert.msgType==='add'){
+      alertify.success(alert.msg);
+    }
+    if (alert.msgType==='remove'){
+      alertify.error(alert.msg);
+    }
+    if(alert.msgType==='edit'){
+      alertify.message(alert.msg);
+    }
+  }
 
   render() {
     //const { pendingActions } = this.props;
@@ -113,15 +131,13 @@ export default class Section extends Component {
     ];
 
     const { lists, alert } = this.props;
-
     const { sorted } = this.state;
     const key = (sorted.split(' ')[0] === 'Name')?'title':'date';
     const listsEnd = (sorted === 'Sort By') ? lists : sortArray(lists, key, sorted.split(' ')[1]);
-
     return(
       <article className="article">
-        {typeof alert === 'string'
-          ? alertify.success(alert, 5, function(){  console.log('dismissed'); })
+        {alert.msg.length
+          ? this.myAlert(alert)
           : ''
         }
         <Dialog title="Add new list" open={this.state.dialogState} actions={customActions} key={1} ref="dialog">
@@ -156,7 +172,8 @@ export default class Section extends Component {
                   onEditList={this.props.editList}
                   onAddFriendGroupToList={this.props.addFriendGroupToList}
                   onRemoveFriendGroupToList={this.props.removeFriendGroupToList}
-                  user={this.props.user} />
+                  user={this.props.user}
+                  cleanAlert = {this.props.cleanAlert} />
                 : '' )
             }
         </div>
@@ -182,7 +199,7 @@ export default class Section extends Component {
 }
 
 Section.propTypes = {
-  alert: PropTypes.string,
+  alert: PropTypes.object,
   lists: PropTypes.array,
   groups: PropTypes.array,
   addList: PropTypes.func,
@@ -195,7 +212,8 @@ Section.propTypes = {
   pendingActions: PropTypes.array,
   registerListeners: PropTypes.func.isRequired,
   unregisterListeners: PropTypes.func.isRequired,
-  user: PropTypes.object
+  user: PropTypes.object,
+  cleanAlert: PropTypes.func
 };
 
 Section.defaultProps = {

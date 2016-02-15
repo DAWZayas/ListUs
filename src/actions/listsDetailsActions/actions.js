@@ -72,10 +72,6 @@ function addListToUserList(refListsUser, refUser, idList){
           const date = list.date;
           // REMOVE FROM DAY
           removeFromCalendar(firebase, auth, idList, date);
-          //ACTION REMOVE TO USER LISTS
-          const refListsUser = firebase.child(`users/${auth.id}/lists`);
-          const refUser = firebase.child(`users/${auth.id}`);
-          removeListFromUser(refListsUser, refUser, idList);
           //REMOVE COMMENTS OF THE LIST
           firebase.child(`comments/${list.id}`).remove();
           };
@@ -91,9 +87,9 @@ function addListToUserList(refListsUser, refUser, idList){
             const user = Object.values(snapshotUsers.val()).filter( user => user.name===nameUser )[0];
             const userId = Object.keys(snapshotUsers.val()).filter( id => snapshotUsers.val()[id].name===user.name)[0];
             if(user.lists!==undefined){
-              lists = user.lists.filter( listId => list.id!==listId );
+              const lists = user.lists.filter( listId => list.id!==listId );
+              firebase.child(`users/${userId}`).update({lists});
             }
-            firebase.child(`users/${userId}`).update({lists});
           }));
         }
       });
@@ -111,12 +107,6 @@ function addListToUserList(refListsUser, refUser, idList){
             firebase.child(`users/${userId}`).update({pendingActions});
           }
         });
-      });
-    }
-    function removeListFromUser(refListsUser, refUser, idList){
-      refListsUser.once('value', snapshot => {
-        const lists = snapshot.val()===null ? [] : snapshot.val().filter(id => id!==idList);
-        refUser.update({lists});
       });
     }
 

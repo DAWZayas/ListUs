@@ -1,5 +1,5 @@
 import { getActualDate } from '../../utils/functions';
-import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_FRIEND_TO_LIST } from './action-types';
+import { SET_LIST, ADD_LIST_ERROR, REMOVE_LIST_ERROR, EDIT_LIST_ERROR, ADD_FRIEND_TO_LIST, CLEAN_ALERT } from './action-types';
 import { SET_ALERT } from '../alerts';
 //import sequencer from '../sequencer';
 
@@ -19,30 +19,35 @@ export function setList(lists){
 export function addList(title, date, importance){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    firebase.child(`users/${auth.id}`).once('value', snapshot => {
-      let fireReference = firebase.child('lists').push({title, date, importance, admin: [snapshot.val().name], participantsFriends:[snapshot.val().name]}, error => {
-          if(error){
-            console.error('ERROR @ addList:', error);
-            dispatch({
-              type: ADD_LIST_ERROR,
-              payload: error
-            });
-          }else{
-            //ACTION ADD TO ALL LISTS
-            const idList = fireReference.key();
-            addToCalendar(firebase, auth, idList, date);
-            //ACTION ADD TO USER LISTS
-            const refListsUser = firebase.child(`users/${auth.id}/lists`);
-            const refUser = firebase.child(`users/${auth.id}`);
-            addListToUserList(refListsUser, refUser, idList);
-            dispatch({
-              type: SET_ALERT,
-              msg: 'List added'
-            });
-          }
-      });
 
+    new Promise(resolve => {
+      firebase.child(`users/${auth.id}`).once('value', snapshot => {
+        let fireReference = firebase.child('lists').push({title, date, importance, admin: [snapshot.val().name], participantsFriends:[snapshot.val().name]}, error => {
+            if(error){
+              console.error('ERROR @ addList:', error);
+              dispatch({
+                type: ADD_LIST_ERROR,
+                payload: error
+              });
+            }else{
+              //ACTION ADD TO ALL LISTS
+              const idList = fireReference.key();
+              addToCalendar(firebase, auth, idList, date);
+              //ACTION ADD TO USER LISTS
+              const refListsUser = firebase.child(`users/${auth.id}/lists`);
+              const refUser = firebase.child(`users/${auth.id}`);
+              resolve(addListToUserList(refListsUser, refUser, idList));
+            }
+        });
+      });
+    }).then( () => {
+      setTimeout( () => dispatch({
+        type: SET_ALERT,
+        msg: 'List added',
+        msgType: 'add'
+      }), 1000);
     });
+
 
   };
 }
@@ -65,25 +70,30 @@ export function removeList(list){
     }
     //REMOVE ACTIONSPENGIG WITH IDLIST IN ALL THE USERS
     removeActionsPendingsWithListIdFromAllTheUsers(firebase, idList);
-    firebase.child(`lists/${list.id}`).remove(error => {
-      if(error){
-        console.error('ERROR @ removeList:', error);
-        dispatch({
-          type: REMOVE_LIST_ERROR,
-          payload: error
-        });
-      }else{
-      const date = list.date;
-      // REMOVE FROM DAY
-      removeFromCalendar(firebase, auth, idList, date);
-      //ACTION REMOVE TO USER LISTS
-      const refListsUser = firebase.child(`users/${auth.id}/lists`);
-      const refUser = firebase.child(`users/${auth.id}`);
-      removeListFromUser(refListsUser, refUser, idList);
-      //REMOVE COMMENTS OF THE LIST
-      firebase.child(`comments/${list.id}`).remove();
-      };
+    new Promise(resolve => {
+      firebase.child(`lists/${list.id}`).remove(error => {
+        if(error){
+          console.error('ERROR @ removeList:', error);
+          dispatch({
+            type: REMOVE_LIST_ERROR,
+            payload: error
+          });
+        }else{
+        const date = list.date;
+        // REMOVE FROM DAY
+        removeFromCalendar(firebase, auth, idList, date);
+        //REMOVE COMMENTS OF THE LIST
+        resolve(firebase.child(`comments/${list.id}`).remove());
+        };
+      });
+    }).then( () => {
+      setTimeout( () => dispatch({
+        type: SET_ALERT,
+        msg: 'List removed',
+        msgType: 'remove'
+      }), 1000);
     });
+
   };
 }
 
@@ -94,9 +104,9 @@ function removeListInAllParticipants(firebase, list){
         const user = Object.values(snapshotUsers.val()).filter( user => user.name===nameUser )[0];
         const userId = Object.keys(snapshotUsers.val()).filter( id => snapshotUsers.val()[id].name===user.name)[0];
         if(user.lists!==undefined){
-          lists = user.lists.filter( listId => list.id!==listId );
+          const lists = user.lists.filter( listId => list.id!==listId );
+          firebase.child(`users/${userId}`).update({lists});
         }
-        firebase.child(`users/${userId}`).update({lists});
       }));
     }
   });
@@ -116,12 +126,7 @@ function removeActionsPendingsWithListIdFromAllTheUsers(firebase, idList){
     });
   });
 }
-function removeListFromUser(refListsUser, refUser, idList){
-  refListsUser.once('value', snapshot => {
-    const lists = snapshot.val()===null ? [] : snapshot.val().filter(id => id!==idList);
-    refUser.update({lists});
-  });
-}
+
 
 
 
@@ -254,4 +259,12 @@ function removeFromCalendar(firebase, auth, idList, date){
     listsInDay = snapshot.val()===null ? [] : snapshot.val().filter( iterableIdList => iterableIdList!==idList );
     refMonth.update({[dayNumber]:listsInDay});
   });
+}
+
+export function cleanAlert(){
+  return (dispatch) => {
+    dispatch({
+      type: CLEAN_ALERT
+    });
+  };
 }
