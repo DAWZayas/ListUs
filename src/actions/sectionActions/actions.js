@@ -79,11 +79,15 @@ export function removeList(list){
             payload: error
           });
         }else{
-        const date = list.date;
-        // REMOVE FROM DAY
-        removeFromCalendar(firebase, auth, idList, date);
-        //REMOVE COMMENTS OF THE LIST
-        resolve(firebase.child(`comments/${list.id}`).remove());
+          const date = list.date;
+          // REMOVE FROM DAY
+          list.participantsFriends.map( function(name){
+            firebase.child('users').once('value', snapshotUsers => {
+              Object.keys(snapshotUsers.val()).map( idUser => snapshotUsers.val()[idUser].name === name ? removeFromCalendar(firebase, snapshotUsers.val()[idUser], idList, date) : '');
+            });
+          });
+          //REMOVE COMMENTS OF THE LIST
+          resolve(firebase.child(`comments/${list.id}`).remove());
         };
       });
     }).then( () => {

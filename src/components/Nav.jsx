@@ -6,7 +6,7 @@ import { LeftNav, MenuItem } from 'material-ui';
 //var injectTapEventPlugin = require('react-tap-event-plugin');
 //injectTapEventPlugin();
 
-const menuItems = [
+/*const menuItems = [
 
 			{
 				route: '/account',
@@ -52,7 +52,7 @@ const menuItems = [
 				route: '/notifications',
 				text: 'Notifications'
 			}
-		];
+		];*/
 
 export default class Nav extends React.Component {
 
@@ -85,7 +85,6 @@ export default class Nav extends React.Component {
 					<LeftNav
 					ref="leftNav"
 					docked={false}
-					menuItems={menuItems}
 	        onChange={this._onLeftNavChange.bind(this)} />
 				</nav>
 

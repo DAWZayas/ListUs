@@ -28,6 +28,30 @@ export function refusePendingAction(notification){
   };
 }
 
+const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
+const convertMonth = date => date.split('/')[1][0]==='0' ? date.split('/')[1][1] : date.split('/')[1];
+
+const months = [ '', 'Enero', 'Febrero',
+'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
+'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ];
+
+function addToCalendar(firebase, auth, idList, date){
+  // get day
+  const dayNumber = convertDay(date);
+
+  //get month
+  const monthNumber = convertMonth(date);
+  const monthName = months[monthNumber];
+
+  const refDate = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}/${dayNumber}`);
+  const refMonth = firebase.child(`calendar/${auth.id}/${date.split('/')[2]}/${monthName}`);
+  let listsInDay = [];
+  refDate.once('value', snapshot => {
+    listsInDay = snapshot.val()===null ? [idList] : snapshot.val().concat([idList]);
+    refMonth.update({[dayNumber]:listsInDay});
+  });
+}
+
 
 function addMeToList(notification){
   return (dispatch, getState) => {
@@ -39,6 +63,10 @@ function addMeToList(notification){
       const name = snapshotUser.val().name;
       const lists = snapshotUser.val().lists===undefined ? [idList] : snapshotUser.val().lists.concat(idList);
       firebase.child(`users/${auth.id}`).update({lists});
+      firebase.child(`lists`).once('value', snapshotLists => {
+        const date = snapshotLists.val()[idList].date;
+        addToCalendar(firebase, auth, idList, date);
+      });
 
       //añadir a la lista el nombre del usuario
       firebase.child(`lists/${idList}/participantsFriends`).once('value', snapshot => {
@@ -104,7 +132,8 @@ function addFriend(notification){
       }).then( (nameUser) => {
         new Promise(resolve => {
             firebase.child(`users/${idOtherUser}/friends`).once('value', snapshotFriendList => {
-              const friends =  snapshotFriendList.val()!==undefined ? snapshotFriendList.val().concat(nameUser) : [nameUser];
+              debugger;
+              const friends = snapshotFriendList.val()!==null ? snapshotFriendList.val().concat(nameUser) : [nameUser];
               resolve(firebase.child(`users/${idOtherUser}`).update({friends}));
             });
         }).then( () => {
