@@ -11,8 +11,9 @@ export function registerListeners(){
 
     ref.on('value', snapshot => {
       friends = snapshot.val() === null ? [] : snapshot.val();
+
       refGlobal.once('value', snapshot => {
-        let friendsToIterate = snapshot.val().users[auth.id].friends.filter(Boolean);
+        let friendsToIterate = snapshot.val().users[auth.id].friends === undefined ? [] : snapshot.val().users[auth.id].friends.filter(Boolean);
         let usersToIterate = Object.keys(snapshot.val().users || {}).filter(id => snapshot.val().users[auth.id].accounts.indexOf(id) && friendsToIterate.indexOf(snapshot.val().users[id].name) === -1);
         //snapshot.val().users[snapshot.val().users[auth.id].accounts[0]]
         dispatch({

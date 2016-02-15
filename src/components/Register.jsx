@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+//import injectTapEventPlugin from 'react-tap-event-plugin';
+//injectTapEventPlugin();
 import { TextField, RaisedButton } from 'material-ui';
 import Logo from '../components/Logo';
 
@@ -109,7 +109,7 @@ export default class Login extends Component {
               onChange={this.checkPasswords.bind(this)}
               style={{marginBottom: '10px', borderRadius: '10', paddingLeft: '10'}}/>
             {(this.state.errorPassword !== '')? <p style={{color: 'red'}}>{this.state.errorPassword}</p>:''}
-            <RaisedButton label="SIGN UP" secondary  onTouchTap={()=>this.handleClickSignUp()} style={{}}/>
+            <RaisedButton label="SIGN UP" secondary  onClick={()=>this.handleClickSignUp()} style={{}}/>
     		</div><br/>
         </div>
         <div className="enterHeader enterFooter" height="80px"></div>

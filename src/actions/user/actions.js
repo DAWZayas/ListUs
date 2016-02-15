@@ -88,6 +88,27 @@ export function changeVisibility(visibility){
   };
 }
 
+export function changeGender(gender){
+  return (dispatch, getState) => {
+    const { firebase, auth } = getState();
+    firebase.child(`users/${auth.id}/personalData`).update({gender});
+  };
+}
+
+export function changeTown(town){
+  return (dispatch, getState) => {
+    const { firebase, auth } = getState();
+    firebase.child(`users/${auth.id}/personalData`).update({town});
+  };
+}
+
+export function changeBirthday(birthday){
+  return (dispatch, getState) => {
+    const { firebase, auth } = getState();
+    firebase.child(`users/${auth.id}/personalData`).update({birthday});
+  };
+}
+
 
 export function changeName(name){
   return (dispatch, getState) => {
