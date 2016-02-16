@@ -59,6 +59,7 @@ export function removeFriend(name){
   return (dispatch, getState) => {
     new Promise(resolve => {
       const { firebase, auth } = getState();
+      const globalReference = firebase.child(`users`);
       firebase.child(`friends/${name}`).remove( error => {
           if(error){
             console.error('ERROR @ removeFriend:', error);
@@ -69,6 +70,17 @@ export function removeFriend(name){
           }else{
             const reference = firebase.child(`users/${auth.id}/friends`);
             const refUser = firebase.child(`users/${auth.id}`);
+            
+            globalReference.once('value', snapshot => {
+              let idOtherFriend = Object.keys(snapshot.val()).filter( (id) => snapshot.val()[id].name === name );
+              idOtherFriend = idOtherFriend[0];
+              let myName = snapshot.val()[auth.id].name;
+              let otherFriends = [];
+              firebase.child(`users/${idOtherFriend}/friends`).once('value', snapshot => {
+                otherFriends = snapshot.val() === null ? [] : snapshot.val().filter(friend => myName !== friend);
+                firebase.child(`users/${idOtherFriend}`).update({otherFriends});
+              });
+            });
             let friends = [];
             reference.once('value', snapshot => {
               friends = snapshot.val() === null ? [] : snapshot.val().filter(friend => name !== friend);

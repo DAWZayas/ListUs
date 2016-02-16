@@ -115,9 +115,11 @@ export default class Friends extends Component {
     const { findUserLetter, open } = this.state;
 
     usersToShow = users.filter( user => user.name.toLowerCase().indexOf(findUserLetter.toLowerCase()) !== -1 );
-
     const addFriend = [
-      { text: 'Cancel', onClick: this.hideDialog.bind(this) },
+      <FlatButton
+        label="Cancel"
+        secondary
+        onClick={() => this.hideDialog()} />
     ];
 
     let friendsGeneral = [];
@@ -157,7 +159,9 @@ export default class Friends extends Component {
             <div style={{'textAlign': 'center'}}>
               <input type="text" ref="findUser" onChange={this.findUsers.bind(this)} /><br/><br/>
               {
-                usersToShow.map( user => <button key={user.name} style={{'marginLeft': '10px' }} className="btn btn-default" onClick={e => this.addFriend(e)}>{user.name}</button>)
+                usersToShow.length === 0
+                ? <h4>No more friends to add</h4>
+                : usersToShow.map( user => <button key={user.name} style={{'marginLeft': '10px' }} className="btn btn-default" onClick={e => this.addFriend(e)}>{user.name}</button>)
               }
             </div>
           </Dialog>

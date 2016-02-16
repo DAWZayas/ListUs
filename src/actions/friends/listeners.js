@@ -13,8 +13,14 @@ export function registerListeners(){
       friends = snapshot.val() === null ? [] : snapshot.val();
 
       refGlobal.once('value', snapshot => {
-        let friendsToIterate = snapshot.val().users[auth.id].friends === undefined ? [] : snapshot.val().users[auth.id].friends.filter(Boolean);
-        let usersToIterate = Object.keys(snapshot.val().users || {}).filter(id => snapshot.val().users[auth.id].accounts.indexOf(id) === -1 && friendsToIterate.indexOf(snapshot.val().users[id].name) === -1);
+        let arrActualFriends = snapshot.val().users[auth.id].friends === undefined ? [] : snapshot.val().users[auth.id].friends.filter(Boolean);
+        debugger;
+        if(snapshot.val().users[auth.id].accounts !== undefined){
+          Object.keys(snapshot.val().users[auth.id].accounts).reduce( (init, id) => arrActualFriends = arrActualFriends.concat(snapshot.val().users[snapshot.val().users[auth.id].accounts[id]].name), arrActualFriends);
+        }
+        arrActualFriends = arrActualFriends.filter(Boolean);
+        //Object.keys(snapshot.val().users || {}).filter(id => snapshot.val().users[auth.id].accounts !== undefined ? snapshot.val().users[auth.id].accounts.indexOf(id) === -1 && friendsToIterate.indexOf(snapshot.val().users[id].name) === -1 : true);
+        let usersToIterate = Object.keys(snapshot.val().users || {}).filter( id => arrActualFriends.indexOf(snapshot.val().users[id].name) === -1);
         //snapshot.val().users[snapshot.val().users[auth.id].accounts[0]]
         dispatch({
           type: SET_FRIENDS,
