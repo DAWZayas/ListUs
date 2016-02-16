@@ -77,11 +77,12 @@ export function removeFriend(name){
           }
       });
     }).then( () => {
+      setTimeout(()=>
       dispatch({
         type: SET_ALERT,
         msg: 'Remove friend',
         msgType: 'remove'
-      });
+      }), 1000);
     });
 
   };

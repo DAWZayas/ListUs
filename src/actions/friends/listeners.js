@@ -1,4 +1,4 @@
-import { SET_FRIENDS, SET_USERS } from './action-types';
+import { SET_FRIENDS, SET_USERS, CLEAN_ALERT, SET_ALERT } from './action-types';
 
 export function registerListeners(){
   return (dispatch, getState) => {
@@ -25,8 +25,22 @@ export function registerListeners(){
               ? init.concat({id, img:snapshot.val().users[id].img, name:snapshot.val().users[id].name})
               : init, [])
         });
+      });
     });
-  });
+
+    ref.on('child_changed', (newSnapshot, oldSnapshot) => {
+      let newUserName = '';
+      if(newSnapshot.length>oldSnapshot.length){
+        newUserName = newSnapshot.filter( name => oldSnapshot.indexOf(name)===-1 )[0].toUpperCase();
+      }else{
+        newUserName = oldSnapshot.filter( name => newSnapshot.indexOf(name)===-1 )[0].toUpperCase();
+      }
+      dispatch({
+        type: SET_ALERT,
+        msg: `${newUserName} added you as friend`,
+        msgType: 'add'
+      });
+    });
   };
 }
 
@@ -44,6 +58,9 @@ export function unregisterListeners(){
     dispatch({
       type: SET_USERS,
       users: []
+    });
+    dispatch({
+      type: CLEAN_ALERT
     });
   };
 }

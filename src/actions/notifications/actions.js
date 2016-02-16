@@ -20,13 +20,11 @@ export function aceptPendingAction(notification){
 export function refusePendingAction(notification){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
-      //borrar la pendingAction
-      const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => JSON.stringify(actionPending) !== JSON.stringify(notification) );
-      firebase.child(`users/${auth.id}`).update({pendingActions});
-    });
+    deleteDuplicatesActionPendings(firebase, auth, notification);
   };
 }
+
+
 
 const convertDay = date => date.split('/')[0][0]==='0' ? date.split('/')[0][1] : date.split('/')[0];
 const convertMonth = date => date.split('/')[1][0]==='0' ? date.split('/')[1][1] : date.split('/')[1];
@@ -57,29 +55,42 @@ function addMeToList(notification){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
     const idList = notification.idList;
-    const refIdList = firebase.child(`lists/${idList}`);
-    //añadir la lista al usuario
-    firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
-      const name = snapshotUser.val().name;
-      const lists = snapshotUser.val().lists===undefined ? [idList] : snapshotUser.val().lists.concat(idList);
-      firebase.child(`users/${auth.id}`).update({lists});
-      firebase.child(`lists`).once('value', snapshotLists => {
-        const date = snapshotLists.val()[idList].date;
-        addToCalendar(firebase, auth, idList, date);
+    new Promise(resolve => {
+      firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
+        const name = snapshotUser.val().name;
+        const lists = snapshotUser.val().lists===undefined ? [idList] : snapshotUser.val().lists.concat(idList);
+        firebase.child(`users/${auth.id}`).update({lists});
+        addListToCalendar(firebase, auth, idList);
+        resolve(name);
       });
-
-      //añadir a la lista el nombre del usuario
-      firebase.child(`lists/${idList}/participantsFriends`).once('value', snapshot => {
-        const participantsFriends = snapshot.val()===null ? [name] : snapshot.val().concat([name]);
-        refIdList.update({participantsFriends});
-      });
-      //borrar la pendingAction
-      const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => JSON.stringify(actionPending) !== JSON.stringify(notification) );
-      firebase.child(`users/${auth.id}`).update({pendingActions});
+    }).then( (name) => {
+      addUserToList(firebase, idList, name);
+    }).then( () => {
+      deleteDuplicatesActionPendings(firebase, auth, notification);
     });
   };
 }
 
+function addUserToList(firebase, idList, name){
+  firebase.child(`lists/${idList}/participantsFriends`).once('value', snapshot => {
+    const participantsFriends = snapshot.val()===null ? [name] : snapshot.val().concat([name]);
+    refIdList.update({participantsFriends});
+  });
+}
+
+function deleteDuplicatesActionPendings(firebase, auth, notification){
+  firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
+    const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => JSON.stringify(actionPending) !== JSON.stringify(notification) );
+    firebase.child(`users/${auth.id}`).update({pendingActions});
+  });
+}
+
+function addListToCalendar(firebase, auth, idList){
+  firebase.child(`lists`).once('value', snapshotLists => {
+    const date = snapshotLists.val()[idList].date;
+    addToCalendar(firebase, auth, idList, date);
+  });
+}
 
 export function addGroupFriend(friendName, idGroup){
   return (dispatch, getState) => {
@@ -121,7 +132,6 @@ export function addGroupFriend(friendName, idGroup){
 function addFriend(notification){
   return (dispatch, getState) => {
     const { firebase, auth } = getState();
-    const idOtherUser = notification.idUser;
     const nameOther = notification.name;
       new Promise( resolve => {
         firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
@@ -130,18 +140,19 @@ function addFriend(notification){
           resolve(snapshotUser.val().name);
         });
       }).then( (nameUser) => {
-        new Promise(resolve => {
-            firebase.child(`users/${idOtherUser}/friends`).once('value', snapshotFriendList => {
-              const friends = snapshotFriendList.val()!==null ? snapshotFriendList.val().concat(nameUser) : [nameUser];
-              resolve(firebase.child(`users/${idOtherUser}`).update({friends}));
-            });
-        }).then( () => {
-          //borrar la pendingAction
-          firebase.child(`users/${auth.id}`).once('value', snapshotUser => {
-            const pendingActions = Object.values(snapshotUser.val().pendingActions).filter( actionPending => JSON.stringify(actionPending) !== JSON.stringify(notification) );
-            firebase.child(`users/${auth.id}`).update({pendingActions});
-          });
-        });
+        addMeAsFriendToOtherUser(firebase, auth, notification, nameUser);
       });
   };
+}
+
+function addMeAsFriendToOtherUser(firebase, auth, notification, nameUser){
+  const idOtherUser = notification.idUser;
+  new Promise(resolve => {
+      firebase.child(`users/${idOtherUser}/friends`).once('value', snapshotFriendList => {
+        const friends = snapshotFriendList.val()!==null ? snapshotFriendList.val().concat(nameUser) : [nameUser];
+        resolve(firebase.child(`users/${idOtherUser}`).update({friends}));
+      });
+  }).then( () => {
+    deleteDuplicatesActionPendings(firebase, auth, notification);
+  });
 }
