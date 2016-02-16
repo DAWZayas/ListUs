@@ -70,7 +70,7 @@ export function removeFriend(name){
           }else{
             const reference = firebase.child(`users/${auth.id}/friends`);
             const refUser = firebase.child(`users/${auth.id}`);
-            
+
             globalReference.once('value', snapshot => {
               let idOtherFriend = Object.keys(snapshot.val()).filter( (id) => snapshot.val()[id].name === name );
               idOtherFriend = idOtherFriend[0];
@@ -78,7 +78,7 @@ export function removeFriend(name){
               let otherFriends = [];
               firebase.child(`users/${idOtherFriend}/friends`).once('value', snapshot => {
                 otherFriends = snapshot.val() === null ? [] : snapshot.val().filter(friend => myName !== friend);
-                firebase.child(`users/${idOtherFriend}`).update({otherFriends});
+                firebase.child(`users/${idOtherFriend}/friends`).update({otherFriends});
               });
             });
             let friends = [];

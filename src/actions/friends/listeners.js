@@ -14,7 +14,6 @@ export function registerListeners(){
 
       refGlobal.once('value', snapshot => {
         let arrActualFriends = snapshot.val().users[auth.id].friends === undefined ? [] : snapshot.val().users[auth.id].friends.filter(Boolean);
-        debugger;
         if(snapshot.val().users[auth.id].accounts !== undefined){
           Object.keys(snapshot.val().users[auth.id].accounts).reduce( (init, id) => arrActualFriends = arrActualFriends.concat(snapshot.val().users[snapshot.val().users[auth.id].accounts[id]].name), arrActualFriends);
         }
@@ -34,7 +33,8 @@ export function registerListeners(){
       });
     });
 
-    ref.on('child_changed', (newSnapshot, oldSnapshot) => {
+    firebase.child(`users/${auth.id}`).on('child_changed', (newSnapshot, oldSnapshot, pepe) => {
+      debugger;
       let newUserName = '';
       if(newSnapshot.length>oldSnapshot.length){
         newUserName = newSnapshot.filter( name => oldSnapshot.indexOf(name)===-1 )[0].toUpperCase();
@@ -52,6 +52,7 @@ export function registerListeners(){
 
 export function unregisterListeners(){
   return (dispatch, getState) => {
+    debugger;
     const { firebase, auth } = getState();
     const ref = firebase.child(`users/${auth.id}/friends`);
     const usersRef = firebase.child('users');
