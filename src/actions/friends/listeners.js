@@ -14,7 +14,6 @@ export function registerListeners(){
 
       refGlobal.once('value', snapshot => {
         let arrActualFriends = snapshot.val().users[auth.id].friends === undefined ? [] : snapshot.val().users[auth.id].friends.filter(Boolean);
-        debugger;
         if(snapshot.val().users[auth.id].accounts !== undefined){
           Object.keys(snapshot.val().users[auth.id].accounts).reduce( (init, id) => arrActualFriends = arrActualFriends.concat(snapshot.val().users[snapshot.val().users[auth.id].accounts[id]].name), arrActualFriends);
         }

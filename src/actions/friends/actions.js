@@ -70,24 +70,27 @@ export function removeFriend(name){
           }else{
             const reference = firebase.child(`users/${auth.id}/friends`);
             const refUser = firebase.child(`users/${auth.id}`);
-            
-            globalReference.once('value', snapshot => {
+
+            new Promise(resolve => {
+              globalReference.once('value', snapshot => {
               let idOtherFriend = Object.keys(snapshot.val()).filter( (id) => snapshot.val()[id].name === name );
               idOtherFriend = idOtherFriend[0];
               let myName = snapshot.val()[auth.id].name;
-              let otherFriends = [];
+              let friends = [];
               firebase.child(`users/${idOtherFriend}/friends`).once('value', snapshot => {
-                otherFriends = snapshot.val() === null ? [] : snapshot.val().filter(friend => myName !== friend);
-                firebase.child(`users/${idOtherFriend}`).update({otherFriends});
+                friends = snapshot.val() === null ? [] : snapshot.val().filter(friend => myName !== friend);
+                resolve(firebase.child(`users/${idOtherFriend}`).update({friends}));
               });
+            }).then( () => {
+              let friends = [];
+              reference.once('value', snapshot => {
+                friends = snapshot.val() === null ? [] : snapshot.val().filter(friend => name !== friend);
+                resolve(refUser.update({friends}));
             });
-            let friends = [];
-            reference.once('value', snapshot => {
-              friends = snapshot.val() === null ? [] : snapshot.val().filter(friend => name !== friend);
-              resolve(refUser.update({friends}));
+
             });
-          }
-      });
+          });
+    }
     }).then( () => {
       dispatch({
         type: SET_ALERT,
@@ -95,8 +98,8 @@ export function removeFriend(name){
         msgType: 'remove'
       });
     });
-
-  };
+  });
+};
 }
 
 export function cleanAlert(){
