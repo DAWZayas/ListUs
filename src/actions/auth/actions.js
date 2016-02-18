@@ -132,8 +132,10 @@ export function cancelSignIn() {
 export function createUserIfNotExists(authData, firebase){
   let name = '';
   let img = '';
-
-  if(authData.provider === 'github')  name = authData.github.username;
+  if(authData.provider === 'github')  {
+    name = authData.github.username;
+    img = authData[authData.provider].cachedUserProfile.avatar_url;
+  }
   else if(authData.provider === 'twitter') name = authData.twitter.username;
   else if(authData.provider === 'google'){
     name = authData[authData.provider].displayName;
