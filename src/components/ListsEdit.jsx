@@ -205,7 +205,11 @@ export default class ListsEdit extends Component{
 			}
 				//add user if isn't admin for remove list from his lists
 
-				listOfParticipants = list.admin.indexOf(this.props.user.name)===-1 ? listOfParticipants.concat(this.props.user) : listOfParticipants;
+				listOfParticipants = list.admin !== undefined
+					? list.admin.indexOf(this.props.user.name)===-1
+						? listOfParticipants.concat(this.props.user)
+						: listOfParticipants
+					: listOfParticipants;
 
 			}
 
@@ -267,8 +271,10 @@ export default class ListsEdit extends Component{
   			onRequestClose={this._handleCloseDialogList} >
 				<List>
 				  <ListItem primaryText="Edit List" onClick={() => this.handleOpenEditDialog()} />
-				  {list.admin.indexOf(this.props.user.name)!==-1 ?
-						<ListItem primaryText="Remove List" onClick={() => this.handleOpenRemoveDialog()} />
+				  {list.admin!==undefined
+						? list.admin.indexOf(this.props.user.name)!==-1
+							? <ListItem primaryText="Remove List" onClick={() => this.handleOpenRemoveDialog()} />
+							: ''
 						: ''}
 					<ListItem primaryText="Add Friends or Groups" onClick={() => this.handleOpenFriendsAndGroupsDialog()} />
 					<ListItem primaryText="See the List of Friends and Groups" onClick={() => this.handleOpenFriendsAndGroupsListDialog()} />
