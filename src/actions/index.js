@@ -3,19 +3,8 @@ import { pushState } from 'redux-router';
 import sequencer from './sequencer';
 
 /*
-* TASK
-
-
-export const SET_TASK = 'SET_TASK';
-export const ADD_TASK = 'ADD_TASK';
-export const REMOVE_TASK = 'REMOVE_TASK';
-export const EDIT_TASK = 'EDIT_TASK';
-export const ADD_FRIEND_OR_GROUP_TO_TASK = 'ADD_FRIEND_OR_GROUP_TO_TASK';
-export const SET_AS_DONE = 'SET_AS_DONE';*/
-/*
 * LIST
 */
-
 
 export const EDIT_LIST = 'EDIT_LIST';
 export const ADD_FRIEND_OR_GROUP_TO_LIST = 'ADD_FRIEND_OR_GROUP_TO_LIST';
@@ -58,16 +47,6 @@ export const SHOW_GROUP_FRIENDS = 'SHOW_GROUP_FRIENDS';
 
 
 /*
-* USER ACOUNT
-*/
-
-/*export const SWITCH_USER = 'SWITCH_USER';
-export const CHANGE_USER_PHOTO = 'CHANGE_USER_PHOTO';
-export const CHANGE_USER_NAME = 'CHANGE_USER_NAME';
-export const CHANGE_USER_PASSWORD = 'CHANGE_USER_PASSWORD';
-export const CHANGE_USER_VISIBILITY = 'CHANGE_USER_VISIBILITY';*/
-
-/*
   CALENDAR
 */
 
@@ -78,29 +57,8 @@ export const ADD_DATE = 'ADD_DATE';
 */
 
 export const SET_METADATA = 'SET_METADATA';
-/*
-* task action creator ***************************************************************
+export const END_GREET = 'END_GREET';
 
-
-export function setTask(task){
-  return { type: SET_TASK, task };
-}
-export function addTask(idList, title){
-  return { type: ADD_TASK, idList, title };
-}
-export function removeTask(idTask){
-  return { type: REMOVE_TASK, idTask };
-}
-export function editTask( idTask, title ){
-  return { type: EDIT_TASK, idTask, title };
-}
-export function addFriendGroupToTask(idTask, id){
-  return { type: ADD_FRIEND_OR_GROUP_TO_TASK, idTask, id};
-}
-export function setAsDone(idTask){
-    return { type: SET_ASS_DONE, idTask};
-}
-*/
 /*
 * list action creator
 */
@@ -164,41 +122,6 @@ export function showGroupFriends(idGroup, idFriend){
 }
 
 
-
-/*
-* User actions creator
-*/
-
-/*export function switchUser(user){
-  return {
-    type: SWITCH_USER, user
-  };
-}
-
-export function changeUserPhoto(url){
-  return {
-    type: CHANGE_USER_PHOTO, url
-  };
-}
-
-export function changeUserName(name){
-  return {
-    type: CHANGE_USER_NAME, name
-  };
-}
-
-export function changeUserPassword(password){
-  return {
-    type: CHANGE_USER_PASSWORD, password
-  };
-}
-
-export function changeUserVisibility(visibility){
-  return {
-    type: CHANGE_USER_VISIBILITY, visibility
-  };
-}*/
-
 /*
   CALENDAR
 */
@@ -217,5 +140,11 @@ export function setMetadata(metadata){
   return {
     type: SET_METADATA,
     metadata
+  };
+}
+
+export function endGreet(){
+  return {
+    type: END_GREET
   };
 }

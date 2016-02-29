@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import * as authActions from '../actions/auth';
+import { setMetadata } from '../actions';
 
 function mapStateToProps(state){
 	return{
@@ -14,5 +15,5 @@ function mapStateToProps(state){
 
 export default connect(
 	mapStateToProps,
-	authActions
+	Object.assign( {}, authActions, { setMetadata } )
 )(Header);

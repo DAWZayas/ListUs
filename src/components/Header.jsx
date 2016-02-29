@@ -36,6 +36,7 @@ export default class Header extends Component{
   handleGreet(){
     setTimeout(() => {
       document.getElementsByClassName('welcome')[0].style.display = 'none';
+      this.props.setMetadata();
     }, 5000);
   }
 
@@ -59,7 +60,6 @@ export default class Header extends Component{
 
         <div className="search">
           <div className="search-btn-input">
-
             <input ref="inputText" type="text" className={`${this.state.isVisible ? 'My-control input-search' : 'My-control input-search' }`} placeholder="Search your list..." onChange={ () => this.handleChangeInput()} onBlur={ () => this.handleOnBlur()}/>
           </div>
           <div className=" list-group search-ul">
@@ -71,23 +71,6 @@ export default class Header extends Component{
       </div>
 
       <div className="principal">
-
-        {/*<div onClick={this.toggle.bind(this)} className={`notificationContainer ${isOpen ? 'hideNoti' : ''}`}>
-          <div className="notificationIcon">3</div>
-        </div>
-
-        <Popover isOpen={isOpen} place='below' onOuterAction={this.toggle.bind(this)}>
-          <div
-           className={ classNames('target', { isOpen }) }
-           onClick={this.toggle}>
-           { isOpen ? (<ul>
-                        <li>Holita</li>
-                        <li>Holita</li>
-                        <li>Holita</li>
-                        </ul>) : '' }
-         </div>
-        </Popover>
-*/}     
 
         {(this.props.user.name && this.props.metadata.greet) ? (this.props.metadata.greet !== '')
             ?<div className="welcome animated fadeInRight" 
@@ -122,7 +105,8 @@ Header.propTypes = {
   onSetGroups: PropTypes.func,
   signOut: PropTypes.func,
   metadata: PropTypes.object,
-  user: PropTypes.object
+  user: PropTypes.object,
+  endGreet: PropTypes.func
 };
 
 Header.defaultProps = {
