@@ -1,11 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-//import injectTapEventPlugin from 'react-tap-event-plugin';
-//injectTapEventPlugin();
 import { FlatButton, Dialog, TextField, ListItem, List, Avatar } from 'material-ui';
 import { arrayPositionByObjectKey, avatarLetter, sortArray } from '../utils/functions';
 import SectionHeader from './SectionHeader';
 import GroupSections from './GroupSections';
-
 
 
 export default class Groups extends Component {
@@ -20,7 +17,6 @@ export default class Groups extends Component {
 			search: [],
 			listToShow: 0,
 			groupId: '',
-			loading: true,
 			count: 0,
 			dialog: {
 				dialogAddGroup: false,
@@ -35,11 +31,6 @@ export default class Groups extends Component {
 	    this.props.registerListeners();
 	}
 
-	componentWillReceiveProps(){
-		let count = this.state.count+1;
-		this.setState({ count });
-		( this.state.count === 2) ? this.setState({ loading: false, count: 0 }) :'';
-	}
 
 	componentWillUnmount() {
 	    this.props.unregisterListeners();
@@ -72,7 +63,7 @@ export default class Groups extends Component {
 
 	handleClickAdd(e, ref){
 		e.preventDefault();
-		var pos, name;
+		let pos, name;
 		if(ref === 'dialogAddGroup'){
 			name = this.refs.groupNameInput.getValue();
 			pos = arrayPositionByObjectKey('name', name, this.props.groups);
@@ -88,7 +79,6 @@ export default class Groups extends Component {
 	addGroupNonExistent(e, pos, name){
 		if(pos !== -1) this.setState({error: 'Group\'s name already exists.'});
 		else{
-			//this.props.onAddGroup(name, this.props.user.id);
 			this.props.addGroup(name);
 			this.setState({error: '', search: []});
 			this.handleClickDismissDialog('dialogAddGroup');
@@ -168,7 +158,6 @@ export default class Groups extends Component {
 		const search = array.filter(function(object){
 				return object.name.toLowerCase().search(words.toLowerCase()) !== -1;
 			}.bind(this));
-
 		this.setState({search});
 	}
 
@@ -192,39 +181,46 @@ export default class Groups extends Component {
 	}
 
 
-
 	render(){
 		const { sorted, groupId } = this.state;
-		const key = (sorted.split(' ')[0] === 'Name')?'name':'date';
-		const groups = (sorted === 'Sort By')
-			?this.props.groups
-			:sortArray(this.props.groups, key, sorted.split(' ')[1]);
-		const posGroup = arrayPositionByObjectKey('id', groupId, this.props.groups);
+		const { groups, user, friends } = this.props;
+		const key = (sorted.split(' ')[0] === 'Name') ?'name' :'date';
+		const groupsBySection = (sorted === 'Sort By')
+			?groups
+			:sortArray(groups, key, sorted.split(' ')[1]);
+		const posGroup = arrayPositionByObjectKey('id', groupId, groups);
 
 		return (
 			<section>
        			<SectionHeader title="GROUPS" openDialog={() => this.handleClickShowDialog('dialogAddGroup')} func={(e, index, value)=>this.handleSorted(e, index, value)}/>
-       			<GroupSections groups={groups} friends={this.props.friends.friends} user={this.props.user} Group={this} showGroupFriends={this.props.showGroupFriends}/>
+       			<GroupSections groups={groupsBySection} friends={friends.friends} user={user} Group={this} showGroupFriends={this.props.showGroupFriends}/>
 
-				{(this.state.refToEdit !== '')?this.editGroup(this.state.refToEdit):''}
+				{(this.state.refToEdit !== '') ? this.editGroup(this.state.refToEdit) : ''}
 
 		    	<Dialog ref="dialogEdit" open={this.state.dialog.dialogEdit} title="Edit Options" onRequestClose={() => this.handleHideEdit()}>
 					<List>
-					  <ListItem primaryText="Edit Name" onClick={() => this.handleClickSetRefToEdit(groupId)} rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-pencil"></span>}/>
+					  <ListItem 
+					  	primaryText="Edit Name" 
+					  	onClick={() => this.handleClickSetRefToEdit(groupId)} 
+					  	rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-pencil"></span>}/>
 					  {(posGroup !== -1)
-					  	?(this.props.groups[posGroup].administrator.indexOf(this.props.user.name) !== -1)
-					  			?<ListItem primaryText="Remove Group" onClick={() => this.handleClickRemoveGroup(groupId)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>}/>
+					  	?(groups[posGroup].administrator.indexOf(user.name) !== -1)
+					  			?<ListItem 
+					  				primaryText="Remove Group" 
+					  				onClick={() => this.handleClickRemoveGroup(groupId)}  
+					  				rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-remove"></span>}/>
 					  			:''
 					  	:''}
 					  {(posGroup !== -1)
-					  	?(this.props.groups[posGroup].administrator.indexOf(this.props.user.name) !== -1)
-					  			?<ListItem primaryText="Switch Admin" onClick={() => this.handleClickShowDialog('dialogAddFriend', groupId, true)}  rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="
-	glyphicon glyphicon-refresh"></span>}/>
+					  	?(groups[posGroup].administrator.indexOf(user.name) !== -1)
+					  			?<ListItem 
+					  				primaryText="Switch Admin" 
+					  				onClick={() => this.handleClickShowDialog('dialogAddFriend', groupId, true)}  
+					  				rightIcon={<span style={{color: '#6B6C72', paddingRight: '3em'}} className="glyphicon glyphicon-refresh"></span>}/>
 								:''
 						:''}
 					</List>
 				</Dialog>
-
 
 				<Dialog className="addFriends"
 						open={this.state.dialog.dialogAddFriend}
@@ -264,15 +260,20 @@ export default class Groups extends Component {
 					</div>
 				</Dialog>
 
-				<Dialog ref="dialogAddGroup" open={this.state.dialog.dialogAddGroup} title="Add Group" actions={this.applyParamsToArray('dialogAddGroup')} onRequestClose={() => this.handleClickDismissDialog('dialogAddGroup')}>
-					<p>Group's name: </p>
-					<TextField
-						ref = "groupNameInput"
-						hintText="Group name"
-						underlineStyle={{borderColor:'blue'}}
-						autoFocus
-						/>
-					<p className="error" style={{color: 'red'}}>{this.state.error}</p>
+				<Dialog 
+					ref="dialogAddGroup" 
+					open={this.state.dialog.dialogAddGroup} 
+					title="Add Group" 
+					actions={this.applyParamsToArray('dialogAddGroup')} 
+					onRequestClose={() => this.handleClickDismissDialog('dialogAddGroup')}>
+						<p>Group's name: </p>
+						<TextField
+							ref = "groupNameInput"
+							hintText="Group name"
+							underlineStyle={{borderColor:'blue'}}
+							autoFocus
+							/>
+						<p className="error" style={{color: 'red'}}>{this.state.error}</p>
 				</Dialog>
 
 			</section>

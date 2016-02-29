@@ -16,16 +16,15 @@ export default class GroupSections extends Component{
 	}
 
 	componentWillReceiveProps(){
-		let count = this.state.count+1;
+		let count = this.state.count + 1;
 		this.setState({ count });
-		( this.state.count === 3) ?this.setState({ loading: false, count: 0 }) :'';
+		( this.state.count === 2) ?this.setState({ loading: false, count: 0 }) :'';
 	}
 
 
 	handleClickShowGroupFriends(id){
 		this.props.showGroupFriends(id);
 	}
-
 
 
 	groupsList(groups, friends, user, Group, GroupSection){
@@ -47,7 +46,7 @@ export default class GroupSections extends Component{
 										style={{backgroundColor: '#7394D5', paddingLeft: '50px', paddingRight: '40px'}}
 
 								/>
-		 						{(group['showFriends']===true)?<div>
+		 						{(group['showFriends'] === true)?<div>
 												<GroupFriends friendsName={group['friends'] || []} idGroup={group['id']} friends={friends || []} userName= {user.name} Group={Group} />
 												<div style={{display: 'flex', justifyContent: 'flex-end'}}>
 													<FlatButton label=" +Friend" primary style={{color: 'red', borderRadius: '10'}} onClick={() => Group.handleClickShowDialog('dialogAddFriend', group['id'])}/>

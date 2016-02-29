@@ -93,7 +93,7 @@ function addListToCalendar(firebase, auth, idList){
 }
 
 export function addGroupFriend(friendName, idGroup){
-  return (dispatch, getState) => {
+  return (dispatch, getState) => {debugger;
     const { firebase, auth } = getState();
     new Promise( resolve => {
       firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => resolve(snapshot.val() || []));
