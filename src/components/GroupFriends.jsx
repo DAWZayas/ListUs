@@ -13,7 +13,7 @@ export default class GroupFriends extends React.Component {
 
  	
 	render() {
-		const { friendsName, idGroup, friends, userName, Group } = this.props;
+		const { friendsName, idGroup, friends, userName, Group } = this.props;debugger;
 		const refer =  'fr'+idGroup;
 		const friendsNamePure = friendsName.filter(friendName => friendName !== userName);
 		return (

@@ -1,4 +1,6 @@
 import { SET_NOTIFICATIONS, ADD_FRIEND_TO_LIST, ADD_FRIEND_GROUP, ADD_FRIEND } from './action-types';
+import { registerListeners } from '../groups/listeners';
+
 
 export function setNotifications(notifications){
   return { type: SET_NOTIFICATIONS, notifications };
@@ -9,7 +11,7 @@ export function aceptPendingAction(notification){
     case ADD_FRIEND_TO_LIST:
       return addMeToList(notification);
     case ADD_FRIEND_GROUP:
-      return addGroupFriend(notification.friendName, notification.idGroup);
+      return addGroupFriend(notification.friendName, notification.idGroup, notification);
     case ADD_FRIEND:
       return addFriend(notification);
     default:
@@ -92,30 +94,17 @@ function addListToCalendar(firebase, auth, idList){
   });
 }
 
-export function addGroupFriend(friendName, idGroup){
-  return (dispatch, getState) => {debugger;
+export function addGroupFriend(friendName, idGroup, notification){
+  return (dispatch, getState) => {
     const { firebase, auth } = getState();
     new Promise( resolve => {
       firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => resolve(snapshot.val() || []));
     }).then( val => {
       if(val.indexOf(friendName) === -1){
         val.push(friendName);
-        firebase.child(`groups/${idGroup}/friends`).set(val,
-         error => {
-            if(error){
-              console.error('ERROR @ addGroupFriend:', error);
-              dispatch({
-                type: ADD_FRIEND_GROUP_ERROR,
-                payload: error,
-            });
-            }
-        });
+        firebase.child(`groups/${idGroup}/friends`).set(val);
       }}
-    ).then(
-        () => firebase.child(`users/${auth.id}`).update({refresh: ''})).then(
-        () => firebase.child(`users/${auth.id}/refresh`).remove()
-    );
-
+    ).then(() => dispatch(registerListeners())).then(() => deleteDuplicatesActionPendings(firebase, auth, notification));
     firebase.child('users').once('value', snapshot => {
         Object.keys(snapshot.val()).map(idUser => {
           if(snapshot.val()[idUser].name === friendName){
