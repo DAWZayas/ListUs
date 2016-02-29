@@ -151,15 +151,11 @@ export function editList(idList, title, date, newDate, importance){
             console.error('ERROR @ editList:', error);
             dispatch({
               type: EDIT_LIST_ERROR,
-              payload, error
+              payload: error
             });
           }else{
-            resolve(
-              function(){
-                removeFromCalendar(firebase, auth, idList, date);
-                addToCalendar(firebase, auth, idList, newDate);
-              }
-            );
+            resolve(removeFromCalendar(firebase, auth, idList, date));
+            resolve(addToCalendar(firebase, auth, idList, newDate));
           }
         });
       }).then(() => {

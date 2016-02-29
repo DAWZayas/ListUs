@@ -9,8 +9,7 @@ function authenticate(provider) {
         console.error('ERROR @ authWithOAuthPopup :', error);
       }else{
         users.once('value', snap => {
-          let newId = authData.id;
-          if(!newId) newId = authData.uid;
+          const newId = authData.id || authData.uid;
           let oldAccounts = snap.val()[auth.id].accounts || [];
 
           if(oldAccounts.indexOf(newId) === -1 && newId !== auth.id){
@@ -44,13 +43,18 @@ export function cancelSignIn() {
 
 export function createUserIfNotExists(authData, firebase, auth){
   let name = '';
-
-  if(authData.provider === 'github')  name = authData.github.username;
+  let img = '';
+  if(authData.provider === 'github')  {
+    name = authData.github.username;
+    img = authData[authData.provider].cachedUserProfile.avatar_url;
+  }
   else if(authData.provider === 'twitter') name = authData.twitter.username;
-  else if(authData.provider === 'google') name = authData[authData.provider].displayName;
-  else if(authData.provider === 'password') name = authData.password.email;
+  else if(authData.provider === 'google'){
+    name = authData[authData.provider].displayName;
+    img = authData.google.profileImageURL;
+  }else if(authData.email) name = authData.email;
 
-  firebase.child(`users/${authData.uid}`).update({name, img: '', visibility: true, accounts: [auth.id], personalData: {town: '', birthday: '', gender: ''}});
+  firebase.child(`users/${authData.uid}`).update({name, img, visibility: true, accounts: [auth.id], personalData: {town: '', birthday: '', gender: ''}});
 }
 
 export function setUser(user){
