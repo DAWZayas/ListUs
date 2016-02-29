@@ -56,31 +56,22 @@ export default class Calendar extends Component {
 
   }
 
+  checkIterableDates(iterableDates){
+    return iterableDates
+      ? Object.values(iterableDates).reduce( (init, id) => init.concat({id}), [] )
+      : iterableDates;
+  }
+
   handleDayClick(e, day) {
 
-
+    const { lists } = this.props;
     const numberDay = day.getDate().toString();
-
     const dates = this.getCalendar(day);
-
+    const iterableDates = this.checkIterableDates(dates[numberDay]);
+    const arrayObjectsDays = this.getArrayObjectsDays(iterableDates, lists);
     let tasks = true;
     let pendingTasks;
 
-
-    let iterableDates = dates[numberDay];
-
-
-    if (iterableDates) {
-      iterableDates = Object.values(iterableDates).reduce( (init, id) => init.concat({id}), [] );
-    }
-
-
-    let arrayObjectsDays = [];
-    if(iterableDates!==undefined && this.props.lists.length!==0){
-      arrayObjectsDays = iterableDates.map( listOfTheDay =>
-        this.props.lists.filter( listOfArrayList =>
-          listOfTheDay.id===listOfArrayList.id ? listOfArrayList : null ));
-    }
     for (let key in dates) {
       if (numberDay === key) {
         pendingTasks = (<ul>
@@ -103,26 +94,24 @@ export default class Calendar extends Component {
 
   }
 
+  getArrayObjectsDays(iterableDates, lists){
+    return iterableDates !== undefined && lists.length !== 0
+      ? iterableDates.map( listOfTheDay =>
+        lists.filter( listOfArrayList =>
+          listOfTheDay.id === listOfArrayList.id
+            ? listOfArrayList
+            : null ))
+      : [];
+  }
 
 
   renderDay(day){
 
+    const { lists } = this.props;
     const dates = this.getCalendar(day);
     const date = day.getDate();
-
-    let iterableDates = dates[date];
-
-    if (iterableDates) {
-      iterableDates = Object.values(iterableDates).reduce( (init, id) => init.concat({id}), [] );
-    }
-
-    let arrayObjectsDays = [];
-    if(iterableDates!==undefined && this.props.lists.length!==0){
-      arrayObjectsDays = iterableDates.map( listOfTheDay =>
-        this.props.lists.filter( listOfArrayList =>
-          listOfTheDay.id===listOfArrayList.id ? listOfArrayList : null ));
-    }
-
+    const iterableDates = this.checkIterableDates(dates[date]);
+    const arrayObjectsDays = this.getArrayObjectsDays(iterableDates, lists);
 
     return (
       <div>
@@ -140,8 +129,6 @@ export default class Calendar extends Component {
       </div>
     );
   }
-
-
 
   render() {
     return(

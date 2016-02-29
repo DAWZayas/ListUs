@@ -62,7 +62,6 @@ export default class Friends extends Component {
   findFriend(){
 
     let letterToFind = this.refs.findFriendInput.value.toLowerCase();
-    //let newArray = friends.filter( (item) => item.name.toLowerCase().indexOf(letterToFind) !== -1);
 
     this.setState({
       letter: letterToFind

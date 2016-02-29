@@ -31,7 +31,7 @@ export default class Account extends React.Component {
 
   showDialogChangeName(){
     this.setState({dialog: Object.assign(this.state.dialog, {changeName: true})});
-    
+
   }
 
   hideDialogChangeName(){
@@ -94,13 +94,13 @@ export default class Account extends React.Component {
   handleConfirmEdit(){
     const gender = (this.refs.genderSelect) ? this.refs.genderSelect.value :'';
     const town = (this.refs.townSelect) ? this.refs.townSelect.value :'';
-    const birthday = (this.refs.birthdaySelect.getValue()) 
+    const birthday = (this.refs.birthdaySelect.getValue())
         ? this.refs.birthdaySelect.getValue().format('DD/MM/YYYY')
-        :''; 
+        :'';
     this.props.changeGender(gender);
     this.props.changeTown(town);
     (birthday !== '') ?this.props.changeBirthday(birthday) :'';
-    
+
     this.setState({edit: false});
   }
 
@@ -121,9 +121,6 @@ export default class Account extends React.Component {
       <FlatButton label="Submit" primary onClick={this.handleChangeUserPhoto.bind(this)} />
     ];
 
-    //let a = [{payload: '0', text: 'hhh'}];
-
-
     return (
       <article className="article account">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -141,7 +138,7 @@ export default class Account extends React.Component {
         </div><br/>
 
         {(this.props.user.personalData)
-              ?(this.state.edit) 
+              ?(this.state.edit)
                 ?(<div style={{display: 'flex', flexFlow: 'column', alignItems: 'center'}}>
                   <ul className="tools nav nav-pills nav-stacked" >
 
@@ -168,7 +165,7 @@ export default class Account extends React.Component {
                       <div className="form-group">
                         <label htmlFor="genderSelect">Gender</label>
                         <select ref="genderSelect" className="form-control">
-                          <option>{(this.props.user.personalData.gender !== '') 
+                          <option>{(this.props.user.personalData.gender !== '')
                             ? this.props.user.personalData.gender
                             : ''}</option>
                           <option>Female</option>
@@ -204,7 +201,7 @@ export default class Account extends React.Component {
                 </div>)
 
               :(<ul>
-                {this.props.user.personalData.gender !== '' 
+                {this.props.user.personalData.gender !== ''
                   ? <li><span style={{textTransform: 'capitalize'}}>{ this.props.user.personalData.gender }</span></li>
                   :''}
 
@@ -212,7 +209,7 @@ export default class Account extends React.Component {
                   ? <li><span style={{textTransform: 'capitalize'}}>{ this.props.user.personalData.town }</span></li>
                   :''}
 
-                { this.props.user.personalData.birthday !== '' 
+                { this.props.user.personalData.birthday !== ''
                   ? <li><span style={{textTransform: 'capitalize'}}>Birthday: { this.props.user.personalData.birthday }</span></li>
                   : ''}
               </ul>)
