@@ -31,7 +31,7 @@ export function addGroup(name){
 
 export function removeGroup(id){
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
+    const { firebase } = getState();
 
     new Promise(resolve => {
       firebase.child(`groups/${id}/name`).once('value', snaps => {
@@ -83,7 +83,7 @@ export function removeGroupFormLists(name, firebase){
 
 export function editGroup(id, name){
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
+    const { firebase } = getState();
     firebase.child('groups/'+id).update({name},
      error => {
         if(error){
@@ -101,7 +101,7 @@ export function editGroup(id, name){
 
 export function changeGroupAdmin(friendName, idGroup, userName){
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
+    const { firebase } = getState();
     firebase.child(`groups/${idGroup}/administrator`).once('value', snap => {
       const admins = snap.val().map( admin => (admin === userName) ?friendName :admin);
       firebase.child(`groups/${idGroup}/administrator`).set(admins);
