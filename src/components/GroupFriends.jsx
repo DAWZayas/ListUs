@@ -34,7 +34,7 @@ export default class GroupFriends extends React.Component {
 							<div className="avatar" style={{position: 'absolute'}}>
 								<div style={{display: 'flex', justifyContent: 'flex-end'}}>
 									{(Group.props.groups[arrayPositionByObjectKey('id', idGroup, Group.props.groups)].administrator.indexOf(userName) !== -1) 
-										?<img id="ooooooooo" style={{width: '13', height: '13', background: 'coral', borderRadius: '10'}} 
+										?<img style={{width: '13', height: '13', background: 'coral', borderRadius: '10'}} 
 											src="http://wiki.guildwars.com/images/1/1d/Cross_grey_200.png" 
 											onClick={() => this.handleRemoveGroupFriend(friendName, idGroup, Group)} /> 
 										:''

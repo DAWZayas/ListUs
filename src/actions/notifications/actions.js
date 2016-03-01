@@ -105,7 +105,8 @@ export function addGroupFriend(friendName, idGroup, notification){
         firebase.child(`groups/${idGroup}/friends`).set(val);
       }}
     ).then(() => dispatch(registerListeners())).then(() => deleteDuplicatesActionPendings(firebase, auth, notification));
-    firebase.child('users').once('value', snapshot => {
+    new Promise(() => {
+      firebase.child('users').once('value', snapshot => {
         Object.keys(snapshot.val()).map(idUser => {
           if(snapshot.val()[idUser].name === friendName){
             const groups = (snapshot.val()[idUser].groups)
@@ -114,7 +115,8 @@ export function addGroupFriend(friendName, idGroup, notification){
             firebase.child(`users/${idUser}/groups`).set(groups);
           }
         });
-    });
+      });
+    }).then(() => {dispatch(registerListeners());});
   };
 }
 

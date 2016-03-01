@@ -1,6 +1,5 @@
 import { Avatar } from 'material-ui';
 import React from 'react';
-//import { serverUsers, serverGroups, serverLists, serverTasks } from './dataBase';
 
 export function arrayPositionByObjectKey(key, value, array){
 	for(let i=0; i<array.length ; i++){
@@ -56,63 +55,6 @@ export function objIsEmpty(obj){
 }
 
 
-
-/************************* GET USER INFO ***************************************/
-
-/*export function getFriends(idFriends){
-	let friends = [];
-	idFriends.map(function(idFriend){
-			const pos = arrayPositionByObjectKey('id', idFriend, serverUsers);
-			if(pos !== -1){
-				friends.push(
-						{
-							id: serverUsers[pos].id,
-							name: serverUsers[pos].name,
-							friends: (serverUsers[pos].visibility === true)?serverUsers[pos].friends:[],
-							groups: (serverUsers[pos].visibility)?serverUsers[pos].groups:[],
-							img: serverUsers[pos].img
-						}
-					);
-			}
-		}.bind(this)
-	);
-	return friends;
-}
-
-export function getGroups(idGroups){
-	let groups = [];
-	idGroups.map(function(idGroup){
-			const pos = arrayPositionByObjectKey('id', idGroup, serverGroups);
-			if(pos !== -1) groups.push(serverGroups[pos]);
-		}.bind(this)
-	);
-	return groups;
-}
-
-export function getLists(user){
-	const idUser = serverUsers[arrayPositionByObjectKey('name', user, serverUsers)].id;
-	let lists = [];
-	serverLists.map(function(serverList){
-			if(serverList.participants.indexOf(idUser) !== -1){
-				lists.push(serverList.id);
-			}
-		}.bind(this)
-	);
-	return lists.map(function(idList){
-		return serverLists[arrayPositionByObjectKey('id', idList, serverLists)];
-	}.bind(this));
-}
-
-export function getTasks(userLists){
-	const arrayValues = userLists.map(function(list){
-		return list.id;
-	}.bind(this));
-	var s=objsAllValuesMatch('idList', arrayValues, serverTasks);
-	return s;
-}
-*/
-
-
 /********************** SORTED ARRAY ******************************/
 
 export function sortArray(array, key, direction){
@@ -143,15 +85,6 @@ export const menuItems = [
 		];
 
 
-/****************** *************************/
-/*export function clearUser(){
-	const { onSetUser, onSetLists, onSetTasks, onSetGroups } = this.props;
-	onSetUser({});
-	onSetLists([]);
-	onSetTasks({});
-	onSetGroups([]);
-
-}*/
 
 /*** GET DAY ***/
 

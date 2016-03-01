@@ -1,4 +1,4 @@
-import { SET_GROUPS, ADD_GROUP_ERROR, REMOVE_GROUP_ERROR, ADD_FRIEND_GROUP } from './action-types';
+import { SET_GROUPS, ADD_FRIEND_GROUP } from './action-types';
 import { getActualDate } from '../../utils/functions';
 import { registerListeners } from './listeners';
 
@@ -10,16 +10,7 @@ export function addGroup(name){
   return (dispatch, getState) => {
     const { firebase, user, auth } = getState();
     firebase.child(`users/${auth.id}/name`).once('value', snapName => {
-      const groupRef = firebase.child('groups').push({name, showFriends: false, administrator: [user.name], friends: [snapName.val()]},
-      error => {
-        if(error){
-          console.error('ERROR @ addGroup:', error);
-          dispatch({
-            type: ADD_GROUP_ERROR,
-            payload: error,
-          });
-          }
-      });
+      const groupRef = firebase.child('groups').push({name, showFriends: false, administrator: [user.name], friends: [snapName.val()]});
       new Promise( resolve => {
       firebase.child(`users/${auth.id}/groups`).once('value', snap => {
         resolve((snap.val()) ?snap.val().concat(groupRef.key()) :[groupRef.key()]);
@@ -32,7 +23,6 @@ export function addGroup(name){
 export function removeGroup(id){
   return (dispatch, getState) => {
     const { firebase } = getState();
-
     new Promise(resolve => {
       firebase.child(`groups/${id}/name`).once('value', snaps => {
         resolve(snaps.val());
@@ -40,16 +30,7 @@ export function removeGroup(id){
     }).then( name =>{
       removeGroupFormLists(name, firebase);
     }).then( () => {
-        firebase.child(`groups/${id}`).remove(
-         error => {
-            if(error){
-              console.error('ERROR @ removeGroup:', error);
-              dispatch({
-                type: REMOVE_GROUP_ERROR,
-                payload: error,
-              });
-            }
-        });
+        firebase.child(`groups/${id}`).remove();
     });
     abandonGroup(id, firebase);
   };
@@ -84,16 +65,7 @@ export function removeGroupFormLists(name, firebase){
 export function editGroup(id, name){
   return (dispatch, getState) => {
     const { firebase } = getState();
-    firebase.child('groups/'+id).update({name},
-     error => {
-        if(error){
-          console.error('ERROR @ editGroup:', error);
-          dispatch({
-            type: EDIT_GROUP_ERROR,
-            payload: error,
-        });
-        }
-    });
+    firebase.child('groups/'+id).update({name});
     dispatch(registerListeners());
   };
 }
@@ -134,13 +106,7 @@ export function addGroupFriend(friendName, idGroup){
       firebase.child('users').once('value', snapshot => {
         const description = snapshot.val()[auth.id].name+' wants you to join the group "'+group+'"';
         const date = getActualDate();
-        const newPendingAction = {
-          type: ADD_FRIEND_GROUP,
-          friendName,
-          idGroup,
-          descr: description,
-          date
-        };
+        const newPendingAction = {type: ADD_FRIEND_GROUP, friendName, idGroup, descr: description, date};
         Object.keys(snapshot.val()).map(idUser => {
           if(snapshot.val()[idUser].name === friendName){
             let pendingActions = (snapshot.val()[idUser].pendingActions)
@@ -152,32 +118,25 @@ export function addGroupFriend(friendName, idGroup){
       });
     });
     dispatch(registerListeners());
-
   };
 }
 
 export function removeGroupFriend(friendName, idGroup){
   return (dispatch, getState) => {
-    const { firebase, auth } = getState();
+    const { firebase } = getState();
     new Promise( resolve => {
       firebase.child(`groups/${idGroup}/friends`).once('value', snapshot => resolve(snapshot.val()));
     }).then( val => {
       val.splice(val.indexOf(friendName), 1);
-      firebase.child(`groups/${idGroup}/friends`).set(val,
-       error => {
-          if(error){
-            console.error('ERROR @ removeGroupFriend:', error);
-            dispatch({
-              type: REMOVE_FRIEND_GROUP_ERROR,
-              payload: error,
-          });
-          }
-      });
-    }).then(
-        () => firebase.child(`users/${auth.id}`).update({refresh: ''})).then(
-        () => firebase.child(`users/${auth.id}/refresh`).remove()
-    );
-    dispatch(registerListeners());
+      firebase.child(`groups/${idGroup}/friends`).set(val);
+    }).then(dispatch(registerListeners()));
 
+    new Promise(resolve => {
+      firebase.child('users').once('value', snap => {
+        Object.keys(snap.val()).map(idUser => {
+          snap.val()[idUser].name === friendName ? resolve([idUser, snap.val()[idUser].groups.filter(group => group !== idGroup)]) : '';
+        });
+      });
+    }).then(data => firebase.child(`users/${data[0]}/groups`).set(data[1])).then(() => dispatch(registerListeners()));
   };
 }
