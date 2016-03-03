@@ -33,7 +33,7 @@ export function registerListeners(){
       });
     });
 
-    firebase.child(`users/${auth.id}`).on('child_changed', (newSnapshot, oldSnapshot, pepe) => {
+    firebase.child(`users/${auth.id}`).on('child_changed', (newSnapshot, oldSnapshot) => {
       let newUserName = '';
       if(newSnapshot.length>oldSnapshot.length){
         newUserName = newSnapshot.filter( name => oldSnapshot.indexOf(name)===-1 )[0].toUpperCase();
@@ -51,6 +51,7 @@ export function registerListeners(){
 
 export function unregisterListeners(){
   return (dispatch, getState) => {
+    debugger;
     const { firebase, auth } = getState();
     const ref = firebase.child(`users/${auth.id}/friends`);
     const usersRef = firebase.child('users');

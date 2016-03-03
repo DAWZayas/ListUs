@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "alertifyjs": "^1.6.1",
+    "babel": "^6.5.2",
     "babel-runtime": "^5.8.29",
     "bootstrap": "^3.3.5",
     "bootstrap-material-design": "https://github.com/FezVrasta/bootstrap-material-design/archive/0.3.0.tar.gz",
