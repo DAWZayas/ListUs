@@ -51,7 +51,6 @@ export function registerListeners(){
 
 export function unregisterListeners(){
   return (dispatch, getState) => {
-    debugger;
     const { firebase, auth } = getState();
     const ref = firebase.child(`users/${auth.id}/friends`);
     const usersRef = firebase.child('users');
